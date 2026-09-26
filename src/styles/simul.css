@@ -141,7 +141,7 @@ main.simul-list .slist tbody {
  * beside them, then the host and the player count as the card's footer.
  * The simul's link covers the whole card (its ::after). */
 main.simul-list .slist tbody tr:not(.create) {
-  --cdc-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png');
+  --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp');
   position: relative;
   isolation: isolate;
   display: grid;
@@ -162,11 +162,11 @@ main.simul-list .slist tbody tr:not(.create):hover {
 }
 
 /* A different piece on each card, so a page of them looks like a set. */
-main.simul-list .slist tbody tr:nth-child(6n + 2) { --cdc-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png'); }
-main.simul-list .slist tbody tr:nth-child(6n + 3) { --cdc-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png'); }
-main.simul-list .slist tbody tr:nth-child(6n + 4) { --cdc-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png'); }
-main.simul-list .slist tbody tr:nth-child(6n + 5) { --cdc-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png'); }
-main.simul-list .slist tbody tr:nth-child(6n + 6) { --cdc-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png'); }
+main.simul-list .slist tbody tr:nth-child(6n + 2) { --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp'); }
+main.simul-list .slist tbody tr:nth-child(6n + 3) { --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp'); }
+main.simul-list .slist tbody tr:nth-child(6n + 4) { --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp'); }
+main.simul-list .slist tbody tr:nth-child(6n + 5) { --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp'); }
+main.simul-list .slist tbody tr:nth-child(6n + 6) { --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp'); }
 
 /* The tile: a 4×4 board in the section's two tones, with two more boards
  * stacked behind it, which fan out on hover. */

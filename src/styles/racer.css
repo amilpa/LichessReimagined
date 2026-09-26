@@ -478,11 +478,11 @@ html[dir='rtl'] .racer-home .button:hover::after {
   width: 28px;
   height: 28px;
   margin: -4px -2px -4px -4px;
-  background: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp') center / contain no-repeat;
 }
 
 .racer:has(.cg-wrap.orientation-black) .racer__pre__message__pov::before {
-  background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
 }
 
 /* ---- clock and skip --- */

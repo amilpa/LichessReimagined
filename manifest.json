@@ -69,7 +69,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["img/coaches/*"],
+      "resources": ["img/coaches/*", "img/boards/*", "img/pieces/*"],
       "matches": ["https://lichess.org/*"]
     }
   ]

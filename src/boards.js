@@ -1,7 +1,8 @@
 // Isolated-world content script: which board and which pieces (styles/board.css).
 // Chess.com's green board and Neo pieces unless the user picks others: the
 // user menu's Board and Piece set panels get two tabs, Extension (Chess.com's
-// boards and pieces, loaded from its CDN) and Lichess (Lichess's own panel).
+// boards and pieces, bundled in img/ by tools/boards/fetch.py) and Lichess
+// (Lichess's own panel).
 // The pick is kept under `cdc-board` / `cdc-pieces`; `lichess` hands the
 // board or the pieces back to Lichess and its pref. Set on <html> from
 // document_start, so the board never shows another one first.
@@ -10,12 +11,11 @@
   const BOARD_KEY = 'cdc-board';
   const PIECES_KEY = 'cdc-pieces';
   const LICHESS = 'lichess';
-  const FILES = 'https://images.chesscomfiles.com/chess-themes';
-  const THEMES = 'https://assets-themes.chess.com/image';
 
   // [id, name, light square, dark square, host]: the squares' colors are
-  // sampled from each board (for the coordinates drawn inside it); the newer
-  // boards live on another host, one of them as a JPEG.
+  // sampled from each board (for the coordinates drawn inside it). The host
+  // is only for tools/boards/fetch.py: the newer boards live on another one
+  // of Chess.com's, one of them as a JPEG. Add a board here, then run it.
   const BOARDS = [
     ['green', 'Green', '#ebecd0', '#739552'],
     ['dark_wood', 'Dark Wood', '#c3a370', '#7e5736'],
@@ -56,7 +56,7 @@
     ['z4m3d', 'Esports World Cup', '#f7f7f7', '#ccaa6c', 'png'],
   ];
 
-  // [id, name, host]
+  // [id, name, host], as the boards.
   const PIECE_SETS = [
     ['neo', 'Neo'],
     ['8qetl', 'Neo Angle', 'png'],
@@ -101,15 +101,15 @@
   ];
   const PIECES = ['wp', 'wn', 'wb', 'wr', 'wq', 'wk', 'bp', 'bn', 'bb', 'br', 'bq', 'bk'];
 
-  // Squares of 150px make a 1200px board: sharp on the biggest boards,
-  // without the megabytes of the 200px images. The newer host only serves
-  // squares of 80, 180 and 200px: 180 for the board, 80 for the tiles.
-  const boardUrl = ([id, , , , host], size) =>
-    host ? `${THEMES}/${id}/${size === 40 ? 80 : 180}.${host}` : `${FILES}/boards/${id}/${size}.png`;
-  const pieceUrl = ([id, , host], piece) =>
-    host ? `${THEMES}/${id}/150/${piece}.png` : `${FILES}/pieces/${id}/150/${piece}.png`;
+  // A board is 1200px, its menu tile its two top-left squares; a piece 300px.
+  const boardUrl = ([id]) => chrome.runtime.getURL(`img/boards/${id}.webp`);
+  const tileUrl = ([id]) => chrome.runtime.getURL(`img/boards/${id}-tile.webp`);
+  const pieceUrl = ([id], piece) => chrome.runtime.getURL(`img/pieces/${id}/${piece}.webp`);
 
   const root = document.documentElement;
+  // The page world can't ask where the extension's files are (review.js
+  // draws Neo pieces in the coach's comments).
+  root.dataset.cdcAssets = chrome.runtime.getURL('');
   const stored = (key, list) => {
     const v = localStorage.getItem(key);
     return v === LICHESS || list.some(([id]) => id === v) ? v : list[0][0];
@@ -124,7 +124,7 @@
     const b = BOARDS.find(([id]) => id === board);
     for (const p of ['--cdc-board-img', '--cdc-sq-light', '--cdc-sq-dark']) root.style.removeProperty(p);
     if (!b || b === BOARDS[0]) return;
-    root.style.setProperty('--cdc-board-img', `url('${boardUrl(b, 150)}')`);
+    root.style.setProperty('--cdc-board-img', `url('${boardUrl(b)}')`);
     root.style.setProperty('--cdc-sq-light', b[2]);
     root.style.setProperty('--cdc-sq-dark', b[3]);
   };
@@ -148,7 +148,7 @@
         board = v;
         applyBoard();
       },
-      thumb: b => boardUrl(b, 40),
+      thumb: tileUrl,
     },
     piece: {
       key: PIECES_KEY,

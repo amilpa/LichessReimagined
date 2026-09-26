@@ -160,12 +160,12 @@
   };
   const VALUE = { pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9 };
   const LETTER = { pawn: 'p', knight: 'n', bishop: 'b', rook: 'r', queen: 'q' };
-  const PIECES = 'https://images.chesscomfiles.com/chess-themes/pieces/neo/150/';
+  const PIECES = chrome.runtime.getURL('img/pieces/neo/');
   const captured = { top: null, bottom: null };
   let lastCaptured = '';
 
   const group = (color, letter, n) => {
-    const piece = `<img src="${PIECES}${color[0]}${letter}.png" alt="" draggable="false">`;
+    const piece = `<img src="${PIECES}${color[0]}${letter}.webp" alt="" draggable="false">`;
     return `<div class="cdc-captured__group">${piece.repeat(n)}</div>`;
   };
   const capturedHtml = (color, missing, lead, checks = 0) =>
