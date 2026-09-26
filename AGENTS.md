@@ -396,9 +396,39 @@ coaches' rig is traced by a script that only runs when a portrait changes.
 ## Testing
 
 Branded Chrome ignores `--load-extension`, but Playwright's Chromium
-(`~/.cache/ms-playwright/chromium-*/chrome-linux64/chrome`) honours it:
-`launchPersistentContext` with `--load-extension=<worktree>` runs the real
-extension, content scripts and all. Otherwise, verify by driving
+(`~/.cache/ms-playwright/chromium-*/`, or `~/Library/Caches/ms-playwright/`
+on a Mac) honours it: `launchPersistentContext` runs the real extension,
+content scripts and all. This setup works (Playwright installed in a
+throwaway folder, e.g. `/tmp/cdc-test`, with `npm i playwright`, as the
+repo has no dependencies):
+
+```js
+import { chromium } from 'playwright';
+const ext = '<worktree>';
+const ctx = await chromium.launchPersistentContext('/tmp/cdc-test/profile', {
+  headless: true, channel: 'chromium', colorScheme: 'dark',
+  viewport: { width: 1366, height: 640 },
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+  args: [`--disable-extensions-except=${ext}`, `--load-extension=${ext}`],
+});
+const page = await ctx.newPage();
+await page.goto('https://lichess.org/tKlG0mrQ/black', { waitUntil: 'load' });
+```
+
+- `channel: 'chromium'` is what loads the extension: plain `headless: true`
+  runs Playwright's headless shell, which drops it without a word (so does
+  passing `--headless=new` by hand). Check it's in before trusting a
+  screenshot: read a computed style one of our rules sets (on an analysis
+  page, `.analyse__controls` has a 1px `border-top`).
+- A finished game's analysis opens on the Game Review's summary, which hides
+  the move list: click "Start Review" for the review's moves, or
+  `[title="Close review"]` for Lichess's panel.
+- Wait a few seconds after `load` (or for the element with `waitForSelector`)
+  as snabbdom draws the panel after the page loads, then scroll the
+  panel yourself (`.analyse__moves`' `scrollTop`) to reach its end, and
+  screenshot with a `clip` on the element's `boundingBox()`.
+
+Otherwise, verify by driving
 a headless Chrome over the DevTools protocol. The CSS is injected (prepended,
 so Lichess still wins ties, as it does with a real content script) and the
 page-world scripts are evaluated, then screenshots and measurements are taken
