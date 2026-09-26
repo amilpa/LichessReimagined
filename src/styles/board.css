@@ -203,6 +203,93 @@ html.cdc-mate main.analyse cg-board square.check {
   from { opacity: 0; }
 }
 
+/* ------------------------------------------------------------- promotion --- */
+
+/* Chess.com's promotion window: a white column on the promotion file, from
+   the board's edge, the pieces whole, a "×" strip at its far end. Lichess
+   draws round grey squares over a board fogged in the page's color. Its
+   squares sit one per 12.5% (inline `top` / `bottom`), `.top` running down
+   from the top edge and `.bottom` up from the bottom one. */
+#promotion-choice {
+  background: rgba(0, 0, 0, 0.18) !important;
+  animation: cdc-fade 0.15s ease-out;
+  container-type: inline-size; /* the "×" in cqw */
+}
+
+#promotion-choice square {
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  transition: background-color 0.15s !important;
+}
+
+#promotion-choice square:hover {
+  background: #e8e6e3 !important;
+}
+
+/* The column's shadow, behind every square (#promotion-choice is the
+   stacking context), so a square's shadow doesn't fall on its neighbour.
+   The last one's reaches over the "×" strip. */
+#promotion-choice square::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+#promotion-choice.top square:first-child { border-radius: 4px 4px 0 0 !important; }
+#promotion-choice.bottom square:first-child { border-radius: 0 0 4px 4px !important; }
+#promotion-choice.top square:last-child::before { bottom: -50%; border-radius: 0 0 4px 4px; }
+#promotion-choice.bottom square:last-child::before { top: -50%; border-radius: 4px 4px 0 0; }
+
+/* The "×": no events of its own, so a click on it lands on the fog behind,
+   which is what cancels (a click on the square would promote). */
+#promotion-choice square:last-child::after {
+  content: '×';
+  position: absolute;
+  inset-inline: 0;
+  height: 50%;
+  display: grid;
+  place-items: center;
+  background: #f1f0ee;
+  color: #8b8987;
+  font: 700 max(14px, 4cqw) / 1 system-ui, sans-serif;
+  pointer-events: none;
+}
+
+#promotion-choice.top square:last-child::after {
+  top: 100%;
+  border-top: 1px solid #e3e1de;
+  border-radius: 0 0 4px 4px;
+}
+
+#promotion-choice.bottom square:last-child::after {
+  bottom: 100%;
+  border-bottom: 1px solid #e3e1de;
+  border-radius: 4px 4px 0 0;
+}
+
+.is2d #promotion-choice piece {
+  transform: scale(0.94) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  animation: cdc-promo-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.is2d #promotion-choice square:hover piece {
+  transform: scale(1.04) !important;
+}
+
+.is2d #promotion-choice square:nth-child(2) piece { animation-delay: 0.03s; }
+.is2d #promotion-choice square:nth-child(3) piece { animation-delay: 0.06s; }
+.is2d #promotion-choice square:nth-child(4) piece { animation-delay: 0.09s; }
+.is2d #promotion-choice square:nth-child(5) piece { animation-delay: 0.12s; }
+
+@keyframes cdc-promo-in {
+  from { opacity: 0; transform: scale(0.5); }
+}
+
 /* ----------------------------------------------------------- coordinates --- */
 
 coords {
