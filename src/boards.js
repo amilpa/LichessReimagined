@@ -102,9 +102,10 @@
   const PIECES = ['wp', 'wn', 'wb', 'wr', 'wq', 'wk', 'bp', 'bn', 'bb', 'br', 'bq', 'bk'];
 
   // Squares of 150px make a 1200px board: sharp on the biggest boards,
-  // without the megabytes of the 200px images.
+  // without the megabytes of the 200px images. The newer host only serves
+  // squares of 80, 180 and 200px: 180 for the board, 80 for the tiles.
   const boardUrl = ([id, , , , host], size) =>
-    host ? `${THEMES}/${id}/${size}.${host}` : `${FILES}/boards/${id}/${size}.png`;
+    host ? `${THEMES}/${id}/${size === 40 ? 80 : 180}.${host}` : `${FILES}/boards/${id}/${size}.png`;
   const pieceUrl = ([id, , host], piece) =>
     host ? `${THEMES}/${id}/150/${piece}.png` : `${FILES}/pieces/${id}/150/${piece}.png`;
 

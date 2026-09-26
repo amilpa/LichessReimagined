@@ -765,9 +765,15 @@
   background: #0000003d;
 }
 
-#dasher_app .cdc-src-tabs button {
-  flex: 1;
+/* Lichess's dasher rows are left-aligned flexboxes: the labels are centered. */
+#top #dasher_app .cdc-src-tabs button {
+  display: flex !important;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
   height: 30px;
+  margin: 0 !important;
+  text-align: center;
   padding: 0 8px;
   border: none;
   border-radius: 6px;
@@ -780,17 +786,17 @@
   transition: color 0.15s, background-color 0.15s !important;
 }
 
-#dasher_app .cdc-src-tabs button:hover {
+#top #dasher_app .cdc-src-tabs button:hover {
   color: #fff;
 }
 
-#dasher_app .cdc-src-tabs button.active {
+#top #dasher_app .cdc-src-tabs button.active {
   background: var(--cdc-bg-raised-hover);
   box-shadow: 0 1px 3px #00000080;
   color: #fff;
 }
 
-#dasher_app .cdc-src-tabs[data-cdc-tabs] button.active {
+#top #dasher_app .cdc-src-tabs[data-cdc-tabs] button.active {
   background: transparent;
   box-shadow: none;
 }
