@@ -4,6 +4,7 @@ A Chrome extension that makes [Lichess](https://lichess.org) look and sound like
 
 - **Board**: Chess.com's green board (`#ebecd0` / `#739552`), yellow last-move highlights, dot and ring move hints, and red premove squares.
 - **Pieces**: Chess.com "Neo" pieces.
+- **Board and pieces to choose**: the user menu's Board and Piece set panels have two tabs, Extension (every Chess.com board and piece set) and Lichess (Lichess's own).
 - **Sounds**: Chess.com's move, opponent move, capture, castle, promotion, check, game start and end, 10-seconds-left and notification sounds. The right sound is picked for every move.
 - **Layout**:
   - A fixed left sidebar with flyout menus replaces the top header.
@@ -61,6 +62,7 @@ Tip: Lichess's _coordinates_ setting (Preferences → Display) picks between Che
 | `src/styles/puzzles.css` | Puzzle themes page as colorful theme cards. |
 | `src/styles/broadcast.css` | Broadcast pages as Chess.com-style event cards. |
 | `src/background.js` | Downloads the Chess.com sounds once and caches them in `chrome.storage.local`. |
+| `src/boards.js` | Keeps the board and piece set picked in the user menu (a Chess.com one, or Lichess's own) and adds the Extension / Lichess tabs to its Board and Piece set panels. |
 | `src/content.js` | Passes the sounds to the page and measures the controls height for the layout grid. |
 | `src/page.js` | Runs in the page and wraps `site.sound` so each event plays the matching Chess.com sound. |
 | `src/board.js` | Runs in the page: redraws analysis arrows like Chess.com (L-shaped for knights) and shows checkmate on the king. |

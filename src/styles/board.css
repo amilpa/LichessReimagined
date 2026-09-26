@@ -2,6 +2,11 @@
  * Chess.com "Green" board, "Neo" pieces, highlights, move hints and coordinates.
  * Pieces load from Chess.com's CDN at runtime (Lichess's CSP allows any image
  * host), so no Chess.com artwork is bundled in this extension.
+ *
+ * Another Chess.com board or piece set picked in the user menu (boards.js)
+ * comes in `--cdc-board-img`, `--cdc-sq-{light,dark}` and `--cdc-piece-<wp…>`
+ * on <html>. `html[data-cdc-board='lichess']` (or `data-cdc-pieces`) leaves
+ * the board (or the pieces) to Lichess, filters and all.
  */
 
 :root {
@@ -19,9 +24,8 @@
 
 /* ----------------------------------------------------------------- board --- */
 
-body .is2d cg-board::before,
-body[data-board] .is2d cg-board::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%23ebecd0'/%3E%3Cpath fill='%23739552' d='M1 0h1v1h-1zM3 0h1v1h-1zM5 0h1v1h-1zM7 0h1v1h-1zM0 1h1v1h-1zM2 1h1v1h-1zM4 1h1v1h-1zM6 1h1v1h-1zM1 2h1v1h-1zM3 2h1v1h-1zM5 2h1v1h-1zM7 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM1 4h1v1h-1zM3 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM0 5h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM6 5h1v1h-1zM1 6h1v1h-1zM3 6h1v1h-1zM5 6h1v1h-1zM7 6h1v1h-1zM0 7h1v1h-1zM2 7h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1z'/%3E%3C/svg%3E") !important;
+html:not([data-cdc-board='lichess']) body .is2d cg-board::before {
+  background-image: var(--cdc-board-img, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%23ebecd0'/%3E%3Cpath fill='%23739552' d='M1 0h1v1h-1zM3 0h1v1h-1zM5 0h1v1h-1zM7 0h1v1h-1zM0 1h1v1h-1zM2 1h1v1h-1zM4 1h1v1h-1zM6 1h1v1h-1zM1 2h1v1h-1zM3 2h1v1h-1zM5 2h1v1h-1zM7 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM1 4h1v1h-1zM3 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM0 5h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM6 5h1v1h-1zM1 6h1v1h-1zM3 6h1v1h-1zM5 6h1v1h-1zM7 6h1v1h-1zM0 7h1v1h-1zM2 7h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1z'/%3E%3C/svg%3E")) !important;
   background-size: cover !important;
   filter: none !important;
   opacity: 1 !important;
@@ -34,18 +38,18 @@ cg-board {
 
 /* ---------------------------------------------------------------- pieces --- */
 
-.is2d .pawn.white   { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png') !important; }
-.is2d .knight.white { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png') !important; }
-.is2d .bishop.white { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png') !important; }
-.is2d .rook.white   { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png') !important; }
-.is2d .queen.white  { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png') !important; }
-.is2d .king.white   { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png') !important; }
-.is2d .pawn.black   { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png') !important; }
-.is2d .knight.black { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bn.png') !important; }
-.is2d .bishop.black { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bb.png') !important; }
-.is2d .rook.black   { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/br.png') !important; }
-.is2d .queen.black  { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bq.png') !important; }
-.is2d .king.black   { background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png') !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .pawn.white   { background-image: var(--cdc-piece-wp, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .knight.white { background-image: var(--cdc-piece-wn, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .bishop.white { background-image: var(--cdc-piece-wb, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .rook.white   { background-image: var(--cdc-piece-wr, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .queen.white  { background-image: var(--cdc-piece-wq, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .king.white   { background-image: var(--cdc-piece-wk, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .pawn.black   { background-image: var(--cdc-piece-bp, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .knight.black { background-image: var(--cdc-piece-bn, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bn.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .bishop.black { background-image: var(--cdc-piece-bb, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bb.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .rook.black   { background-image: var(--cdc-piece-br, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/br.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .queen.black  { background-image: var(--cdc-piece-bq, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bq.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .king.black   { background-image: var(--cdc-piece-bk, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png')) !important; }
 
 /* ------------------------------------------------------------ highlights --- */
 
@@ -214,22 +218,22 @@ coords {
 @media (max-width: 1019.98px) {
   body.coords-in .is2d coords .coord-dark,
   body.coords-in .is2d coords.files .coord-dark {
-    color: var(--cdc-sq-light) !important;
+    color: var(---cg-ccw) !important;
   }
 
   body.coords-in .is2d coords .coord-light,
   body.coords-in .is2d coords.files .coord-light {
-    color: var(--cdc-sq-dark) !important;
+    color: var(---cg-ccb) !important;
   }
 
   /* Ranks move from the right edge (Lichess) to the left edge (Chess.com), which
      puts every rank label on the opposite color square. */
   body.coords-in .is2d coords.ranks .coord-dark {
-    color: var(--cdc-sq-dark) !important;
+    color: var(---cg-ccb) !important;
   }
 
   body.coords-in .is2d coords.ranks .coord-light {
-    color: var(--cdc-sq-light) !important;
+    color: var(---cg-ccw) !important;
   }
 
   body.coords-in coords.ranks {
@@ -264,8 +268,9 @@ coords {
    the board and under it where there's room (in the theme's dim page color),
    inside it on a phone held upright, where the board takes the whole width.
    Moved to the board's left, they fell off the screen. Inside, Lichess colors
-   them from its board theme's variables: the green board's colors. */
-body .is2d coords {
+   them from its board theme's variables: the extension's board's colors,
+   unless the board is Lichess's. */
+html:not([data-cdc-board='lichess']) body .is2d coords {
   ---cg-ccw: var(--cdc-sq-light) !important;
   ---cg-ccb: var(--cdc-sq-dark) !important;
 }

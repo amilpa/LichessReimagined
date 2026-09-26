@@ -734,6 +734,7 @@
     ['.mchat__tabs', '.mchat__tab', '.mchat__tab-active', 'line'],
     ['.auth .auth-tabs', 'a', '.active', 'line'],
     ['.relay-tour__tabs', 'button', '.active', 'pill'],
+    ['#dasher_app .cdc-src-tabs', 'button', '.active', 'pill'],
   ];
   const tabBars = new Map();
   const placeTabs = bar => {
