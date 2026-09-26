@@ -141,22 +141,22 @@
 
   main.analyse:has(.analyse__board > .orientation-white) .material-bottom,
   main.analyse:has(.analyse__board > .orientation-black) .material-top {
-    --cdc-mpiece-pawn: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png');
-    --cdc-mpiece-knight: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bn.png');
-    --cdc-mpiece-bishop: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bb.png');
-    --cdc-mpiece-rook: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/br.png');
-    --cdc-mpiece-queen: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bq.png');
-    --cdc-mpiece-king: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png');
+    --cdc-mpiece-pawn: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
+    --cdc-mpiece-knight: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bn.webp');
+    --cdc-mpiece-bishop: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bb.webp');
+    --cdc-mpiece-rook: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/br.webp');
+    --cdc-mpiece-queen: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bq.webp');
+    --cdc-mpiece-king: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bk.webp');
   }
 
   main.analyse:has(.analyse__board > .orientation-white) .material-top,
   main.analyse:has(.analyse__board > .orientation-black) .material-bottom {
-    --cdc-mpiece-pawn: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png');
-    --cdc-mpiece-knight: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png');
-    --cdc-mpiece-bishop: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png');
-    --cdc-mpiece-rook: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png');
-    --cdc-mpiece-queen: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png');
-    --cdc-mpiece-king: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png');
+    --cdc-mpiece-pawn: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp');
+    --cdc-mpiece-knight: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp');
+    --cdc-mpiece-bishop: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp');
+    --cdc-mpiece-rook: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp');
+    --cdc-mpiece-queen: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp');
+    --cdc-mpiece-king: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp');
   }
 
   main.analyse .material mpiece.pawn { background-image: var(--cdc-mpiece-pawn) !important; }

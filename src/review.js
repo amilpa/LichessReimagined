@@ -1180,8 +1180,8 @@
   // redraw of this comment, so `shown` keeps counting the same words.
   const stream = { key: '', shown: 0, timer: 0, dropped: false };
 
-  // Chess.com's Neo pieces, from its CDN like the board's.
-  const pieceImg = cp => `<img class="cdc-pc" alt="" src="https://images.chesscomfiles.com/chess-themes/pieces/neo/150/${cp}.png">`;
+  // Chess.com's Neo pieces, bundled like the board's (boards.js says where).
+  const pieceImg = cp => `<img class="cdc-pc" alt="" src="${document.documentElement.dataset.cdcAssets}img/pieces/neo/${cp}.webp">`;
   function token(kind, v) {
     if (kind === 'p') return pieceImg(v);
     if (kind === 's') return `<b class="cdc-sq">${v}</b>`;

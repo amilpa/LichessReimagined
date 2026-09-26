@@ -1,7 +1,6 @@
 /*
  * Chess.com "Green" board, "Neo" pieces, highlights, move hints and coordinates.
- * Pieces load from Chess.com's CDN at runtime (Lichess's CSP allows any image
- * host), so no Chess.com artwork is bundled in this extension.
+ * The pieces and the other boards are bundled in img/ (tools/boards/fetch.py).
  *
  * Another Chess.com board or piece set picked in the user menu (boards.js)
  * comes in `--cdc-board-img`, `--cdc-sq-{light,dark}` and `--cdc-piece-<wp…>`
@@ -38,18 +37,18 @@ cg-board {
 
 /* ---------------------------------------------------------------- pieces --- */
 
-html:not([data-cdc-pieces='lichess']) .is2d .pawn.white   { background-image: var(--cdc-piece-wp, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .knight.white { background-image: var(--cdc-piece-wn, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .bishop.white { background-image: var(--cdc-piece-wb, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .rook.white   { background-image: var(--cdc-piece-wr, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .queen.white  { background-image: var(--cdc-piece-wq, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .king.white   { background-image: var(--cdc-piece-wk, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .pawn.black   { background-image: var(--cdc-piece-bp, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .knight.black { background-image: var(--cdc-piece-bn, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bn.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .bishop.black { background-image: var(--cdc-piece-bb, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bb.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .rook.black   { background-image: var(--cdc-piece-br, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/br.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .queen.black  { background-image: var(--cdc-piece-bq, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bq.png')) !important; }
-html:not([data-cdc-pieces='lichess']) .is2d .king.black   { background-image: var(--cdc-piece-bk, url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .pawn.white   { background-image: var(--cdc-piece-wp, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .knight.white { background-image: var(--cdc-piece-wn, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .bishop.white { background-image: var(--cdc-piece-wb, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .rook.white   { background-image: var(--cdc-piece-wr, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .queen.white  { background-image: var(--cdc-piece-wq, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .king.white   { background-image: var(--cdc-piece-wk, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .pawn.black   { background-image: var(--cdc-piece-bp, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .knight.black { background-image: var(--cdc-piece-bn, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bn.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .bishop.black { background-image: var(--cdc-piece-bb, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bb.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .rook.black   { background-image: var(--cdc-piece-br, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/br.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .queen.black  { background-image: var(--cdc-piece-bq, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bq.webp')) !important; }
+html:not([data-cdc-pieces='lichess']) .is2d .king.black   { background-image: var(--cdc-piece-bk, url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bk.webp')) !important; }
 
 /* ------------------------------------------------------------ highlights --- */
 

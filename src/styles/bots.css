@@ -88,7 +88,7 @@
 .bots__list__entry {
   --cdc-bot: #95c85a;
   --cdc-bot-2: #5d9948;
-  --cdc-bot-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png');
+  --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp');
 }
 
 .bots__list__entry:nth-child(5n + 2) { --cdc-bot: #45a3f5; --cdc-bot-2: #2474c9; }
@@ -96,11 +96,11 @@
 .bots__list__entry:nth-child(5n + 4) { --cdc-bot: #f5a93b; --cdc-bot-2: #d27a1c; }
 .bots__list__entry:nth-child(5n + 5) { --cdc-bot: #f0645a; --cdc-bot-2: #b93a2e; }
 
-.bots__list__entry:nth-child(6n + 2) { --cdc-bot-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png'); }
-.bots__list__entry:nth-child(6n + 3) { --cdc-bot-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png'); }
-.bots__list__entry:nth-child(6n + 4) { --cdc-bot-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png'); }
-.bots__list__entry:nth-child(6n + 5) { --cdc-bot-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png'); }
-.bots__list__entry:nth-child(6n + 6) { --cdc-bot-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png'); }
+.bots__list__entry:nth-child(6n + 2) { --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp'); }
+.bots__list__entry:nth-child(6n + 3) { --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp'); }
+.bots__list__entry:nth-child(6n + 4) { --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp'); }
+.bots__list__entry:nth-child(6n + 5) { --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp'); }
+.bots__list__entry:nth-child(6n + 6) { --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp'); }
 
 .bots__featured .bots__list__entry {
   --cdc-bot: #f2b53a;

@@ -369,37 +369,37 @@ html[dir='rtl'] .puzzle-themes__link {
 .puzzle-openings__tree__family:nth-of-type(6n + 1) {
   --cdc-fam: #95c85a;
   --cdc-fam-2: #5d9948;
-  --cdc-fam-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png');
+  --cdc-fam-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp');
 }
 
 .puzzle-openings__tree__family:nth-of-type(6n + 2) {
   --cdc-fam: #45a3f5;
   --cdc-fam-2: #2474c9;
-  --cdc-fam-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png');
+  --cdc-fam-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp');
 }
 
 .puzzle-openings__tree__family:nth-of-type(6n + 3) {
   --cdc-fam: #f5a93b;
   --cdc-fam-2: #d27a1c;
-  --cdc-fam-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png');
+  --cdc-fam-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp');
 }
 
 .puzzle-openings__tree__family:nth-of-type(6n + 4) {
   --cdc-fam: #a98bf0;
   --cdc-fam-2: #7458c7;
-  --cdc-fam-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png');
+  --cdc-fam-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp');
 }
 
 .puzzle-openings__tree__family:nth-of-type(6n + 5) {
   --cdc-fam: #f06a4a;
   --cdc-fam-2: #c9412d;
-  --cdc-fam-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png');
+  --cdc-fam-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp');
 }
 
 .puzzle-openings__tree__family:nth-of-type(6n) {
   --cdc-fam: #2ec4b3;
   --cdc-fam-2: #178f82;
-  --cdc-fam-piece: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png');
+  --cdc-fam-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp');
 }
 
 /* The card stays dark: the family's color is on its tile and its chips'

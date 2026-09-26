@@ -171,11 +171,11 @@ main:has(> .storm) {
   width: 28px;
   height: 28px;
   margin: -4px -2px -4px -4px;
-  background: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp') center / contain no-repeat;
 }
 
 .storm:has(.cg-wrap.orientation-black) .puz-clock__pov::before {
-  background-image: url('https://images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
 }
 
 /* Flip, new run, end run: grey buttons, the flip green while flipped. */
