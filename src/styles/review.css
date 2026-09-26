@@ -397,9 +397,19 @@
     font-weight: 800;
   }
 
+  /* As much room under a line as over it: the row after it (the rows'
+     table, for the line closing the top one) starts as far down. */
   .cdc-t-sep td {
-    padding: 4px 0 !important;
+    padding: 6px 0 0 !important;
     border-bottom: 1px solid var(--cdc-border);
+  }
+
+  .cdc-t-sep + tr td {
+    padding-top: 12px;
+  }
+
+  .cdc-review__top + .cdc-review__body .cdc-review__table {
+    margin-top: 6px;
   }
 
   /* The chevron under the rows opens the rest of them, as on Chess.com. */
