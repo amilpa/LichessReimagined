@@ -410,8 +410,13 @@
     }
   };
   const syncFlags = () => {
-    const bars = [...document.querySelectorAll('main.round .ruser, main.analyse > .cdc-player')];
-    const nameOf = bar => bar.querySelector('a.user-link')?.pathname.split('/').pop().toLowerCase();
+    const bars = [
+      ...document.querySelectorAll(
+        'main.round .ruser, main.analyse > .cdc-player, main.round .game__meta__players a.user-link',
+      ),
+    ];
+    const nameOf = bar =>
+      (bar.matches('a') ? bar : bar.querySelector('a.user-link'))?.pathname.split('/').pop().toLowerCase();
     const missing = bars.map(nameOf).filter(n => n && !flags.has(n));
     if (missing.length) loadFlags(missing);
     for (const bar of bars) {
@@ -593,6 +598,48 @@
     }
     const active = list.querySelector('a.tv-channel.active');
     if (active) list.scrollTop = active.offsetTop - (list.clientHeight - active.offsetHeight) / 2;
+  };
+
+  // The game's info, where there's no chat (see styles/game.css): Lichess
+  // writes its lines as runs of text ("3+0 • Rated • Blitz", "Checkmate •
+  // White is victorious"), so each part gets a span, to be a pill or a
+  // line of its own. The players' names get one too, to be cut short on
+  // their own, and the ratings lose their brackets to be chips.
+  // Server-rendered, so it's safe; each piece is marked once done, as
+  // Lichess may put new ones in.
+  const splitParts = el => {
+    el.dataset.cdcParts = '';
+    for (const node of [...el.childNodes]) {
+      if (node.nodeType !== Node.TEXT_NODE) continue;
+      const parts = node.data
+        .split('•')
+        .map(s => s.trim())
+        .filter(Boolean)
+        .map(text => {
+          const span = document.createElement('span');
+          span.className = 'cdc-part';
+          span.textContent = text;
+          return span;
+        });
+      node.replaceWith(...parts);
+    }
+  };
+  const syncGameMeta = () => {
+    const meta = document.querySelector('main.round .round__side > .game__meta');
+    if (!meta) return;
+    meta.querySelectorAll(':is(.setup, section.status):not([data-cdc-parts])').forEach(splitParts);
+    for (const link of meta.querySelectorAll('.game__meta__players .user-link:not([data-cdc-name])')) {
+      link.dataset.cdcName = '';
+      for (const node of [...link.childNodes]) {
+        if (node.nodeType !== Node.TEXT_NODE || !node.data.replace(/\s/g, '')) continue;
+        const name = document.createElement('span');
+        name.className = 'cdc-meta-name';
+        name.textContent = node.data.replace(/^\s+|\s+$/g, '');
+        node.replaceWith(name);
+      }
+      const rating = link.querySelector('.rating');
+      if (rating) rating.textContent = rating.textContent.replace(/[()\s]/g, '');
+    }
   };
 
   // Forum index (see styles/forum.css): the categories become cards and
@@ -827,6 +874,7 @@
     syncSwissFocus();
     syncForumLabels();
     syncTvChannels();
+    syncGameMeta();
     syncPowertip();
     syncTooltip();
     syncTabs();
