@@ -263,6 +263,17 @@
     scrollbar-gutter: stable;
   }
 
+  /* The engine failed: said where the coach used to say it. */
+  .cdc-review__error {
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(250, 65, 45, 0.15);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
   .cdc-review__top + .cdc-review__body {
     padding-top: 0;
     scrollbar-gutter: stable;
@@ -571,19 +582,6 @@
       width: 16px;
       height: 16px;
     }
-  }
-
-  .cdc-coach--summary {
-    flex: none;
-    height: auto;
-    padding-bottom: 8px;
-  }
-
-  .cdc-bubble__say {
-    margin: 0;
-    color: #312e2b;
-    font-size: 14px;
-    line-height: 1.4;
   }
 
   /* The coach: our own portraits, shipped with the extension (the page world

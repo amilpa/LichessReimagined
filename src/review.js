@@ -58,24 +58,6 @@
         phases: { o: 'Opening', t: 'Tactics', s: 'Strategy', e: 'Endgame' },
       };
 
-  // What the coach says while the game is analyzed, like Chess.com.
-  const QUOTES = fr
-    ? [
-        '« Moins il y a de pièces sur l’échiquier, plus un pion passé gagne en puissance. » – José Raúl Capablanca',
-        '« Les fautes sont là, sur l’échiquier, attendant d’être commises. » – Savielly Tartakower',
-        '« Personne n’a jamais gagné une partie en abandonnant. » – Savielly Tartakower',
-        '« La menace est plus forte que son exécution. » – Aron Nimzowitsch',
-        '« Entre l’ouverture et la finale, les dieux ont placé le milieu de partie. » – Siegbert Tarrasch',
-      ]
-    : [
-        '"The passed pawn increases in strength as the number of pieces on the board diminishes." – José Raúl Capablanca',
-        '"The mistakes are there, waiting to be made." – Savielly Tartakower',
-        '"No one ever won a game by resigning." – Savielly Tartakower',
-        '"The threat is stronger than the execution." – Aron Nimzowitsch',
-        '"Between the opening and the end game, the gods have placed the middle game." – Siegbert Tarrasch',
-      ];
-  const QUOTE = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-
   // The coach's face, one of img/coaches/coach-<n>.webp (set by review.css).
   // Picked at random the first time, then kept; clicking it picks the next.
   const COACHES = 4;
@@ -1465,15 +1447,15 @@
   }
 
   // Like Chess.com, the summary keeps its layout while the game is analyzed:
-  // a quote from the coach, the graph, the accuracy and the counts filling
-  // in, first from the quick pass's draft, then at full depth. The game
+  // the graph, the accuracy and the counts filling in, first from the quick
+  // pass's draft, then at full depth. No coach here: its line said nothing
+  // and took the graph's room. The game
   // rating waits for the last move; the review can start at once.
   function renderSummary(ctrl) {
     const p = players(ctrl);
     const r = state.review;
     const loading = !r?.complete && !state.error;
     const pct = Math.round(state.progress * 100);
-    const say = state.error ? esc(state.error) : loading ? esc(QUOTE) : esc(T.intro);
     const acc = c => (r?.accuracy[c] == null ? '&nbsp;' : r.accuracy[c].toFixed(1));
     const brilliant = r && (r.counts.w.brilliant || r.counts.b.brilliant);
     const rows = CLASSES.filter(c => state.allRows || SUMMARY_ROWS.has(c.key) || (c.key === 'brilliant' && brilliant)).map(
@@ -1502,9 +1484,8 @@
     // the same fixed columns as the one above so the two line up.
     const cols = '<colgroup><col class="cdc-t-c-label"><col><col class="cdc-t-c-icon"><col></colgroup>';
     dom.panel.innerHTML = `${header(T.review, 'normal')}
-      <div class="cdc-coach cdc-coach--summary">${coachAvatar()}
-        <div class="cdc-bubble"><p class="cdc-bubble__say">${say}</p></div></div>
       <div class="cdc-review__top">
+        ${state.error ? `<p class="cdc-review__error">${esc(state.error)}</p>` : ''}
         <div class="cdc-review__graph cdc-summary-graph"></div>
         <table class="cdc-review__table">${cols}
           <tr class="cdc-t-names"><td></td><td title="${esc(playerName(p.w))}">${esc(playerName(p.w))}</td><td></td><td title="${esc(playerName(p.b))}">${esc(playerName(p.b))}</td></tr>
