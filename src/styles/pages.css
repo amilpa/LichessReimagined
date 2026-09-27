@@ -608,7 +608,7 @@ input:not([type='hidden']) + .button.button-metal:hover {
 /* ------------------------------------------------------------- dialogs --- */
 
 /* Chess.com-style modals: blurred backdrop, rounded card, the close button
- * inside the corner, and a short fade-in. */
+ * inside the corner, and a fade-in as it rises from below. */
 dialog::backdrop,
 .snab-modal-mask {
   background: #00000073 !important;
@@ -621,7 +621,7 @@ dialog {
   border-radius: 12px !important;
   background: var(--cdc-bg-panel) !important;
   box-shadow: 0 24px 64px #0009 !important;
-  animation: cdc-dialog-in 0.18s ease-out;
+  animation: cdc-dialog-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Lichess pushes the dialog 16px down to make room for its close button
@@ -631,10 +631,14 @@ dialog:not(.touch-scroll) {
   margin-top: 0 !important;
 }
 
+/* A rise, not a zoom: Lichess centers some dialogs with `translate(-50%,
+ * -50%)`, and `scale` grows them from their untranslated center, which
+ * sits right of and below them: they came in from the right. `translate`
+ * adds the same offset wherever they're centered from. */
 @keyframes cdc-dialog-in {
   from {
     opacity: 0;
-    scale: 0.96;
+    translate: 0 24px;
   }
 }
 
