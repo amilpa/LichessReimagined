@@ -1489,7 +1489,7 @@
         <div class="cdc-review__graph cdc-summary-graph"></div>
         <table class="cdc-review__table">${cols}
           <tr class="cdc-t-names"><td></td><td title="${esc(playerName(p.w))}">${esc(playerName(p.w))}</td><td></td><td title="${esc(playerName(p.b))}">${esc(playerName(p.b))}</td></tr>
-          <tr><td class="cdc-t-label">${esc(T.players)}</td><td><span class="cdc-avatar"></span></td><td></td><td><span class="cdc-avatar"></span></td></tr>
+          <tr><td class="cdc-t-label">${esc(T.players)}</td><td><span class="cdc-avatar cdc-avatar--w"></span></td><td></td><td><span class="cdc-avatar cdc-avatar--b"></span></td></tr>
           <tr><td class="cdc-t-label">${esc(T.accuracy)}</td>
             <td><span class="cdc-acc cdc-acc--w">${acc('w')}</span></td><td></td>
             <td><span class="cdc-acc cdc-acc--b">${acc('b')}</span></td></tr>

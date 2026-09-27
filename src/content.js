@@ -168,6 +168,7 @@
     'analyse-clock': 'main.analyse .analyse__clock',
     'analyse-white': 'main.analyse .analyse__board > .orientation-white',
     'analyse-black': 'main.analyse .analyse__board > .orientation-black',
+    'round-black': 'main.round .round__app__board > .orientation-black',
     'relay-tour': 'main.analyse.has-relay-tour',
     'study-side': 'main.analyse > .analyse__side > .study__side',
     practice: 'main.analyse .practice__side',
@@ -199,6 +200,31 @@
     });
   }).observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
   syncHas();
+
+  // The color(s) the computer plays, in `data-cdc-ai` on <html>: its player
+  // bar gets the "Play the computer" monitor as its avatar (playerbar.css).
+  // Lichess draws that bar like an anonymous player's, and only the game's
+  // data tells them apart. It's in #page-init-data, which Lichess removes
+  // once read: hold on to the node while the page parses (see dashboard.js).
+  if (document.readyState === 'loading') {
+    let initData = null;
+    const initObserver = new MutationObserver(() => {
+      initData = document.getElementById('page-init-data');
+      if (initData) initObserver.disconnect();
+    });
+    initObserver.observe(document, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', () => {
+      initObserver.disconnect();
+      let data = null;
+      try {
+        // The game page's data is at the top, the analysis board's in its cfg.
+        const init = initData ? JSON.parse(initData.textContent) : null;
+        data = init?.data || init?.cfg?.data;
+      } catch {}
+      const ai = [data?.player, data?.opponent].filter(p => p?.ai && p.color).map(p => p.color);
+      if (ai.length) document.documentElement.dataset.cdcAi = ai.join(' ');
+    });
+  }
 
   // The board's size (game.css, analysis.css, puzzle.css): as big as the
   // window allows, unless resized by hand. Lichess's own zoom pref may date
@@ -663,7 +689,8 @@
   const syncHero = () => {
     const main = document.querySelector('main.lobby');
     if (!main || main.querySelector(':scope > .cdc-hero')) return;
-    const user = document.body.dataset.user;
+    // The header's name keeps its capitals, unlike body's user id.
+    const user = document.getElementById('user_tag')?.textContent.trim() || document.body.dataset.user;
     const hero = document.createElement('section');
     hero.className = 'cdc-hero';
     const eyebrow = document.createElement('p');
