@@ -78,9 +78,30 @@ Lichess tab. If you cloned it with git, a `git pull` does the same.
   usual mobile layout, with the new colors, board and pieces.
 - The sounds are downloaded the first time they're needed, then kept.
 - Nothing is tracked or collected.
-- This project isn't affiliated with Lichess.
 
 Curious how it's built? [AGENTS.md](AGENTS.md) has the technical side.
+
+## Disclaimer
+
+This is a free, personal fan project, made for fun. It isn't sold, it shows
+no ads, it asks for no money, and it's not meant to make money in any way.
+
+It isn't affiliated with, endorsed by or sponsored by Lichess or any other
+chess site or company. All names, trademarks, logos, images, pieces, boards and
+sounds belong to their respective owners, and are used here only to change how
+lichess.org looks on your own computer. No ownership of them is claimed.
+
+If you own something used here and want it gone, please
+[open an issue](https://github.com/theophile-wallez/LichessDotCom/issues) and it will be removed promptly.
+
+The extension only changes how Lichess looks and sounds in your browser. It
+doesn't touch your account, and it gives no help during a game you're
+playing: using an engine in a live game breaks Lichess's rules, so don't.
+
+It comes as is, with no warranty of any kind. A Lichess update can break it
+at any time. You use it at your own risk, and the author can't be held
+responsible for any problem that comes from using it. See the
+[license](LICENSE) for the full terms.
 
 ## License
 
