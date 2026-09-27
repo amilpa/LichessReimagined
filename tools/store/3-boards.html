@@ -1,0 +1,144 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="size" content="1280x800">
+<link rel="stylesheet" href="store.css">
+<style>
+  body {
+    --w: 1280px;
+    --h: 800px;
+    --glow-x: 0%;
+    --glow-y: 40%;
+  }
+
+  header {
+    position: absolute;
+    top: 150px;
+    left: 64px;
+    width: 390px;
+    display: grid;
+    justify-items: start;
+    gap: 18px;
+  }
+
+  .counts {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .count {
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: #ffffff0d;
+    box-shadow: inset 0 0 0 1px #ffffff14;
+  }
+
+  .count b {
+    display: block;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .count span {
+    color: var(--dim);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  /* The boards, a 3×3 corner of each with its own pieces on it, on a
+     tilted plane that runs off the page. */
+  .plane {
+    position: absolute;
+    top: -110px;
+    left: 540px;
+    display: grid;
+    grid-template-columns: repeat(4, 176px);
+    gap: 22px;
+    transform: rotate(-12deg);
+  }
+
+  .plane > :nth-child(4n + 2),
+  .plane > :nth-child(4n + 4) {
+    translate: 0 70px;
+  }
+
+  .mini {
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    width: 176px;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--board) 0 0 / 266.67% 266.67%;
+    box-shadow: 0 0 0 1px #ffffff1f, 0 18px 40px #00000099;
+  }
+
+  .mini img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .name {
+    margin-top: 10px;
+    color: var(--dim);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .name b {
+    color: #fff;
+  }
+
+  .picker {
+    top: 150px;
+    left: 482px;
+    transform: rotate(-3deg);
+  }
+</style>
+
+<header>
+  <span class="pill"><span class="dot"></span>Boards &amp; pieces</span>
+  <h1>Your board, <em>your pieces</em></h1>
+  <p class="sub">Chess.com's boards and piece sets, all bundled. Or keep Lichess's own: one click away.</p>
+  <div class="counts">
+    <div class="count"><b>37</b><span>boards</span></div>
+    <div class="count"><b>40</b><span>piece sets</span></div>
+  </div>
+</header>
+
+<div class="plane"></div>
+
+<div class="crop float picker" style="--s: 1; --x: 183; --y: 344; --cw: 262; --ch: 543"><img src="shots/board-panel.webp"></div>
+
+<script>
+  // [board, pieces, label, [square, piece]…], squares numbered 0–8.
+  const MINIS = [
+    ['8_bit', '8_bit', '8-Bit', [4, 'wn'], [2, 'bk']],
+    ['icy_sea', 'icy_sea', 'Icy Sea', [4, 'wq'], [0, 'bn']],
+    ['bubblegum', 'bubblegum', 'Bubblegum', [4, 'wk'], [8, 'bp']],
+    ['sky', 'sky', 'Sky', [4, 'wb'], [6, 'br']],
+    ['dark_wood', 'wood', 'Dark Wood', [4, 'bn'], [8, 'wp']],
+    ['green', 'neo', 'Green', [4, 'wn'], [0, 'bq']],
+    ['glass', 'glass', 'Glass', [4, 'wk'], [2, 'bb']],
+    ['marble', 'marble', 'Marble', [4, 'wq'], [6, 'bp']],
+    ['purple', 'neo_wood', 'Purple', [4, 'bk'], [8, 'wr']],
+    ['neon', 'neon', 'Neon', [4, 'wn'], [2, 'bp']],
+    ['tournament', 'classic', 'Tournament', [4, 'wr'], [0, 'bk']],
+    ['graffiti', 'graffiti', 'Graffiti', [4, 'bq'], [6, 'wn']],
+    ['walnut', 'gothic', 'Walnut', [4, 'wb'], [2, 'bn']],
+    ['burled_wood', 'metal', 'Burled Wood', [4, 'bk'], [6, 'wp']],
+    ['orange', 'bases', 'Orange', [4, 'wq'], [8, 'bn']],
+    ['4fs27', 'ocean', 'Blue', [4, 'wn'], [0, 'bb']],
+  ];
+  const plane = document.querySelector('.plane');
+  for (const [board, pieces, label, ...placed] of MINIS) {
+    const cell = document.createElement('div');
+    const squares = Array.from({ length: 9 }, () => '<i></i>');
+    for (const [sq, p] of placed) squares[sq] = `<img src="../../img/pieces/${pieces}/${p}.webp">`;
+    cell.innerHTML = `<div class="mini" style="--board: url(../../img/boards/${board}.webp)">${squares.join('')}</div>
+      <p class="name"><b>${label}</b></p>`;
+    plane.append(cell);
+  }
+</script>
