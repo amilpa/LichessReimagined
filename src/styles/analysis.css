@@ -16,16 +16,23 @@
     --cdc-coords-off: 0px;
     --cdc-gauge-gap: 10px;
     --cdc-v-room: 56px;
-    --cdc-panel-w: clamp(300px, 26vw, 460px);
+    /* As Chess.com's: the board is sized as if the panel were at its 300px
+       minimum, then the panel takes what the board leaves, up to 500px. */
+    --cdc-panel-min: 300px;
     /* Resizable like the game page's board (game.css). */
     --cdc-board: max(
       320px,
       calc(
         min(
           calc(100dvh - var(--cdc-v-room) - 2 * var(--cdc-bar) - var(--cdc-coords-off)),
-          calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-panel-w) - var(--cdc-gap) - 72px)
+          calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-panel-min) - var(--cdc-gap) - 72px)
         ) * var(--cdc-board-scale, 1)
       )
+    );
+    --cdc-panel-w: clamp(
+      var(--cdc-panel-min),
+      calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-board) - var(--cdc-gap) - 72px),
+      500px
     );
     --cdc-stage: calc(var(--cdc-board) + 2 * var(--cdc-bar) + var(--cdc-coords-off));
     --cdc-chat-h: min(clamp(180px, 30vh, 320px), calc(var(--cdc-board) * 0.4));
