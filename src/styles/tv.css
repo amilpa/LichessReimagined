@@ -25,7 +25,8 @@
     --cdc-lead-w: calc(var(--cdc-tv-w) + var(--cdc-gap));
     /* No chat on TV, only the moves and the game's info: a slimmer panel
        leaves the board what the channels take. */
-    --cdc-panel-w: clamp(260px, 20vw, 360px);
+    --cdc-panel-min: clamp(260px, 20vw, 360px);
+    --cdc-panel-w: var(--cdc-panel-min);
 
     grid-template-columns: var(--cdc-tv-w) var(--cdc-board) var(--cdc-panel-w) !important;
     grid-template-areas:

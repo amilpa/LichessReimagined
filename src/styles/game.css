@@ -28,7 +28,10 @@
     --cdc-bar: 56px;
     --cdc-coords-off: 0px;
     --cdc-gap: 24px;
-    --cdc-panel-w: clamp(300px, 26vw, 460px);
+    /* As Chess.com's (and the analysis board's, analysis.css): the board is
+       sized as if the panel were at its 300px minimum, then the panel takes
+       what the board leaves, up to 500px. */
+    --cdc-panel-min: 300px;
     /* As big as the window allows, unless resized with the board's handle
        (`--cdc-board-scale`, board.css). `dvh`, not `vh`: on a Meta Quest or
        a phone, `100vh` is taller than what the browser shows. A page with a
@@ -39,9 +42,14 @@
       calc(
         min(
           calc(100dvh - 32px - 2 * var(--cdc-bar) - var(--cdc-coords-off)),
-          calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-panel-w) - var(--cdc-gap) - 48px)
+          calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-panel-min) - var(--cdc-gap) - 48px)
         ) * var(--cdc-board-scale, 1)
       )
+    );
+    --cdc-panel-w: clamp(
+      var(--cdc-panel-min),
+      calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-board) - var(--cdc-gap) - 48px),
+      500px
     );
     --cdc-bar-bot: calc(var(--cdc-bar) + var(--cdc-coords-off));
     --cdc-chat-h: min(clamp(180px, 32vh, 340px), calc(var(--cdc-board) * 0.45));
@@ -1169,12 +1177,20 @@
         min(
           calc(100dvh - 32px - 2 * var(--cdc-bar) - var(--cdc-coords-off)),
           calc(
-            (100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-panel-w) - var(--cdc-gap) - var(--cdc-pocket-gap) -
+            (100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-panel-min) - var(--cdc-gap) - var(--cdc-pocket-gap) -
               48px) /
               1.09375
           )
         ) * var(--cdc-board-scale, 1)
       )
+    );
+    --cdc-panel-w: clamp(
+      var(--cdc-panel-min),
+      calc(
+        100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-board) - var(--cdc-pocket-gap) - var(--cdc-pocket-sq) -
+          var(--cdc-gap) - 48px
+      ),
+      500px
     );
 
     grid-template-columns:
