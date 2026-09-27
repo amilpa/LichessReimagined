@@ -206,6 +206,11 @@
   // Lichess draws that bar like an anonymous player's, and only the game's
   // data tells them apart. It's in #page-init-data, which Lichess removes
   // once read: hold on to the node while the page parses (see dashboard.js).
+  // Its level's rating goes in `--cdc-ai-<color>` for the bar, and in
+  // `aiRating` for the game info (syncGameMeta). Lichess gives its levels
+  // none: these are the usual estimates of what each one plays at.
+  const AI_RATINGS = [800, 1100, 1400, 1700, 2000, 2300, 2700, 3000];
+  const aiRating = {};
   if (document.readyState === 'loading') {
     let initData = null;
     const initObserver = new MutationObserver(() => {
@@ -221,8 +226,16 @@
         const init = initData ? JSON.parse(initData.textContent) : null;
         data = init?.data || init?.cfg?.data;
       } catch {}
-      const ai = [data?.player, data?.opponent].filter(p => p?.ai && p.color).map(p => p.color);
-      if (ai.length) document.documentElement.dataset.cdcAi = ai.join(' ');
+      const ai = [data?.player, data?.opponent].filter(p => p?.ai && p.color);
+      if (!ai.length) return;
+      const html = document.documentElement;
+      html.dataset.cdcAi = ai.map(p => p.color).join(' ');
+      for (const p of ai) {
+        const rating = AI_RATINGS[p.ai - 1];
+        if (!rating) continue;
+        aiRating[p.color] = String(rating);
+        html.style.setProperty(`--cdc-ai-${p.color}`, `"${rating}"`);
+      }
     });
   }
 
@@ -824,6 +837,15 @@
       }
       const rating = link.querySelector('.rating');
       if (rating) rating.textContent = rating.textContent.replace(/[()\s]/g, '');
+    }
+    // The computer has no rating: its level's (see AI_RATINGS).
+    for (const color of Object.keys(aiRating)) {
+      const link = meta.querySelector(`.game__meta__players .player.${color} > span.user-link`);
+      if (!link || link.querySelector('.rating')) continue;
+      const rating = document.createElement('span');
+      rating.className = 'rating';
+      rating.textContent = aiRating[color];
+      link.append(rating);
     }
   };
 

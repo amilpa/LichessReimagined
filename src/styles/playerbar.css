@@ -60,6 +60,28 @@
     background: var(--cdc-computer-avatar);
   }
 
+  /* And its level's rating (content.js), where a player's flag would go. */
+  html[data-cdc-ai~='white']:not([data-cdc-has~='round-black']) main.round .ruser-bottom::after,
+  html[data-cdc-ai~='white'][data-cdc-has~='round-black'] main.round .ruser-top::after,
+  html[data-cdc-ai~='white']:not([data-cdc-has~='analyse-black']) main.analyse > .cdc-player--bottom::after,
+  html[data-cdc-ai~='white'][data-cdc-has~='analyse-black'] main.analyse > .cdc-player--top::after {
+    content: '(' var(--cdc-ai-white) ')';
+  }
+
+  html[data-cdc-ai~='black']:not([data-cdc-has~='round-black']) main.round .ruser-top::after,
+  html[data-cdc-ai~='black'][data-cdc-has~='round-black'] main.round .ruser-bottom::after,
+  html[data-cdc-ai~='black']:not([data-cdc-has~='analyse-black']) main.analyse > .cdc-player--top::after,
+  html[data-cdc-ai~='black'][data-cdc-has~='analyse-black'] main.analyse > .cdc-player--bottom::after {
+    content: '(' var(--cdc-ai-black) ')';
+  }
+
+  /* Like a player's rating (a flag's emoji takes no color). */
+  :is(main.round .ruser, main.analyse > .cdc-player)::after {
+    flex: none;
+    color: var(--cdc-text-dim);
+    font-weight: 400;
+  }
+
   :is(main.round .ruser, main.analyse > .cdc-player) .line {
     display: none !important;
   }
