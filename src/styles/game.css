@@ -711,11 +711,24 @@
     background: var(--cdc-bg-panel);
   }
 
-  /* No chat (e.g. games against the computer): show the game info there,
-     down to the panel's bottom like the chat (Lichess spaces it below). */
+  /* No chat (TV, games against the computer): the game info takes its
+     place, only as tall as it needs up to the chat's height, and the moves
+     get the rest. Hence a definite height for the grid, which the moves'
+     `1fr` shares out. */
+  html:not([data-cdc-has~='round-chat']) main.round {
+    height: calc(var(--cdc-bar) + var(--cdc-board) + var(--cdc-bar-bot));
+    grid-template-rows:
+      var(--cdc-bar)
+      minmax(0, 1fr)
+      var(--cdc-ctrl-h)
+      auto
+      var(--cdc-bar-bot) !important;
+  }
+
   html:not([data-cdc-has~='round-chat']) main.round .round__side > .game__meta {
     display: block !important;
     grid-area: chat !important;
+    max-height: var(--cdc-chat-h);
     margin: 0 !important;
     border-top: 1px solid var(--cdc-border);
     border-radius: 0 0 6px 6px;
