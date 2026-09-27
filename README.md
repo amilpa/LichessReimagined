@@ -79,8 +79,6 @@ Lichess tab. If you cloned it with git, a `git pull` does the same.
 - The sounds are downloaded the first time they're needed, then kept.
 - Nothing is tracked or collected.
 
-Curious how it's built? [AGENTS.md](AGENTS.md) has the technical side.
-
 ## Disclaimer
 
 This is a free, personal fan project, made for fun. It isn't sold, it shows
