@@ -1360,6 +1360,75 @@
     background-color: #ffffff1a !important;
   }
 
+  /* -------------------------------------------------------- board tools --- */
+
+  /* Chess.com's tools right of the board (content.js): a strip down the gap
+     before the panel, the cog at the board's top, the flip button under it
+     only while the pointer is on the board or the strip. The cog replaces
+     the menu button of the move list's bar. */
+  main.round :is(i5d, rm6) bo3 .board-menu-toggle-btn {
+    display: none !important;
+  }
+
+  main.round > .cdc-board-tools {
+    grid-area: board;
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: var(--cdc-gap);
+    margin-inline-end: calc(-1 * var(--cdc-gap));
+    z-index: 2;
+  }
+
+  /* Crazyhouse: the pockets' strip sits in the gap, the tools after it. */
+  html[data-cdc-has~='pocket'] main.round > .cdc-board-tools {
+    grid-area: pocket;
+    margin-inline-end: 0;
+  }
+
+  main.round .cdc-board-tools__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: #8b8987;
+    cursor: pointer;
+    transition: color 0.15s, opacity 0.2s, visibility 0.2s !important;
+  }
+
+  main.round .cdc-board-tools__btn:is(:hover, .cdc-board-tools__btn--on) {
+    color: #fff;
+  }
+
+  main.round .cdc-board-tools__btn::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: currentColor;
+    mask: center / contain no-repeat;
+  }
+
+  /* Chess.com's cog, and its two arrows, one up, one down. */
+  main.round .cdc-board-tools__btn--menu::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M10.3 1.5h3.4l.6 3a8 8 0 0 1 2 1.2l2.9-1 1.7 3-2.3 2a8 8 0 0 1 0 2.4l2.3 2-1.7 3-2.9-1a8 8 0 0 1-2 1.2l-.6 3h-3.4l-.6-3a8 8 0 0 1-2-1.2l-2.9 1-1.7-3 2.3-2a8 8 0 0 1 0-2.4l-2.3-2 1.7-3 2.9 1a8 8 0 0 1 2-1.2zM12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z'/%3E%3C/svg%3E");
+  }
+
+  main.round .cdc-board-tools__btn--flip::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 2 2.5 7.5h3.5V21h3V7.5h3.5zM16.5 22l5-5.5H18V3h-3v13.5h-3.5z'/%3E%3C/svg%3E");
+  }
+
+  main.round .cdc-board-tools:not(.cdc-board-tools--hover) .cdc-board-tools__btn--flip {
+    visibility: hidden;
+    opacity: 0;
+  }
+
   /* --------------------------------------------------------------- zen --- */
 
   /* Zen mode (the board menu, or "z"): Lichess hides all but the board,
@@ -1389,8 +1458,9 @@ html.light #zenzone .zen-home {
 
 /* Below 1020px Lichess's own layout stays, with our theme. */
 @media (max-width: 1019.98px) {
-  /* The captured pieces belong to the desktop player bars. */
-  main.round > .cdc-captured {
+  /* The captured pieces belong to the desktop player bars, and the board
+     tools to the desktop's gap (Lichess's menu button stays). */
+  main.round > :is(.cdc-captured, .cdc-board-tools) {
     display: none !important;
   }
 }

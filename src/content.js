@@ -340,6 +340,49 @@
     captured.bottom.innerHTML = html.bottom;
   };
 
+  // The game page's board tools, as Chess.com's: a cog right of the board's
+  // top corner, in the gap before the panel, and under it a flip button
+  // that shows while the pointer is on the board (styles/game.css). They
+  // press Lichess's own keys: `h` for its board menu (game.css hides its
+  // button), `f` to flip.
+  const boardTools = { el: null, menu: null, flip: null };
+  const pressKey = (el, key) => el.dispatchEvent(new KeyboardEvent('keypress', { key, bubbles: true }));
+  const toolButton = (name, key) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = `cdc-board-tools__btn cdc-board-tools__btn--${name}`;
+    b.addEventListener('click', () => pressKey(b, key));
+    return b;
+  };
+  const setTip = (b, label) => {
+    if (!label || b.dataset.cdcTip === label) return;
+    b.dataset.cdcTip = label;
+    b.setAttribute('aria-label', label);
+  };
+
+  const syncBoardTools = () => {
+    const main = document.querySelector('main.round');
+    if (!main) return;
+    if (!boardTools.el || boardTools.el.parentNode !== main) {
+      boardTools.el = document.createElement('div');
+      boardTools.el.className = 'cdc-board-tools';
+      boardTools.menu = toolButton('menu', 'h');
+      boardTools.flip = toolButton('flip', 'f');
+      boardTools.el.append(boardTools.menu, boardTools.flip);
+      main.appendChild(boardTools.el);
+    }
+    const lichessMenu = main.querySelector('.board-menu-toggle-btn');
+    setTip(boardTools.menu, lichessMenu?.title || lichessMenu?.dataset.cdcTip);
+    setTip(boardTools.flip, document.documentElement.dataset.cdcFlipLabel);
+    boardTools.menu.classList.toggle('cdc-board-tools__btn--on', !!lichessMenu?.classList.contains('active'));
+  };
+  document.addEventListener('mouseover', e => {
+    if (!boardTools.el?.isConnected) return;
+    const on = !!e.target.closest?.('main.round :is(.round__app__board, .cdc-board-tools)');
+    boardTools.el.classList.toggle('cdc-board-tools--hover', on);
+  });
+  document.addEventListener('mouseout', e => e.relatedTarget || boardTools.el?.classList.remove('cdc-board-tools--hover'));
+
   // The analysis board's player bars, like the game page's (see
   // styles/playerbar.css). Lichess names the players only in the game info,
   // which analysis.css hides: each one is copied into a bar of our own, in
@@ -978,6 +1021,7 @@
     syncControlsHeight();
     syncPlayers();
     syncCaptured();
+    syncBoardTools();
     syncMoveTimes();
     syncNewGame();
     syncFlags();
