@@ -367,4 +367,14 @@
     whenSoundReady(sound => install(sound, blobs));
   });
   window.postMessage({ type: MSG_PAGE_READY }, location.origin);
+
+  // The game page's flip button (content.js) is labeled in Lichess's words,
+  // which the isolated world can't read: copied onto <html>.
+  const shareFlipLabel = (started = Date.now()) => {
+    const label = window.i18n?.site?.flipBoard;
+    if (label) document.documentElement.dataset.cdcFlipLabel = label;
+    else if (document.readyState === 'loading' || document.querySelector('main.round'))
+      if (Date.now() - started < 30000) setTimeout(() => shareFlipLabel(started), 250);
+  };
+  shareFlipLabel();
 })();

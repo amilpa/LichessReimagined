@@ -455,6 +455,12 @@
     background: var(--cdc-avatar);
   }
 
+  /* The computer, as in its player bar (playerbar.css). */
+  html[data-cdc-ai~='white'] .cdc-avatar--w,
+  html[data-cdc-ai~='black'] .cdc-avatar--b {
+    background: var(--cdc-computer-avatar);
+  }
+
   .cdc-acc {
     display: inline-block;
     min-width: 52px;

@@ -60,8 +60,8 @@
 @media (min-width: 1259.3px) {
   main.puzzle {
     --cdc-gap: 16px;
-    --cdc-side-w: clamp(250px, 19vw, 340px);
-    --cdc-tools-w: clamp(270px, 21vw, 380px);
+    --cdc-side-min: 240px;
+    --cdc-tools-min: 260px;
     --cdc-gauge-w: 26px;
     --cdc-coords-l: 0px;
     --cdc-coords-off: 0px;
@@ -69,17 +69,24 @@
     --cdc-side-col: var(--cdc-side-w);
     --cdc-session-h: 38px;
     --cdc-kb-h: 0px;
-    /* Resizable like the game page's board (game.css). */
+    /* As on the game page (game.css): the board is sized as if the side
+       card and the panel were at their minimum, then they share what it
+       leaves, up to their maximum, in the ratio of their minimums (so at
+       the minimum they fit exactly). The bar's column is the side card's
+       (see .gauge-on): it costs the board nothing. Resizable like the game
+       page's board. */
+    --cdc-cols-w: calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-coords-l) - 2 * var(--cdc-gap) - 48px);
     --cdc-board: max(
       320px,
       calc(
         min(
           calc(100dvh - 28px - var(--cdc-coords-off) - var(--cdc-session-h) - var(--cdc-kb-h)),
-          calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-side-w) - var(--cdc-tools-w)
-            - var(--cdc-gauge-w) - var(--cdc-coords-l) - 3 * var(--cdc-gap) - 48px)
+          calc(var(--cdc-cols-w) - var(--cdc-side-min) - var(--cdc-tools-min))
         ) * var(--cdc-board-scale, 1)
       )
     );
+    --cdc-side-w: clamp(var(--cdc-side-min), calc((var(--cdc-cols-w) - var(--cdc-board)) * 0.48), 340px);
+    --cdc-tools-w: clamp(var(--cdc-tools-min), calc((var(--cdc-cols-w) - var(--cdc-board)) * 0.52), 380px);
 
     grid-template-columns:
       var(--cdc-side-col) var(--cdc-gauge-col) var(--cdc-board) var(--cdc-gap)
@@ -798,8 +805,13 @@ main.puzzle .puzzle__feedback.after :is(.puzzle__vote, .puzzle__vote__buttons) {
   display: contents !important;
 }
 
+/* Centered as flex: "Play against the computer" is a link, which doesn't
+ * center its icon the way a button does. */
 main.puzzle .puzzle__feedback.after .puzzle__more .button {
   flex: 1 1 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
   margin: 0 !important;
   padding: 0 !important;
@@ -837,6 +849,10 @@ main.puzzle .puzzle__feedback.after .puzzle__more .button {
   border-radius: 8px !important;
   background: var(--cdc-btn-grey) !important;
   box-shadow: var(--cdc-btn-grey-shadow) !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__more .button::before {
+  margin: 0 !important;
 }
 
 main.puzzle .puzzle__feedback.after .puzzle__more .button:hover {

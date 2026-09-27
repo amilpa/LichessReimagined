@@ -168,6 +168,7 @@
     'analyse-clock': 'main.analyse .analyse__clock',
     'analyse-white': 'main.analyse .analyse__board > .orientation-white',
     'analyse-black': 'main.analyse .analyse__board > .orientation-black',
+    'round-black': 'main.round .round__app__board > .orientation-black',
     'relay-tour': 'main.analyse.has-relay-tour',
     'study-side': 'main.analyse > .analyse__side > .study__side',
     practice: 'main.analyse .practice__side',
@@ -199,6 +200,44 @@
     });
   }).observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
   syncHas();
+
+  // The color(s) the computer plays, in `data-cdc-ai` on <html>: its player
+  // bar gets the "Play the computer" monitor as its avatar (playerbar.css).
+  // Lichess draws that bar like an anonymous player's, and only the game's
+  // data tells them apart. It's in #page-init-data, which Lichess removes
+  // once read: hold on to the node while the page parses (see dashboard.js).
+  // Its level's rating goes in `--cdc-ai-<color>` for the bar, and in
+  // `aiRating` for the game info (syncGameMeta). Lichess gives its levels
+  // none: these are the usual estimates of what each one plays at.
+  const AI_RATINGS = [800, 1100, 1400, 1700, 2000, 2300, 2700, 3000];
+  const aiRating = {};
+  if (document.readyState === 'loading') {
+    let initData = null;
+    const initObserver = new MutationObserver(() => {
+      initData = document.getElementById('page-init-data');
+      if (initData) initObserver.disconnect();
+    });
+    initObserver.observe(document, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', () => {
+      initObserver.disconnect();
+      let data = null;
+      try {
+        // The game page's data is at the top, the analysis board's in its cfg.
+        const init = initData ? JSON.parse(initData.textContent) : null;
+        data = init?.data || init?.cfg?.data;
+      } catch {}
+      const ai = [data?.player, data?.opponent].filter(p => p?.ai && p.color);
+      if (!ai.length) return;
+      const html = document.documentElement;
+      html.dataset.cdcAi = ai.map(p => p.color).join(' ');
+      for (const p of ai) {
+        const rating = AI_RATINGS[p.ai - 1];
+        if (!rating) continue;
+        aiRating[p.color] = String(rating);
+        html.style.setProperty(`--cdc-ai-${p.color}`, `"${rating}"`);
+      }
+    });
+  }
 
   // The board's size (game.css, analysis.css, puzzle.css): as big as the
   // window allows, unless resized by hand. Lichess's own zoom pref may date
@@ -339,6 +378,49 @@
     captured.top.innerHTML = html.top;
     captured.bottom.innerHTML = html.bottom;
   };
+
+  // The game page's board tools, as Chess.com's: a cog right of the board's
+  // top corner, in the gap before the panel, and under it a flip button
+  // that shows while the pointer is on the board (styles/game.css). They
+  // press Lichess's own keys: `h` for its board menu (game.css hides its
+  // button), `f` to flip.
+  const boardTools = { el: null, menu: null, flip: null };
+  const pressKey = (el, key) => el.dispatchEvent(new KeyboardEvent('keypress', { key, bubbles: true }));
+  const toolButton = (name, key) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = `cdc-board-tools__btn cdc-board-tools__btn--${name}`;
+    b.addEventListener('click', () => pressKey(b, key));
+    return b;
+  };
+  const setTip = (b, label) => {
+    if (!label || b.dataset.cdcTip === label) return;
+    b.dataset.cdcTip = label;
+    b.setAttribute('aria-label', label);
+  };
+
+  const syncBoardTools = () => {
+    const main = document.querySelector('main.round');
+    if (!main) return;
+    if (!boardTools.el || boardTools.el.parentNode !== main) {
+      boardTools.el = document.createElement('div');
+      boardTools.el.className = 'cdc-board-tools';
+      boardTools.menu = toolButton('menu', 'h');
+      boardTools.flip = toolButton('flip', 'f');
+      boardTools.el.append(boardTools.menu, boardTools.flip);
+      main.appendChild(boardTools.el);
+    }
+    const lichessMenu = main.querySelector('.board-menu-toggle-btn');
+    setTip(boardTools.menu, lichessMenu?.title || lichessMenu?.dataset.cdcTip);
+    setTip(boardTools.flip, document.documentElement.dataset.cdcFlipLabel);
+    boardTools.menu.classList.toggle('cdc-board-tools__btn--on', !!lichessMenu?.classList.contains('active'));
+  };
+  document.addEventListener('mouseover', e => {
+    if (!boardTools.el?.isConnected) return;
+    const on = !!e.target.closest?.('main.round :is(.round__app__board, .cdc-board-tools)');
+    boardTools.el.classList.toggle('cdc-board-tools--hover', on);
+  });
+  document.addEventListener('mouseout', e => e.relatedTarget || boardTools.el?.classList.remove('cdc-board-tools--hover'));
 
   // The analysis board's player bars, like the game page's (see
   // styles/playerbar.css). Lichess names the players only in the game info,
@@ -620,7 +702,8 @@
   const syncHero = () => {
     const main = document.querySelector('main.lobby');
     if (!main || main.querySelector(':scope > .cdc-hero')) return;
-    const user = document.body.dataset.user;
+    // The header's name keeps its capitals, unlike body's user id.
+    const user = document.getElementById('user_tag')?.textContent.trim() || document.body.dataset.user;
     const hero = document.createElement('section');
     hero.className = 'cdc-hero';
     const eyebrow = document.createElement('p');
@@ -754,6 +837,15 @@
       }
       const rating = link.querySelector('.rating');
       if (rating) rating.textContent = rating.textContent.replace(/[()\s]/g, '');
+    }
+    // The computer has no rating: its level's (see AI_RATINGS).
+    for (const color of Object.keys(aiRating)) {
+      const link = meta.querySelector(`.game__meta__players .player.${color} > span.user-link`);
+      if (!link || link.querySelector('.rating')) continue;
+      const rating = document.createElement('span');
+      rating.className = 'rating';
+      rating.textContent = aiRating[color];
+      link.append(rating);
     }
   };
 
@@ -978,6 +1070,7 @@
     syncControlsHeight();
     syncPlayers();
     syncCaptured();
+    syncBoardTools();
     syncMoveTimes();
     syncNewGame();
     syncFlags();
