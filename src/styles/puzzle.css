@@ -805,8 +805,13 @@ main.puzzle .puzzle__feedback.after :is(.puzzle__vote, .puzzle__vote__buttons) {
   display: contents !important;
 }
 
+/* Centered as flex: "Play against the computer" is a link, which doesn't
+ * center its icon the way a button does. */
 main.puzzle .puzzle__feedback.after .puzzle__more .button {
   flex: 1 1 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
   margin: 0 !important;
   padding: 0 !important;
@@ -844,6 +849,10 @@ main.puzzle .puzzle__feedback.after .puzzle__more .button {
   border-radius: 8px !important;
   background: var(--cdc-btn-grey) !important;
   box-shadow: var(--cdc-btn-grey-shadow) !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__more .button::before {
+  margin: 0 !important;
 }
 
 main.puzzle .puzzle__feedback.after .puzzle__more .button:hover {
