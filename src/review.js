@@ -1603,6 +1603,9 @@
     dom.panel.innerHTML = `<div class="cdc-coach">${coachAvatar(!live.error && move?.cls, ctrl.path)}<div class="cdc-bubble">${bubble}</div></div>`;
   }
 
+  // The eval the bar last showed during the review.
+  let barPos = null;
+
   // Eval bar, board badge / arrow / square colors, move list badges.
   function renderBoard(ctrl) {
     const r = state.review;
@@ -1616,7 +1619,12 @@
 
     // Eval bar. The best move keeps the eval of the position before it. The
     // free board keeps Lichess's, fed by its live engine.
-    const pos = isLive || !r ? null : shown ? shown.before : onMain ? r.positions[ply] : reviewing ? live.evals.get(ctrl.node.fen) : null;
+    let pos = isLive || !r ? null : shown ? shown.before : onMain ? r.positions[ply] : reviewing ? live.evals.get(ctrl.node.fen) : null;
+    // A move played off the game waits a moment for the engine: the bar
+    // holds its last eval meanwhile, rather than vanishing and shifting the
+    // board over by its width.
+    if (!pos && reviewing && !isLive && r) pos = barPos;
+    barPos = reviewing ? pos : null;
     html.classList.toggle('cdc-evalbar-on', !!pos);
     if (pos) {
       const whiteShare = pos.wp;
