@@ -51,8 +51,9 @@ same treatment.
 The extension isn't on the Chrome Web Store yet, so for now you add it by
 hand. It takes a minute.
 
-1. Download the project: click the green **Code** button at the top of this
-   page, then **Download ZIP**. Unzip it into a folder you'll keep.
+1. Download `LichessDotCom-v….zip` from the
+   [latest release](https://github.com/theophile-wallez/LichessDotCom/releases/latest)
+   and unzip it into a folder you'll keep.
 2. In Chrome, open `chrome://extensions`.
 3. Turn on **Developer mode**, top right.
 4. Click **Load unpacked** and choose the unzipped folder (the one with
@@ -65,7 +66,7 @@ from their own extensions page. Firefox and Safari aren't supported.
 Leave the folder where it is: the browser loads the extension from it, so
 moving or deleting it removes the extension.
 
-**To update**, download the ZIP again and replace the folder's files with the
+**To update**, download the new release's ZIP and replace the folder's files with the
 new ones. The extension reloads on its own the next time you go back to a
 Lichess tab. If you cloned it with git, a `git pull` does the same.
 
