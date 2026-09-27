@@ -316,11 +316,10 @@
     color: #fff !important;
   }
 
-  /* The analysis button's slot while the game is on: an empty space, not an
-     empty button. */
+  /* The analysis button's slot while the game is on: nothing, so the
+     arrows take the whole bar (the menu's button is right of the board). */
   main.round :is(i5d, rm6) bo3 .noop {
-    background: none !important;
-    box-shadow: none !important;
+    display: none !important;
   }
 
   /* ------------------------------------------------------------ controls --- */
