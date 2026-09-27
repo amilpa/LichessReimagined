@@ -802,6 +802,8 @@
     align-items: center;
     gap: 4px;
     box-sizing: border-box;
+    /* Lichess's 3rem left our buttons no room above and below. */
+    height: auto !important;
     padding: 8px !important;
     border-top: 1px solid var(--cdc-border);
   }
