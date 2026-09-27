@@ -1,24 +1,25 @@
 # LichessDotCom
 
-![LichessDotCom: Lichess, the Chess.com way](store/promo-marquee.png)
+![LichessDotCom: Lichess, the look you know](store/promo-marquee.png)
 
-Lichess is free, open source and has no ads. Chess.com is where a lot of us
-learned to play, and its look is hard to give up. This Chrome extension gives
-you both: Lichess, with the green board, the pieces, the sounds and the Game
-Review of Chess.com.
+Lichess is free, open source and has no ads. But if you learned chess on the
+big site with the green board, that's the look you're used to, and Lichess
+feels a little foreign. This Chrome extension brings that look and feel to
+Lichess: the green board, the pieces, the sounds, the layout, and a Game
+Review after every game.
 
 Your Lichess account, your games and your friends don't change. Only the look
 and the sounds do.
 
 ## What you get
 
-### The Chess.com look
+### The look you know
 
 The green board and the Neo pieces, a sidebar on the left, player bars with
 the clocks above and below the board, and one panel on the right for the moves
 and the chat. A game fits on your screen, so there's nothing to scroll.
 
-![A live game with the Chess.com look](store/1-game.png)
+![A live game with the familiar look](store/1-game.png)
 
 ### A Game Review for every game
 
@@ -32,8 +33,9 @@ The engine runs on your own computer, so it's free and there's no daily limit.
 
 ### Your board, your pieces
 
-37 boards and 40 piece sets from Chess.com, or Lichess's own if you'd rather
-keep them. Pick them in the settings menu, at the bottom of the sidebar.
+37 boards and 40 piece sets, the ones you know, or Lichess's own if you'd
+rather keep them. Pick them in the settings menu, at the bottom of the
+sidebar.
 
 ![The boards and piece sets](store/3-boards.png)
 
@@ -73,10 +75,9 @@ Lichess tab. If you cloned it with git, a `git pull` does the same.
 
 - It's made for computers. In a narrow window or on a tablet you get Lichess's
   usual mobile layout, with the new colors, board and pieces.
-- The sounds are downloaded from Chess.com the first time they're needed.
+- The sounds are downloaded the first time they're needed, then kept.
 - Nothing is tracked or collected.
-- This project isn't affiliated with Chess.com or Lichess. Chess.com's name,
-  pieces and sounds belong to Chess.com.
+- This project isn't affiliated with Lichess.
 
 Curious how it's built? [AGENTS.md](AGENTS.md) has the technical side.
 
