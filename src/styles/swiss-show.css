@@ -477,8 +477,8 @@ main.swiss .schedule-next-round input {
 @media (min-width: 1260px) {
   /* As on the game page: Lichess's hidden hover cards sit at the document's
      end and would still leave the page a little to scroll. */
-  html:has(main.swiss),
-  html:has(main.swiss) body {
+  html[data-cdc-has~='swiss'],
+  html[data-cdc-has~='swiss'] body {
     overflow: hidden !important;
   }
 
@@ -863,13 +863,17 @@ main.swiss .swiss__standing .pairings div > * {
 }
 
 /* Desktop, up to 20 squares: one line, the squares shrinking as one when
-   even their start size doesn't fit (the narrowest standings, 500px). */
+   even their start size doesn't fit (the narrowest standings, 500px). Every
+   row has a square per round, so each row can tell by itself. The squares
+   are counted from the first (one of 20 from the end, then the rest): a
+   `*` or a tag after a `:has()` slows every move (AGENTS.md, "`:has()` slows the board"). */
 @media (min-width: 800px) {
-  main.swiss .swiss__standing:not(:has(.pairings div > :nth-child(21))) .pairings div {
+  main.swiss .swiss__standing .pairings div:not(:has(> :nth-child(21))) {
     flex-wrap: nowrap !important;
   }
 
-  main.swiss .swiss__standing:not(:has(.pairings div > :nth-child(21))) .pairings div > * {
+  main.swiss .swiss__standing .pairings div > :first-child:nth-last-child(-n + 20),
+  main.swiss .swiss__standing .pairings div > :first-child:nth-last-child(-n + 20) ~ * {
     min-width: 0;
   }
 }

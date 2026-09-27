@@ -13,11 +13,10 @@
  */
 
 /* Also an empty list: one row, one cell ("None"), which gets the same header
- * and an empty-state card instead of Lichess's strip. */
-main.box.page-small:has(
-    > table.slist-invert > tbody > tr > td:first-child > .user-link,
-    > table.slist-invert > tbody > tr:only-child > td:only-child
-  ) {
+ * and an empty-state card instead of Lichess's strip. content.js tells these
+ * lists apart (`data-cdc-list`): a `:has()` over the rules below, which end
+ * on plain `tr` and `td`, slowed every move on a board (AGENTS.md, "`:has()` slows the board"). */
+main.box.page-small[data-cdc-list='players'] {
   /* ------------------------------------------------------- header --- */
 
   & > .box__top {

@@ -32,7 +32,7 @@
       'gauge board chat' !important;
   }
 
-  html.cdc-review-normal main.analyse:not(:has(> .mchat)) {
+  html.cdc-review-normal:not([data-cdc-has~='analyse-chat']) main.analyse {
     grid-template-rows:
       max(0px, calc(var(--cdc-stage) - var(--cdc-review-top) - var(--cdc-ctrl-h)))
       var(--cdc-review-top)
@@ -82,7 +82,7 @@
       'gauge board chat' !important;
   }
 
-  html.cdc-review-live main.analyse:not(:has(> .mchat)) {
+  html.cdc-review-live:not([data-cdc-has~='analyse-chat']) main.analyse {
     grid-template-rows:
       var(--cdc-review-top)
       max(0px, calc(var(--cdc-stage) - var(--cdc-review-top) - var(--cdc-ctrl-h)))
@@ -961,7 +961,7 @@
      the move, a small box around the current move. The moves played off the
      game show as variations, as on Chess.com, but not Lichess's comments nor
      its computer lines (close the review to see them): review.js marks the
-     lines played here `data-cdc-var`. Rows are striped per move number
+     lines played here `.cdc-var`. Rows are striped per move number
      (`data-cdc-even`, from review.js), as the cards between them have any
      height. */
   html.cdc-review-moves main.analyse .tview2-column > [data-cdc-even] {
@@ -974,11 +974,11 @@
      move, the index past the card repeats the move's number (then "...");
      after a Black move, it's the next move's own. */
   html.cdc-review-moves main.analyse .tview2-column > :is(
-    interrupt:not(:has(line[data-cdc-var])),
-    move.empty:not(:nth-child(2), :has(+ interrupt line[data-cdc-var]), interrupt:has(line[data-cdc-var]) + index + move.empty),
-    interrupt:not(:has(line[data-cdc-var])) + index:has(+ move.empty)
+    interrupt:not(:has(line.cdc-var)),
+    move.empty:not(:nth-child(2), :has(+ interrupt line.cdc-var), interrupt:has(line.cdc-var) + index + move.empty),
+    interrupt:not(:has(line.cdc-var)) + index:has(+ move.empty)
   ),
-  html.cdc-review-moves main.analyse .tview2 interrupt :is(comment, line:not([data-cdc-var])) {
+  html.cdc-review-moves main.analyse .tview2 interrupt :is(comment, line:not(.cdc-var)) {
     display: none !important;
   }
 

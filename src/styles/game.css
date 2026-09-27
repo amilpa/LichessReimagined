@@ -172,8 +172,10 @@
     order: -1;
   }
 
-  main.round:has(.rclock-top > :not(.time, .bar)) .ruser-top,
-  main.round:has(.rclock-bottom > :not(.time, .bar)) .ruser-bottom {
+  /* Which bar has them is `data-cdc-has` (content.js): a `:has()` on the
+     page is checked again on every move (AGENTS.md, "`:has()` slows the board"). */
+  html[data-cdc-has~='clock-extras-top'] main.round .ruser-top,
+  html[data-cdc-has~='clock-extras-bottom'] main.round .ruser-bottom {
     --cdc-clock-room: 212px;
   }
 
@@ -684,12 +686,12 @@
   /* Like Chess.com, the page never scrolls: everything fits the viewport, and
      what used to sit below the board (crosstable, game info) is dropped. TV's
      channels come back left of the board (tv.css). The keyboard-move input goes on top of the chat. */
-  html:has(main.round),
-  html:has(main.round) body {
+  html[data-cdc-has~='round'],
+  html[data-cdc-has~='round'] body {
     overflow: hidden !important;
   }
 
-  html:has(main.round) body {
+  html[data-cdc-has~='round'] body {
     height: 100dvh;
     margin: 0 !important;
     padding: 0 !important;
@@ -711,7 +713,7 @@
 
   /* No chat (e.g. games against the computer): show the game info there,
      down to the panel's bottom like the chat (Lichess spaces it below). */
-  main.round:not(:has(.mchat)) .round__side > .game__meta {
+  html:not([data-cdc-has~='round-chat']) main.round .round__side > .game__meta {
     display: block !important;
     grid-area: chat !important;
     margin: 0 !important;
@@ -739,20 +741,20 @@
     scrollbar-color: #ffffff26 transparent;
   }
 
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e059'])) { --cdc-meta: #f06a4a; --cdc-meta-2: #c9412d; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e032'])) { --cdc-meta: #f5a93b; --cdc-meta-2: #d27a1c; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e008'])) { --cdc-meta: #fad541; --cdc-meta-2: #e0a21a; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e00a'])) { --cdc-meta: #45a3f5; --cdc-meta-2: #2474c9; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e019'])) { --cdc-meta: #f7c631; --cdc-meta-2: #d6961a; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e066'])) { --cdc-meta: #3aa6e0; --cdc-meta-2: #0a78b8; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e006'])) { --cdc-meta: #fa8a4c; --cdc-meta-2: #d9601c; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e01e'])) { --cdc-meta: #e86bb0; --cdc-meta-2: #b8438a; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e01c'])) { --cdc-meta: #f0645a; --cdc-meta-2: #b93a2e; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e00d'])) { --cdc-meta: #3fd0b2; --cdc-meta-2: #1f9c83; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e007'])) { --cdc-meta: #d4a15f; --cdc-meta-2: #a8743a; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e03d'])) { --cdc-meta: #9aa9bd; --cdc-meta-2: #627288; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e065'])) { --cdc-meta: #7fb2ff; --cdc-meta-2: #4a7fd6; }
-  main.round .game__meta:has(.game__meta__infos:is([data-icon='\e04c'])) { --cdc-meta: #5ec7e8; --cdc-meta-2: #2a8fb8; }
+  main.round .game__meta[data-cdc-icon='\e059'] { --cdc-meta: #f06a4a; --cdc-meta-2: #c9412d; }
+  main.round .game__meta[data-cdc-icon='\e032'] { --cdc-meta: #f5a93b; --cdc-meta-2: #d27a1c; }
+  main.round .game__meta[data-cdc-icon='\e008'] { --cdc-meta: #fad541; --cdc-meta-2: #e0a21a; }
+  main.round .game__meta[data-cdc-icon='\e00a'] { --cdc-meta: #45a3f5; --cdc-meta-2: #2474c9; }
+  main.round .game__meta[data-cdc-icon='\e019'] { --cdc-meta: #f7c631; --cdc-meta-2: #d6961a; }
+  main.round .game__meta[data-cdc-icon='\e066'] { --cdc-meta: #3aa6e0; --cdc-meta-2: #0a78b8; }
+  main.round .game__meta[data-cdc-icon='\e006'] { --cdc-meta: #fa8a4c; --cdc-meta-2: #d9601c; }
+  main.round .game__meta[data-cdc-icon='\e01e'] { --cdc-meta: #e86bb0; --cdc-meta-2: #b8438a; }
+  main.round .game__meta[data-cdc-icon='\e01c'] { --cdc-meta: #f0645a; --cdc-meta-2: #b93a2e; }
+  main.round .game__meta[data-cdc-icon='\e00d'] { --cdc-meta: #3fd0b2; --cdc-meta-2: #1f9c83; }
+  main.round .game__meta[data-cdc-icon='\e007'] { --cdc-meta: #d4a15f; --cdc-meta-2: #a8743a; }
+  main.round .game__meta[data-cdc-icon='\e03d'] { --cdc-meta: #9aa9bd; --cdc-meta-2: #627288; }
+  main.round .game__meta[data-cdc-icon='\e065'] { --cdc-meta: #7fb2ff; --cdc-meta-2: #4a7fd6; }
+  main.round .game__meta[data-cdc-icon='\e04c'] { --cdc-meta: #5ec7e8; --cdc-meta-2: #2a8fb8; }
 
   main.round .round__side > .game__meta section {
     margin: 0 !important;
@@ -1168,7 +1170,7 @@
      strips fit beside the board, half a square apart. Lichess names their
      areas `mat-top` and `mat-bot`, which this grid doesn't have: left
      there, they'd land in tracks of their own, out of sight. */
-  main.round:has(.pocket) {
+  html[data-cdc-has~='pocket'] main.round {
     --cdc-pocket-gap: 8px;
     --cdc-pocket-sq: calc(var(--cdc-board) * 0.09375);
     --cdc-board: max(

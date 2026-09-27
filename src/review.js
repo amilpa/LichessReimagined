@@ -1693,13 +1693,15 @@
         if (el.tagName === 'INDEX') even = parseInt(el.textContent, 10) % 2 === 0;
         if (el.tagName !== 'INTERRUPT' && even !== 'cdcEven' in el.dataset) mark(el, 'cdcEven', even);
       }
-      // The variations played here show, not Lichess's computer lines.
+      // The variations played here show, not Lichess's computer lines. A
+      // class, not a data attribute: review.css asks for it in a `:has()`,
+      // where an attribute selector slows every move (see content.js).
       for (const l of tree.querySelectorAll('interrupt line')) {
         const p = l.querySelector('move[p]')?.getAttribute('p');
         const own = !!p && !ctrl.tree.nodeAtPath(p)?.comp;
-        if (own !== 'cdcVar' in l.dataset) mark(l, 'cdcVar', own);
+        if (own !== l.classList.contains('cdc-var')) l.classList.toggle('cdc-var', own);
       }
-      liveBadges(ctrl, [...tree.querySelectorAll('interrupt line[data-cdc-var] move[p]')]);
+      liveBadges(ctrl, [...tree.querySelectorAll('interrupt line.cdc-var move[p]')]);
     }
   }
 

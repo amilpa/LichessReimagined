@@ -423,7 +423,13 @@
         brows.map((b, k) => ({ id: `brow${k}`, w: b.w * 2, h: b.h * 2, u: '', p: `data:image/png;base64,${b.png}`, e: 1 }))),
       lids: animation(`coach ${n} lids`, lidLayers, lidsEnd),
       blink: animation(`coach ${n} blink`, blinkLayers, BLINK_LOOP + 1),
-      meta: { face: { pose, trans, talk }, lids: { pose: lidPose, trans: lidTrans }, blink: [0, BLINK_LOOP] },
+      meta: {
+        face: { pose, trans, talk },
+        lids: { pose: lidPose, trans: lidTrans },
+        // The loop's length and each blink's frames, first to last (a
+        // double one as one), for coach.js to play them one at a time.
+        blink: { loop: BLINK_LOOP, fps: FPS, at: BLINKS.map(([at, count]) => [at, at + (count - 1) * 20 + 14]) },
+      },
     };
   }
 

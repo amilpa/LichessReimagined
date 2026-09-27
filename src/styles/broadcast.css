@@ -294,52 +294,52 @@ html[dir='rtl'] :is(.relay-index, .relay-calendar) .box__top .search input {
 /* The side menu (the FIDE pages share it): each link's icon and tile color
  * (the tiles are in pages.css). "My broadcasts" and another user's end with
  * their name; the private and non-official lists are for admins. */
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/broadcast'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/today.svg');
   --cdc-nav-color: #81b64c;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href*='/broadcast/by/'] {
+.subnav[data-cdc-nav~='broadcast'] a[href*='/broadcast/by/'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/stream.svg');
   --cdc-nav-color: #8a6fd8;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/broadcast/subscribed'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/subscribed'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/heart-red.svg');
   --cdc-nav-color: #e25555;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/broadcast/calendar'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/calendar'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/calendar-dailypuzzle.svg');
   --cdc-nav-color: #1baaf0;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/broadcast/help'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/help'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/book-open-aqua.svg');
   --cdc-nav-color: #26c2a3;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/broadcast/app'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/app'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/device-mobile.svg');
   --cdc-nav-color: #1baaf0;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/broadcast/all-private'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/all-private'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/lock-closed.svg');
   --cdc-nav-color: #f7c631;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/broadcast/non-official'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/non-official'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/binoculars.svg');
   --cdc-nav-color: #9aa3ad;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href$='/fide'] {
+.subnav[data-cdc-nav~='broadcast'] a[href$='/fide'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/masters.svg');
   --cdc-nav-color: #f7c631;
 }
 
-.subnav:has(a[href$='/broadcast/calendar']) a[href*='/fide/federation'] {
+.subnav[data-cdc-nav~='broadcast'] a[href*='/fide/federation'] {
   --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/globe.svg');
   --cdc-nav-color: #26c2a3;
 }
@@ -351,7 +351,7 @@ html[dir='rtl'] :is(.relay-index, .relay-calendar) .box__top .search input {
  * the page's color, casting a soft shadow on the cards only once it's stuck.
  * Desktop only: below that, Lichess's fixed top bar would cover them. */
 @media (min-width: 1020px) {
-  main.page-menu > .subnav:has(a[href$='/broadcast/calendar']) {
+  main.page-menu > .subnav[data-cdc-nav~='broadcast'] {
     position: sticky;
     top: 16px;
     align-self: start;
@@ -395,11 +395,11 @@ html[dir='rtl'] :is(.relay-index, .relay-calendar) .box__top .search input {
  * scrolls. So it gets Lichess's two columns back, fluid beside the sidebar
  * (Lichess's own widths count the whole window), and the page scrolls. */
 @media (min-width: 1020px) {
-  html:has(main.analyse.has-relay-tour) {
+  html[data-cdc-has~='relay-tour'] {
     overflow: visible !important;
   }
 
-  html:has(main.analyse.has-relay-tour) body {
+  html[data-cdc-has~='relay-tour'] body {
     height: auto !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;

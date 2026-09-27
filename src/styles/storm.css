@@ -10,7 +10,7 @@
 
 .storm,
 .storm-dashboard,
-main:has(> .storm) {
+html[data-cdc-has~='storm'] main {
   --cdc-storm: #fa742c;
   --cdc-storm-icon: url('https://assets-ds.chess.com/color-icons/puzzle-rush.svg');
 }
@@ -27,7 +27,7 @@ main:has(> .storm) {
  * the page margins, a scrollbar, and a gutter for the ranks, which board.css
  * draws left of the board). */
 @media (min-width: 1020px) {
-  #main-wrap > main:has(> .storm--play) {
+  html[data-cdc-has~='storm-play'] #main-wrap > main {
     --cdc-coords-l: 0px;
 
     display: grid;
@@ -51,7 +51,7 @@ main:has(> .storm) {
 
   /* The files under the board get the page's padding rather than the
    * board's margin, so the right-hand column ends with the squares. */
-  body:is(.coords-in, .coords-out) #main-wrap > main:has(> .storm--play) {
+  html[data-cdc-has~='storm-play'] body:is(.coords-in, .coords-out) #main-wrap > main {
     --cdc-coords-l: calc(0.6 * var(--cdc-coords-size, 13px) + 10px);
 
     padding-bottom: 12px;
@@ -65,16 +65,16 @@ main:has(> .storm) {
     display: contents !important;
   }
 
-  main:has(> .storm--play) > .storm-play-scores {
+  html[data-cdc-has~='storm-play'] main > .storm-play-scores {
     grid-area: scores;
     margin: 4px 0 0 !important;
   }
 
-  main:has(> .storm--play) > .storm-dashboard__high__periods {
+  html[data-cdc-has~='storm-play'] main > .storm-dashboard__high__periods {
     grid-area: high;
   }
 
-  main:has(> .storm--play) > .storm__about__link {
+  html[data-cdc-has~='storm-play'] main > .storm__about__link {
     grid-area: about;
     justify-self: start;
     margin: 0 !important;
@@ -250,7 +250,7 @@ body.zenable.zen .storm-dashboard__high__periods {
 }
 
 @media (min-width: 1020px) {
-  body.zenable.zen #main-wrap > main:has(> .storm--play) {
+  html[data-cdc-has~='storm-play'] body.zenable.zen #main-wrap > main {
     row-gap: 0;
   }
 }

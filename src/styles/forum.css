@@ -20,7 +20,9 @@
 
 /* A color and an emoji per category. Forum slugs aren't localized, so the
  * category is read from its links: the index links to it, a category page
- * links to its topics, a topic links back to it. */
+ * links to its topics, a topic links back to it. content.js copies those
+ * links onto the row or the page (`data-cdc-href`, `data-cdc-back`), and the
+ * search form's target onto the search results (`data-cdc-search`). */
 main.forum,
 main.forum .categs tr {
   --cdc-fc: #95c85a;
@@ -28,34 +30,34 @@ main.forum .categs tr {
   --cdc-fc-emoji: url('https://lichess1.org/assets/flair/img/activity.chess-pawn.webp');
 }
 
-main.forum .categs tr:has(h2 a[href$='/forum/lichess-feedback']),
-main.forum-categ:has(td.subject a[href*='/forum/lichess-feedback/']),
-main.forum-topic:has(.box__top h1 > a[href$='/forum/lichess-feedback']) {
+main.forum .categs tr[data-cdc-href$='/forum/lichess-feedback'],
+main.forum-categ[data-cdc-href*='/forum/lichess-feedback/'],
+main.forum-topic[data-cdc-back$='/forum/lichess-feedback'] {
   --cdc-fc: #45a3f5;
   --cdc-fc-2: #2474c9;
   --cdc-fc-emoji: url('https://lichess1.org/assets/flair/img/objects.light-bulb.webp');
 }
 
-main.forum .categs tr:has(h2 a[href$='/forum/game-analysis']),
-main.forum-categ:has(td.subject a[href*='/forum/game-analysis/']),
-main.forum-topic:has(.box__top h1 > a[href$='/forum/game-analysis']) {
+main.forum .categs tr[data-cdc-href$='/forum/game-analysis'],
+main.forum-categ[data-cdc-href*='/forum/game-analysis/'],
+main.forum-topic[data-cdc-back$='/forum/game-analysis'] {
   --cdc-fc: #a98bf0;
   --cdc-fc-2: #7458c7;
   --cdc-fc-emoji: url('https://lichess1.org/assets/flair/img/objects.magnifying-glass-tilted-left.webp');
 }
 
-main.forum .categs tr:has(h2 a[href$='/forum/off-topic-discussion']),
-main.forum-categ:has(td.subject a[href*='/forum/off-topic-discussion/']),
-main.forum-topic:has(.box__top h1 > a[href$='/forum/off-topic-discussion']) {
+main.forum .categs tr[data-cdc-href$='/forum/off-topic-discussion'],
+main.forum-categ[data-cdc-href*='/forum/off-topic-discussion/'],
+main.forum-topic[data-cdc-back$='/forum/off-topic-discussion'] {
   --cdc-fc: #fa8a4c;
   --cdc-fc-2: #d9601c;
   --cdc-fc-emoji: url('https://lichess1.org/assets/flair/img/food-drink.hot-beverage.webp');
 }
 
 /* A team's board: its back link goes to the team. */
-main.forum .categs tr:has(h2 a[href*='/forum/team-']),
-main.forum-categ:has(.box__top h1 > a[href*='/team/']),
-main.forum-topic:has(.box__top h1 > a[href*='/forum/team-']) {
+main.forum .categs tr[data-cdc-href*='/forum/team-'],
+main.forum-categ[data-cdc-back*='/team/'],
+main.forum-topic[data-cdc-back*='/forum/team-'] {
   --cdc-fc: #3fd0b2;
   --cdc-fc-2: #1f9c83;
   --cdc-fc-emoji: url('https://lichess1.org/assets/flair/img/people.people-hugging.webp');
@@ -64,14 +66,14 @@ main.forum-topic:has(.box__top h1 > a[href*='/forum/team-']) {
 /* ------------------------------------------------------------- page --- */
 
 main.forum.box,
-main.box.search:has(> .box__top form.search[action$='/forum/search']) {
+main.box.search[data-cdc-search$='/forum/search'] {
   padding: 16px 0 48px !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
 main.forum .box__top,
-main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top {
+main.search[data-cdc-search$='/forum/search'] > .box__top {
   flex-wrap: wrap;
   gap: 16px;
   margin: 0 0 22px !important;
@@ -79,7 +81,7 @@ main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top {
 }
 
 main.forum .box__top h1,
-main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1 {
+main.search[data-cdc-search$='/forum/search'] > .box__top h1 {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -119,7 +121,7 @@ main.forum.index > .box__top:not(:first-child) h1::before {
 
 /* Back links (category, topic, search): a round button with a chevron. */
 main.forum .box__top h1 > a[data-icon]:first-child,
-main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1 > a[data-icon]:first-child {
+main.search[data-cdc-search$='/forum/search'] > .box__top h1 > a[data-icon]:first-child {
   display: flex;
   flex: none;
   align-items: center;
@@ -135,26 +137,26 @@ main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1
 }
 
 main.forum .box__top h1 > a[data-icon]:first-child::before,
-main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1 > a[data-icon]:first-child::before {
+main.search[data-cdc-search$='/forum/search'] > .box__top h1 > a[data-icon]:first-child::before {
   margin: 0 !important;
   font-size: 18px;
   line-height: 1;
 }
 
 main.forum .box__top h1 > a[data-icon]:first-child:hover,
-main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1 > a[data-icon]:first-child:hover {
+main.search[data-cdc-search$='/forum/search'] > .box__top h1 > a[data-icon]:first-child:hover {
   background: var(--cdc-btn-grey-hover);
   color: #fff !important;
   transform: translateX(-3px);
 }
 
 html[dir='rtl'] main.forum .box__top h1 > a[data-icon]:first-child,
-html[dir='rtl'] main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1 > a[data-icon]:first-child {
+html[dir='rtl'] main.search[data-cdc-search$='/forum/search'] > .box__top h1 > a[data-icon]:first-child {
   transform: scaleX(-1);
 }
 
 html[dir='rtl'] main.forum .box__top h1 > a[data-icon]:first-child:hover,
-html[dir='rtl'] main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1 > a[data-icon]:first-child:hover {
+html[dir='rtl'] main.search[data-cdc-search$='/forum/search'] > .box__top h1 > a[data-icon]:first-child:hover {
   transform: scaleX(-1) translateX(-3px);
 }
 
@@ -210,7 +212,7 @@ main.forum-categ .box__top h1 > a:not(:first-child) .uflair {
 /* --------------------------------------------------------- search box --- */
 
 main.forum .box__top__actions,
-main.search:has(> .box__top form.search[action$='/forum/search']) .box__top__actions {
+main.search[data-cdc-search$='/forum/search'] .box__top__actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1083,7 +1085,7 @@ main.forum-topic .reactions-toggle {
 
 /* ------------------------------------------------------- pagination --- */
 
-:is(main.forum, main.search:has(> .box__top form.search[action$='/forum/search'])) .pagination {
+:is(main.forum, main.search[data-cdc-search$='/forum/search']) .pagination {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1407,13 +1409,13 @@ main.forum-topic.topic-form .warning strong a {
 
 /* As narrow as a topic, and centered like one (Lichess's search page is
  * full width, so it would sit against the left of a wide window). */
-main.search:has(> .box__top form.search[action$='/forum/search']) {
+main.search[data-cdc-search$='/forum/search'] {
   width: 100%;
   max-width: 1000px;
   margin-inline: auto !important;
 }
 
-main.search:has(> .box__top form.search[action$='/forum/search']) > .nb-results {
+main.search[data-cdc-search$='/forum/search'] > .nb-results {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1424,7 +1426,7 @@ main.search:has(> .box__top form.search[action$='/forum/search']) > .nb-results 
   font-weight: 700;
 }
 
-main.search:has(> .box__top form.search[action$='/forum/search']) > .nb-results::before {
+main.search[data-cdc-search$='/forum/search'] > .nb-results::before {
   content: '';
   width: 28px;
   height: 28px;
@@ -1529,13 +1531,13 @@ main.search .search__results .user-link:hover {
 @media (min-width: 1020px) {
   /* Lichess's box clips its content, which would hold the title back. */
   main.forum:is(.forum-categ, .forum-topic:not(.topic-form)),
-  main.box.search:has(> .box__top form.search[action$='/forum/search']) {
+  main.box.search[data-cdc-search$='/forum/search'] {
     overflow: visible !important;
     padding-top: 0 !important;
   }
 
   main.forum:is(.forum-categ, .forum-topic:not(.topic-form)) > .box__top,
-  main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top {
+  main.search[data-cdc-search$='/forum/search'] > .box__top {
     container-type: scroll-state;
     position: sticky;
     z-index: 3;
@@ -1550,7 +1552,7 @@ main.search .search__results .user-link:hover {
   }
 
   main.forum:is(.forum-categ, .forum-topic:not(.topic-form)) > .box__top::after,
-  main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top::after {
+  main.search[data-cdc-search$='/forum/search'] > .box__top::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -1564,7 +1566,7 @@ main.search .search__results .user-link:hover {
 
   @container scroll-state(stuck: top) {
     main.forum:is(.forum-categ, .forum-topic:not(.topic-form)) > .box__top::after,
-    main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top::after {
+    main.search[data-cdc-search$='/forum/search'] > .box__top::after {
       opacity: 1;
     }
   }
@@ -1574,12 +1576,12 @@ main.search .search__results .user-link:hover {
 
 @media (max-width: 799.98px) {
   main.forum.box,
-  main.box.search:has(> .box__top form.search[action$='/forum/search']) {
+  main.box.search[data-cdc-search$='/forum/search'] {
     padding: 12px 12px 32px !important;
   }
 
   main.forum .box__top h1,
-  main.search:has(> .box__top form.search[action$='/forum/search']) > .box__top h1 {
+  main.search[data-cdc-search$='/forum/search'] > .box__top h1 {
     font-size: 24px !important;
   }
 

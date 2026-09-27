@@ -152,7 +152,7 @@
   }
 
   /* Whatever the browser scrolls to (keyboard focus) stops below the bar. */
-  html:has(main.coach-list) {
+  html[data-cdc-has~='coach-list'] {
     scroll-padding-top: 90px;
   }
 }

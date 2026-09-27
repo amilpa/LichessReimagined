@@ -13,8 +13,8 @@
 // units with the orientation applied, and it's the only source a game page has
 // (unlike the analysis page, it exposes no controller, so no `state.drawable`).
 // The Game Review adds its own arrows by square through `window.cdcReviewArrows`
-// ([{ orig, dest, brush }], brush 'best' or 'engine'), and checkmate needs
-// `site.analysis`.
+// ([{ orig, dest, brush }], brush 'best' or 'engine'; setting it redraws), and
+// checkmate needs `site.analysis`.
 
 (() => {
   const fr = (document.documentElement.lang || '').startsWith('fr');
@@ -121,20 +121,19 @@
   marks.setAttribute('class', 'cdc-marks');
   marks.setAttribute('viewBox', '0 0 8 8');
   const html = document.documentElement;
-  const started = Date.now();
-  let last = '', mateNode = null, mateAt = 0, seen = false;
+  let last = '', mateNode = null, mateAt = 0;
 
   function frame() {
     const container = document.querySelector('main .main-board cg-container');
     const svg = container?.querySelector('svg.cg-shapes');
-    // No board: stop looking after a while.
-    if (seen || Date.now() - started < 30000) requestAnimationFrame(frame);
     if (!svg) return;
-    seen = true;
     // The fills belong under the pieces, the arrows over them (see board.css).
     if (marks.parentNode !== container) container.appendChild(marks);
     if (layer.parentNode !== container) container.appendChild(layer);
-    html.classList.add('cdc-shapes');
+    // Not `add`: it writes the class attribute even when the class is there,
+    // and a write on <html> every frame had Chrome check the page's styles
+    // every frame. `toggle` with a force leaves it alone.
+    html.classList.toggle('cdc-shapes', true);
 
     const white = !container.closest('.cg-wrap')?.classList.contains('orientation-black');
     const ctrl = window.site?.analysis;
@@ -175,6 +174,11 @@
     if (!king) mateNode = null;
     const phase = !king ? 0 : Date.now() - mateAt < MATE_DELAY ? 1 : 2;
     html.classList.toggle('cdc-mate', !!king);
+    // The label comes in after a moment, whether or not anything else moves.
+    if (phase === 1) {
+      clearTimeout(mateTimer);
+      mateTimer = setTimeout(queue, mateAt + MATE_DELAY - Date.now());
+    }
 
     const key = JSON.stringify([fills, arrows, king, phase]);
     if (key === last) return;
@@ -197,5 +201,31 @@
     layer.innerHTML = arrowSvg + mate;
   }
 
-  requestAnimationFrame(frame);
+  // Drawn again when something may have changed, at most once a frame, not
+  // every frame: a loop of frames kept Chrome drawing the page nonstop on any
+  // page with a board, restyling whatever animates on each one. What can
+  // change the shapes: the page (chessground redrawing its svg, the board
+  // drawn anew), the board turned round (its class), the review's arrows and
+  // the checkmate label's delay.
+  let queued = false, mateTimer = 0;
+  function queue() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      frame();
+    });
+  }
+  new MutationObserver(records => {
+    if (records.some(r => r.type === 'childList' || r.target.classList.contains('cg-wrap'))) queue();
+  }).observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  let reviewArrows = [];
+  Object.defineProperty(window, 'cdcReviewArrows', {
+    get: () => reviewArrows,
+    set: arrows => {
+      reviewArrows = arrows;
+      queue();
+    },
+  });
+  queue();
 })();

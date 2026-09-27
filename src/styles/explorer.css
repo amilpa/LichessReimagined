@@ -654,7 +654,7 @@ html.cdc-opening-on main.analyse .explorer-box .data > .title:has(> a) {
    up to 40% of it, and scrolls past that. Lichess still shrinks it once the
    line leaves book. */
 @media (min-width: 1020px) {
-  main.analyse .analyse__tools:has(> .explorer-box:not(.reduced)) > .analyse__moves {
+  main.analyse .analyse__tools:has(> .explorer-box):not(:has(> .explorer-box.reduced)) > .analyse__moves {
     flex: 1 1 0 !important;
     min-height: 90px;
   }

@@ -85,7 +85,7 @@ main.analyse .practice-box > .title {
 @media (min-width: 1020px) {
   /* --------------------------------------------------------- layout --- */
 
-  main.analyse:has(.practice__side) {
+  html[data-cdc-has~='practice'] main.analyse {
     /* The panel's rows are shares of the board's height, not of the content's:
        without a definite height a `1fr` row grows to fit its content, and the
        chapter list would push the coach off the page instead of scrolling.
@@ -107,7 +107,7 @@ main.analyse .practice-box > .title {
      The tools never get less than the engine line and the drill's own box
      with a verdict under it (about 190px): in a short panel the verdict
      ("Good move", "Mistake") was cut off. The chapter list gives way. */
-  main.analyse:has(.practice__side):has(.practice-box) {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse {
     grid-template-rows: minmax(0, 1fr) auto minmax(190px, 1fr) var(--cdc-ctrl-h) !important;
     grid-template-areas:
       'gauge board side'
@@ -119,7 +119,7 @@ main.analyse .practice-box > .title {
   /* The keyboard-move input, when the user has it on, gets a row of its own
      under the panel; without one it would land in the chapter list's. The rows
      stay as they are otherwise: an empty row still costs a gap. */
-  main.analyse:has(.practice__side):has(.keyboard-move) {
+  html[data-cdc-has~='practice'][data-cdc-has~='keyboard-move'] main.analyse {
     grid-template-rows: minmax(0, 1fr) auto auto !important;
     grid-template-areas:
       'gauge board side'
@@ -127,7 +127,7 @@ main.analyse .practice-box > .title {
       'gauge board kb' !important;
   }
 
-  main.analyse:has(.practice__side):has(.practice-box):has(.keyboard-move) {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'][data-cdc-has~='keyboard-move'] main.analyse {
     grid-template-rows: minmax(0, 1fr) auto minmax(190px, 1fr) var(--cdc-ctrl-h) auto !important;
     grid-template-areas:
       'gauge board side'
@@ -137,18 +137,18 @@ main.analyse .practice-box > .title {
       'gauge board kb' !important;
   }
 
-  main.analyse:has(.practice__side) > :is(.practice__side, .gamebook, .analyse__underboard, .keyboard-move) {
+  html[data-cdc-has~='practice'] main.analyse > :is(.practice__side, .gamebook, .analyse__underboard, .keyboard-move) {
     margin: 0 0 0 var(--cdc-gap) !important;
   }
 
   /* A lesson has no players: Lichess's bars above and below the board show
      nothing but the captured material, so the board sits flush with the
      panel instead. */
-  main.analyse:has(.practice__side) .study__player {
+  html[data-cdc-has~='practice'] main.analyse .study__player {
     display: none !important;
   }
 
-  main.analyse:has(.practice__side) .keyboard-move {
+  html[data-cdc-has~='practice'] main.analyse .keyboard-move {
     grid-area: kb !important;
     align-self: stretch !important;
     border-radius: 10px;
@@ -282,7 +282,7 @@ main.analyse .practice-box > .title {
 
   /* The coach's own row. Only practice pages have it: a user-made gamebook
      study keeps Lichess's layout (and our look for the coach below). */
-  main.analyse:has(.practice__side) .gamebook {
+  html[data-cdc-has~='practice'] main.analyse .gamebook {
     grid-area: book !important;
   }
 
@@ -322,7 +322,7 @@ main.analyse .practice-box > .title {
   /* On a lesson the bubble shares the panel with the chapter list, so a long
      comment scrolls instead of taking the whole panel. A gamebook study has
      the panel to itself and keeps Lichess's full height. */
-  main.analyse:has(.practice__side) .gamebook .comment .content {
+  html[data-cdc-has~='practice'] main.analyse .gamebook .comment .content {
     max-height: min(240px, 26vh);
   }
 
@@ -408,8 +408,11 @@ main.analyse .practice-box > .title {
     background: #ffffff14;
   }
 
-  main.analyse .gamebook .feedback.play:has(piece.black) .no-square {
-    background: #ffffffd9;
+  /* A light tile under a black king, painted by the king (see puzzle.css). */
+  main.analyse .gamebook .feedback.play .no-square > piece.black {
+    border-radius: 8px;
+    background-color: #ffffffd9;
+    box-shadow: 0 0 0 4px #ffffffd9;
   }
 
   main.analyse .gamebook .feedback.play strong {
@@ -530,7 +533,7 @@ main.analyse .practice-box > .title {
      back as a card of its own above the moves, where a coach reads it out:
      the Game Review's coach, in its white bubble, with the tail at the
      coach's mouth (64% of the portrait's height). */
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__underboard {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard {
     --cdc-coach-h: 78px;
     display: grid !important;
     grid-template-columns: auto minmax(0, 1fr);
@@ -548,7 +551,7 @@ main.analyse .practice-box > .title {
   /* The face, one of img/coaches/coach-<n>.webp: content.js puts the
      number on <html>. The bubble is at least as tall as the portrait, and
      both sit on the card's bottom row, so the mouth is at a fixed height. */
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__underboard::before {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard::before {
     content: '';
     grid-area: coach;
     align-self: end;
@@ -571,7 +574,7 @@ main.analyse .practice-box > .title {
     box-shadow: none !important;
   }
 
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__underboard .feedback {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard .feedback {
     position: relative;
     grid-area: say;
     align-self: end;
@@ -589,7 +592,7 @@ main.analyse .practice-box > .title {
 
   /* Chess.com's tail, as in review.css: a horn out of the bubble's left
      edge, its point at the coach's mouth. */
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__underboard .feedback::before {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard .feedback::before {
     content: '';
     position: absolute;
     left: -17px;
@@ -607,7 +610,7 @@ main.analyse .practice-box > .title {
     }
   }
 
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__underboard .cmn-toggle-wrap {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard .cmn-toggle-wrap {
     grid-area: toggle;
   }
 
@@ -696,13 +699,13 @@ main.analyse .practice-box > .title {
   /* On a short screen the card shares a small panel with the chapter list:
      a smaller coach and a tighter bubble leave the list a few more steps. */
   @media (max-height: 760px) {
-    main.analyse:has(.practice__side):has(.practice-box) .analyse__underboard {
+    html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard {
       --cdc-coach-h: 62px;
       column-gap: 12px;
       padding: 9px 12px 9px 6px;
     }
 
-    main.analyse:has(.practice__side):has(.practice-box) .analyse__underboard .feedback {
+    html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard .feedback {
       padding: 8px 12px !important;
     }
 
@@ -767,7 +770,7 @@ main.analyse .practice-box > .title {
      box only: rather than a sliver of a move row between them, the moves go
      until a whole row fits (from 222px, with a verdict in the box). The tools'
      height comes from the grid row, so it can be queried. */
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__tools {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__tools {
     container: cdc-drill-tools / size;
   }
 
@@ -807,8 +810,10 @@ main.analyse .practice-box > .title {
     background: #ffffff14;
   }
 
-  main.analyse .practice-box .feedback .player:has(piece.black) .no-square {
-    background: #ffffffd9;
+  main.analyse .practice-box .feedback .player .no-square > piece.black {
+    border-radius: 8px;
+    background-color: #ffffffd9;
+    box-shadow: 0 0 0 4px #ffffffd9;
   }
 
   main.analyse .practice-box .feedback .icon.off {
@@ -893,12 +898,12 @@ main.analyse .practice-box > .title {
   }
 
   /* Lichess's controls end the panel, so they get the card's bottom corners. */
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__controls {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__controls {
     align-self: stretch !important;
     border-radius: 12px !important;
   }
 
-  main.analyse:has(.practice__side):has(.practice-box) .analyse__tools {
+  html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__tools {
     border-radius: 12px !important;
   }
 }

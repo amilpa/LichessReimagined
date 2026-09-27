@@ -85,6 +85,121 @@
     document.documentElement.style.setProperty('--cdc-fide-skip', (fidePage - 1) * 30);
   }
 
+  // What some rules would otherwise ask a `:has()`, marked on the element as
+  // a data attribute for the CSS to read. A `:has()` whose argument holds an
+  // attribute selector (or a `:not()`, or `*`) anywhere in our CSS put Chrome
+  // on a slow path for every element added to the page: each move on the
+  // board restyled most of the page, and the pieces lagged. So the links and
+  // icons those rules looked for are read here. Marked as the page parses,
+  // before it's first drawn, then with the other syncs for what comes later.
+  const NAVS = {
+    bots: ['/player/bots'],
+    broadcast: ['/broadcast/calendar'],
+    puzzles: ['/training/themes'],
+    account: ['/account/kid'],
+    about: ['/thanks'],
+    variants: ['/variant/chess960'],
+    streamers: ['/streamer/edit'],
+  };
+  const hrefIn = (el, sel) => el.querySelector(sel)?.getAttribute('href');
+  const MARKS = [
+    // Which side menu (pages.css), told apart by a link only it has, and
+    // which of its pages this is (its active link).
+    ['.subnav', 'cdcNav', el => Object.keys(NAVS).filter(k => NAVS[k].some(end => el.querySelector(`a[href$='${end}']`))).join(' ')],
+    ['main.page-menu', 'cdcNavActive', el => hrefIn(el, '.subnav a.active')],
+    // A game's mode, by its info's icon (game.css).
+    ['main.round .game__meta', 'cdcIcon', el => el.querySelector('.game__meta__infos')?.dataset.icon],
+    // A leaderboard, by its title's icon, and a shield by its title's link
+    // (leaderboard.css).
+    ['.community .user-top, .tournament-leaderboards__item', 'cdcIcon', el => el.querySelector(':scope > h2')?.dataset.icon],
+    ['.tournament-shields__item', 'cdcHref', el => hrefIn(el, ':scope > h2 > a')],
+    // A forum category (forum.css): the index links to it, a category page
+    // to its topics, a topic back to it, and so does a team's board.
+    ['main.forum .categs tr', 'cdcHref', el => hrefIn(el, 'h2 a')],
+    ['main.forum-categ', 'cdcHref', el => hrefIn(el, 'td.subject a')],
+    ['main.forum:is(.forum-categ, .forum-topic)', 'cdcBack', el => hrefIn(el, '.box__top h1 > a')],
+    // The forum's search results, by where the search form goes (forum.css).
+    ['main.search', 'cdcSearch', el => el.querySelector(':scope > .box__top form.search')?.getAttribute('action')],
+    // A list of players (friends.css): a user link first on each row, or
+    // one row of one cell when it's empty.
+    [
+      'main.box.page-small',
+      'cdcList',
+      el =>
+        el.querySelector(
+          ':scope > table.slist-invert > tbody > tr > td:first-child > .user-link, :scope > table.slist-invert > tbody > tr:only-child > td:only-child',
+        ) && 'players',
+    ],
+  ];
+  const syncMarks = () => {
+    for (const [sel, key, read] of MARKS) {
+      for (const el of document.querySelectorAll(sel)) {
+        const value = read(el);
+        if (value) el.dataset[key] !== value && (el.dataset[key] = value);
+        else if (key in el.dataset) delete el.dataset[key];
+      }
+    }
+  };
+  if (document.readyState === 'loading') {
+    const parsing = new MutationObserver(syncMarks);
+    parsing.observe(document, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', () => {
+      parsing.disconnect();
+      syncMarks();
+    });
+  } else syncMarks();
+
+  // What the page holds, for the rules that would ask `html:has(main.round)`
+  // or `main.analyse:has(.mchat)`: a word each in `data-cdc-has` on <html>.
+  // <html> and <main> hold the board, and Chrome checked a `:has()` on one
+  // of them again on each of its moves, restyling all it styles. Kept up as
+  // Lichess draws, before the next frame; the pieces and the clock's digits,
+  // which change all the time, aren't watched.
+  const HAS = {
+    round: 'main.round',
+    'round-chat': 'main.round .mchat',
+    'tv-channels': 'main.round.tv-single > .round__side > .subnav',
+    pocket: 'main.round .pocket',
+    'clock-extras-top': 'main.round .rclock-top > :is(.berserked, .go-berserk, .moretime, .tour-rank, .rclock-turn__text)',
+    'clock-extras-bottom': 'main.round .rclock-bottom > :is(.berserked, .go-berserk, .moretime, .tour-rank, .rclock-turn__text)',
+    analyse: 'main.analyse',
+    'analyse-chat': 'main.analyse > .mchat',
+    'analyse-players': 'main.analyse > .cdc-player',
+    'analyse-clock': 'main.analyse .analyse__clock',
+    'analyse-white': 'main.analyse .analyse__board > .orientation-white',
+    'analyse-black': 'main.analyse .analyse__board > .orientation-black',
+    'relay-tour': 'main.analyse.has-relay-tour',
+    'study-side': 'main.analyse > .analyse__side > .study__side',
+    practice: 'main.analyse .practice__side',
+    'practice-box': 'main.analyse .practice-box',
+    'keyboard-move': 'main.analyse .keyboard-move',
+    puzzle: 'main.puzzle',
+    'puzzle-keyboard': 'main.puzzle > .keyboard-move',
+    storm: 'main > .storm',
+    'storm-play': 'main > .storm--play',
+    swiss: 'main.swiss',
+    lobby: 'main.lobby',
+    'coach-list': 'main.coach-list',
+    'team-list': 'main.team-list',
+    'user-show': 'main.page-menu .user-show',
+    'perf-stat': 'main.page-menu > .perf-stat',
+    'puzzle-themes': 'main.page-menu .puzzle-themes',
+  };
+  const syncHas = () => {
+    const has = Object.keys(HAS).filter(k => document.querySelector(HAS[k])).join(' ');
+    if (document.documentElement.dataset.cdcHas !== has) document.documentElement.dataset.cdcHas = has;
+  };
+  let hasQueued = false;
+  new MutationObserver(records => {
+    if (hasQueued || records.every(r => r.target.closest?.('cg-container, .time'))) return;
+    hasQueued = true;
+    requestAnimationFrame(() => {
+      hasQueued = false;
+      syncHas();
+    });
+  }).observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  syncHas();
+
   // The board's size (game.css, analysis.css, puzzle.css): as big as the
   // window allows, unless resized by hand. Lichess's own zoom pref may date
   // from its layout, so it's not used: a drag on the board's handle starts
@@ -859,6 +974,7 @@
   });
 
   setInterval(() => {
+    syncMarks();
     syncControlsHeight();
     syncPlayers();
     syncCaptured();

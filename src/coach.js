@@ -5,8 +5,9 @@
 // coach-lottie.js from the features traced out of the portrait, as three
 // Lottie animations over the portrait's plate. A new mood eases in from the
 // last one, talking loops until the comment is typed, and the blinks run on
-// their own. Isolated, because the rig's files are the extension's, which
-// the page's CSP keeps out of the page world's reach.
+// their own, each played at its time, the animation paused in between.
+// Isolated, because the rig's files are the extension's, which the page's CSP
+// keeps out of the page world's reach.
 (() => {
   const RIG = chrome.runtime.getURL('img/coaches/rig.json');
   let rigs = null; // the traced features, fetched once
@@ -26,7 +27,7 @@
     if (!el || typeof lottie === 'undefined') return;
     if (!rig || rig.el !== el || rig.coach !== want.coach) mount(el, want.coach);
     else {
-      if (rig.ready && rig.blink.isPaused) rig.blink.play();
+      if (rig.ready && rig.blinkIdle != null) blinkFrom(rig, rig.blinkIdle);
       step();
     }
   }
@@ -60,10 +61,9 @@
       // already on it, so the face never shows without them.
       r.face.goToAndStop(r.meta.face.pose[r.mood], true);
       r.lids.goToAndStop(r.meta.lids.pose[r.mood], true);
-      r.blink.loop = true;
-      r.blink.goToAndPlay(Math.random() * r.meta.blink[1], true);
-      // No one to blink for once the review panel is gone.
-      r.blink.addEventListener('loopComplete', () => el.isConnected || r.blink.pause());
+      r.blink.goToAndStop(0, true);
+      r.blink.addEventListener('complete', () => blinkFrom(r, r.blinkEnd));
+      blinkFrom(r, Math.random() * r.meta.blink.loop);
       el.classList.add('cdc-coach__avatar--rig');
       r.ready = true;
       step();
@@ -76,10 +76,29 @@
 
   function unmount() {
     if (!rig) return;
+    clearTimeout(rig.blinkTimer);
     for (const k of ['face', 'lids', 'blink']) rig[k]?.destroy();
     rig.box?.remove();
     rig.el.classList.remove('cdc-coach__avatar--rig');
     rig = null;
+  }
+
+  // The next blink in the loop from `frame` on, played when its time comes,
+  // the eyes open and the animation paused until then: running through the
+  // open eyes, lottie drew the face each frame, and Chrome the page with it.
+  function blinkFrom(r, frame) {
+    const { loop, fps, at } = r.meta.blink;
+    const [a, b] = at.find(([a]) => a >= frame) || at[0];
+    r.blinkIdle = null;
+    clearTimeout(r.blinkTimer);
+    r.blinkTimer = setTimeout(() => {
+      if (rig !== r) return;
+      // No one to blink for once the review panel is gone: wait for it.
+      if (!r.el.isConnected) return void (r.blinkIdle = a);
+      r.blinkEnd = b;
+      // (a segment stops a frame short of its end: the eye is open at b)
+      r.blink.playSegments([a, b + 1], true);
+    }, (((a - frame + loop) % loop) / fps) * 1000);
   }
 
   // To a pose. goToAndStop counts from the last segment played, so reset

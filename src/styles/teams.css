@@ -101,7 +101,7 @@ html[dir='rtl'] main.team-list .box__top .search input {
   }
 
   /* Whatever the browser scrolls to (keyboard focus) stops below the bar. */
-  html:has(main.team-list) {
+  html[data-cdc-has~='team-list'] {
     scroll-padding-top: 90px;
   }
 }
@@ -292,7 +292,7 @@ main.team-list .slist td.actions .button {
 
 /* The empty-list message and the pager span the grid, without a card. */
 main.team-list .slist tbody tr.pager,
-main.team-list .slist tbody tr:has(td[colspan]) {
+main.team-list .slist tbody tr:has(> td:only-child) {
   display: block;
   grid-column: 1 / -1;
   padding: 16px !important;
@@ -301,7 +301,7 @@ main.team-list .slist tbody tr:has(td[colspan]) {
   box-shadow: none !important;
 }
 
-main.team-list .slist tbody tr:has(td[colspan]) td {
+main.team-list .slist tbody tr > td:only-child {
   color: var(--cdc-text-dim);
   text-align: center;
 }

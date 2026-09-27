@@ -77,13 +77,13 @@
      keeps the full height. The players are ours (content.js), in the board's
      cell; the clocks are Lichess's, in strips it already places absolutely
      on the board, which grow into the bars. A lesson has no players. */
-  main.analyse:is(:has(> .cdc-player), :has(.analyse__clock)):not(:has(.practice__side)) {
+  html:is([data-cdc-has~='analyse-players'], [data-cdc-has~='analyse-clock']):not([data-cdc-has~='practice']) main.analyse {
     --cdc-bar: 56px;
     --cdc-v-room: 32px;
     margin-top: 0 !important;
   }
 
-  body:is(.coords-in, .coords-out) main.analyse:is(:has(> .cdc-player), :has(.analyse__clock)):not(:has(.practice__side)) {
+  html:is([data-cdc-has~='analyse-players'], [data-cdc-has~='analyse-clock']):not([data-cdc-has~='practice']) body:is(.coords-in, .coords-out) main.analyse {
     --cdc-coords-off: calc(1.2 * var(--cdc-coords-size, 13px) + 8px);
   }
 
@@ -105,11 +105,11 @@
     --cdc-off: calc(var(--cdc-bar) + var(--cdc-board) + var(--cdc-coords-off) - var(--cdc-inset-b, 0px));
   }
 
-  main.analyse:has(> .cdc-player) .analyse__player_strip .material {
+  html[data-cdc-has~='analyse-players'] main.analyse .analyse__player_strip .material {
     display: none !important;
   }
 
-  main.analyse:has(.analyse__clock) .analyse__player_strip {
+  html[data-cdc-has~='analyse-clock'] main.analyse .analyse__player_strip {
     left: 0 !important;
     right: 0 !important;
     box-sizing: border-box;
@@ -119,19 +119,21 @@
     pointer-events: none;
   }
 
-  main.analyse:has(.analyse__clock) .analyse__player_strip > * {
+  /* Without a `:has()`, which a `*` after would make slow on every move
+     (AGENTS.md, "`:has()` slows the board"): `auto` is the default anyway. */
+  main.analyse .analyse__player_strip > * {
     pointer-events: auto;
   }
 
   /* The clock level with the avatar, as on the game page. */
-  main.analyse:has(.analyse__clock) .analyse__player_strip.top {
+  html[data-cdc-has~='analyse-clock'] main.analyse .analyse__player_strip.top {
     top: auto !important;
     bottom: calc(100% - var(--cdc-inset-t, 0px)) !important;
     align-items: flex-end !important;
     padding: 0 var(--cdc-inset-r, 0px) 8px var(--cdc-inset-l, 0px) !important;
   }
 
-  main.analyse:has(.analyse__clock) .analyse__player_strip.bottom {
+  html[data-cdc-has~='analyse-clock'] main.analyse .analyse__player_strip.bottom {
     top: calc(100% + var(--cdc-coords-off) - var(--cdc-inset-b, 0px)) !important;
     bottom: auto !important;
     align-items: flex-start !important;
@@ -145,7 +147,8 @@
      board on Lichess, which our grid hasn't got: a study's was hidden with
      the game info, a broadcast's fell into an extra track off the page. Both
      take the panel's last row, where a game's chat goes, and scroll there. */
-  main.analyse:is(:has(> .analyse__side > .study__side), .is-relay:not(.has-relay-tour)) {
+  html[data-cdc-has~='study-side'] main.analyse,
+  main.analyse.is-relay:not(.has-relay-tour) {
     --cdc-side-h: min(clamp(200px, 36vh, 400px), calc(var(--cdc-board) * 0.45));
     grid-template-rows:
       max(0px, calc(var(--cdc-stage) - var(--cdc-ctrl-h) - var(--cdc-side-h)))
@@ -170,7 +173,8 @@
     background: var(--cdc-bg-panel);
   }
 
-  main.analyse:is(:has(> .analyse__side > .study__side), .is-relay:not(.has-relay-tour)) .analyse__controls {
+  html[data-cdc-has~='study-side'] main.analyse .analyse__controls,
+  main.analyse.is-relay:not(.has-relay-tour) .analyse__controls {
     border-radius: 0 !important;
   }
 
@@ -217,19 +221,19 @@
   /* A study with players has Lichess's thinner bars (1.6rem) over and under
      the board, which hung into the page's margins, the lower one over the
      files. */
-  main.analyse.has-players:not(.is-relay, :has(.practice__side)) {
+  html:not([data-cdc-has~='practice']) main.analyse.has-players:not(.is-relay) {
     --cdc-bar: 1.6rem;
     --cdc-v-room: 32px;
     margin-top: 0 !important;
   }
 
-  body:is(.coords-in, .coords-out) main.analyse.has-players:not(.has-relay-tour, :has(.practice__side)) {
+  html:not([data-cdc-has~='practice']) body:is(.coords-in, .coords-out) main.analyse.has-players:not(.has-relay-tour) {
     --cdc-coords-off: calc(1.2 * var(--cdc-coords-size, 13px) + 8px);
   }
 
   /* Below the files, as the game page's bar. */
   main.analyse.is-relay:not(.has-relay-tour) .relay-board-player-bot,
-  main.analyse.has-players:not(:has(.practice__side)) .study__player-bot {
+  html:not([data-cdc-has~='practice']) main.analyse.has-players .study__player-bot {
     top: calc(100% + var(--cdc-coords-off)) !important;
   }
 
@@ -873,13 +877,13 @@
   }
 
   /* No chat (e.g. the free analysis board): tools take the whole panel. */
-  main.analyse:not(:has(> .mchat)) {
+  html:not([data-cdc-has~='analyse-chat']) main.analyse {
     grid-template-rows:
       max(0px, calc(var(--cdc-stage) - var(--cdc-ctrl-h)))
       var(--cdc-ctrl-h) !important;
   }
 
-  main.analyse:not(:has(> .mchat)) .analyse__controls {
+  html:not([data-cdc-has~='analyse-chat']) main.analyse .analyse__controls {
     border-radius: 0 0 6px 6px;
   }
 
@@ -888,12 +892,12 @@
   /* Like Chess.com, the page never scrolls: the underboard (computer analysis
      chart, share & export), game info and "learn from your mistakes" are
      dropped. The keyboard-move input goes at the bottom of the tools. */
-  html:has(main.analyse),
-  html:has(main.analyse) body {
+  html[data-cdc-has~='analyse'],
+  html[data-cdc-has~='analyse'] body {
     overflow: hidden !important;
   }
 
-  html:has(main.analyse) body {
+  html[data-cdc-has~='analyse'] body {
     height: 100dvh;
     margin: 0 !important;
     padding: 0 !important;

@@ -134,13 +134,13 @@
     order: -1;
   }
 
-  main.analyse:not(:has(.analyse__clock)) .analyse__player_strip {
+  html:not([data-cdc-has~='analyse-clock']) main.analyse .analyse__player_strip {
     left: var(--cdc-inset-l, 0px) !important;
     right: auto !important;
   }
 
-  main.analyse:has(.analyse__board > .orientation-white) .material-bottom,
-  main.analyse:has(.analyse__board > .orientation-black) .material-top {
+  html[data-cdc-has~='analyse-white'] main.analyse .material-bottom,
+  html[data-cdc-has~='analyse-black'] main.analyse .material-top {
     --cdc-mpiece-pawn: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
     --cdc-mpiece-knight: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bn.webp');
     --cdc-mpiece-bishop: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bb.webp');
@@ -149,8 +149,8 @@
     --cdc-mpiece-king: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bk.webp');
   }
 
-  main.analyse:has(.analyse__board > .orientation-white) .material-top,
-  main.analyse:has(.analyse__board > .orientation-black) .material-bottom {
+  html[data-cdc-has~='analyse-white'] main.analyse .material-top,
+  html[data-cdc-has~='analyse-black'] main.analyse .material-bottom {
     --cdc-mpiece-pawn: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp');
     --cdc-mpiece-knight: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp');
     --cdc-mpiece-bishop: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp');
@@ -199,8 +199,8 @@
   /* Which side. The game says it in a class; the analysis board only says top
      or bottom, so the board's orientation tells. */
   main.round .rclock-white .time,
-  main.analyse:has(.analyse__board > .orientation-white) .analyse__clock.bottom,
-  main.analyse:has(.analyse__board > .orientation-black) .analyse__clock.top {
+  html[data-cdc-has~='analyse-white'] main.analyse .analyse__clock.bottom,
+  html[data-cdc-has~='analyse-black'] main.analyse .analyse__clock.top {
     --cdc-clock-bg: #989795;
     --cdc-clock-fg: #312e2b99;
     --cdc-clock-on-bg: #fff;
@@ -209,8 +209,8 @@
   }
 
   main.round .rclock-black .time,
-  main.analyse:has(.analyse__board > .orientation-white) .analyse__clock.top,
-  main.analyse:has(.analyse__board > .orientation-black) .analyse__clock.bottom {
+  html[data-cdc-has~='analyse-white'] main.analyse .analyse__clock.top,
+  html[data-cdc-has~='analyse-black'] main.analyse .analyse__clock.bottom {
     --cdc-clock-bg: #2b2926;
     --cdc-clock-fg: #82807d;
     --cdc-clock-on-bg: #1c1b19;

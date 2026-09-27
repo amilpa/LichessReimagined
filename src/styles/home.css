@@ -16,7 +16,7 @@
  */
 
 @media (min-width: 1020px) {
-  #main-wrap:has(main.lobby) {
+  html[data-cdc-has~='lobby'] #main-wrap {
     ---main-max-width: 1260px !important;
   }
 
@@ -760,7 +760,7 @@
 
   /* No one live: Lichess leaves the block empty, which left a titled card
      with nothing in it. */
-  main.lobby .lobby__streams:not(:has(*)) {
+  main.lobby .lobby__streams:not(:has(a)) {
     display: none !important;
   }
 

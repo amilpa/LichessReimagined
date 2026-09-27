@@ -70,8 +70,8 @@ main.simul-list .slist thead:has(+ tbody > tr.create) {
 
 /* In progress: plain rows, and not last. (:has can't nest, so the first
  * row stands for the section.) */
-main.simul-list .slist tbody:not(:last-child):has(> tr:first-child:not(.scheduled, .create)),
-main.simul-list .slist thead:has(+ tbody:not(:last-child) > tr:first-child:not(.scheduled, .create)) {
+main.simul-list .slist tbody:not(:last-child):not(:has(> tr:first-child:is(.scheduled, .create))),
+main.simul-list .slist thead:has(+ tbody):not(:has(+ tbody:last-child), :has(+ tbody > tr:first-child:is(.scheduled, .create))) {
   --cdc-simul: #95c85a;
   --cdc-simul-2: #5d9948;
 }
@@ -112,7 +112,7 @@ main.simul-list .slist thead th:first-child::before {
 }
 
 /* In progress: a live dot that pulses instead. */
-main.simul-list .slist thead:has(+ tbody:not(:last-child) > tr:first-child:not(.scheduled, .create)) th:first-child::before {
+main.simul-list .slist thead:has(+ tbody):not(:has(+ tbody:last-child), :has(+ tbody > tr:first-child:is(.scheduled, .create))) th:first-child::before {
   border-radius: 50%;
   box-shadow: 0 0 0 0 #95c85ab3;
   animation: cdc-simul-pulse 1.6s ease-out infinite;

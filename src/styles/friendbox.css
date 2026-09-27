@@ -33,7 +33,7 @@
   font-size: 13px !important;
 }
 
-#friend_box:has(.content_wrap:not(.none)) {
+#friend_box:has(.content_wrap):not(:has(.content_wrap.none)) {
   width: 240px;
   background: #3c3a37cc !important;
 }
@@ -104,7 +104,7 @@
   transition: transform 0.2s ease !important;
 }
 
-#friend_box:has(.content_wrap:not(.none)) .friend_box_title::after {
+#friend_box:has(.content_wrap):not(:has(.content_wrap.none)) .friend_box_title::after {
   transform: translateY(-2px) rotate(135deg);
 }
 

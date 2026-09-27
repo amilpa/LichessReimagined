@@ -111,7 +111,7 @@
 
   /* The keyboard-move input (a preference) gets a row under the chips: the
      board leaves it room, so the page still fits the window. */
-  main.puzzle:has(> .keyboard-move) {
+  html[data-cdc-has~='puzzle-keyboard'] main.puzzle {
     --cdc-kb-h: 44px;
   }
 
@@ -122,12 +122,12 @@
   /* Like the game and analysis pages, the page itself never scrolls: Lichess
      keeps a bottom margin on tall windows, and its hidden hover cards sit at
      the document's end. The side card and the move list scroll in place. */
-  html:has(main.puzzle),
-  html:has(main.puzzle) body {
+  html[data-cdc-has~='puzzle'],
+  html[data-cdc-has~='puzzle'] body {
     overflow: hidden !important;
   }
 
-  html:has(main.puzzle) body {
+  html[data-cdc-has~='puzzle'] body {
     height: 100dvh;
     margin-bottom: 0 !important;
   }
@@ -588,8 +588,13 @@ main.puzzle .puzzle__feedback .no-square {
   background: #ffffff14;
 }
 
-main.puzzle .puzzle__feedback.play:has(piece.black) .no-square {
-  background: #ffffffd9;
+/* The black king paints its light tile itself, its shadow spread over the
+ * tile's padding: a `:has(piece…)` made Chrome restyle the page on every
+ * move of the board's pieces (AGENTS.md, "`:has()` slows the board"). */
+main.puzzle .puzzle__feedback.play .no-square > piece.black {
+  border-radius: 8px;
+  background-color: #ffffffd9;
+  box-shadow: 0 0 0 4px #ffffffd9;
 }
 
 main.puzzle .puzzle__feedback .instruction strong {

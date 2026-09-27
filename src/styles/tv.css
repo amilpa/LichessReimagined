@@ -20,7 +20,7 @@
  */
 
 @media (min-width: 1020px) {
-  main.round.tv-single:has(> .round__side > .subnav) {
+  html[data-cdc-has~='tv-channels'] main.round.tv-single {
     --cdc-tv-w: 62px;
     --cdc-lead-w: calc(var(--cdc-tv-w) + var(--cdc-gap));
     /* No chat on TV, only the moves and the game's info: a slimmer panel
@@ -39,7 +39,7 @@
 
   /* Crazyhouse: the pockets' strip after the board, and no column gap, as
      game.css lays it out; the channels' column carries its own. */
-  main.round.tv-single:has(> .round__side > .subnav):has(.pocket) {
+  html[data-cdc-has~='tv-channels'][data-cdc-has~='pocket'] main.round.tv-single {
     grid-template-columns:
       var(--cdc-lead-w)
       var(--cdc-board)
@@ -59,7 +59,7 @@
     --cdc-lead-w: 0px !important;
   }
 
-  main.round.tv-single:has(.pocket) > .round__side > .subnav {
+  html[data-cdc-has~='pocket'] main.round.tv-single > .round__side > .subnav {
     margin-inline-end: var(--cdc-gap) !important;
   }
 
@@ -305,7 +305,7 @@
 
 /* Wide enough for the names: the full rows. */
 @media (min-width: 1260px) {
-  main.round.tv-single:has(> .round__side > .subnav) {
+  html[data-cdc-has~='tv-channels'] main.round.tv-single {
     --cdc-tv-w: clamp(200px, 14vw, 250px);
   }
 }

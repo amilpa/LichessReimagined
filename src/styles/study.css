@@ -388,13 +388,13 @@
 
 /* No longer a card, so nothing to clip: Lichess's overflow: hidden would make
  * the box the sticky title's scroller, which never scrolls. */
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .page-menu__content.box {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .page-menu__content.box {
   overflow: visible !important;
   padding: 0 !important;
   background: transparent !important;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) h1.box__top {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] h1.box__top {
   display: flex;
   justify-content: flex-start !important;
   align-items: center;
@@ -403,7 +403,7 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) h1.box__top {
   padding: 16px 0 12px !important;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) h1.box__top::before {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] h1.box__top::before {
   content: '';
   flex: none;
   width: 36px;
@@ -411,19 +411,19 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) h1.box__top::before {
   background: url('https://assets-ds.chess.com/color-icons/book-open-aqua.svg') center / contain no-repeat;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body {
   columns: 2 340px;
   column-gap: 16px;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > p {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > p {
   column-span: all;
   margin: 0 0 20px !important;
   color: var(--cdc-text-dim);
   font-size: 15px;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > h2 {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > h2 {
   margin: 0 !important;
   padding: 14px 16px 12px !important;
   border: 1px solid var(--cdc-card-border);
@@ -436,11 +436,11 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > h2 {
   break-after: avoid;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > h2 strong {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > h2 strong {
   font-weight: inherit;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > ul {
   margin: 0 0 16px !important;
   padding: 6px !important;
   border: 1px solid var(--cdc-card-border);
@@ -452,12 +452,12 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul {
   break-inside: avoid;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul li {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > ul li {
   margin: 0 !important;
 }
 
 /* Rows: Lichess's study icon, then the study title. */
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > ul a {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -470,7 +470,7 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a {
   transition: background-color 0.1s, color 0.1s !important;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a::before {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > ul a::before {
   content: '\e012';
   flex: none;
   display: flex;
@@ -486,7 +486,7 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a::before 
   font-weight: 400;
 }
 
-main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a:hover {
+main.page-menu[data-cdc-nav-active$='/staff-picks'] .body > ul a:hover {
   background: var(--cdc-menu-hover);
   color: #fff !important;
 }
@@ -494,13 +494,13 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a:hover {
 /* Only the picks scroll: the side menu and the title stay in view, as on
  * the study lists. */
 @media (min-width: 1020px) {
-  main.page-menu:has(.subnav a.active[href$='/staff-picks']) > .subnav {
+  main.page-menu[data-cdc-nav-active$='/staff-picks'] > .subnav {
     position: sticky;
     top: 16px;
     align-self: start;
   }
 
-  main.page-menu:has(.subnav a.active[href$='/staff-picks']) h1.box__top {
+  main.page-menu[data-cdc-nav-active$='/staff-picks'] h1.box__top {
     container-type: scroll-state;
     position: sticky;
     z-index: 3;
@@ -510,7 +510,7 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a:hover {
     background: var(--cdc-bg-page);
   }
 
-  main.page-menu:has(.subnav a.active[href$='/staff-picks']) h1.box__top::after {
+  main.page-menu[data-cdc-nav-active$='/staff-picks'] h1.box__top::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -523,14 +523,14 @@ main.page-menu:has(.subnav a.active[href$='/staff-picks']) .body > ul a:hover {
   }
 
   @container scroll-state(stuck: top) {
-    main.page-menu:has(.subnav a.active[href$='/staff-picks']) h1.box__top::after {
+    main.page-menu[data-cdc-nav-active$='/staff-picks'] h1.box__top::after {
       opacity: 1;
     }
   }
 }
 
 @media (max-width: 799.98px) {
-  main.page-menu:has(.subnav a.active[href$='/staff-picks']) .page-menu__content.box {
+  main.page-menu[data-cdc-nav-active$='/staff-picks'] .page-menu__content.box {
     padding: 0 12px 24px !important;
   }
 }
