@@ -95,11 +95,12 @@
 
   /* The review's move list has no engine lines, nor the opening explorer:
      left open from the analysis, it squeezed the moves, with its toggle out
-     of reach under our controls. It's back as it was once the review is
-     closed. */
+     of reach under our controls. Nor Lichess's fork picker: where the
+     server analysis left a line, it offered the computer's move as a strip
+     over the moves. It's back as it was once the review is closed. */
   html.cdc-review-summary main.analyse > :is(.analyse__tools, .analyse__controls, .mchat),
   html.cdc-review-moves main.analyse > :is(.analyse__controls, .mchat),
-  html.cdc-review-moves main.analyse .analyse__tools > :is(.ceval, .pv_box, .explorer-box),
+  html.cdc-review-moves main.analyse .analyse__tools > :is(.ceval, .pv_box, .explorer-box, .analyse__fork),
   html.cdc-review:not(.cdc-review-moves) :is(#cdc-review-graph, #cdc-review-controls) {
     display: none !important;
   }
