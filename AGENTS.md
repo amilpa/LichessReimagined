@@ -515,10 +515,13 @@ browser) and parse `manifest.json`. Finally, load the extension unpacked in
 When you consider the work done, ship it. Don't wait to be asked, and don't
 open a PR:
 
-1. Commit, merge `origin/main` in, and push to `main` (`git push origin
-   HEAD:main`, a fast-forward).
-2. Pull `main` into the main checkout, which is where Chrome loads the unpacked
-   extension. Otherwise the user keeps testing the old code.
+1. Commit, rebase onto `origin/main` (`git fetch origin && git rebase
+   origin/main`, never a merge: `main`'s history stays a straight line), and
+   push to `main` as a fast-forward (`git push origin HEAD:main`). If the push
+   is refused because `main` moved meanwhile, fetch, rebase and push again.
+2. Fast-forward the main checkout to `main` (`git pull --ff-only`), which is
+   where Chrome loads the unpacked extension. Otherwise the user keeps testing
+   the old code.
 3. Clean the worktree: remove any `node_modules` and other throwaway files
    (test scripts, screenshots, browser profiles) you created.
 4. Don't bump the version: each push is a release. The CI stamps
