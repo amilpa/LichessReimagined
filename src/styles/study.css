@@ -1,6 +1,6 @@
 /*
  * Study lists (.study-index: all studies, search, staff picks, a player's
- * studies) as a grid of Chess.com-style cards:
+ * studies) as a grid of cards:
  *
  *   +------------------------------------------------+
  *   | [flair]  Study name                            |
@@ -310,7 +310,7 @@
 
 /* ---------------------------------------------------------- topics --- */
 
-/* /study/topic: a header with Chess.com's study icon, then each group of
+/* /study/topic: a header with the study icon, then each group of
  * topics as pill chips on a card. */
 .study-topics.box {
   padding: 0 !important;

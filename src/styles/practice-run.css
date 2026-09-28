@@ -7,9 +7,9 @@
  * Lichess puts the chapter list in a column left of the board and glues the
  * coach to the bottom of the right panel, so with our grid the panel is one
  * tall hole with a clipped chapter list under it. Both flavors become a single
- * Chess.com-style lesson panel instead: the lesson card with its numbered
- * steps on top, the coach (or the drill's goal and status) below, next to the
- * board. Loads after analysis.css, whose `main.analyse` grid it re-shapes.
+ * lesson panel instead: the lesson card with its numbered steps on top, the
+ * coach (or the drill's goal and status) below, next to the board. Loads
+ * after analysis.css, whose `main.analyse` grid it re-shapes.
  */
 
 /* ----------------------------------------------------- lesson header --- */
@@ -290,8 +290,8 @@ main.analyse .practice-box > .title {
     min-height: 0;
   }
 
-  /* The lesson speaks in a white Chess.com coach bubble, like the Game
-     Review's, with the octopus as the coach under its tail. */
+  /* The lesson speaks in a white coach bubble, like the Game Review's,
+     with the octopus as the coach under its tail. */
   main.analyse .gamebook .comment {
     border: none !important;
     border-radius: 12px !important;
@@ -438,7 +438,7 @@ main.analyse .practice-box > .title {
     font-weight: 800;
   }
 
-  /* Next / retry: one big Chess.com button. */
+  /* Next / retry: one big button. */
   main.analyse .gamebook .feedback.act {
     border: none;
     color: #fff !important;
@@ -590,7 +590,7 @@ main.analyse .practice-box > .title {
     transform-origin: 0 calc(100% - var(--cdc-coach-h) * 0.36);
   }
 
-  /* Chess.com's tail, as in review.css: a horn out of the bubble's left
+  /* The tail, as in review.css: a horn out of the bubble's left
      edge, its point at the coach's mouth. */
   html[data-cdc-has~='practice'][data-cdc-has~='practice-box'] main.analyse .analyse__underboard .feedback::before {
     content: '';

@@ -1,7 +1,7 @@
 """Chess.com's boards and piece sets, bundled in img/boards and img/pieces.
 
 Reads the lists in src/boards.js (BOARDS, PIECE_SETS), downloads each one
-from Chess.com's CDN and writes it as WebP:
+from its CDN and writes it as WebP:
 
   img/boards/<id>.webp        the board, 1200px (150px squares)
   img/boards/<id>-tile.webp   its two top-left squares, 160x80, for the menu
@@ -28,7 +28,7 @@ THEMES = 'https://assets-themes.chess.com/image'
 PIECES = [c + p for c in 'wb' for p in 'pnbrqk']
 BOARD_PX = 1200
 TILE_SQ = 80
-PIECE_PX = 300  # sharp on a big board at 2x; Chess.com serves up to 300
+PIECE_PX = 300  # sharp on a big board at 2x; the CDN serves up to 300
 
 
 def lists():

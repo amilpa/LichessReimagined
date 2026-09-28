@@ -1,10 +1,10 @@
 // Page-world script: swaps Lichess's sounds for Chess.com's.
 //
-// Lichess exposes its sound player as `site.sound`. We register the Chess.com
+// Lichess exposes its sound player as `site.sound`. We register the bundled
 // files (as blob: URLs, which Lichess's CSP allows) under our own names and wrap
-// `move()` / `play()` so each event picks the matching Chess.com sound:
+// `move()` / `play()` so each event picks the matching sound:
 // move-self / move-opponent / capture / castle / promote / move-check, etc.
-// Chess.com sounds Lichess has no event for (premove, illegal, game-start) are
+// Sounds Lichess has no event for (premove, illegal, game-start) are
 // played from our own detection below.
 
 (() => {
@@ -12,7 +12,7 @@
   const MSG_PAGE_READY = 'cdc:page-ready';
   const PREFIX = 'cdc-';
 
-  // Lichess sound name -> Chess.com sound name.
+  // Lichess sound name -> our sound name.
   const PLAY_MAP = {
     move: 'move-self',
     capture: 'capture',
@@ -98,7 +98,7 @@
     );
   }
 
-  // Works out the Chess.com sound for the move that was just played on the board.
+  // Works out our sound for the move that was just played on the board.
   function soundFromBoard(lichessName) {
     const fallback = lichessName === 'capture' ? 'capture' : 'move-self';
     const state = readBoard(mainBoard());
@@ -174,7 +174,7 @@
 
     sound.play = (name, volume = 1) => {
       if (typeof name === 'string' && !name.startsWith(PREFIX)) {
-        // Chess.com plays a single "move-check" for checking moves, which move()
+        // Our set has a single "move-check" for checking moves, which move()
         // handles. Lichess plays its own check / mate sound either just before
         // the move callback (opponent moves) or on the server echo of our own
         // move, so drop it.
@@ -217,7 +217,7 @@
   }
 
   // ------------------------------------------------------------- attempts ---
-  // Chess.com plays "premove" when a premove is queued and "illegal" when a
+  // "premove" plays when a premove is queued and "illegal" when a
   // dropped piece is refused; chessground does neither. So watch the pointer:
   // after a click or drop that tries to move a piece elsewhere, either a move
   // sound played, a premove appeared, or the move was refused. A refused click

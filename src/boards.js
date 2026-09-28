@@ -1,6 +1,6 @@
 // Isolated-world content script: which board and which pieces (styles/board.css).
 // Chess.com's green board and Neo pieces unless the user picks others: the
-// user menu's Board and Piece set panels get two tabs, Extension (Chess.com's
+// user menu's Board and Piece set panels get two tabs, Extension (its
 // boards and pieces, bundled in img/ by tools/boards/fetch.py) and Lichess
 // (Lichess's own panel).
 // The pick is kept under `cdc-board` / `cdc-pieces`; `lichess` hands the
@@ -14,8 +14,8 @@
 
   // [id, name, light square, dark square, host]: the squares' colors are
   // sampled from each board (for the coordinates drawn inside it). The host
-  // is only for tools/boards/fetch.py: the newer boards live on another one
-  // of Chess.com's, one of them as a JPEG. Add a board here, then run it.
+  // is only for tools/boards/fetch.py: the newer boards live on another
+  // host, one of them as a JPEG. Add a board here, then run it.
   const BOARDS = [
     ['green', 'Green', '#ebecd0', '#739552'],
     ['dark_wood', 'Dark Wood', '#c3a370', '#7e5736'],

@@ -1,5 +1,5 @@
 /*
- * Coach directory (main.coach-list) as a Chess.com-style grid of coach cards:
+ * Coach directory (main.coach-list) as a grid of coach cards:
  *
  *   +---- title, filters ------------------------------+---- side ----+
  *   +---------+ +---------+ +---------+ +---------+     | Are you a    |
@@ -67,7 +67,7 @@
   margin: 0 !important;
 }
 
-/* Chess.com's coaches icon, as in the sidebar menu. */
+/* The coaches icon, as in the sidebar menu. */
 .coach-list__main .box__top h1::before {
   content: '';
   flex: none;

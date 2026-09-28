@@ -3,8 +3,8 @@
 // The page's centrepiece is a radar of performance per puzzle theme, which
 // Lichess draws with Chart.js into a <canvas>: a bitmap, so CSS can't touch its
 // colors, fonts or proportions. The numbers it charts are inlined in the page as
-// its page module's JSON, so read those and draw our own radar in SVG instead,
-// Chess.com-style. Lichess's canvas is only hidden once ours is in place (see
+// its page module's JSON, so read those and draw our own radar in SVG instead.
+// Lichess's canvas is only hidden once ours is in place (see
 // styles/dashboard.css), so if the data ever moves we fall back to their chart
 // rather than to an empty panel.
 

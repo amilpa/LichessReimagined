@@ -1,6 +1,6 @@
 /*
  * Puzzle dashboard (.puzzle-dashboard: /training/dashboard/<days>/<page>) as a
- * Chess.com stats page: the box becomes the bare page, with a header carrying
+ * stats page: the box becomes the bare page, with a header carrying
  * the range picker, a row of stat tiles, and the per-theme radar in its own
  * panel. The radar itself is ours (see dashboard.js); Lichess's canvas is only
  * hidden once ours is in the page.
@@ -123,7 +123,7 @@ main.page-menu .page-menu__content.puzzle-dashboard {
   letter-spacing: inherit !important;
 }
 
-/* Chess.com tints the number, not the tile: the three of them side by side as
+/* Tint the number, not the tile: the three of them side by side as
  * solid gold and green blocks was the loudest thing on the page. */
 .puzzle-dashboard .puzzle-dashboard__metric--perf {
   background: var(--cdc-bg-panel) !important;
@@ -508,7 +508,7 @@ html[dir='rtl'] .puzzle-dashboard .puzzle-dashboard__metric--win::after {
   }
 }
 
-/* Stacked tiles below the Chess.com breakpoint: Lichess switches its own row
+/* Stacked tiles below 1020px: Lichess switches its own row
  * to a column there too. */
 @media (max-width: 1019.98px) {
   .puzzle-dashboard .box__top {

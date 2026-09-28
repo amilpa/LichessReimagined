@@ -1,6 +1,6 @@
 /*
- * Profile hover card (#powerTip, filled with /@/<user>/mini) as Chess.com's
- * player card:
+ * Profile hover card (#powerTip, filled with /@/<user>/mini) as a player
+ * card:
  *
  *   +------------------------------------------+
  *   | [avatar]  GM thibault  (flag) France  ..||
@@ -41,7 +41,7 @@
   gap: 14px;
   box-sizing: border-box;
   /* Lichess sizes the card in rem, so its width follows the font-size pref;
-     Chess.com's is wide enough for a full name and four rating chips.
+     ours is wide enough for a full name and four rating chips.
      Its own #powerTip rule ties with ours on specificity, hence !important. */
   width: 340px !important;
   max-width: calc(100vw - 16px);
@@ -70,7 +70,7 @@
   overflow: visible !important;
 }
 
-/* Lichess has no profile pictures: Chess.com's default avatar. It is a square
+/* Lichess has no profile pictures: the default avatar. It is a square
  * silhouette bled to the edges, so it gets rounded corners, not a circle. */
 #powerTip .upt__info::before {
   content: '';
@@ -101,7 +101,7 @@
 }
 
 /* Lichess spreads the name, the country and the signal bars apart
- * (space-between); Chess.com keeps the country against the name. */
+ * (space-between); we keep the country against the name. */
 #powerTip .upt__info__top {
   grid-column: 2;
   display: flex;
@@ -194,7 +194,7 @@
 
 /* --------------------------------------------------------------- ratings --- */
 
-/* Lichess's eight best perfs, as Chess.com's game-mode chips: its colored
+/* Lichess's eight best perfs, as game-mode chips: its colored
  * icon (see theme.css) and the rating, four to a row. The numbers are the quiet
  * grey the ratings have next to the players over the board, not white. */
 #powerTip .upt__info__ratings {
@@ -251,7 +251,7 @@
 
 /* --------------------------------------------------- games, joined, score --- */
 
-/* Lichess puts the action buttons above this line; Chess.com's sit at the foot
+/* Lichess puts the action buttons above this line; ours sit at the foot
  * of the card, so the order of the four blocks below is ours, not Lichess's. */
 #powerTip .upt__details {
   order: 3;
@@ -322,7 +322,7 @@
 
 /* --------------------------------------------------------------- actions --- */
 
-/* Lichess glues the actions into one rack; Chess.com spaces them out as grey
+/* Lichess glues the actions into one rack; we space them out as grey
  * buttons across the foot of the card. */
 #powerTip .upt__actions.btn-rack {
   order: 4;
@@ -370,7 +370,7 @@
 }
 
 /* Watch (AnalogTv), message (BubbleSpeech), challenge (Swords) and follow
- * (ThumbsUp) become Chess.com's icons. "Following" and "Blocked" keep the
+ * (ThumbsUp) become the glyphs above. "Following" and "Blocked" keep the
  * Lichess glyph: a plus would read as "not following them yet". */
 #powerTip .upt__actions .btn-rack__btn[data-icon='\e010']::before {
   --cdc-upt-icon: var(--cdc-upt-watch);
@@ -408,7 +408,7 @@
   flex: 1 1 auto !important;
 }
 
-/* Following someone is the card's call to action, so it gets Chess.com's green
+/* Following someone is the card's call to action, so it gets the green
  * button. Once followed (or blocked), it goes back to a quiet grey — those are
  * the un-localized /rel/ routes, not translated paths. */
 #powerTip .upt__actions .relation-button:not([href*='/unfollow'], [href*='/unblock']) {

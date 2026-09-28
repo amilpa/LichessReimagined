@@ -1,5 +1,5 @@
 /*
- * Every Lichess dropdown as one Chess.com-style menu: a flat trigger with a
+ * Every Lichess dropdown as one menu style: a flat trigger with a
  * chevron that flips when open, and a floating rounded menu below it with
  * white items, a soft hover and a green check on the current choice.
  *
@@ -160,7 +160,7 @@ div.mselect__item {
   color: var(--cdc-text-dim);
 }
 
-/* The current choice gets Chess.com's check at the end of the row. */
+/* The current choice gets a check at the end of the row. */
 a.mselect__item.current::after,
 span.mselect__item.current::after,
 div.mselect__item.current::after {

@@ -17,7 +17,7 @@
   line-height: 1.5;
 }
 
-/* The rating's icon, Chess.com's in its color (theme.css), a little smaller. */
+/* The rating's icon, theme.css's in its color, a little smaller. */
 .rating-stats .desc::before {
   flex: none;
   margin: 0 !important;

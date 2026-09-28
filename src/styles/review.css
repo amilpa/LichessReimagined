@@ -1,5 +1,5 @@
 /*
- * Chess.com-style Game Review (see src/review.js). review.js sets one of these
+ * Game Review (see src/review.js). review.js sets one of these
  * on <html> for game analysis pages:
  *   .cdc-review-normal   Lichess analysis + a "Game Review" button on top
  *   .cdc-review-summary  review summary fills the right panel
@@ -15,8 +15,8 @@
     --cdc-review-top: 48px;
   }
 
-  /* Review closed: Lichess's analysis on top, then, like Chess.com's
-     analysis tab, the counts and the Game Review button over the controls. */
+  /* Review closed: Lichess's analysis on top, then the counts and the Game
+     Review button over the controls. */
   html.cdc-review-normal main.analyse {
     --cdc-review-top: 92px;
     --cdc-chat-h: min(clamp(150px, 24vh, 260px), calc(var(--cdc-board) * 0.32));
@@ -48,7 +48,7 @@
     grid-template-areas: 'gauge board rtop' !important;
   }
 
-  /* Like Chess.com: coach and buttons, moves, graph, then our own big
+  /* Coach and buttons, moves, graph, then our own big
      controls (with play) instead of Lichess's. No engine lines. */
   html.cdc-review-moves main.analyse {
     --cdc-review-top: 254px;
@@ -66,7 +66,7 @@
       'gauge board rctrl' !important;
   }
 
-  /* The free analysis board, like Chess.com's: the coach on top of the
+  /* The free analysis board: the coach on top of the
      panel, then Lichess's engine and moves, and its controls. */
   html.cdc-review-live main.analyse {
     --cdc-review-top: 140px;
@@ -382,7 +382,7 @@
     font-weight: 700;
   }
 
-  /* A long name ends in an ellipsis, as on Chess.com (the full one in its
+  /* A long name ends in an ellipsis (the full one in its
      title), rather than breaking its last letters onto a line of their own. */
   .cdc-t-names td {
     overflow: hidden;
@@ -413,7 +413,7 @@
     margin-top: 6px;
   }
 
-  /* The chevron under the rows opens the rest of them, as on Chess.com. */
+  /* The chevron under the rows opens the rest of them. */
   .cdc-t-more td {
     padding: 2px 0 0 !important;
   }
@@ -517,7 +517,7 @@
 
   /* ----------------------------------------------------------- coach --- */
 
-  /* Like Chess.com: the coach as a cut-out, and the bubble's tail just under
+  /* The coach as a cut-out, and the bubble's tail just under
    * the coach's mouth (--cdc-tip, 64% of the portraits' height). The tail
    * stays there and the bubble is centered on it, growing both ways; only a
    * bubble too tall for that is pinned to the top. review.js measures the
@@ -744,7 +744,7 @@
     color: #312e2b;
   }
 
-  /* Chess.com's tail: a horn out of the bubble's left edge, a concave curve
+  /* The tail: a horn out of the bubble's left edge, a concave curve
    * on top and a convex one below, meeting in a point 15px down. It overlaps
    * the edge by 1px, so no seam. The bubble's min-height keeps it on the
    * straight part of the edge, clear of the rounded corners. */
@@ -964,9 +964,9 @@
 
   /* ------------------------------------------------------- move list --- */
 
-  /* Chess.com's compact list: 30px striped rows, badges in the gutter left of
-     the move, a small box around the current move. The moves played off the
-     game show as variations, as on Chess.com, but not Lichess's comments nor
+  /* A compact list: 30px striped rows, badges in the gutter left of the
+     move, a small box around the current move. The moves played off the
+     game show as variations, but not Lichess's comments nor
      its computer lines (close the review to see them): review.js marks the
      lines played here `.cdc-var`. Rows are striped per move number
      (`data-cdc-even`, from review.js), as the cards between them have any
@@ -1081,7 +1081,7 @@
 
   /* ---------------------------------------------------------- opening --- */
 
-  /* The opening's name heads the move list, like Chess.com's: review.js
+  /* The opening's name heads the move list: review.js
      appends it to Lichess's panel (a flex column), and `order` puts it
      under the engine, above the moves. Signed out there's no name. */
   #cdc-opening {

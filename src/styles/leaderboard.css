@@ -14,7 +14,7 @@
  * of gold shields, the current holder's on top.
  *
  * The side menu these pages share (with the rating stats, the bots and the
- * FIDE players) gives each link Chess.com's color icon on a tinted tile.
+ * FIDE players) gives each link a color icon on a tinted tile.
  */
 
 /* ------------------------------------------------------------ page --- */
@@ -44,7 +44,7 @@
   font-weight: 800 !important;
 }
 
-/* Chess.com's trophies icon, as on the broadcasts. */
+/* The trophies icon, as on the broadcasts. */
 .community__leaders > h2::before {
   content: '';
   flex: none;
@@ -277,7 +277,7 @@
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
-/* Chess.com's masks fill their box. */
+/* The masked icons fill their box. */
 :is(.community .leaderboards, .tournament-leaderboards) h2:is([data-icon='\e032'], [data-icon='\e008'], [data-icon='\e002'], [data-icon='\e00a'], [data-icon='\e059'], [data-icon='\e066'], [data-icon='\e006'], [data-icon='\e007'], [data-icon='\e00d'])::before {
   font-size: 24px !important;
 }
@@ -434,7 +434,7 @@ html[dir='rtl'] :is(.community .leaderboards, .tournament-shields) h2 a:hover::a
   font-size: 28px !important;
 }
 
-/* Chess.com's trophies icon, as on the players leaderboard. */
+/* The trophies icon, as on the players leaderboard. */
 .page-menu__content > h1.box__top:has(+ :is(.tournament-leaderboards, .tournament-shields))::before {
   content: '';
   flex: none;

@@ -1,6 +1,6 @@
 /*
  * Team lists (main.team-list: all teams, search, my teams, teams I lead) as a
- * grid of Chess.com-style club cards:
+ * grid of club cards:
  *
  *   +------------------------------------------+
  *   | [avatar]  Team name  [LEADER]            |
@@ -36,7 +36,7 @@ main.team-list h1.box__top {
   margin: 0 !important;
 }
 
-/* Chess.com's clubs icon, as in the sidebar menu. */
+/* The clubs icon, as in the sidebar menu. */
 main.team-list .box__top h1::before,
 main.team-list h1.box__top::before {
   content: '';

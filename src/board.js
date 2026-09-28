@@ -1,10 +1,10 @@
-// Page-world script: Chess.com-style shapes on any board, and checkmate.
+// Page-world script: our shapes on any board, and checkmate.
 //
-// - Right-clicked squares: Chess.com fills the square, Lichess rings it with a
-//   circle. The fill goes under the pieces, like Chess.com's.
-// - Arrows: Chess.com's shape and colors, a thick 80% opaque arrow starting at
-//   the edge of the origin square, L-shaped for knight moves. Only once the
-//   button is released: Lichess draws the arrow as you drag, Chess.com doesn't.
+// - Right-clicked squares: we fill the square, Lichess rings it with a
+//   circle. The fill goes under the pieces.
+// - Arrows: a thick 80% opaque arrow starting at the edge of the origin
+//   square, L-shaped for knight moves. Only once the button is released:
+//   Lichess draws the arrow as you drag, we don't.
 // - Checkmate: a red badge with a mated king on the king's square, then after a
 //   moment the square turns red under a "Checkmate" label.
 //
@@ -21,10 +21,10 @@
   const MATE_LABEL = fr ? 'Échec et mat' : 'Checkmate';
   const MATE_DELAY = 2500;
 
-  // Lichess brush -> Chess.com color, keyed by the stroke chessground paints
+  // Lichess brush -> our color, keyed by the stroke chessground paints
   // with, since brush names don't survive into the svg. Lichess's default
-  // (green) is Chess.com's default orange, and its fourth color (yellow)
-  // Chess.com's green.
+  // (green) is our default orange, and its fourth color (yellow) our
+  // green.
   const ARROW_COLORS = {
     '#15781B': '255,170,0', // green, the default brush
     '#882020': '248,85,63', // red
@@ -35,10 +35,10 @@
     '#ee2080': '238,32,128', // pink
     '#ffffff': '255,255,255', // white
   };
-  // Squares start from Chess.com's red instead, the color it highlights with:
+  // Squares start from red instead, the color they're highlighted with:
   // the default brush takes the red, and Lichess's red brush the freed orange.
   const MARK_COLORS = { ...ARROW_COLORS, '#15781B': '235,97,80', '#882020': '255,170,0' };
-  const REVIEW_COLOR = '159,207,63'; // the review's best move, Chess.com's green
+  const REVIEW_COLOR = '159,207,63'; // the review's best move, in green
   const ENGINE_COLOR = ARROW_COLORS['#003088']; // its engine's move, as Lichess's pale blue
   // Chessground fades the pale brushes it draws the engine's own arrows with to
   // 0.4, and the shape being dragged to 0.9; only the former should look faint.

@@ -213,7 +213,7 @@
     min-width: 0;
   }
 
-  /* The icon, white on the tile: Chess.com's (theme.css) where it has one,
+  /* The icon, white on the tile: theme.css's where it has one,
      Lichess's glyph otherwise. */
   main.round.tv-single .tv-channel > span::before {
     --cdc-mode-color: #fff;

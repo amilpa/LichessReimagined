@@ -1,6 +1,6 @@
 /*
- * Player profile (/@/<user>, main.page-menu + .user-show) as Chess.com's
- * member page: a hero card, a strip of rating cards, then the body.
+ * Player profile (/@/<user>, main.page-menu + .user-show) as a member
+ * page: a hero card, a strip of rating cards, then the body.
  *
  *   +--- hero (.user-show__header) ---------------------------------+
  *   | [avatar]  CM BallinLikeAntMan (flair)        [awards] [awards]|
@@ -32,9 +32,8 @@
 
 :root {
   /* A calendar and a clock for the profile's "member since" / "time spent"
-   * lines. Chess.com has no public monochrome icon set, so these two are
-   * drawn to match the solid 24x24 masks in theme.css; the eye-on-a-board of
-   * the "time on TV" line is Chess.com's own, reused from powertip.css. */
+   * lines, drawn to match the solid 24x24 masks in theme.css; the
+   * eye-on-a-board of the "time on TV" line is reused from powertip.css. */
   --cdc-pf-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 1h2v3H7zm8 0h2v3h-2zM4.5 4h15A2.5 2.5 0 0 1 22 6.5V9H2V6.5A2.5 2.5 0 0 1 4.5 4zM2 11h20v8.5A2.5 2.5 0 0 1 19.5 22h-15A2.5 2.5 0 0 1 2 19.5z'/%3E%3C/svg%3E");
   --cdc-pf-clock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2.6a7.4 7.4 0 1 1 0 14.8 7.4 7.4 0 0 1 0-14.8zM11 6.5h2V12h4.5v2H11z'/%3E%3C/svg%3E");
 }
@@ -136,8 +135,8 @@
   background: linear-gradient(180deg, #34322f, var(--cdc-bg-panel)) !important;
 }
 
-/* Lichess has no profile pictures: Chess.com's default avatar, as on the
- * friend cards and the hover card. */
+/* Lichess has no profile pictures: the default avatar, as on the friend
+ * cards and the hover card. */
 /* The avatar stays at the top of its row: the row grows with the awards, and
  * the online dot below is placed against the avatar, not against the row. */
 .user-show > .user-show__header::before {
@@ -334,7 +333,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
   text-shadow: 0 0 4px #000 !important;
 }
 
-/* Narrower than the Chess.com layout, the awards get a row of their own
+/* Narrower than the full layout, the awards get a row of their own
  * under the name: beside it they left the name no room at all. The avatar
  * spans both rows, which share its height when they're shorter than it, so
  * the name and one row of awards sit centered against it. */
@@ -662,7 +661,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
 
 /* -------------------------------------------------------- rating cards --- */
 
-/* Lichess's side list of perfs becomes Chess.com's rating cards: its own
+/* Lichess's side list of perfs becomes rating cards: its own
  * colored game-mode icon (theme.css), the mode's name as a label, then the
  * rating, the progress and the number of games.
  *
@@ -756,7 +755,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
     letter-spacing: -0.02em;
   }
 
-  /* The rating change since yesterday, as Chess.com's arrow and number. A
+  /* The rating change since yesterday, as an arrow and a number. A
    * drop in the rating chart's red: Lichess's darker one read at 2.9:1. */
   .side.sub-ratings rating .rp {
     font-size: 12px;
@@ -882,7 +881,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
   }
 }
 
-/* The puzzle modes wear the same Chess.com icons as in the sidebar's Puzzles
+/* The puzzle modes wear the same icons as in the sidebar's Puzzles
  * menu (sidebar.css), not Lichess's grey glyphs. They're full-color pictures,
  * so a background, not the one-color mask the time controls get (theme.css).
  * Matched on where each card leads, as Lichess localizes nothing there. */
@@ -1280,7 +1279,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
 
 /* -------------------------------------------------------------- tabs --- */
 
-/* Activity / games, as Chess.com's segmented control on a sunken track. */
+/* Activity / games, as a segmented control on a sunken track. */
 .user-show > .angles {
   display: flex;
   gap: 4px;
@@ -1365,7 +1364,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
 /* ---------------------------------------------------------- activity --- */
 
 /* Lichess draws the feed as a timeline: a rule down the left with each
- * entry's icon cut into it. Chess.com stacks rows instead, so the rule goes
+ * entry's icon cut into it. We stack rows instead, so the rule goes
  * and the icon becomes a rounded tile at the head of its row. */
 .user-show .activity {
   margin: 0 !important;
@@ -1440,7 +1439,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
   line-height: 1 !important;
 }
 
-/* The puzzle modes wear the sidebar's Chess.com pictures here too, as on
+/* The puzzle modes wear the sidebar's pictures here too, as on
  * the rating cards above, matched on Lichess's glyph (archery target, storm,
  * flag, arrow through an apple). */
 .user-show .activity .entry > icon:is([data-icon='\e00c'], [data-icon='\e05a'], [data-icon='\e00b'], [data-icon='\e06f'])::before {
@@ -1513,7 +1512,7 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
   opacity: 0.9;
 }
 
-/* Wins / draws / losses, as Chess.com's score pills. */
+/* Wins / draws / losses, as score pills. */
 .user-show .activity score {
   gap: 10px;
   margin-inline-start: auto;
@@ -1730,8 +1729,8 @@ html[dir='rtl'] .user-show > .user-show__header .trophies .trophy.patron {
   font-size: 12px !important;
 }
 
-/* Lichess centers the players and right-aligns the white one; Chess.com reads
- * them left to right. */
+/* Lichess centers the players and right-aligns the white one; ours read
+ * left to right. */
 .user-show .game-row .versus {
   justify-content: flex-start !important;
   align-items: center;

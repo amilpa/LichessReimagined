@@ -92,7 +92,7 @@ main.search[data-cdc-search$='/forum/search'] > .box__top h1 {
   unicode-bidi: plaintext;
 }
 
-/* The index's title: Chess.com's forum icon, as in the sidebar. */
+/* The index's title: the forum icon, as in the sidebar. */
 main.forum.index > .box__top:first-child h1::before {
   content: '' !important;
   flex: none;
@@ -249,8 +249,7 @@ main.search > .box__top form.search[action$='/forum/search'] input:focus {
   box-shadow: 0 0 0 3px #81b64c33;
 }
 
-/* "Create a new topic": Lichess's green text link, as Chess.com's primary
- * button. */
+/* "Create a new topic": Lichess's green text link, as a primary button. */
 main.forum-categ .box__top__actions a.button-green {
   display: inline-flex;
   align-items: center;
@@ -726,7 +725,7 @@ main.forum-topic .forum-post > * {
   min-width: 0;
 }
 
-/* Lichess has no profile pictures: Chess.com's default avatar. */
+/* Lichess has no profile pictures: a default avatar. */
 main.forum-topic .forum-post::before {
   content: '';
   grid-column: 1;
@@ -1001,9 +1000,9 @@ main.forum-topic .forum-post__blocked > button {
 }
 
 /* A game embed's board fills its column, but on desktop board.css draws the
- * coordinates outside the board, as Chess.com does: room for the numbers on
- * its left and the letters under it, or the letters run over the bottom
- * player and the numbers are cut off. */
+ * coordinates outside the board: room for the numbers on its left and the
+ * letters under it, or the letters run over the bottom player and the
+ * numbers are cut off. */
 @media (min-width: 1020px) {
   body:is(.coords-in, .coords-out) main.forum-topic .forum-post__message .lpv__board {
     padding: 0 0 calc(1.2 * var(--cdc-coords-size) + 10px) calc(0.6 * var(--cdc-coords-size) + 16px);

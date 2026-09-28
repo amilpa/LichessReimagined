@@ -1,4 +1,4 @@
-// The sounds used to be fetched from Chess.com and cached here. They're
+// The sounds used to be downloaded and cached here. They're
 // bundled now (sounds/): drop the old cache from existing installs.
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.remove('sounds:v1');

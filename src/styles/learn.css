@@ -4,7 +4,7 @@
  * piece sits white on a bright gradient tile that bounces on hover, progress
  * is a pill ("jouer !", the stars) and a green check when done, and the side
  * panel's progress bar is green. Inside a stage (`.learn--run`), the stage
- * list and the goal panel are Chess.com cards, the levels a row of pills.
+ * list and the goal panel are cards, the levels a row of pills.
  * Both views are one snabbdom app on one URL: the map is `.learn--map`.
  */
 
@@ -31,8 +31,8 @@
   background: var(--cdc-bg-panel) !important;
 }
 
-/* Chess.com's Lessons illustration instead of Lichess's grey helmet. Loaded
- * from Chess.com's CDN at runtime; floats like Practice's. */
+/* The Lessons illustration (bundled in img/icons) instead of Lichess's grey
+ * helmet; floats like Practice's. */
 .learn__side-home img.decoration {
   content: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg');
   width: 120px !important;
@@ -69,7 +69,7 @@
   }
 }
 
-/* Chess.com's progress: a dark track with a green bar. */
+/* Progress: a dark track with a green bar. */
 .learn__side-home .progress {
   height: 30px !important;
   border: none !important;
@@ -325,7 +325,7 @@ html[dir='rtl'] .learn-stages .stage {
   background: #81b64c40 !important;
 }
 
-/* The stars in Chess.com's gold. */
+/* The stars in gold. */
 #learn-app .stars {
   display: inline-flex;
   gap: 1px;
@@ -629,7 +629,7 @@ html[dir='rtl'] .learn-stages .stage {
 }
 
 /* Level passed or failed: the card stays dark, the title and the stars take
- * the color, and the button is Chess.com's (green to go on, grey to retry). */
+ * the color, and the button green to go on, grey to retry. */
 .learn__table .result {
   min-height: 120px !important;
   border: none !important;

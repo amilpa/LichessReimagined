@@ -1,6 +1,6 @@
 /*
  * Analysis page (main.analyse), also used for finished games: board on the
- * left, one Chess.com-style panel on the right with engine + moves, the
+ * left, one panel on the right with engine + moves, the
  * navigation controls and the chat. The page itself never scrolls.
  * `--cdc-controls-h` is measured and set by content.js.
  *
@@ -16,7 +16,7 @@
     --cdc-coords-off: 0px;
     --cdc-gauge-gap: 10px;
     --cdc-v-room: 56px;
-    /* As Chess.com's: the board is sized as if the panel were at its 300px
+    /* The board is sized as if the panel were at its 300px
        minimum, then the panel takes what the board leaves, up to 500px. */
     --cdc-panel-min: 300px;
     /* Resizable like the game page's board (game.css). */
@@ -72,7 +72,7 @@
 
   /* ------------------------------------------------------- player bars --- */
 
-  /* A game gets Chess.com's player bars, as on the game page (playerbar.css
+  /* A game gets player bars, as on the game page (playerbar.css
      draws them): the board shrinks by a bar above and below, and the panel
      keeps the full height. The players are ours (content.js), in the board's
      cell; the clocks are Lichess's, in strips it already places absolutely
@@ -328,7 +328,7 @@
 
   /* ------------------------------------------------------------ engine --- */
 
-  /* Chess.com's engine header: one compact row with the toggle, the eval,
+  /* The engine header: one compact row with the toggle, the eval,
      the engine name and its icons, then each engine line on one row. */
   main.analyse .analyse__tools > .ceval {
     position: relative;
@@ -469,7 +469,7 @@
 
   /* --------------------------------------------------------- move list --- */
 
-  /* Chess.com's list: 30px rows striped by pairs, "8." numbers, a small box
+  /* The list: 30px rows striped by pairs, "8." numbers, a small box
      around the current move, and the move's eval small and dim on the right.
      Rows are striped per move number, so comments in between don't shift
      the stripes. */
@@ -558,8 +558,8 @@
     opacity: 0.8;
   }
 
-  /* Annotated moves take Chess.com's classification colors, and the glyph
-     becomes its round badge in front of the move. */
+  /* Annotated moves take the Game Review's classification colors, and the
+     glyph becomes a round badge in front of the move. */
   main.analyse .tview2 move.brilliant { --cdc-glyph: #26c2a3; }
   main.analyse .tview2 move.good { --cdc-glyph: #749bbf; }
   main.analyse .tview2 move.interesting { --cdc-glyph: #96af8b; }
@@ -762,7 +762,7 @@
     }
   }
 
-  /* A study's "Next chapter", under its moves: a Chess.com button, green
+  /* A study's "Next chapter", under its moves: a real button, green
      once the chapter is done, rather than Lichess's flat strip. */
   main.analyse .analyse__moves button.next {
     flex: none;
@@ -795,7 +795,7 @@
 
   /* ---------------------------------------------------------- controls --- */
 
-  /* Chess.com's navigation: four big grey buttons, with the explorer and
+  /* The navigation: four big grey buttons, with the explorer and
      practice toggles on the left and the menu on the right. */
   main.analyse .analyse__controls {
     display: flex !important;
@@ -891,7 +891,7 @@
 
   /* ---------------------------------------------------- no scrolling --- */
 
-  /* Like Chess.com, the page never scrolls: the underboard (computer analysis
+  /* The page never scrolls: the underboard (computer analysis
      chart, share & export), game info and "learn from your mistakes" are
      dropped. The keyboard-move input goes at the bottom of the tools. */
   html[data-cdc-has~='analyse'],

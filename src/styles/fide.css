@@ -1,5 +1,5 @@
 /*
- * FIDE players (/fide, .fide-players) as Chess.com's top players: every
+ * FIDE players (/fide, .fide-players) as a top players ranking: every
  * player a row card with a rank (medals for the top three), a rounded
  * photo, the title badge, name and flag, then the ratings, the one the list
  * is sorted by in white. The sort links become pills with the time-control
@@ -44,7 +44,7 @@
   letter-spacing: normal !important;
 }
 
-/* Chess.com's globe: the players of every federation, and the federations
+/* A globe: the players of every federation, and the federations
  * themselves. */
 :is(.fide-players, .fide-federations) > .box__top > h1::before {
   content: '';
@@ -152,9 +152,9 @@
   color: #fff !important;
 }
 
-/* Each rating's time-control icon, in its color. Chess.com has no classical
- * clock: it gets rapid's, in the rating chart's classical color, so the two
- * columns side by side still read apart. */
+/* Each rating's time-control icon, in its color. The icons have no
+ * classical clock: it gets rapid's, in the rating chart's classical color,
+ * so the two columns side by side still read apart. */
 :is(.fide-players, .fide-federation) .fide-players-table thead th:is(:nth-child(2), :nth-child(3), :nth-child(4)) {
   --cdc-mode-icon: var(--cdc-mode-rapid);
   --cdc-mode-color: #2dd4bf;
@@ -268,7 +268,7 @@
   transform: scale(1.06);
 }
 
-/* No photo: Chess.com's default avatar instead of Lichess's grey face. */
+/* No photo: the default avatar instead of Lichess's grey face. */
 .fide-players-table .fide-players__photo--fallback {
   object-position: -9999px 0;
   background: var(--cdc-avatar);

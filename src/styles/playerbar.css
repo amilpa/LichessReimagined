@@ -1,5 +1,5 @@
 /*
- * Chess.com's player bars, one look for both places Lichess shows players
+ * The player bars, one look for both places Lichess shows players
  * around a board: the game page (`.ruser`, `.rclock`) and the analysis board
  * (our `.cdc-player`, copied from the game info by content.js, and Lichess's
  * `.analyse__clock`, the time each side had left at the current move).
@@ -43,7 +43,7 @@
     width: 40px;
     height: 40px;
     border-radius: 3px;
-    /* Chess.com's default avatar. */
+    /* The default avatar. */
     background: var(--cdc-avatar);
   }
 
@@ -139,7 +139,7 @@
 
   /* ---------------------------------------------------- captured pieces --- */
 
-  /* Chess.com style (built by content.js): the opponent's pieces you took,
+  /* Built by content.js: the opponent's pieces you took,
      grouped by type, then the material lead, under the name. */
   :is(main.round, main.analyse) > .cdc-captured {
     justify-self: start;
@@ -157,8 +157,8 @@
      look, at the board's left edge. It lists the pieces a side is up by, so
      they're drawn in the other color, as pieces taken. */
   main.analyse .material {
-    /* Lichess lists the queen first, Chess.com the pawns: reversed, the score
-       still last. */
+    /* Lichess lists the queen first: reversed, the pawns come first and the
+       score still last. */
     flex-direction: row-reverse !important;
     gap: 3px;
     height: 18px;
@@ -260,7 +260,7 @@
     align-items: center !important;
     justify-content: flex-end;
     gap: 0;
-    /* Chess.com's clock is a fixed 140 x 40, whatever the time reads. */
+    /* The clock is a fixed 140 x 40, whatever the time reads. */
     flex: none !important;
     width: 140px !important;
     height: 40px !important;

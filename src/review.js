@@ -1,4 +1,4 @@
-// Page-world script: Chess.com-style "Game Review" on Lichess analysis pages.
+// Page-world script: a "Game Review" on Lichess analysis pages.
 //
 // - Runs Lichess's own Stockfish 19 build (the one its analysis board uses) on
 //   every mainline position, with MultiPV 2, and caches the results per game.
@@ -6,19 +6,19 @@
 //   the game's server analysis) draws the graph within seconds; the move on
 //   the board goes first, so the review can start at once, each move judged
 //   as soon as its positions are in.
-// - Classifies each move like Chess.com (book, brilliant, great, best,
+// - Classifies each move (book, brilliant, great, best,
 //   excellent, good, inaccuracy, mistake, miss, blunder) from win-probability
 //   loss, and computes per-player accuracy.
 // - Renders a summary panel (graph, accuracy, counts), shown until the user
 //   moves; then a move-by-move review (coach bubble, explain / best / next,
 //   move list badges, graph, controls), board annotations (badge, colored squares,
-//   best-move arrow) and a Chess.com eval bar.
+//   best-move arrow) and an eval bar.
 //
 // On the free analysis board (/analysis) there's no game to review: the
 // coach judges each move as it's played instead, variations included, with
 // the same badges on the board and in the move list (see "live"). The review
 // judges the same way the moves played off the game, which its move list
-// shows as variations, like Chess.com's.
+// shows as variations.
 //
 // Navigation and state go through `site.analysis` (Lichess's AnalyseCtrl).
 
@@ -109,7 +109,7 @@
       window.postMessage({ cdc: 'coach', coach: +avatar.dataset.coach, mood: avatar.dataset.mood, talking: !!stream.timer }, '*');
   };
 
-  // key, color, label, sentence ({m} = move), in Chess.com's summary order.
+  // key, color, label, sentence ({m} = move), in the summary's order.
   const CLASSES = [
     ['brilliant', '#26c2a3', fr ? 'Brillant' : 'Brilliant', fr ? '{m} est brillant !' : '{m} is brilliant!'],
     ['great', '#749bbf', fr ? 'Excellent' : 'Great', fr ? '{m} est un excellent coup' : '{m} is a great move'],
@@ -123,22 +123,22 @@
     ['blunder', '#fa412d', fr ? 'Gaffe' : 'Blunder', fr ? '{m} est une gaffe' : '{m} is a blunder'],
   ].map(([key, color, label, sentence]) => ({ key, color, label, sentence }));
   const CLS = Object.fromEntries(CLASSES.map(c => [c.key, c]));
-  // The counts shown over the Game Review button, like Chess.com.
+  // The counts shown over the Game Review button.
   const COUNTED = ['brilliant', 'great', 'best'];
   const countLabel = (key, n) =>
     fr
       ? `${n} ${{ brilliant: n > 1 ? 'coups brillants' : 'coup brillant', great: n > 1 ? 'excellents coups' : 'excellent coup', best: n > 1 ? 'meilleurs coups' : 'meilleur coup' }[key]}`
       : `${n} ${CLS[key].label}`;
-  // The summary's rows before its chevron is opened, like Chess.com: the
+  // The summary's rows before its chevron is opened: the
   // standouts and the errors. A brilliant move joins them when there is one.
   const SUMMARY_ROWS = new Set(['great', 'best', 'excellent', 'mistake', 'miss', 'blunder']);
   const GRAPH_DOTS = new Set(['brilliant', 'great', 'inaccuracy', 'mistake', 'miss', 'blunder']);
-  // Move list badges; book only on the last book move, like Chess.com.
+  // Move list badges; book only on the last book move.
   const LIST_BADGES = new Set([...GRAPH_DOTS, 'book']);
   // Moves that need no correction: no best-move arrow or button.
   const GOOD = new Set(['brilliant', 'great', 'best', 'book']);
 
-  // Chess.com's own icons: a shadowed circle, and white glyphs whose shadow is
+  // The class icons: a shadowed circle, and white glyphs whose shadow is
   // the same glyphs half a unit lower.
   const ICONS = {
     brilliant: [
@@ -467,7 +467,7 @@
 
   // ----------------------------------------------------- game rating ---
 
-  // Chess.com's "Game Rating": the rating a player played at in this one
+  // The "Game Rating": the rating a player played at in this one
   // game, and a verdict on each phase of it, compared with what's expected
   // at their rating. The odds come from Lichess's own games, fitted by
   // tools/game-rating: per speed, how often a move at a given rating falls
@@ -977,7 +977,7 @@
 
   // ---------------------------------------------------- explanations ---
 
-  // Full sentences under the verdict, like Chess.com's coach: how the
+  // Full sentences under the verdict, as a coach would: how the
   // evaluation moved, and one concrete fact from the board and the engine
   // (a piece left hanging, a mate allowed or missed, the better move, a
   // mistake punished, what a capture won). The pools above only fill in
@@ -1162,7 +1162,7 @@
   // redraw of this comment, so `shown` keeps counting the same words.
   const stream = { key: '', shown: 0, timer: 0, dropped: false };
 
-  // Chess.com's Neo pieces, bundled like the board's (boards.js says where).
+  // The Neo pieces, bundled like the board's (boards.js says where).
   const pieceImg = cp => `<img class="cdc-pc" alt="" src="${document.documentElement.dataset.cdcAssets}img/pieces/neo/${cp}.webp">`;
   function token(kind, v) {
     if (kind === 'p') return pieceImg(v);
@@ -1392,7 +1392,7 @@
   }
 
   // The engine's best move instead of the one played, played on the board
-  // as a variation, like Chess.com's "Best" button.
+  // as a variation: the "Best" button.
   function bestShown(ctrl) {
     const b = state.bestOf;
     const chess960 = ctrl.data.game.variant?.key === 'chess960';
@@ -1446,7 +1446,7 @@
     </div>`;
   }
 
-  // Like Chess.com, the summary keeps its layout while the game is analyzed:
+  // The summary keeps its layout while the game is analyzed:
   // the graph, the accuracy and the counts filling in, first from the quick
   // pass's draft, then at full depth. No coach here: its line said nothing
   // and took the graph's room. The game
@@ -1467,7 +1467,7 @@
     const more = state.allRows ? T.less : T.more;
     const toggle = `<tr class="cdc-t-more"><td colspan="4"><button class="cdc-review__more${state.allRows ? ' cdc-review__more--open' : ''}" data-cdc="rows" data-cdc-tip="${esc(more)}" aria-label="${esc(more)}" aria-expanded="${state.allRows}">${headIcon('M6 9l6 6 6-6')}</button></td></tr>
       <tr class="cdc-t-sep"><td colspan="4"></td></tr>`;
-    // Under them, as on Chess.com: the rating each side played at, then a
+    // Under them: the rating each side played at, then a
     // verdict per phase, as the icon of the class it deserves (a phase the
     // game never reached goes once it's analyzed).
     const elo = c => r?.rating?.[c]?.elo ?? '&nbsp;';
@@ -1505,13 +1505,13 @@
     if (loading) g.insertAdjacentHTML('afterbegin', `<span class="cdc-summary-pct">${pct}%</span>`);
   }
 
-  // The verdict, with the move's piece as a solid figurine like Chess.com,
+  // The verdict, with the move's piece as a solid figurine,
   // drawn by Lichess's "Noto Chess" font. Only the icon is colored.
   const FIGURINES = { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞' };
   const title = (c, san) =>
     esc(typo(c.sentence)).replace('{m}', esc(san).replace(/[KQRBN]/g, p => `<span class="cdc-fig">${FIGURINES[p]}</span>`));
 
-  // Like Chess.com, the score is dark when Black is better.
+  // The score is dark when Black is better.
   const evalChip = e =>
     `<span class="cdc-bubble__eval${(e?.mate ?? e?.cp ?? 0) < 0 || (e?.mate === 0 && e.wp < 50) ? ' cdc-bubble__eval--black' : ''}">${esc(formatEval(e))}</span>`;
 
@@ -1573,7 +1573,7 @@
     });
   }
 
-  // Review closed: like Chess.com's analysis tab, the player's best moves
+  // Review closed: the player's best moves
   // over a big Game Review button.
   function renderNormal(ctrl) {
     const r = state.review;
@@ -1813,7 +1813,7 @@
   dom.panel.addEventListener('click', onClick);
   dom.controls.addEventListener('click', onClick);
 
-  // Chess.com's tooltip: dark, over what it explains, its tail pointing at
+  // The tooltip: dark, over what it explains, its tail pointing at
   // it. On <body>, as the panel's rows scroll and would clip it.
   const tip = el('div', { id: 'cdc-tip', role: 'tooltip' });
   let tipFor = null;
@@ -1979,7 +1979,7 @@
     changed();
   }
 
-  // The opening's name over Lichess's move list, like Chess.com's. It comes
+  // The opening's name over Lichess's move list. It comes
   // from the masters database, which needs an account: signed out, there's
   // no line at all. It's ours, appended to Lichess's panel and put above
   // the moves by review.css, so Lichess's own children never move.

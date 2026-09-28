@@ -280,8 +280,8 @@ main.swiss .swiss__main__header {
   padding: 20px 24px !important;
 }
 
-/* Chess.com's trophy in place of Lichess's glyph, as the other pages'
-   titles carry their Chess.com icon. */
+/* A trophy in place of Lichess's glyph, as the other pages' titles carry
+   their color icon. */
 main.swiss .swiss__main__header > icon.img {
   flex: none;
   width: 48px;
@@ -671,7 +671,7 @@ main.swiss .swiss__controls .pager input {
   font-size: 14px;
 }
 
-/* Join (or sign in, or join the team) as Chess.com's green button,
+/* Join (or sign in, or join the team) as a green button,
    withdraw as a grey one. */
 main.swiss .swiss__controls > .fbt {
   display: inline-flex;
@@ -1224,8 +1224,8 @@ main.swiss .swiss__player-info .sublist .outcome {
 
 /* ---------------------------------------------------------- boards --- */
 
-/* Each game as a card: the players' bars around the board, the clock as
-   Chess.com's, light for White and dark for Black, bright while it runs. */
+/* Each game as a card: the players' bars around the board, the clock
+   light for White and dark for Black, bright while it runs. */
 /* Isolated: chessground's pieces carry z-indexes, which would otherwise
    paint over the sticky title as the boards pass under it. */
 main.swiss .swiss__board {

@@ -1,5 +1,5 @@
 /*
- * Practice (/practice) with Chess.com's playful lesson look: every section
+ * Practice (/practice) with a playful lesson look: every section
  * has its own color, lessons are cards whose icon sits white on a bright
  * gradient tile that bounces on hover, progress is a pill ("3 / 7") and a
  * green check when done, and the side panel's progress bar is green.
@@ -15,10 +15,9 @@
   background: var(--cdc-bg-panel) !important;
 }
 
-/* Chess.com's Drills illustration (its own practice mode) instead of
- * Lichess's grey golem. Loaded from Chess.com's CDN at runtime. Lichess's
- * light theme darkens the golem to near black, which would black out ours
- * too, hence the !important. */
+/* The Drills illustration (bundled in img/icons) instead of Lichess's grey
+ * golem. Lichess's light theme darkens the golem to near black, which would
+ * black out ours too, hence the !important. */
 .practice-side__decoration {
   content: url('chrome-extension://__MSG_@@extension_id__/img/icons/drills.svg');
   width: 120px !important;
@@ -55,7 +54,7 @@
   font-weight: 600 !important;
 }
 
-/* Chess.com's progress: a dark track with a green bar. */
+/* Progress: a dark track with a green bar. */
 .practice-side .progress {
   height: 30px !important;
   border-radius: 999px !important;

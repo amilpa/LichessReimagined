@@ -1,7 +1,7 @@
 /*
  * Broadcasts: the lists (.relay-index: live and upcoming, past, calendar,
- * subscribed, a player's broadcasts) as grids of Chess.com-style event
- * cards, with a red LIVE pill instead of Lichess's red frame.
+ * subscribed, a player's broadcasts) as grids of event cards, with a red
+ * LIVE pill instead of Lichess's red frame.
  */
 
 /* ---------------------------------------------------------- header --- */
@@ -28,7 +28,7 @@
   margin: 0 !important;
 }
 
-/* Chess.com's trophies icon, as in the sidebar's Watch menu (it replaces
+/* The trophies icon, as in the sidebar's Watch menu (it replaces
  * the calendar title's Lichess icon). */
 :is(.relay-index, .relay-calendar) .box__top h1::before {
   content: '' !important;

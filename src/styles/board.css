@@ -2,7 +2,7 @@
  * Chess.com "Green" board, "Neo" pieces, highlights, move hints and coordinates.
  * The pieces and the other boards are bundled in img/ (tools/boards/fetch.py).
  *
- * Another Chess.com board or piece set picked in the user menu (boards.js)
+ * Another board or piece set picked in the user menu (boards.js)
  * comes in `--cdc-board-img`, `--cdc-sq-{light,dark}` and `--cdc-piece-<wp…>`
  * on <html>. `html[data-cdc-board='lichess']` (or `data-cdc-pieces`) leaves
  * the board (or the pieces) to Lichess, filters and all.
@@ -13,7 +13,7 @@
   --cdc-sq-dark: #739552;
   --cdc-highlight: rgba(255, 255, 51, 0.5);
   --cdc-hint: rgba(0, 0, 0, 0.14);
-  /* Chess.com's premove red covers the square whole, on both colors. */
+  /* The premove red covers the square whole, on both colors. */
   --cdc-premove: #f19082;
   /* How much of the room the layouts give the board it takes: all of it,
      unless resized by hand (`--cdc-zoom`, 0 to 100, set by content.js), from
@@ -74,8 +74,8 @@ cg-board square.move-dest.hover {
   box-shadow: inset 0 0 0 max(3px, 0.35vmin) rgba(255, 255, 255, 0.65);
 }
 
-/* Picking a piece up on the opponent's move: Chess.com shows the same hints as
-   on your own move, not a warning color. */
+/* Picking a piece up on the opponent's move: the same hints as on your own
+   move, not a warning color. */
 cg-board square.premove-dest {
   background: radial-gradient(var(--cdc-hint) 22%, transparent 23%) !important;
 }
@@ -85,7 +85,7 @@ cg-board square.oc.premove-dest {
 }
 
 /* A premove that's set: both of its squares, the piece already on the new one
-   (chessground moves it). Opaque, like Chess.com's. */
+   (chessground moves it). Opaque. */
 cg-board square.current-premove,
 body[data-board] .is2d cg-board square.current-premove {
   background: var(--cdc-premove) !important;
@@ -97,7 +97,7 @@ cg-board square.check {
 
 /* ------------------------------------------------- shapes, arrows & mate --- */
 
-/* board.js redraws every shape of the main board Chess.com-style: a
+/* board.js redraws every shape of the main board in our style: a
    right-clicked square as a fill (.cdc-marks) instead of a circle, and the
    arrows in #cdc-shapes. Chessground's own are hidden — but only once board.js
    has put its layers up, so a board it doesn't reach keeps Lichess's shapes
@@ -106,7 +106,7 @@ html.cdc-shapes main .main-board svg.cg-shapes > g {
   display: none;
 }
 
-/* The fills go under the pieces, like Chess.com's: z-index 1, as chessground's
+/* The fills go under the pieces: z-index 1, as chessground's
    own below-the-pieces layer, and after it in the DOM so they also cover the
    last-move highlight. The arrows go over them, in #cdc-shapes. */
 svg.cdc-marks {
@@ -120,7 +120,7 @@ svg.cdc-marks {
 }
 
 /* Boards board.js leaves alone (mini boards, previews): Lichess's default green
-   brush becomes Chess.com's orange. */
+   brush becomes our orange. */
 .cg-shapes [stroke='#15781B'] { stroke: #ffaa00 !important; }
 .cg-shapes [fill='#15781B']   { fill: #ffaa00 !important; }
 
@@ -205,7 +205,7 @@ html.cdc-mate main.analyse cg-board square.check {
 
 /* ------------------------------------------------------------- promotion --- */
 
-/* Chess.com's promotion window: a white column on the promotion file, from
+/* The promotion window: a white column on the promotion file, from
    the board's edge, the pieces whole, a "×" strip at its far end. Lichess
    draws round grey squares over a board fogged in the page's color. Its
    squares sit one per 12.5% (inline `top` / `bottom`), `.top` running down
@@ -312,7 +312,7 @@ coords {
     color: var(---cg-ccb) !important;
   }
 
-  /* Ranks move from the right edge (Lichess) to the left edge (Chess.com), which
+  /* Ranks move from the right edge (Lichess) to the left edge (ours), which
      puts every rank label on the opposite color square. */
   body.coords-in .is2d coords.ranks .coord-dark {
     color: var(---cg-ccb) !important;
@@ -361,7 +361,7 @@ html:not([data-cdc-board='lichess']) body .is2d coords {
   ---cg-ccb: var(--cdc-sq-dark) !important;
 }
 
-/* On desktop they're always outside, as on Chess.com. Lichess swaps
+/* On desktop they're always outside. Lichess swaps
    `coords-out` for `coords-in` while its eval gauge shows (analysis,
    puzzles), which made them jump inside the board and back from one move
    to the next (a checkmate has no gauge). So an "inside" board is drawn the

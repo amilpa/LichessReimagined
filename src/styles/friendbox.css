@@ -1,7 +1,7 @@
 /*
  * The online friends box (#friend_box, bottom right, signed in only) as a
- * Chess.com dock: a tab docked to the window's bottom edge that opens into
- * a list of friend rows.
+ * dock: a tab docked to the window's bottom edge that opens into a list of
+ * friend rows.
  *
  *   +-------------------------------+
  *   | •  1 friend online         ^  |
@@ -158,7 +158,7 @@
   color: var(--cdc-green-hover) !important;
 }
 
-/* Lichess has no profile pictures: Chess.com's default avatar. */
+/* Lichess has no profile pictures: a default avatar. */
 #friend_box .content a.user-link::before {
   content: '';
   display: inline-block;

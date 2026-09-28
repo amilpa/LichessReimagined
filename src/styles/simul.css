@@ -32,7 +32,7 @@ main.simul-list h1.box__top {
   padding: 16px 0 20px !important;
 }
 
-/* Chess.com's board stack, as in the sidebar's Simuls entry. */
+/* The board stack, as in the sidebar's Simuls entry. */
 main.simul-list h1.box__top::before {
   content: '';
   flex: none;

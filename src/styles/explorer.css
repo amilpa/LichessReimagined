@@ -1,9 +1,9 @@
 /*
- * Opening explorer (`.explorer-box`, in the analysis panel) as Chess.com's
- * explorer: the databases as pill tabs, the opening as a card, one roomy row
- * per move with a rounded white / draw / black bar, and the games as rows
- * with a result pill. The look applies at every width; how much of the
- * panel the explorer takes is set for the desktop layout only.
+ * Opening explorer (`.explorer-box`, in the analysis panel): the databases
+ * as pill tabs, the opening as a card, one roomy row per move with a rounded
+ * white / draw / black bar, and the games as rows with a result pill. The
+ * look applies at every width; how much of the panel the explorer takes is
+ * set for the desktop layout only.
  *
  * Every table row stays a real row (Lichess's `tr` with `data-uci` draws the
  * arrow on hover), so only colors and sizes change here.
@@ -79,7 +79,7 @@
   color: #fff !important;
 }
 
-/* The chosen database is the raised tab, like a grey Chess.com button. */
+/* The chosen database is the raised tab, like a grey button. */
 .explorer-box .explorer-title > .active {
   flex: 0 1 auto;
   min-width: 0;
@@ -608,7 +608,7 @@ html.cdc-opening-on main.analyse .explorer-box .data > .title:has(> a) {
   background: var(--cdc-btn-green-hover) !important;
 }
 
-/* The time controls are icons: Chess.com's (theme.css), white once chosen. */
+/* The time controls are icons (theme.css's), white once chosen. */
 .explorer-box.explorer__config .speed .choices button [data-icon]::before {
   font-size: 18px;
 }

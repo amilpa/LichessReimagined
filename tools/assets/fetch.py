@@ -1,11 +1,11 @@
 """Chess.com's icons and sounds, bundled in img/icons and sounds/.
 
-So the extension asks for no permission on Chess.com's hosts and loads nothing
+So the extension asks for no permission on its hosts and loads nothing
 from them while it runs. Reads what the code names and downloads what's
 missing:
 
   img/icons/<name>.svg   every img/icons/… the CSS names: a color icon from
-                         Chess.com's design system, or one of the few images
+                         its design system, or one of the few images
                          of its web bundle (BUNDLE)
   sounds/<name>.mp3      every sound in content.js's SOUND_NAMES
 
@@ -24,7 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ICONS = 'https://assets-ds.chess.com/color-icons'
 SOUNDS = 'https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default'
-# Icons that aren't color icons: where each comes from in Chess.com's bundle.
+# Icons that aren't color icons: where each comes from in its web bundle.
 BUNDLE = {
     'user-image': 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg',
     'variant-atomic': 'https://www.chess.com/bundles/web/images/variants/variant-atomic.svg',
@@ -34,7 +34,7 @@ BUNDLE = {
 
 
 def get(url):
-    # Chess.com's CDN turns away unknown user agents.
+    # The CDN turns away unknown user agents.
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 Chrome/140'})
     for attempt in range(3):
         try:

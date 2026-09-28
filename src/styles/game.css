@@ -1,5 +1,5 @@
 /*
- * Game page (main.round) re-laid out like Chess.com:
+ * Game page (main.round) re-laid out:
  *
  *   +---------------------------+  +-------------+
  *   | avatar  name (rating)  clk|  |   moves     |
@@ -28,7 +28,7 @@
     --cdc-bar: 56px;
     --cdc-coords-off: 0px;
     --cdc-gap: 24px;
-    /* As Chess.com's (and the analysis board's, analysis.css): the board is
+    /* As on the analysis board (analysis.css): the board is
        sized as if the panel were at its 300px minimum, then the panel takes
        what the board leaves, up to 500px. */
     --cdc-panel-min: 300px;
@@ -286,7 +286,7 @@
     color: var(--cdc-text-dim);
   }
 
-  /* Navigation buttons sit at the bottom of the panel on Chess.com, even
+  /* Navigation buttons sit at the bottom of the panel, even
      before the first move, when a message stands in for the moves. */
   main.round :is(i5d, rm6) bo3 {
     order: 99 !important;
@@ -333,7 +333,7 @@
     background: var(--cdc-bg-panel);
   }
 
-  /* While playing, Chess.com's row of big grey buttons, one width each,
+  /* While playing, a row of big grey buttons, one width each,
      resign first, then abort or takeback, then draw. Lichess's analysis link
      and menu stay hidden, as Lichess does on desktop. */
   main.round .rcontrols .ricons {
@@ -465,7 +465,7 @@
 
   /* ---------------------------------------------------------- game over --- */
 
-  /* Once the game is over the panel turns into Chess.com's: move numbers
+  /* Once the game is over the panel changes: move numbers
      with a period, the time spent on each move, and Game Review as the main
      action, with Rematch and New opponent side by side under it. */
   main.round :is(i5d, rm6) :is(qZM, i5z)::after {
@@ -591,7 +591,7 @@
     background: var(--cdc-btn-green-hover) !important;
   }
 
-  /* Rematch goes grey: Game Review is the one green button, as on Chess.com. */
+  /* Rematch goes grey: Game Review is the one green button. */
   main.round .rcontrols .follow-up .fbt {
     height: 48px;
     margin: 0 !important;
@@ -615,7 +615,7 @@
     background: var(--cdc-btn-grey-hover) !important;
   }
 
-  /* Chess.com's pair under Game Review: "New 10 min" (Lichess's "New
+  /* The pair under Game Review: "New 10 min" (Lichess's "New
      opponent", or ours from content.js) then Rematch, each with its icon. */
   main.round .rcontrols .follow-up :is(.rematch, .new-opponent, .cdc-new-game) {
     display: flex !important;
@@ -790,7 +790,7 @@
 
   /* ---------------------------------------------------- no scrolling --- */
 
-  /* Like Chess.com, the page never scrolls: everything fits the viewport, and
+  /* The page never scrolls: everything fits the viewport, and
      what used to sit below the board (crosstable, game info) is dropped. TV's
      channels come back left of the board (tv.css). The keyboard-move input goes on top of the chat. */
   html[data-cdc-has~='round'],
@@ -1284,8 +1284,8 @@
 
   /* --------------------------------------------------------- crazyhouse --- */
 
-  /* The pieces in hand stand in a strip right of the board, as on
-     Chess.com: the top player's down from the board's top edge, the bottom
+  /* The pieces in hand stand in a strip right of the board: the top
+     player's down from the board's top edge, the bottom
      player's up from its bottom edge. A cell is 3/4 of a square, so both
      strips fit beside the board, half a square apart. Lichess names their
      areas `mat-top` and `mat-bot`, which this grid doesn't have: left
@@ -1361,7 +1361,7 @@
 
   /* -------------------------------------------------------- board tools --- */
 
-  /* Chess.com's tools right of the board (content.js): a strip down the gap
+  /* The tools right of the board (content.js): a strip down the gap
      before the panel, the cog at the board's top, the flip button under it
      only while the pointer is on the board or the strip. The cog replaces
      the menu button of the move list's bar. */
@@ -1414,7 +1414,7 @@
     mask: center / contain no-repeat;
   }
 
-  /* Chess.com's cog, and its two arrows, one up, one down. */
+  /* The cog, and the two arrows, one up, one down. */
   main.round .cdc-board-tools__btn--menu::before {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M10.3 1.5h3.4l.6 3a8 8 0 0 1 2 1.2l2.9-1 1.7 3-2.3 2a8 8 0 0 1 0 2.4l2.3 2-1.7 3-2.9-1a8 8 0 0 1-2 1.2l-.6 3h-3.4l-.6-3a8 8 0 0 1-2-1.2l-2.9 1-1.7-3 2.3-2a8 8 0 0 1 0-2.4l-2.3-2 1.7-3 2.9 1a8 8 0 0 1 2-1.2zM12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z'/%3E%3C/svg%3E");
   }

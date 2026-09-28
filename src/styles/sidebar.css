@@ -1,5 +1,5 @@
 /*
- * Turns Lichess's top header into Chess.com's fixed left sidebar.
+ * Turns Lichess's top header into a fixed left sidebar.
  * Below 1020px Lichess switches to its hamburger menu, which we leave alone.
  */
 
@@ -13,7 +13,7 @@
     --cdc-sidebar-w: 176px;
   }
 
-  /* Chess.com's hover: a faint light wash on a row inset from the edges. */
+  /* The hover: a faint light wash on a row inset from the edges. */
   #top {
     --cdc-sb-hover: #ffffff0d;
   }
@@ -186,10 +186,10 @@
     color: #fff !important;
   }
 
-  /* Flyout menus open to the right of the sidebar, like Chess.com: the
-     section spans the sidebar's full width (only its link is inset), so the
-     pointer never leaves it on the way over. 8px up, so the first link lines
-     up with the item. */
+  /* Flyout menus open to the right of the sidebar: the section spans the
+     sidebar's full width (only its link is inset), so the pointer never
+     leaves it on the way over. 8px up, so the first link lines up with the
+     item. */
   #topnav section > div {
     position: absolute !important;
     top: -8px !important;
@@ -221,9 +221,9 @@
     color: #fff !important;
   }
 
-  /* Chess.com's own menu icons, loaded from its CDN (not bundled). Sections are
-     matched by position and sub-links by how their href ends, because Lichess
-     localizes both labels and some paths (e.g. /fr/training). */
+  /* The menu icons, bundled in img/icons. Sections are matched by position
+     and sub-links by how their href ends, because Lichess localizes both
+     labels and some paths (e.g. /fr/training). */
   #topnav section:nth-of-type(1) > a { --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/play-white.svg'); }
   #topnav section:nth-of-type(2) > a { --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg'); }
   #topnav section:nth-of-type(3) > a { --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg'); }
@@ -474,7 +474,7 @@
 /* ------------------------------------------------ user menu (dasher) --- */
 
 /* Lichess's dasher (account links, then language, sound, theme, board and
- * pieces) as a Chess.com menu: rounded rows with a dim icon column, a grey
+ * pieces) restyled: rounded rows with a dim icon column, a grey
  * hover instead of a green fill, dim chevrons, and a green check on the
  * current choice in the sub-panels. Lichess paints hovers and the current
  * choice with --c-dasher, so that becomes the menu's hover grey. */
@@ -753,7 +753,7 @@
 
 /* Extension / Lichess (boards.js): a segmented control on a sunken track,
  * its raised pill sliding (content.js's TAB_BARS). The Extension tab shows
- * Chess.com's boards or pieces, the Lichess tab Lichess's whole panel. */
+ * the bundled boards or pieces, the Lichess tab Lichess's whole panel. */
 #dasher_app .cdc-src-tabs {
   --cdc-tab-bg: var(--cdc-bg-raised-hover);
   --cdc-tab-radius: 6px;

@@ -18,14 +18,13 @@ html[data-cdc-has~='storm'] main {
 /* ------------------------------------------------------------- run --- */
 
 /* One grid for the run and what the page puts under it: the board, and in
- * the right-hand column the panel, the highscores and the About link, as
- * Chess.com's Puzzle Rush does. The run's own grid makes way (`display:
- * contents`; its nodes stay where Lichess put them). Lichess sizes the board
- * to the whole window's width, sidebar included, which pushed the column
- * past the window's edge wherever the width, not the height, limits the
- * board: cap it to what the sidebar leaves (the column's 240px and the gap,
- * the page margins, a scrollbar, and a gutter for the ranks, which board.css
- * draws left of the board). */
+ * the right-hand column the panel, the highscores and the About link. The
+ * run's own grid makes way (`display: contents`; its nodes stay where
+ * Lichess put them). Lichess sizes the board to the whole window's width,
+ * sidebar included, which pushed the column past the window's edge wherever
+ * the width, not the height, limits the board: cap it to what the sidebar
+ * leaves (the column's 240px and the gap, the page margins, a scrollbar, and
+ * a gutter for the ranks, which board.css draws left of the board). */
 @media (min-width: 1020px) {
   html[data-cdc-has~='storm-play'] #main-wrap > main {
     --cdc-coords-l: 0px;

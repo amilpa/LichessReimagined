@@ -1,5 +1,5 @@
 /*
- * Online bots (/player/bots, .bots) as Chess.com's bots page: every bot a
+ * Online bots (/player/bots, .bots) as a bots page: every bot a
  * card with a Neo piece white on a gradient tile (gold for the featured
  * ones, a color per card for the rest), its name, its ratings as chips, a
  * few lines of its bio and a green Play button. Each section's title stays
@@ -244,7 +244,7 @@
   overflow-wrap: anywhere;
 }
 
-/* Play: Chess.com's green button, across the card. */
+/* Play: a green button, across the card. */
 .bots__list__entry__play {
   grid-area: play;
   gap: 8px;

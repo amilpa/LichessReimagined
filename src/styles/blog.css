@@ -1,5 +1,5 @@
 /*
- * Blog: a post (.ublog-post) reads like a Chess.com article: rounded hero
+ * Blog: a post (.ublog-post) reads like an article: rounded hero
  * image, a big left-aligned title, one compact meta line, then comfortable
  * article typography. The blog lists (.ublog-index: community, by month, by
  * topic, a user's blog) are grids of the same post cards.
@@ -180,9 +180,9 @@
 }
 
 /* A game embed's board fills its column, but on desktop board.css draws the
- * coordinates outside the board, as Chess.com does: room for the numbers on
- * its left and the letters under it, or the letters run over the bottom
- * player and the numbers are cut off. */
+ * coordinates outside the board: room for the numbers on its left and the
+ * letters under it, or the letters run over the bottom player and the
+ * numbers are cut off. */
 @media (min-width: 1020px) {
   body:is(.coords-in, .coords-out) .ublog-post .ublog-post__markup .lpv__board {
     padding: 0 0 calc(1.2 * var(--cdc-coords-size) + 10px) calc(0.6 * var(--cdc-coords-size) + 16px);
@@ -366,7 +366,7 @@
   color: #fff;
 }
 
-/* Chess.com's blog icon, as in the sidebar menu. A user's blog already
+/* The blog icon, as in the sidebar menu. A user's blog already
  * starts with the author's own icon. */
 .ublog-index .box__top h1:not(:has(.user-link))::before {
   content: '';
@@ -399,7 +399,7 @@
   color: #e58f2a !important;
 }
 
-/* "Show best / all", "Sort likes / date": Chess.com segmented toggles. */
+/* "Show best / all", "Sort likes / date": segmented toggles. */
 .ublog-index .filter-and-sort {
   gap: 16px !important;
   color: var(--cdc-text-dim);

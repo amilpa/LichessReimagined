@@ -1,9 +1,9 @@
 // Isolated-world content script.
-// 1. Reads the Chess.com sounds bundled in sounds/ and forwards them to the
+// 1. Reads the move sounds bundled in sounds/ and forwards them to the
 //    page-world script (page.js), which hooks Lichess's sound player.
 // 2. Keeps a CSS variable in sync with the height of the game controls, which
 //    the game layout grid needs (see styles/game.css).
-// 3. Renders Chess.com-style captured pieces in the player bars, and the
+// 3. Renders captured pieces in the player bars, and the
 //    analysis board's players.
 // 4. When loaded unpacked, reloads the extension after a ship changed its files.
 
@@ -12,7 +12,7 @@
   const MSG_PAGE_READY = 'cdc:page-ready';
 
   // Lichess sets light (300) weights on Roboto / Noto Sans all over the site;
-  // Chess.com's text is solid. Re-point those families (and our own 'CDC Sans')
+  // our text is solid. Re-point those families (and our own 'CDC Sans')
   // at the system UI font so light weights render as regular. These faces must
   // come after Lichess's own @font-face rules to win, hence appended at the end
   // of <head> rather than shipped in the manifest CSS.
@@ -324,7 +324,7 @@
       main.style.setProperty('--cdc-controls-h', height + 'px');
     }
   };
-  // Chess.com-style captured pieces under each player's name: the opponent's
+  // Captured pieces under each player's name: the opponent's
   // pieces that are no longer on the board, grouped by type, plus the lead.
   const START = { pawn: 8, knight: 2, bishop: 2, rook: 2, queen: 1 };
   // Variants that start with other pieces, per color. Crazyhouse shows none:
@@ -400,7 +400,7 @@
     captured.bottom.innerHTML = html.bottom;
   };
 
-  // The game page's board tools, as Chess.com's: a cog right of the board's
+  // The game page's board tools: a cog right of the board's
   // top corner, in the gap before the panel, and under it a flip button
   // that shows while the pointer is on the board (styles/game.css). They
   // press Lichess's own keys: `h` for its board menu (game.css hides its
@@ -498,7 +498,7 @@
     fillPlayer(players.bottom, meta.querySelector(`.player.${bottom}`));
   };
 
-  // Move times, like Chess.com once a game is over: the time spent on each
+  // Move times, once a game is over: the time spent on each
   // move, with a bar scaled to the longest think (see styles/game.css).
   // Lichess's round data has no clock history, so it comes from the export.
   // The move list is snabbdom's: only attributes are added, and they're put
@@ -564,11 +564,11 @@
     list.dataset.cdcTimes = '';
   };
 
-  // Chess.com's "New 10 min" next to Rematch. Lichess only offers "New
+  // A "New 10 min" button next to Rematch. Lichess only offers "New
   // opponent" for lobby and pool games; otherwise add a button doing what it
   // does, a lobby seek like this game (`/?hook_like=<id>`). Either one gets
   // the time control as its label. The clock comes with the move times.
-  // Short, as Chess.com's: it gets half a narrow panel. Where it has to wrap,
+  // Short: it gets half a narrow panel. Where it has to wrap,
   // the time control stays in one piece: no-break spaces, and a word joiner
   // after the bar, which lines may otherwise break after.
   const newGameLabel = clock => {
@@ -596,7 +596,7 @@
     follow.prepend(a);
   };
 
-  // Country flags in the player bars, like Chess.com. The round data has no
+  // Country flags in the player bars. The round data has no
   // country, so it comes from the players' profiles (`/api/users` takes a
   // batch of names), as an emoji. The bar is snabbdom's: the flag is an
   // attribute shown by CSS, put back whenever the bar is re-rendered.
@@ -661,7 +661,7 @@
   };
 
   // Lichess's eval bar, Game Review-style (styles/board.css): its score, read
-  // from the engine line, written like Chess.com's ("1.2", "M3") at the
+  // from the engine line, written short ("1.2", "M3") at the
   // leading side's end. And the puzzle's session chips, one sideways-scrolling
   // row: keep the latest in view.
   let lastChips = 0;
@@ -741,7 +741,7 @@
   };
 
   // Coach cards (see styles/coach.css): Lichess writes the title as plain text
-  // in the name ("FM Hans Renette"). Chess.com shows it as a badge. The
+  // in the name ("FM Hans Renette"). The card shows it as a badge. The
   // picture's alt starts with the title, which catches names without one.
   // Pages are server-rendered (and appended by infinite scroll), not snabbdom,
   // so editing the name's text is safe.
@@ -937,7 +937,7 @@
     cleanRatings(tip);
   };
 
-  // Chess.com-style tooltips on the page's buttons (see styles/theme.css),
+  // Styled tooltips on the page's buttons (see styles/theme.css),
   // instead of the browser's slow, unstyled `title`. On hover the title moves
   // to `data-cdc-tip`, so the native one never shows. Snabbdom only sets the
   // title again if it changes, and the next hover moves it again.

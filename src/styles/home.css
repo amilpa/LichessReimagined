@@ -313,7 +313,7 @@
     border-width: 0 16px !important;
   }
 
-  /* Chess.com news cards: a rounded image, the title under it, then
+  /* News cards: a rounded image, the title under it, then
      author · date, instead of labels pasted over the picture. The image
      wrapper becomes display: contents so its labels join the card's grid. */
   main.lobby .lobby__blog .ublog-post-card {
@@ -435,7 +435,7 @@
 
   /* --------------------------------------------------- quick pairing --- */
 
-  /* Chess.com's time-control picker: a heading per speed (icon + name) over
+  /* A time-control picker: a heading per speed (icon + name) over
      flat buttons labelled "1 min", "3 + 2". All buttons are the same size,
      three to a row, wrapping (blitz's four take two rows). Each speed's
      first button starts a new row and pushes it down with a top margin;
@@ -490,7 +490,7 @@
     unicode-bidi: isolate;
   }
 
-  /* Lichess's text is "10+0": hide it and write Chess.com's label instead. */
+  /* Lichess's text is "10+0": hide it and write our own label instead. */
   main.lobby .lpool:is([data-id='1+0'], [data-id='2+1'], [data-id='3+0'], [data-id='3+2'],
       [data-id='5+0'], [data-id='5+3'], [data-id='10+0'], [data-id='10+5'], [data-id='15+10'],
       [data-id='30+0'], [data-id='30+20']) .clock {
@@ -509,13 +509,13 @@
     display: none;
   }
 
-  /* Lichess's hover tints them green; Chess.com's just lightens. */
+  /* Lichess's hover tints them green; ours just lightens. */
   main.lobby .lpool:hover {
     background: var(--cdc-btn-grey-hover) !important;
     color: #fff !important;
   }
 
-  /* Seeking: Chess.com's green ring, with Lichess's spinner or rating range
+  /* Seeking: a green ring, with Lichess's spinner or rating range
      beside the label instead of under it. */
   main.lobby .lpool.active {
     box-shadow: inset 0 0 0 2px var(--cdc-green), var(--cdc-btn-grey-shadow) !important;
@@ -583,8 +583,8 @@
     mask: var(--cdc-pool-icon) center / contain no-repeat;
   }
 
-  /* "Custom" opens the game setup dialog: Chess.com's "More time controls"
-     link under the grid, not a button. */
+  /* "Custom" opens the game setup dialog: a "More time controls" link
+     under the grid, not a button. */
   main.lobby .lpool[data-id='custom'] {
     grid-column: 1 / -1;
     justify-self: center;

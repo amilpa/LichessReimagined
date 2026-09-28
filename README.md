@@ -73,7 +73,7 @@ Lichess tab. If you cloned it with git, a `git pull` does the same.
 
 - It's made for computers. In a narrow window or on a tablet you get Lichess's
   usual mobile layout, with the new colors, board and pieces.
-- Its sounds and images come with it: it loads nothing from Chess.com.
+- Its sounds and images come with it: it loads nothing from other sites.
 - Nothing is tracked or collected.
 
 ## Disclaimer

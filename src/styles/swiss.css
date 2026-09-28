@@ -1,6 +1,6 @@
 /*
  * Swiss tournaments home (main.swiss-home): "Now playing" and "Starting
- * soon" as lists of Chess.com-style tournament cards (the time control on a
+ * soon" as lists of tournament cards (the time control on a
  * tile, the rounds with a progress bar from content.js), then the
  * explanations as point cards, a comparison card and a grid of FAQ cards.
  * Lichess always renders both lists, playing first, even when empty.
@@ -31,7 +31,7 @@ main.swiss-home h1.box__top {
   padding: 16px 0 24px !important;
 }
 
-/* Chess.com's clipboard icon, as in the sidebar's Swiss entry. */
+/* The clipboard icon, as in the sidebar's Swiss entry. */
 main.swiss-home h1.box__top::before {
   content: '';
   flex: none;

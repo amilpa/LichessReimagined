@@ -1,5 +1,5 @@
 /*
- * Modern, Chess.com-style look for every other Lichess page: bold headings,
+ * Modern look for every other Lichess page: bold headings,
  * pill side menus, clean tabs and tables, card tiles. Shared components
  * first, then page-specific fixes. (Thin text is fixed globally by the font
  * remapping in content.js.)
@@ -24,7 +24,7 @@ h3 {
   font-weight: 700 !important;
 }
 
-/* Lichess's spaced-out uppercase section titles become Chess.com headings. */
+/* Lichess's spaced-out uppercase section titles become bold headings. */
 .learn-stages .categ > h2,
 .practice-app section > h2,
 .coach-widget .coach-name,
@@ -107,8 +107,8 @@ h3 {
   box-shadow: inset 0 1px #ffffff26, 0 0 0 1px color-mix(in srgb, var(--cdc-nav-color, #fff) 45%, transparent);
 }
 
-/* The account settings' menu has no Chess.com icon to borrow (a bell, a
- * key, a lock…): Lichess's own 3D emoji instead. */
+/* The account settings' menu has no color icon to borrow (a bell, a key,
+ * a lock…): Lichess's own 3D emoji instead. */
 
 .subnav[data-cdc-nav~='account'] a[href$='/account/profile'],
 main.account[data-cdc-nav-active$='/account/profile'] .page-menu__content {
@@ -350,7 +350,7 @@ input[type='file']::file-selector-button:hover {
   background: var(--cdc-btn-grey-hover);
 }
 
-/* Lichess's switches (.cmn-toggle) as Chess.com's pill: grey when off,
+/* Lichess's switches (.cmn-toggle) as a pill: grey when off,
  * green when on, with a round white knob and no icon. */
 .cmn-toggle label {
   box-sizing: border-box !important;
@@ -449,7 +449,7 @@ input:not([type='hidden']) + .button.button-metal:hover {
   font-weight: 600;
 }
 
-/* The Lobby tab: Chess.com's list of open seeks. No cell tint or row
+/* The Lobby tab: a list of open seeks. No cell tint or row
  * borders: rows are rounded strips that light up on hover, columns are
  * left-aligned under their headers, and the header stays pinned while the
  * list scrolls. */
@@ -562,7 +562,7 @@ input:not([type='hidden']) + .button.button-metal:hover {
   color: #fff !important;
 }
 
-/* "Create a game" becomes Chess.com's big green Play button. The selectors
+/* "Create a game" becomes a big green Play button. The selectors
  * repeat .button-metal to outrank the generic metal-button hover in
  * theme.css, and the icon stays white (Lichess tints it green on hover). */
 .lobby__start__button--hook.button.button-metal {
@@ -586,7 +586,7 @@ input:not([type='hidden']) + .button.button-metal:hover {
   color: #fff !important;
 }
 
-/* "Challenge a friend" and "Play the computer" get Chess.com's colour
+/* "Challenge a friend" and "Play the computer" get colour
  * illustrations (a handshake, a smiling monitor) instead of Lichess's
  * font glyphs. */
 :is(.lobby__start__button--friend, .lobby__start__button--friend-user, .lobby__start__button--ai).button::before {
@@ -607,7 +607,7 @@ input:not([type='hidden']) + .button.button-metal:hover {
 
 /* ------------------------------------------------------------- dialogs --- */
 
-/* Chess.com-style modals: blurred backdrop, rounded card, the close button
+/* Modals: blurred backdrop, rounded card, the close button
  * inside the corner, and a fade-in as it rises from below. */
 dialog::backdrop,
 .snab-modal-mask {
@@ -727,7 +727,7 @@ dialog .help th p {
   text-align: start;
 }
 
-/* Variant: a tall row, like Chess.com's game-type picker. */
+/* Variant: a tall row, like a game-type picker. */
 .game-setup .mselect .mselect__label {
   min-height: 56px;
   gap: 14px !important;
@@ -904,7 +904,7 @@ dialog .help th p {
   outline-offset: -2px;
 }
 
-/* Strength: Chess.com never shows a bot without its rating, so each Stockfish
+/* Strength: a bot never shows without its rating, so each Stockfish
  * level carries an approximate Elo. The numbers are the ones a Lichess dev
  * gave for these very levels (forum, "How strong are the stockfish levels?"),
  * from the Fairy-Stockfish skill level and depth each one runs at. They target
@@ -1080,7 +1080,7 @@ dialog .game-setup .footer .lobby__start__button.button::before {
 /* ------------------------------------------------------ radio groups --- */
 
 /* Lichess's metal segmented controls (setup dialog, coordinates trainer,
- * preferences) become flat Chess.com toggles. */
+ * preferences) become flat toggles. */
 group.radio {
   border-radius: 8px !important;
   box-shadow: none !important;
@@ -1461,7 +1461,7 @@ input.range::-webkit-slider-thumb {
 
 /* About, FAQ, contact, terms, privacy, source, thanks, lag, variants,
  * streamers, videos and current games: Lichess's own plain pages, kept as
- * they are but for what breaks the layout or clashes with Chess.com's look. */
+ * they are but for what breaks the layout or clashes with our look. */
 
 /* Only the content scrolls: the side menus (the about menu, the variants',
  * the streamers', the video tags, the TV channels) stay in view, scrolling
@@ -1549,7 +1549,7 @@ input.range::-webkit-slider-thumb {
   border-bottom-color: var(--cdc-border) !important;
 }
 
-/* The variants: Chess.com headings, not Lichess's thin spaced-out capitals
+/* The variants: bold headings, not Lichess's thin spaced-out capitals
  * and italics, and a grey hover rather than Lichess's tint of its primary
  * color (our green, on a whole row). */
 .page-menu__content.variants .variant:hover {

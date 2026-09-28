@@ -4,7 +4,7 @@
  * race scene: a sky in its own color, a road with a finish line, and
  * Lichess's own vehicle (its racer-car font) that boosts down the road on
  * hover. In a race the side panel, the clock, the combo and the track below
- * the board get Chess.com's look: bold white numbers instead of the storm
+ * the board are restyled: bold white numbers instead of the storm
  * font, pills, a green combo bar, and lanes of asphalt with a finish line.
  * Puzzle Storm is built from the same pieces (the side panel, the clock,
  * the combo, the puzzles played), so those rules are shared with `.storm`;
@@ -499,7 +499,7 @@ html[dir='rtl'] .racer-home .button:hover::after {
   margin-block: auto;
 }
 
-/* Chess.com's running clock: white, the digits dark and bold. */
+/* The running clock: white, the digits dark and bold. */
 :is(.racer, .storm) .puz-clock__time {
   display: flex;
   align-items: center;
@@ -600,7 +600,7 @@ html[dir='rtl'] .racer-home .button:hover::after {
   margin: 0 !important;
 }
 
-/* The bar: a rounded groove filled with Chess.com's green. */
+/* The bar: a rounded groove filled with green. */
 :is(.racer, .storm) .puz-combo__bar {
   flex: 0 0 16px !important;
   border: none !important;

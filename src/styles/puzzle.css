@@ -1,5 +1,5 @@
 /*
- * Puzzles (main.puzzle) with Chess.com's playful look: rounded cards in the
+ * Puzzles (main.puzzle) with a playful look: rounded cards in the
  * side column, a status card instead of grey text (always dark, with a green
  * or red badge and title when right or wrong), and chunky rounded buttons for
  * the hint, the solution and the move controls, those last ones moved inside
@@ -242,7 +242,7 @@ main.puzzle .puzzle__side__metas .infos::before {
 }
 
 /* A mix of all themes has no picture of its own, just a grey target; show
- * Chess.com's puzzle piece instead. A real theme keeps its own drawing. */
+ * a puzzle piece instead. A real theme keeps its own drawing. */
 main.puzzle .puzzle__side__metas .infos__angle-img[src*='/mix.'] {
   padding: 0;
   background: none;
@@ -293,7 +293,7 @@ main.puzzle .puzzle__side__metas .hidden {
   color: var(--cdc-text-dim) !important;
 }
 
-/* Your puzzle rating, big, after Chess.com's puzzle icon. */
+/* Your puzzle rating, big, after the puzzle icon. */
 main.puzzle .puzzle__side__user__rating strong {
   flex-wrap: nowrap !important;
   gap: 12px;
@@ -355,7 +355,7 @@ main.puzzle .puzzle__side__theme > p {
 }
 
 /* A replay of failed puzzles (from the dashboard): "Replaying Fork puzzles"
- * as the block's title, like the theme's, over Chess.com's progress bar. */
+ * as the block's title, like the theme's, over a progress bar. */
 main.puzzle .puzzle__side__replay > a {
   margin-bottom: 10px !important;
   color: #fff !important;
@@ -617,8 +617,8 @@ main.puzzle .puzzle__feedback .instruction em {
   opacity: 0.85;
 }
 
-/* Your turn: one dark card whichever side moves, like Chess.com on its dark
- * theme. A white card next to the board was the brightest thing on the page. */
+/* Your turn: one dark card whichever side moves. A white card next to the
+ * board was the brightest thing on the page. */
 main.puzzle .puzzle__feedback.play {
   background: var(--cdc-bg-raised) !important;
   color: var(--cdc-text) !important;
@@ -628,7 +628,7 @@ main.puzzle .puzzle__feedback.play strong {
   color: #fff;
 }
 
-/* Right and wrong moves: the card stays dark, like Chess.com's. Only the mark
+/* Right and wrong moves: the card stays dark. Only the mark
  * (in a round green or red badge) and the title take the color: a whole
  * green or red card next to the board shouts. */
 main.puzzle .puzzle__feedback:is(.good, .fail) {
@@ -699,7 +699,7 @@ main.puzzle .puzzle__feedback .view_solution .button:hover {
   background: var(--cdc-btn-grey-hover) !important;
 }
 
-/* Chess.com's own icons beside the labels: a glowing bulb for the hint, a
+/* Icons beside the labels: a glowing bulb for the hint, a
  * question mark for the solution. Drawn as masks, so they follow the label's
  * colour, dimmed hint included. The streak's lone "skip" button is not one of
  * the two, hence :not(.skip). */
@@ -741,7 +741,7 @@ main.puzzle .puzzle__feedback .view_solution .button:not(.button-empty) {
   color: var(--cdc-text-dim) !important;
 }
 
-/* Solved or failed: a big title and Chess.com's green "next" button. */
+/* Solved or failed: a big title and a green "next" button. */
 main.puzzle .puzzle__feedback.after {
   gap: 12px;
   padding: 20px !important;
@@ -865,7 +865,7 @@ main.puzzle {
   --cdc-jumps-h: 48px;
 }
 
-/* Chess.com keeps the move buttons inside the panel, at its bottom: same card,
+/* The move buttons go inside the panel, at its bottom: same card,
  * same width as the status banner. Lichess puts them in a row *under* the
  * panel, full width, which is what makes the page scroll. So drop them into
  * the panel's own grid cell, pinned to its end, and reserve their height as the
