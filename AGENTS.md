@@ -102,7 +102,7 @@ is "a Chess.com user wouldn't notice they're on Lichess".
 | `tools/boards/fetch.py` | Run when a board or a piece set is added to `boards.js`'s lists (needs Pillow): downloads each from Chess.com's CDN (the host per entry says which of its two) and writes it into `img/boards` / `img/pieces` as WebP. |
 | `tools/game-rating/` | The Game Review's game rating, calibrated on Lichess's own games (needs python-chess, numpy and scipy): `extract.py` judges every move of a database slice with Stockfish evals as `review.js` does (loss, phase, tactics), `fit.py` fits the odds of each loss band per rating and writes them into `review.js`'s `RATING_MODEL` line. Rerun both if the judging or the phases change. |
 | `tools/store/` | The Chrome Web Store's images, drawn in HTML over real captures (`shots/`, 1440×900 at 2x, taken with the extension loaded): five screenshots (`1-game` … `5-lichess`, 1280×800), the small promo tile (440×280), the marquee (1400×560) and the extension's icon (`icon.html`, 96px of art in 128, as Chrome asks; the 16 and 48 fill theirs). `render.mjs` writes them into `store/` and `icons/` (needs Playwright: `PLAYWRIGHT=<its index.mjs> node tools/store/render.mjs [name…]`). Recapture a shot when the page it shows changes. |
-| `.github/workflows/release.yml` | CI, on every push to `main`: checks that the manifest parses, that every file it names exists and that every script parses (`node --check`), then zips what Chrome loads (`manifest.json`, `icons`, `img`, `lib`, `src`) as the run's artifact. When the manifest's `version` has no release yet, it publishes the zip as the GitHub release `v<version>`. |
+| `.github/workflows/release.yml` | CI, on every push to `main`: checks that the manifest parses, that every file it names exists and that every script parses (`node --check`), then zips what Chrome loads (`manifest.json`, `icons`, `img`, `lib`, `src`) and publishes it as the GitHub release `v<version>`, one per push. The manifest's `version` is only `<major>.<minor>`: the CI adds the number of commits on `main` as the third part, in the zip's manifest only. |
 | `store/` | The rendered store images, to upload by hand; the README shows them too. Neither folder goes in the package sent to the store: zip only `manifest.json`, `icons`, `img`, `lib` and `src`. |
 | `src/boards.js` | Isolated world, first: which board and pieces. Chess.com's green board and Neo pieces by default, or any of Chess.com's other boards and piece sets (bundled in `img/`), or Lichess's own: the user menu's Board and Piece set panels get two tabs, Extension (our grid of Chess.com's) and Lichess (Lichess's whole panel, 2D / 3D and sliders included; in 3D only Lichess's). The pick is kept under `cdc-board` / `cdc-pieces` (`lichess` hands it back to Lichess) and set on `<html>` at `document_start` (`data-cdc-board`, `data-cdc-pieces`, `--cdc-board-img`, `--cdc-sq-{light,dark}`, `--cdc-piece-<wp…>`) for `board.css`. Captured pieces and the coach's pieces stay Neo, as on Chess.com. It also puts the extension's base URL in `data-cdc-assets` on `<html>`, for the page world (`review.js`'s pieces). |
 | `src/background.js` | Service worker: downloads the Chess.com sounds, caches them as base64. |
@@ -512,9 +512,12 @@ open a PR:
    extension. Otherwise the user keeps testing the old code.
 3. Clean the worktree: remove any `node_modules` and other throwaway files
    (test scripts, screenshots, browser profiles) you created.
-4. To publish a release (the zip the README's install steps point to), bump
-   `version` in `manifest.json` in the commit: the CI then releases it as
-   `v<version>`. Without a bump, the push is only checked and zipped.
+4. Don't bump the version: each push is a release. The CI stamps
+   `<major>.<minor>.<commits on main>` into the zip's manifest and publishes
+   it as `v<version>` (the zip the README's install steps point to), so every
+   push gets a higher version and parallel worktrees never conflict on it.
+   Raise `<major>.<minor>` in `manifest.json` only for a big change (a new
+   minor keeps counting from the commit number, so it still goes up).
 5. Finish with a short summary of what was done. There's no need to reload
    the extension by hand: when loaded unpacked, it reloads itself (and the
    tab) as soon as a Lichess tab gets focus after its files changed.
