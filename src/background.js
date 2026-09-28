@@ -20,7 +20,8 @@ async function fingerprint() {
   const { background, content_scripts } = chrome.runtime.getManifest();
   const files = [
     'manifest.json',
-    background.service_worker,
+    // A service worker in Chrome, background scripts in Firefox.
+    ...(background.scripts || [background.service_worker]),
     ...content_scripts.flatMap(s => [...(s.css || []), ...(s.js || [])]),
   ];
   const texts = await Promise.all(

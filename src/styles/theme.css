@@ -223,6 +223,15 @@ select {
   border-radius: 4px;
 }
 
+/* Firefox has no ::-webkit-scrollbar and drew its system scrollbars, white
+ * in the panels. Firefox only: in Chrome, scrollbar-color would switch off
+ * the ::-webkit-scrollbar rules above. */
+@supports (-moz-appearance: none) {
+  html {
+    scrollbar-color: #4b4847 transparent;
+  }
+}
+
 /* ---------------------------------------------------------------- titles --- */
 
 /* Lichess prints a player's title as gold text (span.utitle, BOT in its own

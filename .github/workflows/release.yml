@@ -1,5 +1,5 @@
-# Each push to main checks the extension, zips it and publishes the zip as a
-# GitHub release. The manifest keeps only `<major>.<minor>`. The CI adds the
+# Each push to main checks the extension, zips it (for Chrome, the Chrome Web
+# Store and Firefox) and publishes the zips as a GitHub release. The manifest keeps only `<major>.<minor>`. The CI adds the
 # number of commits on main as the third part, so each push gets a new,
 # higher version and nobody changes it by hand.
 #
@@ -97,6 +97,11 @@ jobs:
             fs.writeFileSync(path, JSON.stringify(m, null, 2) + "\n");
           '
           (cd store-build && zip -r -X -q "../$store_zip" . -x '*.DS_Store')
+          # The Firefox package (tools/firefox/build.mjs): background scripts
+          # for the service worker, a gecko id, moz-extension:// in the CSS.
+          firefox_zip="LichessDotCom-v$version-firefox.zip"
+          node tools/firefox/build.mjs firefox-build --version "$version"
+          (cd firefox-build && zip -r -X -q "../$firefox_zip" . -x '*.DS_Store')
           # A store tag names the version it sends, so a tag on the wrong
           # commit stops here.
           if [ "$GITHUB_REF_TYPE" = tag ] && [ "$GITHUB_REF_NAME" != "store-$version" ]; then
@@ -106,6 +111,7 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "zip=$zip" >> "$GITHUB_OUTPUT"
           echo "store_zip=$store_zip" >> "$GITHUB_OUTPUT"
+          echo "firefox_zip=$firefox_zip" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -113,6 +119,7 @@ jobs:
           path: |
             ${{ steps.package.outputs.zip }}
             ${{ steps.package.outputs.store_zip }}
+            ${{ steps.package.outputs.firefox_zip }}
 
       # A tag only goes to the store: the push to main makes the release.
       - name: Release
@@ -122,13 +129,14 @@ jobs:
           VERSION: ${{ steps.package.outputs.version }}
           ZIP: ${{ steps.package.outputs.zip }}
           STORE_ZIP: ${{ steps.package.outputs.store_zip }}
+          FIREFOX_ZIP: ${{ steps.package.outputs.firefox_zip }}
         run: |
           # A manual run on a commit that has a release already.
           if gh release view "v$VERSION" > /dev/null 2>&1; then
             echo "v$VERSION has a release already."
             exit 0
           fi
-          gh release create "v$VERSION" "$ZIP" "$STORE_ZIP" \
+          gh release create "v$VERSION" "$ZIP" "$STORE_ZIP" "$FIREFOX_ZIP" \
             --target "$GITHUB_SHA" \
             --title "LichessDotCom $VERSION" \
             --generate-notes

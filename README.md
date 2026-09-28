@@ -58,7 +58,20 @@ If you want to install it directly from GitHub:
 5. Open [lichess.org](https://lichess.org).
 
 It also works in Edge, Brave, Arc, Opera and Vivaldi: the steps are the same,
-from their own extensions page. Firefox and Safari aren't supported.
+from their own extensions page. Safari isn't supported.
+
+### In Firefox
+
+Firefox 140 or later. It has its own package:
+
+1. Download `LichessDotCom-v…-firefox.zip` from the
+   [latest release](https://github.com/theophile-wallez/LichessDotCom/releases/latest).
+2. In Firefox, open `about:debugging#/runtime/this-firefox`.
+3. Click **Load Temporary Add-on…** and choose the ZIP.
+4. Open [lichess.org](https://lichess.org).
+
+Firefox only keeps an extension it hasn't had signed by Mozilla until you quit
+it: load it again after a restart.
 
 Leave the folder where it is: the browser loads the extension from it, so
 moving or deleting it removes the extension.

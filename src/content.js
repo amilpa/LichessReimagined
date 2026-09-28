@@ -11,6 +11,20 @@
   const MSG_SOUNDS = 'cdc:sounds';
   const MSG_PAGE_READY = 'cdc:page-ready';
 
+  // Firefox injects the content scripts into the open tabs when the extension
+  // is installed, updated or reloaded, into a page already built: its data
+  // read and gone, and an older copy's page-world scripts still running.
+  // Start it afresh, once (a document_start script always finds it loading).
+  if (document.readyState !== 'loading') {
+    const RELOADED_KEY = 'cdc-late-reload';
+    const last = +sessionStorage.getItem(RELOADED_KEY) || 0;
+    if (Date.now() - last > 30000) {
+      sessionStorage.setItem(RELOADED_KEY, Date.now());
+      location.reload();
+      return;
+    }
+  }
+
   // Lichess sets light (300) weights on Roboto / Noto Sans all over the site;
   // our text is solid. Re-point those families (and our own 'CDC Sans')
   // at the system UI font so light weights render as regular. These faces must
