@@ -98,6 +98,34 @@
     );
   }
 
+  // A castle moves a king and a rook of one side along its back rank. Read off
+  // what changed, as the highlighted squares may not say: there are none with
+  // "Highlight last move" off, and in Chess960 the king may move one square.
+  function castled(before, after) {
+    if (!before) return false;
+    return ['white', 'black'].some(color => {
+      const rank = color === 'white' ? '1' : '8';
+      // The roles of that side's pieces that left a square (or, swapped,
+      // landed on one), false off its back rank.
+      const moved = (from, to) =>
+        [...from]
+          .filter(([key, p]) => {
+            const now = to.get(key);
+            return p.color === color && (now?.color !== color || now.role !== p.role);
+          })
+          .map(([key, p]) => key[1] === rank && p.role)
+          .sort()
+          .join();
+      return moved(before, after) === 'king,rook' && moved(after, before) === 'king,rook';
+    });
+  }
+
+  // Keeps the position the next move is compared with.
+  const rememberBoard = () =>
+    requestAnimationFrame(() => {
+      lastPieces = readBoard(mainBoard())?.pieces ?? lastPieces;
+    });
+
   // Works out our sound for the move that was just played on the board.
   function soundFromBoard(lichessName) {
     const fallback = lichessName === 'capture' ? 'capture' : 'move-self';
@@ -113,6 +141,7 @@
       ([key, p]) => p.role === 'king' && isAttacked(pieces, key, p.color === 'white' ? 'black' : 'white'),
     );
     if (inCheck) return 'move-check';
+    if (castled(before, pieces)) return 'castle';
     if (!lastMove.length) return fallback;
 
     // Drops only highlight one square.
@@ -194,7 +223,10 @@
       }
       if (o?.filter === 'music' || sound.theme === 'music') return origMove(o);
       const volume = o?.volume ?? 1;
-      if (o?.san) return playMove(soundFromSan(o.san, o.ply), volume);
+      if (o?.san) {
+        rememberBoard();
+        return playMove(soundFromSan(o.san, o.ply), volume);
+      }
       // Board moves on the round page, and drops (no argument).
       if (!o?.name || o.name === 'move' || o.name === 'capture') {
         const recent = recentMove;
@@ -202,6 +234,7 @@
         // Our own moves only reach the server (and come back) after this, so a
         // fresh SAN is the move being played now.
         if (recent && Date.now() - recent.at < 300) {
+          rememberBoard();
           return playMove(soundFromSan(recent.san, recent.ply), volume);
         }
         // The board redraws on the next frame; inspect it after that.
