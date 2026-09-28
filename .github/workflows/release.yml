@@ -4,8 +4,10 @@
 # higher version and nobody changes it by hand.
 #
 # A `store-<version>` tag on a commit of main (`store-0.1.295`: the version
-# this commit gets) packages that commit the same way and sends its store zip
-# to the Chrome Web Store, for review.
+# this commit gets) packages that commit the same way and sends it, for
+# review, to both stores: the store zip to the Chrome Web Store, the Firefox
+# zip to Firefox Add-ons (AMO). Each store has its own job: one failing
+# doesn't hold the other.
 name: Release
 
 on:
@@ -29,6 +31,7 @@ jobs:
     outputs:
       version: ${{ steps.package.outputs.version }}
       store_zip: ${{ steps.package.outputs.store_zip }}
+      firefox_zip: ${{ steps.package.outputs.firefox_zip }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -164,3 +167,39 @@ jobs:
           node tools/store/publish.mjs
           "${{ needs.release.outputs.store_zip }}"
           "${{ needs.release.outputs.version }}"
+
+  amo:
+    needs: release
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: LichessDotCom-v${{ needs.release.outputs.version }}
+
+      # Submits the version to the add-on's AMO listing and ends there, as the
+      # Chrome Web Store job does: Mozilla signs and publishes it once
+      # reviewed. The add-on must exist on AMO already (its first version is
+      # submitted by hand, with the listing): web-ext only adds versions.
+      - name: Firefox Add-ons
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+          ZIP: ${{ needs.release.outputs.firefox_zip }}
+        run: |
+          if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
+            echo "::error::the AMO_JWT_ISSUER and AMO_JWT_SECRET secrets must be set"
+            exit 1
+          fi
+          mkdir firefox
+          unzip -q "$ZIP" -d firefox
+          npx --yes web-ext@10 sign \
+            --source-dir firefox \
+            --channel listed \
+            --api-key "$AMO_JWT_ISSUER" \
+            --api-secret "$AMO_JWT_SECRET" \
+            --approval-timeout 0
