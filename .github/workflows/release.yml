@@ -38,6 +38,7 @@ jobs:
             if (!/^\d+\.\d+$/.test(m.version))
               throw new Error("manifest version must be <major>.<minor>, not " + m.version);
             const files = [
+              `_locales/${m.default_locale}/messages.json`,
               m.background.service_worker,
               ...Object.values(m.icons),
               ...m.content_scripts.flatMap(c => [...(c.js || []), ...(c.css || [])]),
@@ -60,7 +61,7 @@ jobs:
           '
           zip="LichessDotCom-v$version.zip"
           # Only the files that Chrome loads: not store/, not tools/.
-          zip -r -X -q "$zip" manifest.json icons img lib sounds src -x '*.DS_Store'
+          zip -r -X -q "$zip" manifest.json _locales icons img lib sounds src -x '*.DS_Store'
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "zip=$zip" >> "$GITHUB_OUTPUT"
 
