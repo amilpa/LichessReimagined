@@ -1,14 +1,18 @@
 // The sounds used to be downloaded and cached here. They're
-// bundled now (sounds/): drop the old cache from existing installs.
+// bundled now (sounds/): drop the old cache from existing installs. The
+// store's package has no storage permission, so no chrome.storage: its
+// installs never had that cache.
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.remove('sounds:v1');
+  chrome.storage?.local.remove('sounds:v1');
 });
 
 /* ---- dev auto-reload --- */
 // Unpacked only (store installs have an update_url). Shipping pulls main into
 // the folder Chrome loads, so when a Lichess tab asks, compare the files on
-// disk with the ones loaded and reload the extension if they changed.
-const DEV = !('update_url' in chrome.runtime.getManifest());
+// disk with the ones loaded and reload the extension if they changed. It
+// keeps its fingerprint in chrome.storage, which the store's package leaves
+// out: loaded unpacked, that package just doesn't reload itself.
+const DEV = !('update_url' in chrome.runtime.getManifest()) && !!chrome.storage;
 const LOADED_KEY = 'dev:loaded';
 let reloading = false;
 

@@ -61,27 +61,47 @@ jobs:
           '
           zip="LichessDotCom-v$version.zip"
           # Only the files that Chrome loads: not store/, not tools/.
-          zip -r -X -q "$zip" manifest.json _locales icons img lib sounds src -x '*.DS_Store'
+          files="manifest.json _locales icons img lib sounds src"
+          zip -r -X -q "$zip" $files -x '*.DS_Store'
+          # The Chrome Web Store's package: the same, without the storage
+          # permission. Only an unpacked install uses it (its auto-reload),
+          # and the store turns down a permission its installs don't need.
+          store_zip="LichessDotCom-v$version-store.zip"
+          mkdir store-build
+          cp -R $files store-build/
+          node -e '
+            const fs = require("fs");
+            const path = "store-build/manifest.json";
+            const m = JSON.parse(fs.readFileSync(path, "utf8"));
+            m.permissions = (m.permissions || []).filter(p => p !== "storage");
+            if (!m.permissions.length) delete m.permissions;
+            fs.writeFileSync(path, JSON.stringify(m, null, 2) + "\n");
+          '
+          (cd store-build && zip -r -X -q "../$store_zip" . -x '*.DS_Store')
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "zip=$zip" >> "$GITHUB_OUTPUT"
+          echo "store_zip=$store_zip" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@v4
         with:
           name: LichessDotCom-v${{ steps.package.outputs.version }}
-          path: ${{ steps.package.outputs.zip }}
+          path: |
+            ${{ steps.package.outputs.zip }}
+            ${{ steps.package.outputs.store_zip }}
 
       - name: Release
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.package.outputs.version }}
           ZIP: ${{ steps.package.outputs.zip }}
+          STORE_ZIP: ${{ steps.package.outputs.store_zip }}
         run: |
           # A manual run on a commit that has a release already.
           if gh release view "v$VERSION" > /dev/null 2>&1; then
             echo "v$VERSION has a release already."
             exit 0
           fi
-          gh release create "v$VERSION" "$ZIP" \
+          gh release create "v$VERSION" "$ZIP" "$STORE_ZIP" \
             --target "$GITHUB_SHA" \
             --title "LichessDotCom $VERSION" \
             --generate-notes
