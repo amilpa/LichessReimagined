@@ -2,28 +2,47 @@
 # GitHub release. The manifest keeps only `<major>.<minor>`. The CI adds the
 # number of commits on main as the third part, so each push gets a new,
 # higher version and nobody changes it by hand.
+#
+# A `store-*` tag on a commit of main (`git tag store-12 && git push origin
+# store-12`) packages that commit the same way and sends its store zip to the
+# Chrome Web Store, for review.
 name: Release
 
 on:
   push:
     branches: [main]
+    tags: ['store-*']
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: release
+  # A tag gets its own group: a push to main would otherwise cancel it while
+  # it waits.
+  group: ${{ github.ref_type == 'tag' && github.ref || 'release' }}
   cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.package.outputs.version }}
+      store_zip: ${{ steps.package.outputs.store_zip }}
     steps:
       - uses: actions/checkout@v4
         with:
           # The full history, to count the commits.
           fetch-depth: 0
+
+      # The version counts the commits on main, so it only means something there.
+      - name: On main
+        if: github.ref_type == 'tag'
+        run: |
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "::error::$GITHUB_REF_NAME is not on main: push the commit to main first."
+            exit 1
+          fi
 
       - uses: actions/setup-node@v4
         with:
@@ -89,7 +108,9 @@ jobs:
             ${{ steps.package.outputs.zip }}
             ${{ steps.package.outputs.store_zip }}
 
+      # A tag only goes to the store: the push to main makes the release.
       - name: Release
+        if: github.ref_type != 'tag'
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.package.outputs.version }}
@@ -105,3 +126,27 @@ jobs:
             --target "$GITHUB_SHA" \
             --title "LichessDotCom $VERSION" \
             --generate-notes
+
+  store:
+    needs: release
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: LichessDotCom-v${{ needs.release.outputs.version }}
+
+      - name: Chrome Web Store
+        env:
+          CWS_SERVICE_ACCOUNT: ${{ secrets.CWS_SERVICE_ACCOUNT }}
+          CWS_PUBLISHER_ID: ${{ secrets.CWS_PUBLISHER_ID }}
+        run: >
+          node tools/store/publish.mjs
+          "${{ needs.release.outputs.store_zip }}"
+          "${{ needs.release.outputs.version }}"
