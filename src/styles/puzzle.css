@@ -246,7 +246,7 @@ main.puzzle .puzzle__side__metas .infos::before {
 main.puzzle .puzzle__side__metas .infos__angle-img[src*='/mix.'] {
   padding: 0;
   background: none;
-  content: url('https://assets-ds.chess.com/color-icons/puzzle-piece.svg');
+  content: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
 }
 
 main.puzzle .puzzle__side__metas .infos.puzzle {
@@ -310,7 +310,7 @@ main.puzzle .puzzle__side__user__rating strong::before {
   flex: none;
   width: 1em;
   height: 1em;
-  background: url('https://assets-ds.chess.com/color-icons/puzzle-piece.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg') center / contain no-repeat;
 }
 
 /* In three columns the rating, its change and the icon share the side card's

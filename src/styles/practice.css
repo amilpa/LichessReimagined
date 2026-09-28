@@ -20,7 +20,7 @@
  * light theme darkens the golem to near black, which would black out ours
  * too, hence the !important. */
 .practice-side__decoration {
-  content: url('https://assets-ds.chess.com/color-icons/drills.svg');
+  content: url('chrome-extension://__MSG_@@extension_id__/img/icons/drills.svg');
   width: 120px !important;
   opacity: 1 !important;
   filter: drop-shadow(0 8px 16px #0006) !important;

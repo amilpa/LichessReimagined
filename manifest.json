@@ -9,7 +9,6 @@
     "128": "icons/icon128.png"
   },
   "permissions": ["storage"],
-  "host_permissions": ["https://images.chesscomfiles.com/*"],
   "background": {
     "service_worker": "src/background.js"
   },
@@ -69,7 +68,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["img/coaches/*", "img/boards/*", "img/pieces/*"],
+      "resources": ["img/coaches/*", "img/boards/*", "img/pieces/*", "img/icons/*", "sounds/*"],
       "matches": ["https://lichess.org/*"]
     }
   ]

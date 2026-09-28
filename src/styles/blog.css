@@ -374,7 +374,7 @@
   width: 36px;
   height: 36px;
   margin-inline-end: 12px;
-  background: url('https://assets-ds.chess.com/color-icons/page-blog.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/page-blog.svg') center / contain no-repeat;
 }
 
 .ublog-index .box__top h1 .user-link {

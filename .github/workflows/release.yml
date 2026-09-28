@@ -60,7 +60,7 @@ jobs:
           '
           zip="LichessDotCom-v$version.zip"
           # Only the files that Chrome loads: not store/, not tools/.
-          zip -r -X -q "$zip" manifest.json icons img lib src -x '*.DS_Store'
+          zip -r -X -q "$zip" manifest.json icons img lib sounds src -x '*.DS_Store'
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "zip=$zip" >> "$GITHUB_OUTPUT"
 

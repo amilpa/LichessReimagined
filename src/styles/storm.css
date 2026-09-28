@@ -12,7 +12,7 @@
 .storm-dashboard,
 html[data-cdc-has~='storm'] main {
   --cdc-storm: #fa742c;
-  --cdc-storm-icon: url('https://assets-ds.chess.com/color-icons/puzzle-rush.svg');
+  --cdc-storm-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-rush.svg');
 }
 
 /* ------------------------------------------------------------- run --- */
@@ -218,7 +218,7 @@ html[data-cdc-has~='storm'] main {
   content: '';
   width: 24px;
   height: 24px;
-  background: url('https://assets-ds.chess.com/color-icons/trophies.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center / contain no-repeat;
 }
 
 .storm-play-scores a {
@@ -314,7 +314,7 @@ body.zenable.zen .storm-dashboard__high__periods {
   content: '';
   width: 18px;
   height: 18px;
-  background: url('https://assets-ds.chess.com/color-icons/lessons.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg') center / contain no-repeat;
 }
 
 .storm__about__link a:hover {

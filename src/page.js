@@ -339,11 +339,8 @@
 
   function toBlobUrls(sounds) {
     const blobs = {};
-    for (const [name, b64] of Object.entries(sounds)) {
-      if (typeof b64 !== 'string') continue;
-      const bin = atob(b64);
-      const bytes = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    for (const [name, bytes] of Object.entries(sounds)) {
+      if (!(bytes instanceof ArrayBuffer)) continue;
       blobs[name] = URL.createObjectURL(new Blob([bytes], { type: 'audio/mpeg' }));
     }
     return blobs;

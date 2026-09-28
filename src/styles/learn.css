@@ -34,7 +34,7 @@
 /* Chess.com's Lessons illustration instead of Lichess's grey helmet. Loaded
  * from Chess.com's CDN at runtime; floats like Practice's. */
 .learn__side-home img.decoration {
-  content: url('https://assets-ds.chess.com/color-icons/lessons.svg');
+  content: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg');
   width: 120px !important;
   opacity: 1 !important;
   filter: drop-shadow(0 8px 16px #0006) !important;

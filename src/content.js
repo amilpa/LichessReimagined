@@ -1,6 +1,6 @@
 // Isolated-world content script.
-// 1. Gets the Chess.com sounds from the background worker and forwards them to
-//    the page-world script (page.js), which hooks Lichess's sound player.
+// 1. Reads the Chess.com sounds bundled in sounds/ and forwards them to the
+//    page-world script (page.js), which hooks Lichess's sound player.
 // 2. Keeps a CSS variable in sync with the height of the game controls, which
 //    the game layout grid needs (see styles/game.css).
 // 3. Renders Chess.com-style captured pieces in the player bars, and the
@@ -284,9 +284,30 @@
     if (e.source === window && e.data?.type === MSG_PAGE_READY) postSounds();
   });
 
-  chrome.runtime.sendMessage({ type: 'cdc:get-sounds' }, res => {
-    if (chrome.runtime.lastError || !res?.sounds || !Object.keys(res.sounds).length) return;
-    sounds = res.sounds;
+  // Lichess's CSP lets audio play only from its own domains, blob: and data:,
+  // not from the extension: the page makes blob: URLs of the bytes.
+  const SOUND_NAMES = [
+    'move-self',
+    'move-opponent',
+    'move-check',
+    'capture',
+    'castle',
+    'promote',
+    'premove',
+    'illegal',
+    'notify',
+    'tenseconds',
+    'game-start',
+    'game-end',
+  ];
+  Promise.all(
+    SOUND_NAMES.map(name =>
+      fetch(chrome.runtime.getURL(`sounds/${name}.mp3`))
+        .then(res => res.arrayBuffer())
+        .then(bytes => [name, bytes], () => null),
+    ),
+  ).then(entries => {
+    sounds = Object.fromEntries(entries.filter(Boolean));
     postSounds();
   });
 

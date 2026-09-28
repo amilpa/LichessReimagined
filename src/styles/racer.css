@@ -41,7 +41,7 @@ main.racer-home > h1.box__top::before {
   flex: none;
   width: 40px;
   height: 40px;
-  background: url('https://assets-ds.chess.com/color-icons/battle.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/battle.svg') center / contain no-repeat;
 }
 
 /* "About Puzzle Racer", as a pill beside the title. */
@@ -67,7 +67,7 @@ main.racer-home > h1.box__top::before {
   content: '';
   width: 18px;
   height: 18px;
-  background: url('https://assets-ds.chess.com/color-icons/lessons.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg') center / contain no-repeat;
 }
 
 .racer-home__about a:hover {
@@ -521,7 +521,7 @@ html[dir='rtl'] .racer-home .button:hover::after {
   content: '';
   width: 24px;
   height: 24px;
-  background: url('https://assets-ds.chess.com/color-icons/time-clock.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/time-clock.svg') center / contain no-repeat;
 }
 
 .racer__spectating .puz-clock__time {
@@ -701,7 +701,7 @@ html[dir='rtl'] .racer-home .button:hover::after {
   content: '';
   width: 22px;
   height: 22px;
-  background: url('https://assets-ds.chess.com/color-icons/trophies.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center / contain no-repeat;
 }
 
 .racer .racer__post__next {

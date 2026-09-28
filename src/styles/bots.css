@@ -45,11 +45,11 @@
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/device-bot.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/device-bot.svg') center / contain no-repeat;
 }
 
 .bots__categ:has(.bots__featured) > .box__top > h1::before {
-  background-image: url('https://assets-ds.chess.com/color-icons/crown-gold.svg');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/crown-gold.svg');
 }
 
 /* "About bots on Lichess", as a pill. */

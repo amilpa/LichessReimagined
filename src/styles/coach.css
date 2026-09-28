@@ -73,7 +73,7 @@
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/coaches.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/coaches.svg') center / contain no-repeat;
 }
 
 .coach-list__main .box__top__actions {

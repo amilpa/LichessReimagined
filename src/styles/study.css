@@ -331,7 +331,7 @@
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/book-open-aqua.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-open-aqua.svg') center / contain no-repeat;
 }
 
 .study-topics h2 {
@@ -408,7 +408,7 @@ main.page-menu[data-cdc-nav-active$='/staff-picks'] h1.box__top::before {
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/book-open-aqua.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-open-aqua.svg') center / contain no-repeat;
 }
 
 main.page-menu[data-cdc-nav-active$='/staff-picks'] .body {

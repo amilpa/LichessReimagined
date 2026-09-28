@@ -38,7 +38,7 @@ main.simul-list h1.box__top::before {
   flex: none;
   width: 38px;
   height: 38px;
-  background: url('https://assets-ds.chess.com/color-icons/board-stack-green.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-stack-green.svg') center / contain no-repeat;
 }
 
 /* -------------------------------------------------------- sections --- */
@@ -370,7 +370,7 @@ main.simul-list .slist tr.create td::before {
   flex: none;
   width: 48px;
   height: 48px;
-  background: url('https://assets-ds.chess.com/color-icons/board-stack-green.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-stack-green.svg') center / contain no-repeat;
   filter: drop-shadow(0 6px 10px #0006);
   animation: cdc-simul-float 4s ease-in-out infinite;
 }

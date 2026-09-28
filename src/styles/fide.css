@@ -51,7 +51,7 @@
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/globe.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/globe.svg') center / contain no-repeat;
 }
 
 .fide-federations > .box__top > h1::before {

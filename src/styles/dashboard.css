@@ -44,7 +44,7 @@ main.page-menu .page-menu__content.puzzle-dashboard {
   grid-row: 1 / span 2;
   width: 40px;
   height: 40px;
-  background: url('https://assets-ds.chess.com/color-icons/rating-stats.svg') center / contain
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/rating-stats.svg') center / contain
     no-repeat;
 }
 

@@ -37,7 +37,7 @@ main.swiss-home h1.box__top::before {
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/clipboard-vote.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/clipboard-vote.svg') center / contain no-repeat;
 }
 
 /* ----------------------------------------------------------- lists --- */

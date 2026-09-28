@@ -50,7 +50,7 @@
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/trophies.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center / contain no-repeat;
 }
 
 /* ---------------------------------------------------------- online --- */
@@ -440,7 +440,7 @@ html[dir='rtl'] :is(.community .leaderboards, .tournament-shields) h2 a:hover::a
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('https://assets-ds.chess.com/color-icons/trophies.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center / contain no-repeat;
 }
 
 /* Only the cards scroll: the side menu and the title stay in view, the
@@ -887,32 +887,32 @@ main.tournament-categ-shields li:first-child .user-link {
  * FIDE players: each link's icon and tile color (the tiles are in
  * pages.css). */
 .subnav a[href$='/player'] {
-  --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/leaderboard.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/leaderboard.svg');
   --cdc-nav-color: #f7c631;
 }
 
 .subnav a[href*='/stat/rating/distribution'] {
-  --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/rating-stats.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/rating-stats.svg');
   --cdc-nav-color: #1baaf0;
 }
 
 .subnav a[href$='/tournament/leaderboard'] {
-  --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/trophies.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg');
   --cdc-nav-color: #fa742c;
 }
 
 .subnav a[href$='/tournament/shields'] {
-  --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/shield.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/shield.svg');
   --cdc-nav-color: #81b64c;
 }
 
 .subnav a[href$='/player/bots'] {
-  --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/device-bot.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/device-bot.svg');
   --cdc-nav-color: #8a6fd8;
 }
 
 .subnav[data-cdc-nav~='bots'] a[href*='/fide'] {
-  --cdc-nav-icon: url('https://assets-ds.chess.com/color-icons/globe.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/globe.svg');
   --cdc-nav-color: #26c2a3;
 }
 

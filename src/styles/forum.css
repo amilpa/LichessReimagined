@@ -99,7 +99,7 @@ main.forum.index > .box__top:first-child h1::before {
   width: 44px;
   height: 44px;
   margin: 0 !important;
-  background: url('https://assets-ds.chess.com/color-icons/communication-bubbles.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/communication-bubbles.svg') center / contain no-repeat;
 }
 
 /* "Your Team Boards", above the team categories. */
