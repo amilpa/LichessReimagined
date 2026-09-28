@@ -2,11 +2,9 @@
 
 ![LichessDotCom: Lichess, the look you know](store/promo-marquee.png)
 
-Lichess is free, open source and has no ads. But if you learned chess on the
-big site with the green board, that's the look you're used to, and Lichess
-feels a little foreign. This Chrome extension brings that look and feel to
-Lichess: the green board, the pieces, the sounds, the layout, and a Game
-Review after every game.
+Lichess is free, open source and has no ads. This Chrome extension gives it
+the look and feel most players are used to: a green board, modern pieces,
+familiar sounds, a roomy layout and a Game Review after every game.
 
 Your Lichess account, your games and your friends don't change. Only the look
 and the sounds do.
