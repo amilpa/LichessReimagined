@@ -48,8 +48,7 @@ same treatment.
 
 ## Install it
 
-The extension isn't on the Chrome Web Store yet, so for now you add it by
-hand. It takes a minute.
+If you want to install it directly from GitHub:
 
 1. Download `LichessDotCom-v….zip` from the
    [latest release](https://github.com/theophile-wallez/LichessDotCom/releases/latest)
