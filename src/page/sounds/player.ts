@@ -7,10 +7,11 @@ import {
 } from '#page/lichess/sound.ts';
 import { boardOrientation, mainBoardWrap, readBoard } from './board-reader.ts';
 import { fallbackSound, soundForLichessEvent, soundFromBoard, soundFromSan } from './choose.ts';
+import { watchJumps, type JumpSounds } from './jumps.ts';
 import type { SoundSession } from './session.ts';
 
-// Our sounds go into Lichess's player under their own names, and its `play()`
-// and `move()` are wrapped so each event picks the matching one.
+// Our sounds go into Lichess's player under their own names, and its `play()`,
+// `move()` and `saySan()` are wrapped so each event picks the matching one.
 
 const PREFIX = 'cdc-';
 // Our own moves reach the server, and come back with their SAN, only after
@@ -31,6 +32,8 @@ interface Hook {
   readonly session: SoundSession;
   readonly playOurs: PlayOurs;
   readonly playLichess: PlaySound;
+  readonly playMove: PlayOurs;
+  readonly jumps: JumpSounds;
 }
 
 // Keeps the position the next move is compared with, once the board is redrawn.
@@ -62,14 +65,10 @@ function hookPlay({ sound, urls, playOurs, playLichess }: Hook): void {
 }
 
 function hookMove(hook: Hook): void {
-  const { sound, session, playOurs, playLichess } = hook;
+  const { sound, session, playMove, jumps } = hook;
   const moveLichess = sound.move.bind(sound);
   let serverMove: ServerMove | null = null;
 
-  const playMove = (name: SoundName, volume: unknown): unknown => {
-    session.lastMoveSoundAt = Date.now();
-    return playOurs(name, volume) ?? playLichess('move', volume);
-  };
   const playSan = (san: string, ply: number | undefined, volume: unknown): unknown => {
     rememberBoard(session);
     return playMove(soundFromSan(san, ply, boardOrientation()), volume);
@@ -81,6 +80,7 @@ function hookMove(hook: Hook): void {
     if (recent && Date.now() - recent.at < FRESH_SAN_MS)
       return playSan(recent.san, recent.ply, volume);
     session.lastMoveSoundAt = Date.now();
+    jumps.moved();
     // The board is redrawn on the next frame: read it after that.
     requestAnimationFrame(() => playMove(soundAfterBoardMove(session, name), volume));
     return Promise.resolve();
@@ -101,6 +101,18 @@ function hookMove(hook: Hook): void {
   };
 }
 
+// Lichess passes `cut` when a jump has the SAN spoken, not when a move is played.
+function hookSaySan({ sound, jumps }: Hook): void {
+  const { saySan } = sound;
+  if (!saySan) return;
+  const sayLichess = saySan.bind(sound);
+  sound.saySan = (san, cut, force): unknown => {
+    if (cut === true && sound.theme !== 'music')
+      jumps.jumped(typeof san === 'string' ? san : undefined);
+    return sayLichess(san, cut, force);
+  };
+}
+
 /**
  * Adds our sounds to Lichess's player and wraps its methods, once per page.
  * Returns false when another copy of this script got there first.
@@ -116,9 +128,16 @@ export function hookSoundPlayer(
   const playLichess = sound.play.bind(sound);
   const playOurs: PlayOurs = (name, volume) =>
     urls.has(name) ? playLichess(PREFIX + name, volume) : undefined;
-  const hook: Hook = { sound, urls, session, playOurs, playLichess };
+  const playMove: PlayOurs = (name, volume) => {
+    session.lastMoveSoundAt = Date.now();
+    jumps.moved();
+    return playOurs(name, volume) ?? playLichess('move', volume);
+  };
+  const jumps = watchJumps(session, name => playMove(name, undefined));
+  const hook: Hook = { sound, urls, session, playOurs, playLichess, playMove, jumps };
   hookPlay(hook);
   hookMove(hook);
+  hookSaySan(hook);
   session.playOurs = name => playOurs(name, undefined);
   return true;
 }

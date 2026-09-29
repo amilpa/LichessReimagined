@@ -314,7 +314,9 @@ Learned the hard way. Check here before touching the area concerned.
   Firefox injects the content scripts into open tabs on install or update,
   where an older copy's page script still runs:
   `content/bootstrap/late-reload.ts` reloads such a tab.
-- **Page APIs.** `site.sound` is the sound player; `site.analysis` the
+- **Page APIs.** `site.sound` is the sound player, which Lichess calls on a
+  step forward only, but every jump calls its `saySan(san, true)`:
+  `page/sounds/jumps.ts` sounds the others from there. `site.analysis` is the
   analysis controller (`mainline`, `node`, `path`, `nodeList`,
   `tree.nodeAtPath`, `jumpToMain`, which doesn't scroll the move list,
   `getOrientation`), with the arrows in `chessground.state.drawable`; the
@@ -447,7 +449,7 @@ Learned the hard way. Check here before touching the area concerned.
   style one of our rules sets (on an analysis page, `.analyse__controls` has
   a 1px `border-top`).
 - A finished game's analysis opens on the review's summary, which hides the
-  move list: click "Start Review", or `[title="Close review"]` for Lichess's
+  move list: click "Start Review", or `.cdc-review__close` for Lichess's
   panel.
 - Wait for elements, not for time: snabbdom draws after `load`. Scroll
   panels yourself (`.analyse__moves`' `scrollTop`) and screenshot with a

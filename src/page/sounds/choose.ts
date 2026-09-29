@@ -1,5 +1,5 @@
 import { isAttacked } from '#shared/chess/attacks.ts';
-import { squareCoords } from '#shared/chess/squares.ts';
+import { parseSquare, squareCoords } from '#shared/chess/squares.ts';
 import { COLORS, opposite } from '#shared/chess/types.ts';
 import type { Board, Color, Piece, Role, Square } from '#shared/chess/types.ts';
 import type { SoundName } from '#shared/sounds.ts';
@@ -36,6 +36,23 @@ export function soundFromSan(san: string, ply: number | undefined, orientation: 
   if (ply === undefined) return 'move-self';
   const mover: Color = ply % 2 === 1 ? 'white' : 'black';
   return mover === orientation ? 'move-self' : 'move-opponent';
+}
+
+/**
+ * The sound of the move on the board after a jump, or a plain move at the
+ * start. A quiet move's SAN ends on its destination: the piece there says
+ * whose move it was.
+ */
+export function soundOfShownMove(
+  san: string | undefined,
+  pieces: Board,
+  orientation: Color,
+): SoundName {
+  const sound = san ? soundFromSan(san, undefined, orientation) : 'move-self';
+  if (!san || sound !== 'move-self') return sound;
+  const destination = parseSquare(san.slice(-2));
+  const mover = destination && pieces.get(destination);
+  return mover && mover.color !== orientation ? 'move-opponent' : 'move-self';
 }
 
 // After a legal move only the side to move can be in check, so any king

@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod/mini';
 import { SquareSchema } from '#shared/chess/square-schema.ts';
-import { SoundNameSchema } from '#shared/sounds.ts';
+import { type SoundName, SoundNameSchema } from '#shared/sounds.ts';
 import { ColorSchema, renderBoard } from './fixtures/boards.ts';
-import { fakeSoundPlayer } from './fixtures/sound-player.ts';
+import { fakeSoundPlayer, type PlayerCall } from './fixtures/sound-player.ts';
 import { hookSoundPlayer } from './player.ts';
 import { createSession } from './session.ts';
 // Each scenario's calls to Lichess's player, as recorded from the original.
@@ -34,11 +34,17 @@ const describeResult = (value: unknown): string => {
   return value instanceof Promise ? 'promise' : typeof value;
 };
 
+// The sounds `play()` passed on to Lichess, ours prefixed.
+const played = (calls: readonly PlayerCall[]): unknown[] =>
+  calls.filter(call => call[0] === 'play').map(call => call[1]);
+
 // JSON turns an undefined volume into null, as it did when recording.
 const asRecorded = (value: unknown): unknown => JSON.parse(JSON.stringify(value));
 
 beforeEach(() => {
-  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'Date'] });
+  vi.useFakeTimers({
+    toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'cancelAnimationFrame', 'Date'],
+  });
 });
 
 afterEach(() => {
@@ -98,5 +104,67 @@ describe('hookSoundPlayer', () => {
     expect(session.lastPieces?.has('d2')).toBe(true);
     // Played on the next frame, once the board is redrawn.
     expect(session.lastMoveSoundAt).toBeGreaterThan(movedAt);
+  });
+
+  describe('jumps', () => {
+    const ours: readonly SoundName[] = ['move-self', 'move-opponent', 'capture'];
+
+    const hooked = (): ReturnType<typeof fakeSoundPlayer> => {
+      const player = fakeSoundPlayer();
+      hookSoundPlayer(
+        player.sound,
+        new Map(ours.map(name => [name, `blob:${name}`])),
+        createSession(),
+      );
+      return player;
+    };
+
+    it('plays the move on the board after a step back, once it is redrawn', async () => {
+      const { sound, calls } = hooked();
+      renderBoard({ placement: '4k3/8/8/8/8/5n2/8/4K3', orientation: 'white' });
+      sound.saySan?.('Nf3', true);
+      expect(played(calls)).toEqual([]);
+      await vi.advanceTimersByTimeAsync(20);
+      expect(played(calls)).toEqual(['cdc-move-opponent']);
+      // Lichess still speaks it.
+      expect(calls[0]).toEqual(['saySan', 'Nf3', true]);
+    });
+
+    it('plays nothing more for a step forward, which got its sound', async () => {
+      const { sound, calls } = hooked();
+      renderBoard({ placement: '4k3/8/8/8/8/8/8/4K3', orientation: 'white' });
+      sound.move({ san: 'Kxd2', ply: 1 });
+      sound.saySan?.('Kxd2', true);
+      await vi.advanceTimersByTimeAsync(20);
+      expect(played(calls)).toEqual(['cdc-capture']);
+    });
+
+    it('plays nothing for a move being played, whose SAN is spoken without cutting', async () => {
+      const { sound, calls } = hooked();
+      renderBoard({ placement: '4k3/8/8/8/8/8/8/4K3', orientation: 'white' });
+      sound.saySan?.('Kd2', false);
+      sound.saySan?.('Kd2');
+      await vi.advanceTimersByTimeAsync(20);
+      expect(played(calls)).toEqual([]);
+    });
+
+    it('lets a move played just after a step back speak for both', async () => {
+      const { sound, calls } = hooked();
+      renderBoard({ placement: '4k3/8/8/8/8/8/8/4K3', orientation: 'white' });
+      sound.saySan?.('e4', true);
+      await Promise.resolve();
+      sound.move({ san: 'Kd2', ply: 1 });
+      await vi.advanceTimersByTimeAsync(20);
+      expect(played(calls)).toEqual(['cdc-move-self']);
+    });
+
+    it('leaves the music theme to Lichess', async () => {
+      const { sound, calls } = hooked();
+      sound.theme = 'music';
+      renderBoard({ placement: '4k3/8/8/8/8/8/8/4K3', orientation: 'white' });
+      sound.saySan?.('Kd2', true);
+      await vi.advanceTimersByTimeAsync(20);
+      expect(played(calls)).toEqual([]);
+    });
   });
 });

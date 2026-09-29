@@ -11,6 +11,8 @@ const SoundPlayerSchema = z.object({
   paths: z.instanceof(Map),
   play: method<[name: unknown, volume?: unknown]>(),
   move: method<[options?: unknown]>(),
+  // Speaks a move, if the user turned speech on; called on every jump.
+  saySan: z.optional(method<[san?: unknown, cut?: unknown, force?: unknown]>()),
   theme: z.optional(z.unknown()),
   // Set once our hooks are in, so another copy of the page script leaves them be.
   cdcHooked: z.optional(z.boolean()),

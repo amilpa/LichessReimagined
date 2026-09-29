@@ -17,3 +17,31 @@ export async function ourSounds(page: Page): Promise<Map<string, string>> {
   const entries = PathsSchema.parse(paths);
   return new Map(entries.filter(([name]) => name.startsWith(OUR_SOUND_PREFIX)));
 }
+
+/** Starts recording the sounds Lichess's player is asked for, by name. */
+export async function recordSounds(page: Page): Promise<void> {
+  await page.evaluate(() => {
+    const sound: unknown = Reflect.get(Reflect.get(window, 'site'), 'sound');
+    const load: unknown = Reflect.get(Object(sound), 'load');
+    if (typeof load !== 'function') throw new Error('Lichess’s sound player has no load()');
+    const heard: unknown[] = [];
+    Reflect.set(window, 'cdcHeard', heard);
+    // `play()` loads the sound it's given through `this.load`, where ours are cdc- names.
+    Reflect.set(Object(sound), 'load', (...args: unknown[]): unknown => {
+      heard.push(args[0]);
+      const loaded: unknown = Reflect.apply(load, sound, args);
+      return loaded;
+    });
+  });
+}
+
+/** The sounds asked for since the last call, and forgets them. */
+export async function heardSounds(page: Page): Promise<string[]> {
+  const heard = await page.evaluate((): unknown => {
+    const list: unknown = Reflect.get(window, 'cdcHeard');
+    if (!Array.isArray(list)) return undefined;
+    const taken: unknown[] = list.splice(0);
+    return taken;
+  });
+  return z.array(z.string()).parse(heard);
+}

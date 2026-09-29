@@ -10,6 +10,7 @@ import {
   soundForLichessEvent,
   soundFromBoard,
   soundFromSan,
+  soundOfShownMove,
 } from './choose.ts';
 import { ColorSchema, renderBoard } from './fixtures/boards.ts';
 // What the original script chose for each case.
@@ -92,6 +93,29 @@ describe('castled', () => {
 describe('soundFromSan', () => {
   it.each(fixture.san)('picks what the original picked: $san at ply $ply', entry => {
     expect(soundFromSan(entry.san, entry.ply ?? undefined, entry.orientation)).toBe(entry.sound);
+  });
+});
+
+describe('soundOfShownMove', () => {
+  const pieces = parsePlacement('4k3/8/8/8/4P3/5n2/8/4K3');
+
+  it('reads the move from its SAN', () => {
+    expect(soundOfShownMove('Nxf3+', pieces, 'white')).toBe('move-check');
+    expect(soundOfShownMove('O-O-O', pieces, 'white')).toBe('castle');
+    expect(soundOfShownMove('e8=Q', pieces, 'white')).toBe('promote');
+    expect(soundOfShownMove('exf3', pieces, 'white')).toBe('capture');
+  });
+
+  it('tells whose quiet move it was from the piece on its destination', () => {
+    expect(soundOfShownMove('e4', pieces, 'white')).toBe('move-self');
+    expect(soundOfShownMove('Ngf3', pieces, 'white')).toBe('move-opponent');
+    expect(soundOfShownMove('Ngf3', pieces, 'black')).toBe('move-self');
+    expect(soundOfShownMove('e4', pieces, 'black')).toBe('move-opponent');
+  });
+
+  it('plays a plain move at the start, or when the destination is empty', () => {
+    expect(soundOfShownMove(undefined, pieces, 'black')).toBe('move-self');
+    expect(soundOfShownMove('Ka2', pieces, 'black')).toBe('move-self');
   });
 });
 
