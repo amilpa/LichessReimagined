@@ -19,9 +19,12 @@ const coachContext = (session: Session, gameId: string): CoachContext => ({
   language: session.language,
 });
 
-/** A book move's opening: its own, or else the game's. */
+/**
+ * A book move's opening: its own, or else the game's, named on the move that
+ * reaches it. The export names only the game's last book position.
+ */
 export const openingOf = (session: Session, move: JudgedMove): string =>
-  move.opening ?? session.view.openingName;
+  move.opening ?? (move.ply === session.work.bookPly ? session.view.openingName : '');
 
 export interface VerdictInput {
   readonly move: JudgedMove;

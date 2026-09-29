@@ -64,7 +64,7 @@ export interface ViewState {
   /** The ply the summary was opened on. Moving to another ply opens the move-by-move review. */
   summaryPly: number | undefined;
   drawnMode: Mode | null;
-  /** The game's opening, from its export. */
+  /** The game’s opening, from its export: named on its last book move only. */
   openingName: string;
   /** What the eval bar last showed during the review. */
   barPosition: PositionRecord | null;
