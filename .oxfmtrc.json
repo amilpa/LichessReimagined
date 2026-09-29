@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "trailingComma": "all",
+  "ignorePatterns": [
+    "dist/**",
+    "coverage/**",
+    "public/**",
+    "store/**",
+    "pnpm-lock.yaml",
+    "playwright-report/**",
+    "test-results/**"
+  ],
+  "embeddedLanguageFormatting": "off"
+}

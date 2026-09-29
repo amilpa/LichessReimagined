@@ -1,0 +1,207 @@
+/* ---- Federations --- */
+
+/* The federations' ranking: a row card per federation, like the players'. */
+.fide-federations.page-menu__content.box {
+  padding: 0 0 40px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.fide-federations > .box__top {
+  align-items: center !important;
+  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.fide-federations .slist {
+  width: 100%;
+  border: none !important;
+  border-collapse: separate !important;
+  border-spacing: 0 6px;
+  margin-top: -6px;
+  counter-reset: cdc-fide var(--cdc-fide-skip, 0);
+}
+
+.fide-federations .slist thead {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.fide-federations .slist thead th {
+  padding: 0 10px 8px !important;
+  border: none !important;
+  background: var(--cdc-bg-page);
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px !important;
+  font-weight: 700;
+  text-align: center;
+  text-transform: none;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+.fide-federations .slist thead th:first-child {
+  padding-inline-start: 0 !important;
+  text-align: start;
+}
+
+.fide-federations .slist :is(th, td):not(:first-child) {
+  width: 1%;
+  text-align: center !important;
+}
+
+/* People before the player count, and each rating's time-control icon in the players' colors. */
+.fide-federations .slist thead th:nth-child(2)::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-inline-end: 6px;
+  background: url('https://lichess1.org/assets/flair/img/people.busts-in-silhouette.webp') center /
+    contain no-repeat;
+  vertical-align: -3px;
+}
+
+.fide-federations .slist thead th:is(:nth-child(3), :nth-child(4), :nth-child(5)) {
+  --cdc-mode-icon: var(--cdc-mode-rapid);
+  --cdc-mode-color: #2dd4bf;
+}
+
+.fide-federations .slist thead th:nth-child(4) {
+  --cdc-mode-color: #81b64c;
+}
+
+.fide-federations .slist thead th:nth-child(5) {
+  --cdc-mode-icon: var(--cdc-mode-blitz);
+  --cdc-mode-color: #fad541;
+}
+
+.fide-federations .slist thead th:is(:nth-child(3), :nth-child(4), :nth-child(5))::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-inline-end: 6px;
+  background: var(--cdc-mode-color);
+  -webkit-mask: var(--cdc-mode-icon) center / contain no-repeat;
+  mask: var(--cdc-mode-icon) center / contain no-repeat;
+  vertical-align: -2px;
+}
+
+/* The federation's link covers the whole card. */
+.fide-federations .slist tbody tr.paginated {
+  counter-increment: cdc-fide;
+  position: relative;
+  background: none !important;
+}
+
+.fide-federations .slist tbody tr.paginated > td {
+  padding: 10px 14px !important;
+  border: none !important;
+  background: var(--cdc-bg-panel);
+  color: var(--cdc-text-dim);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: background 0.15s !important;
+}
+
+.fide-federations .slist tbody tr.paginated > td:first-child {
+  padding-inline-start: 14px !important;
+  border-start-start-radius: 10px;
+  border-end-start-radius: 10px;
+}
+
+.fide-federations .slist tbody tr.paginated > td:last-child {
+  padding-inline-end: 18px !important;
+  border-start-end-radius: 10px;
+  border-end-end-radius: 10px;
+}
+
+.fide-federations .slist tbody tr.paginated:hover > td {
+  background: var(--cdc-card-hover);
+}
+
+/* The other two ratings in the text color; classical, the sort order, stands out. */
+.fide-federations .slist tbody td:is(:nth-child(4), :nth-child(5)) {
+  color: var(--cdc-text);
+}
+
+.fide-federations .slist tbody td:nth-child(3) {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.fide-federations .slist tbody td:first-child a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: 800 !important;
+}
+
+.fide-federations .slist tbody td:first-child a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+
+.fide-federations .slist tbody tr:hover td:first-child a {
+  color: var(--cdc-green-hover) !important;
+}
+
+/* The rank, with the players' list's medals. */
+.fide-federations .slist tbody td:first-child a::before {
+  content: counter(cdc-fide);
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  margin-inline-end: -2px;
+  border-radius: 999px;
+  background: var(--cdc-medal, transparent);
+  box-shadow: var(--cdc-medal-shadow, none);
+  color: var(--cdc-medal-text, var(--cdc-text-dim));
+  font-size: 14px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-shadow: var(--cdc-medal-text-shadow, none);
+}
+
+/* The flag, big and round; it bounces on hover. */
+.fide-federations .slist tbody td:first-child .flag {
+  flex: none;
+  width: 40px !important;
+  height: 40px !important;
+  margin: 0 !important;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px #ffffff1a,
+    0 3px 8px #00000066;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.fide-federations .slist tbody tr:hover td:first-child .flag {
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.fide-federations .slist tbody tr.pager th {
+  padding: 12px 0 !important;
+  border: none !important;
+}
+
+.fide-federations .slist tbody tr.pager a {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: var(--cdc-btn-grey);
+  box-shadow: var(--cdc-btn-grey-shadow);
+  color: #fff !important;
+  font-weight: 700;
+}

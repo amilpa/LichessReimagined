@@ -1,0 +1,124 @@
+/* ---- Sticky title --- */
+
+/* On long pages (topics, posts, search results) the title sticks and casts a shadow
+   once stuck. Desktop only: below, Lichess's fixed top bar would cover it. */
+@media (min-width: 1020px) {
+  /* The box's overflow clip would keep the title from sticking. */
+  main.forum:is(.forum-categ, .forum-topic:not(.topic-form)),
+  main.box.search[data-cdc-search$='/forum/search'] {
+    overflow: visible !important;
+    padding-top: 0 !important;
+  }
+
+  main.forum:is(.forum-categ, .forum-topic:not(.topic-form)) > .box__top,
+  main.search[data-cdc-search$='/forum/search'] > .box__top {
+    container-type: scroll-state;
+    position: sticky;
+    z-index: 3;
+    top: 0;
+    /* Wide enough to cover the cards' shadows, but within the page's gutter
+       (1vw, 10px at 1024) so it doesn't run past the window. */
+    margin-inline: calc(-1 * min(12px, 1vw)) !important;
+    padding: 16px min(12px, 1vw) 12px !important;
+    margin-bottom: 10px !important;
+    background: var(--cdc-bg-page);
+  }
+
+  main.forum:is(.forum-categ, .forum-topic:not(.topic-form)) > .box__top::after,
+  main.search[data-cdc-search$='/forum/search'] > .box__top::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: 14px;
+    background: linear-gradient(var(--cdc-bg-page), transparent);
+    opacity: 0;
+    transition: opacity 0.2s !important;
+    pointer-events: none;
+  }
+
+  @container scroll-state(stuck: top) {
+    main.forum:is(.forum-categ, .forum-topic:not(.topic-form)) > .box__top::after,
+    main.search[data-cdc-search$='/forum/search'] > .box__top::after {
+      opacity: 1;
+    }
+  }
+}
+
+/* ---- Narrow --- */
+
+@media (max-width: 799.98px) {
+  main.forum.box,
+  main.box.search[data-cdc-search$='/forum/search'] {
+    padding: 12px 12px 32px !important;
+  }
+
+  main.forum .box__top h1,
+  main.search[data-cdc-search$='/forum/search'] > .box__top h1 {
+    font-size: 24px !important;
+  }
+
+  main.forum form.search input,
+  main.search > .box__top form.search[action$='/forum/search'] input {
+    width: 100%;
+  }
+
+  main.forum .box__top__actions,
+  main.forum form.search {
+    flex: 1 1 100%;
+  }
+
+  /* The last post under the title, on one line. */
+  main.forum table.topics tr:not(.pager) {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 4px 12px;
+    padding: 12px 14px;
+  }
+
+  main.forum table.topics td.right {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  main.forum table.topics td:last-child {
+    grid-column: 2;
+    text-align: start;
+  }
+
+  main.forum table.topics td:last-child br {
+    display: none;
+  }
+
+  main.forum table.topics td:last-child > a:first-child {
+    margin-inline-end: 6px;
+  }
+
+  main.forum-topic .forum-post {
+    grid-template-columns: 36px minmax(0, 1fr);
+    column-gap: 12px;
+    padding: 14px 14px 10px !important;
+  }
+
+  main.forum-topic .forum-post::before {
+    width: 36px;
+    height: 36px;
+  }
+
+  main.forum-topic .forum-post__metas .author.online .line {
+    top: 42px;
+    inset-inline-start: 40px;
+  }
+
+  main.search .search__results tr:not(.pager) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  main.search .search__results td.info {
+    text-align: start;
+  }
+
+  main.search .search__results td.info br {
+    display: none;
+  }
+}

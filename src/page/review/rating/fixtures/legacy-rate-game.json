@@ -1,0 +1,614 @@
+[
+  {
+    "game": 0,
+    "speed": "ultraBullet",
+    "white": 1500,
+    "black": 2100,
+    "rating": {
+      "w": { "elo": 1750, "phases": { "o": "good", "t": "best", "s": "good", "e": "good" } },
+      "b": { "elo": 1950, "phases": { "o": "good", "t": "mistake", "s": "inaccuracy", "e": null } }
+    }
+  },
+  {
+    "game": 0,
+    "speed": "ultraBullet",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": { "elo": 2000, "phases": { "o": "good", "t": "good", "s": "good", "e": "good" } },
+      "b": { "elo": 1750, "phases": { "o": "good", "t": "inaccuracy", "s": "good", "e": null } }
+    }
+  },
+  {
+    "game": 0,
+    "speed": "ultraBullet",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": { "elo": 2000, "phases": { "o": "good", "t": "good", "s": "good", "e": "good" } },
+      "b": { "elo": 1750, "phases": { "o": "good", "t": "inaccuracy", "s": "good", "e": null } }
+    }
+  },
+  {
+    "game": 1,
+    "speed": "bullet",
+    "white": 1537,
+    "black": 2077,
+    "rating": {
+      "w": { "elo": 1150, "phases": { "o": "mistake", "t": "good", "s": "mistake", "e": null } },
+      "b": { "elo": 1600, "phases": { "o": "blunder", "t": "inaccuracy", "s": "good", "e": null } }
+    }
+  },
+  {
+    "game": 1,
+    "speed": "bullet",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1200,
+        "phases": { "o": "inaccuracy", "t": "best", "s": "inaccuracy", "e": null }
+      },
+      "b": { "elo": 1400, "phases": { "o": "blunder", "t": "good", "s": "good", "e": null } }
+    }
+  },
+  {
+    "game": 1,
+    "speed": "bullet",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1200,
+        "phases": { "o": "inaccuracy", "t": "best", "s": "inaccuracy", "e": null }
+      },
+      "b": {
+        "elo": 1350,
+        "phases": { "o": "mistake", "t": "excellent", "s": "excellent", "e": null }
+      }
+    }
+  },
+  {
+    "game": 2,
+    "speed": "blitz",
+    "white": 1574,
+    "black": 2054,
+    "rating": {
+      "w": {
+        "elo": 1250,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "inaccuracy", "e": null }
+      },
+      "b": {
+        "elo": 1350,
+        "phases": { "o": "blunder", "t": "inaccuracy", "s": "excellent", "e": null }
+      }
+    }
+  },
+  {
+    "game": 2,
+    "speed": "blitz",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1200,
+        "phases": { "o": "inaccuracy", "t": "excellent", "s": "inaccuracy", "e": null }
+      },
+      "b": {
+        "elo": 1200,
+        "phases": { "o": "blunder", "t": "inaccuracy", "s": "excellent", "e": null }
+      }
+    }
+  },
+  {
+    "game": 2,
+    "speed": "blitz",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1200,
+        "phases": { "o": "inaccuracy", "t": "excellent", "s": "inaccuracy", "e": null }
+      },
+      "b": {
+        "elo": 1000,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "excellent", "e": null }
+      }
+    }
+  },
+  {
+    "game": 3,
+    "speed": "rapid",
+    "white": 1611,
+    "black": 2031,
+    "rating": {
+      "w": { "elo": 1150, "phases": { "o": "mistake", "t": null, "s": null, "e": null } },
+      "b": { "elo": 1450, "phases": { "o": "blunder", "t": null, "s": null, "e": null } }
+    }
+  },
+  {
+    "game": 3,
+    "speed": "rapid",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": { "elo": 900, "phases": { "o": "inaccuracy", "t": null, "s": null, "e": null } },
+      "b": { "elo": 1300, "phases": { "o": "blunder", "t": null, "s": null, "e": null } }
+    }
+  },
+  {
+    "game": 3,
+    "speed": "rapid",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": { "elo": 900, "phases": { "o": "inaccuracy", "t": null, "s": null, "e": null } },
+      "b": { "elo": 950, "phases": { "o": "inaccuracy", "t": null, "s": null, "e": null } }
+    }
+  },
+  {
+    "game": 4,
+    "speed": "classical",
+    "white": 1648,
+    "black": 2008,
+    "rating": {
+      "w": {
+        "elo": 1450,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "good", "e": "inaccuracy" }
+      },
+      "b": {
+        "elo": 1700,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 4,
+    "speed": "classical",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": { "elo": 1400, "phases": { "o": "good", "t": "inaccuracy", "s": "good", "e": "good" } },
+      "b": {
+        "elo": 1600,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 4,
+    "speed": "classical",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": { "elo": 1400, "phases": { "o": "good", "t": "inaccuracy", "s": "good", "e": "good" } },
+      "b": {
+        "elo": 1500,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "excellent", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 5,
+    "speed": "correspondence",
+    "white": 1685,
+    "black": 1985,
+    "rating": { "w": null, "b": null }
+  },
+  {
+    "game": 5,
+    "speed": "correspondence",
+    "white": null,
+    "black": 1800,
+    "rating": { "w": null, "b": null }
+  },
+  {
+    "game": 5,
+    "speed": "correspondence",
+    "white": null,
+    "black": null,
+    "rating": { "w": null, "b": null }
+  },
+  {
+    "game": 6,
+    "speed": null,
+    "white": 1722,
+    "black": 1962,
+    "rating": {
+      "w": {
+        "elo": 1150,
+        "phases": { "o": "blunder", "t": "good", "s": "excellent", "e": "inaccuracy" }
+      },
+      "b": {
+        "elo": 1550,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "blunder" }
+      }
+    }
+  },
+  {
+    "game": 6,
+    "speed": null,
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1000,
+        "phases": { "o": "inaccuracy", "t": "excellent", "s": "excellent", "e": "good" }
+      },
+      "b": {
+        "elo": 1450,
+        "phases": { "o": "inaccuracy", "t": "excellent", "s": "excellent", "e": "blunder" }
+      }
+    }
+  },
+  {
+    "game": 6,
+    "speed": null,
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1000,
+        "phases": { "o": "inaccuracy", "t": "excellent", "s": "excellent", "e": "good" }
+      },
+      "b": {
+        "elo": 1250,
+        "phases": { "o": "good", "t": "excellent", "s": "excellent", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 7,
+    "speed": "weird",
+    "white": 1759,
+    "black": 1939,
+    "rating": {
+      "w": {
+        "elo": 900,
+        "phases": { "o": "blunder", "t": "inaccuracy", "s": "good", "e": "mistake" }
+      },
+      "b": {
+        "elo": 1200,
+        "phases": { "o": "mistake", "t": "inaccuracy", "s": "inaccuracy", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 7,
+    "speed": "weird",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 700,
+        "phases": { "o": "inaccuracy", "t": "excellent", "s": "excellent", "e": "excellent" }
+      },
+      "b": {
+        "elo": 1100,
+        "phases": { "o": "mistake", "t": "inaccuracy", "s": "inaccuracy", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 7,
+    "speed": "weird",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 700,
+        "phases": { "o": "inaccuracy", "t": "excellent", "s": "excellent", "e": "excellent" }
+      },
+      "b": {
+        "elo": 900,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 8,
+    "speed": "ultraBullet",
+    "white": 1796,
+    "black": 1916,
+    "rating": {
+      "w": {
+        "elo": 2050,
+        "phases": { "o": "excellent", "t": "inaccuracy", "s": "excellent", "e": "mistake" }
+      },
+      "b": {
+        "elo": 1150,
+        "phases": { "o": "mistake", "t": "inaccuracy", "s": "mistake", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 8,
+    "speed": "ultraBullet",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 2050,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "excellent", "e": "mistake" }
+      },
+      "b": {
+        "elo": 1100,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "mistake", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 8,
+    "speed": "ultraBullet",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 2050,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "excellent", "e": "mistake" }
+      },
+      "b": { "elo": 1000, "phases": { "o": "good", "t": "excellent", "s": "good", "e": "good" } }
+    }
+  },
+  {
+    "game": 9,
+    "speed": "bullet",
+    "white": 1833,
+    "black": 1893,
+    "rating": {
+      "w": {
+        "elo": 1500,
+        "phases": { "o": "mistake", "t": "inaccuracy", "s": "inaccuracy", "e": "good" }
+      },
+      "b": {
+        "elo": 1500,
+        "phases": { "o": "blunder", "t": "excellent", "s": "inaccuracy", "e": "good" }
+      }
+    }
+  },
+  {
+    "game": 9,
+    "speed": "bullet",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1400,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "excellent" }
+      },
+      "b": {
+        "elo": 1400,
+        "phases": { "o": "blunder", "t": "excellent", "s": "inaccuracy", "e": "excellent" }
+      }
+    }
+  },
+  {
+    "game": 9,
+    "speed": "bullet",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1400,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "excellent" }
+      },
+      "b": { "elo": 1350, "phases": { "o": "mistake", "t": "best", "s": "good", "e": "excellent" } }
+    }
+  },
+  {
+    "game": 10,
+    "speed": "blitz",
+    "white": 1870,
+    "black": 1870,
+    "rating": {
+      "w": {
+        "elo": 1700,
+        "phases": { "o": "blunder", "t": "good", "s": "excellent", "e": "excellent" }
+      },
+      "b": {
+        "elo": 1900,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "excellent", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 10,
+    "speed": "blitz",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1400,
+        "phases": { "o": "mistake", "t": "good", "s": "best", "e": "excellent" }
+      },
+      "b": {
+        "elo": 1850,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "excellent", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 10,
+    "speed": "blitz",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1400,
+        "phases": { "o": "mistake", "t": "good", "s": "best", "e": "excellent" }
+      },
+      "b": {
+        "elo": 1800,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "excellent", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 11,
+    "speed": "rapid",
+    "white": 1907,
+    "black": 1847,
+    "rating": {
+      "w": { "elo": 1850, "phases": { "o": "good", "t": "good", "s": "good", "e": "good" } },
+      "b": {
+        "elo": 1550,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "excellent", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 11,
+    "speed": "rapid",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": { "elo": 1450, "phases": { "o": "good", "t": "good", "s": "good", "e": "good" } },
+      "b": {
+        "elo": 1500,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "excellent", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 11,
+    "speed": "rapid",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": { "elo": 1450, "phases": { "o": "good", "t": "good", "s": "good", "e": "good" } },
+      "b": {
+        "elo": 1050,
+        "phases": { "o": "inaccuracy", "t": "good", "s": "excellent", "e": "inaccuracy" }
+      }
+    }
+  },
+  {
+    "game": 12,
+    "speed": "classical",
+    "white": 1944,
+    "black": 1824,
+    "rating": {
+      "w": {
+        "elo": 1500,
+        "phases": { "o": "inaccuracy", "t": "mistake", "s": "good", "e": "inaccuracy" }
+      },
+      "b": {
+        "elo": 1400,
+        "phases": { "o": "mistake", "t": "inaccuracy", "s": "good", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 12,
+    "speed": "classical",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1300,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "good", "e": "inaccuracy" }
+      },
+      "b": {
+        "elo": 1400,
+        "phases": { "o": "mistake", "t": "inaccuracy", "s": "good", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 12,
+    "speed": "classical",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1300,
+        "phases": { "o": "good", "t": "inaccuracy", "s": "good", "e": "inaccuracy" }
+      },
+      "b": { "elo": 1250, "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "good" } }
+    }
+  },
+  {
+    "game": 13,
+    "speed": "correspondence",
+    "white": 1981,
+    "black": 1801,
+    "rating": {
+      "w": {
+        "elo": 1350,
+        "phases": { "o": "inaccuracy", "t": "mistake", "s": "inaccuracy", "e": "inaccuracy" }
+      },
+      "b": { "elo": 1650, "phases": { "o": "good", "t": "mistake", "s": "good", "e": "good" } }
+    }
+  },
+  {
+    "game": 13,
+    "speed": "correspondence",
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1000,
+        "phases": { "o": "inaccuracy", "t": "inaccuracy", "s": "good", "e": "good" }
+      },
+      "b": { "elo": 1650, "phases": { "o": "good", "t": "mistake", "s": "good", "e": "good" } }
+    }
+  },
+  {
+    "game": 13,
+    "speed": "correspondence",
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1000,
+        "phases": { "o": "inaccuracy", "t": "inaccuracy", "s": "good", "e": "good" }
+      },
+      "b": { "elo": 1500, "phases": { "o": "good", "t": "mistake", "s": "good", "e": "good" } }
+    }
+  },
+  {
+    "game": 14,
+    "speed": null,
+    "white": 2018,
+    "black": 1778,
+    "rating": {
+      "w": {
+        "elo": 1700,
+        "phases": { "o": "blunder", "t": "good", "s": "good", "e": "excellent" }
+      },
+      "b": {
+        "elo": 1000,
+        "phases": { "o": "blunder", "t": "good", "s": "inaccuracy", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 14,
+    "speed": null,
+    "white": null,
+    "black": 1800,
+    "rating": {
+      "w": {
+        "elo": 1450,
+        "phases": { "o": "mistake", "t": "excellent", "s": "good", "e": "excellent" }
+      },
+      "b": {
+        "elo": 1050,
+        "phases": { "o": "blunder", "t": "good", "s": "inaccuracy", "e": "mistake" }
+      }
+    }
+  },
+  {
+    "game": 14,
+    "speed": null,
+    "white": null,
+    "black": null,
+    "rating": {
+      "w": {
+        "elo": 1450,
+        "phases": { "o": "mistake", "t": "excellent", "s": "good", "e": "excellent" }
+      },
+      "b": { "elo": 800, "phases": { "o": "inaccuracy", "t": "good", "s": "good", "e": "good" } }
+    }
+  }
+]

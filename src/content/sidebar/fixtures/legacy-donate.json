@@ -1,0 +1,17 @@
+[
+  {
+    "name": "the flyout has a patron link",
+    "html": "<header id=\"top\"><nav id=\"topnav\"><section><a href=\"/patron\" class=\"community-patron\">  Donate  </a></section></nav><div class=\"site-buttons\"></div></header>",
+    "after": "<header id=\"top\"><nav id=\"topnav\"><section><a href=\"/patron\" class=\"community-patron\">  Donate  </a></section></nav><a id=\"cdc-donate\" href=\"<origin>/patron\">Donate</a><div class=\"site-buttons\"></div></header>"
+  },
+  {
+    "name": "no patron link (kids)",
+    "html": "<header id=\"top\"><nav id=\"topnav\"><section><a href=\"/tv\">TV</a></section></nav></header>",
+    "after": "<header id=\"top\"><nav id=\"topnav\"><section><a href=\"/tv\">TV</a></section></nav></header>"
+  },
+  {
+    "name": "already there",
+    "html": "<header id=\"top\"><nav id=\"topnav\"><a href=\"/patron\" class=\"community-patron\">Donate</a></nav><a id=\"cdc-donate\" href=\"/x\">Old</a></header>",
+    "after": "<header id=\"top\"><nav id=\"topnav\"><a href=\"/patron\" class=\"community-patron\">Donate</a></nav><a id=\"cdc-donate\" href=\"/x\">Old</a></header>"
+  }
+]

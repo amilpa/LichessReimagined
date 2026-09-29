@@ -1,0 +1,204 @@
+{
+  "niceMax": [
+    {
+      "max": 1,
+      "output": {
+        "step": 0.25,
+        "hi": 1
+      }
+    },
+    {
+      "max": 3,
+      "output": {
+        "step": 1,
+        "hi": 3
+      }
+    },
+    {
+      "max": 4,
+      "output": {
+        "step": 1,
+        "hi": 4
+      }
+    },
+    {
+      "max": 7,
+      "output": {
+        "step": 2,
+        "hi": 8
+      }
+    },
+    {
+      "max": 10,
+      "output": {
+        "step": 2.5,
+        "hi": 10
+      }
+    },
+    {
+      "max": 38,
+      "output": {
+        "step": 10,
+        "hi": 40
+      }
+    },
+    {
+      "max": 99,
+      "output": {
+        "step": 25,
+        "hi": 100
+      }
+    },
+    {
+      "max": 1234,
+      "output": {
+        "step": 500,
+        "hi": 1500
+      }
+    },
+    {
+      "max": 50000,
+      "output": {
+        "step": 20000,
+        "hi": 60000
+      }
+    },
+    {
+      "max": 1850000,
+      "output": {
+        "step": 500000,
+        "hi": 2000000
+      }
+    },
+    {
+      "max": 0.5,
+      "output": {
+        "step": 0.2,
+        "hi": 0.6000000000000001
+      }
+    }
+  ],
+  "column": [
+    {
+      "x": 50,
+      "y": 100,
+      "w": 5.3,
+      "bottom": 300,
+      "output": "M50,300V102.7Q50,100 52.7,100H52.7Q55.3,100 55.3,102.7V300Z"
+    },
+    {
+      "x": 50.123,
+      "y": 299,
+      "w": 5.3,
+      "bottom": 300,
+      "output": "M50.1,300V299.5Q50.1,299 50.6,299H54.9Q55.4,299 55.4,299.5V300Z"
+    },
+    {
+      "x": 60,
+      "y": 20,
+      "w": 1.2,
+      "bottom": 300,
+      "output": "M60,300V20.6Q60,20 60.6,20H60.6Q61.2,20 61.2,20.6V300Z"
+    },
+    {
+      "x": 70,
+      "y": 300,
+      "w": 8,
+      "bottom": 300,
+      "output": "M70,300V300Q70,300 70,300H78Q78,300 78,300V300Z"
+    },
+    {
+      "x": 80.55,
+      "y": 150.45,
+      "w": 20,
+      "bottom": 330,
+      "output": "M80.6,330V153.5Q80.6,150.5 83.6,150.5H97.6Q100.6,150.5 100.6,153.5V330Z"
+    }
+  ],
+  "curve": [
+    {
+      "points": [
+        [50, 330],
+        [75, 329.9],
+        [100, 300],
+        [125, 200],
+        [150, 18.5]
+      ],
+      "output": "M50,330C58.3,330,66.7,330,75,329.9C83.3,329.8,91.7,315.3,100,300C108.3,284.7,116.7,243,125,200C133.3,157,141.7,79,150,18.5"
+    },
+    {
+      "points": [
+        [0, 10],
+        [5, 5],
+        [10, 0]
+      ],
+      "output": "M0,10C1.7,8.3,3.3,6.7,5,5C6.7,3.3,8.3,1.7,10,0"
+    }
+  ],
+  "rejected": [
+    {
+      "name": "one column",
+      "path": "/stat/rating/distribution/blitz",
+      "init": "{\"freq\":[3]}",
+      "host": true,
+      "unchanged": true,
+      "observers": 0
+    },
+    {
+      "name": "all zero",
+      "path": "/stat/rating/distribution/blitz",
+      "init": "{\"freq\":[0,0,0]}",
+      "host": true,
+      "unchanged": true,
+      "observers": 0
+    },
+    {
+      "name": "a string",
+      "path": "/stat/rating/distribution/blitz",
+      "init": "{\"freq\":[1,\"2\",3]}",
+      "host": true,
+      "unchanged": true,
+      "observers": 0
+    },
+    {
+      "name": "no freq",
+      "path": "/stat/rating/distribution/blitz",
+      "init": "{\"myRating\":1500}",
+      "host": true,
+      "unchanged": true,
+      "observers": 0
+    },
+    {
+      "name": "broken json",
+      "path": "/stat/rating/distribution/blitz",
+      "init": "{\"freq\":[1,2",
+      "host": true,
+      "unchanged": true,
+      "observers": 0
+    },
+    {
+      "name": "no init data",
+      "path": "/stat/rating/distribution/blitz",
+      "init": null,
+      "host": true,
+      "unchanged": true,
+      "observers": 0
+    },
+    {
+      "name": "no host",
+      "path": "/stat/rating/distribution/blitz",
+      "init": "{\"freq\":[1,2,3]}",
+      "host": false,
+      "unchanged": true,
+      "observers": 0
+    },
+    {
+      "name": "other page",
+      "path": "/stat/rating/blitz",
+      "init": "{\"freq\":[1,2,3]}",
+      "host": true,
+      "unchanged": true,
+      "observers": 0
+    }
+  ]
+}

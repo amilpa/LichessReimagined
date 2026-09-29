@@ -1,0 +1,250 @@
+/* Palette, fonts, buttons and boxes. Lichess drives its colors through --c-*
+ * variables, so overriding them for every theme (dark, light, transparent)
+ * re-skins most pages. */
+
+:root,
+:root.light,
+:root.dark,
+:root.transp,
+:root.transp.light {
+  --cdc-bg-page: #302e2b;
+  --cdc-bg-panel: #262522;
+  --cdc-bg-panel-dark: #21201d;
+  --cdc-bg-raised: #3c3a37;
+  --cdc-bg-raised-hover: #4b4847;
+  --cdc-border: #3c3a37;
+  --cdc-text: #ffffffd9;
+  --cdc-text-strong: #fff;
+  --cdc-text-dim: #989795;
+  /* Tertiary text (move numbers, unrated chips): still 3:1 on the panels. */
+  --cdc-font-dimmer: #7d7b78;
+  --cdc-green: #81b64c;
+  --cdc-green-hover: #a3d160;
+  --cdc-green-shadow: #45753c;
+  /* Menus are lighter than cards, and outlined: on a dark UI a shadow alone
+   * doesn't separate them. */
+  --cdc-menu-bg: #3c3a37;
+  --cdc-menu-border: #ffffff24;
+  --cdc-menu-hover: #ffffff17;
+  --cdc-menu-shadow: 0 0 0 1px #0000008c, 0 16px 40px #000000b3, 0 4px 12px #00000080;
+  /* Buttons: a gradient, 1px lighter top and darker bottom edges, a soft shadow. */
+  --cdc-btn-green: linear-gradient(#8bbe52 0%, #7fb34c 12%, #6ea749 50%, #599144 100%);
+  --cdc-btn-green-hover: linear-gradient(#9ccd5f 0%, #8dc054 12%, #7bb44f 50%, #69a34c 100%);
+  --cdc-btn-green-shadow: inset 0 1px 0 #9ccd5e, inset 0 -1px 0 #45753c, 0 1px 4px #0000005c;
+  --cdc-btn-grey: linear-gradient(#3c3a38, #32302e);
+  --cdc-btn-grey-hover: linear-gradient(#4a4845, #3d3b38);
+  --cdc-btn-grey-shadow: inset 0 1px 0 #ffffff17, inset 0 -1px 0 #0000000f, 0 1px 4px #0000005c;
+  --cdc-btn-red: linear-gradient(#e25a55 0%, #d64742 50%, #c0392f 100%);
+  --cdc-btn-red-hover: linear-gradient(#ea6a65, #dc5550 50%, #c9453b);
+  --cdc-btn-red-shadow: inset 0 1px 0 #ec7570, inset 0 -1px 0 #8e2a2a, 0 1px 4px #0000005c;
+  /* Cards: a faint edge keeps neighbours apart. The hover fill stays darker than
+   * the page, or the card melts into it. */
+  --cdc-card-border: #ffffff0f;
+  --cdc-card-border-hover: #ffffff2e;
+  --cdc-card-hover: #2c2b28;
+  --cdc-card-shadow-hover: 0 4px 12px #00000040;
+  /* Title badge (GM, IM...). */
+  --cdc-title-bg: #7c2929;
+  /* Lichess has no profile pictures: one default avatar for all. The inline
+   * pawn under it shows until the image loads. */
+  --cdc-avatar:
+    url('chrome-extension://__MSG_@@extension_id__/img/icons/user-image.svg') center / cover
+      no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cpath fill='%23e7e5e3' d='M0 0h400v400H0z'/%3E%3Ccircle cx='200' cy='104' r='60' fill='%23bcbbb7'/%3E%3Crect x='124' y='160' width='152' height='32' rx='16' fill='%23bcbbb7'/%3E%3Cpath fill='%23bcbbb7' d='M150 192c0 58-40 88-58 132l-12 76h240l-12-76c-18-44-58-74-58-132z'/%3E%3Cpath fill='%23898785' d='M250 192c0 58 40 88 58 132l12 76h-64l-6-76c-8-44-28-74-28-132z' opacity='.35'/%3E%3C/svg%3E")
+      center / cover no-repeat,
+    #e7e5e3;
+  /* A smiling monitor ("Play the computer"). */
+  --cdc-computer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' fill='none' height='90' viewBox='0 0 90 90' width='90'%3E%3CclipPath id='a'%3E%3Cpath d='m0 0h90v90h-90z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23a)'%3E%3Cpath d='m52 62h-14v16h14z' fill='%23324660'/%3E%3Cpath d='m38 75.5385.5603-.1232c4.2425-.9324 8.6369-.9324 12.8794 0l.5603.1232v6.4615h-14z' fill='%23486688'/%3E%3Cpath d='m84 23h-78c-3.31371 0-6 2.6863-6 6v16c0 3.3137 2.68629 6 6 6h78c3.3137 0 6-2.6863 6-6v-16c0-3.3137-2.6863-6-6-6z' fill='%23324660'/%3E%3Cpath d='m5 39.0446c0 3.7098-1.05414 7.3188-3.00391 10.4228-1.224849-1.0985-1.99609-2.693-1.99609-4.4678v-16c.00017964-2.9727 2.16254-5.4388 5-5.915zm80-15.96c2.8375.4762 4.9998 2.9423 5 5.915v16c0 1.7751-.7719 3.3693-1.9971 4.4678-1.9496-3.1039-3.0029-6.7132-3.0029-10.4228z' fill='%23486688'/%3E%3Cpath d='m0 43.16v-14.16c0-3.3137 2.68629-6 6-6h1c-3.25634.6631-5.67983 3.4026-5.94083 6.7155z' fill='%23749bbf'/%3E%3Cpath d='m90 43.16v-14.16c0-3.3137-2.6863-6-6-6h-1c3.5869 1.0043 6.1354 4.1822 6.3367 7.9017z' fill='%23749bbf'/%3E%3Cpath d='m20.4151 85.5598c2.0763-2.4544 4.9961-4.0428 8.1847-4.4525 10.8887-1.3991 21.9117-1.3991 32.8004 0 3.1886.4097 6.1084 1.9981 8.1847 4.4525l1.4151 1.6728-.2849.0607c-8.4534 1.7995-17.0723 2.7067-25.7151 2.7067s-17.2617-.9072-25.7151-2.7067l-.2849-.0607z' fill='%23dad8d6'/%3E%3Cpath d='m20.4151 85.5599c2.0763-2.4545 4.9961-4.0428 8.1847-4.4526 10.8887-1.3991 21.9117-1.3991 32.8004 0 3.1886.4098 6.1084 1.9981 8.1847 4.4526l1.4151 1.6728-3.3395-2.4412c-2.0723-1.5148-4.4987-2.4725-7.0469-2.7815l-3.5789-.4338c-7.9939-.9691-16.0755-.9691-24.0694 0l-3.5789.4338c-2.5483.309-4.9746 1.2667-7.0469 2.7815l-3.3395 2.4412z' fill='%23f1f1f1'/%3E%3Cpath d='m73 5h-56c-5.5228 0-10 4.47715-10 10v47.5c0 5.5228 4.4772 10 10 10h56c5.5229 0 10-4.4772 10-10v-47.5c0-5.52285-4.4771-10-10-10z' fill='%23e7e6e5'/%3E%3Cpath d='m7 37v-22c0-5.52285 4.4772-10 10-10h42l-40.8145 1.04653c-5.1604.13231-9.37209 4.17087-9.72081 9.32117z' fill='%23f8f8f8'/%3E%3Cpath d='m83 40.5v22c0 5.5228-4.4772 10-10 10h-42l40.8145-1.0465c5.1604-.1323 9.3721-4.1709 9.7208-9.3212z' fill='%23f8f8f8'/%3E%3Cpath d='m71 13h-52c-2.2091 0-4 1.7909-4 4v43.5c0 2.2091 1.7909 4 4 4h52c2.2091 0 4-1.7909 4-4v-43.5c0-2.2091-1.7909-4-4-4z' fill='%23749bbf'/%3E%3Cpath d='m69.6673 16.1562h-49.3333c-1.1046 0-2 .8954-2 2v41.1875c0 1.1046.8954 2 2 2h49.3333c1.1046 0 2-.8954 2-2v-41.1875c0-1.1046-.8954-2-2-2z' fill='%23aed0f0'/%3E%3Cpath d='m18.334 52.549v-34.3928c0-1.1045.8954-2 2-2l48.3467.0001-38.5011 2.2689c-4.9094.2893-8.8797 4.1054-9.3633 8.9994z' fill='%23d0e6fb' opacity='.5'/%3E%3Cg fill='%23486688'%3E%3Cpath clip-rule='evenodd' d='m29.1636 45.7503c.7181-1.4363 2.5086-1.9374 3.942-1.2136 8.0097 4.0444 15.8724 4.0071 23.788.0036 1.4338-.7251 3.2256-.2246 3.9441 1.2124.6404 1.2809.1898 2.8493-1.081 3.5093-9.7599 5.0689-19.6525 5.1113-29.5101-.0003-1.2724-.6598-1.724-2.2295-1.083-3.5114z' fill-rule='evenodd'/%3E%3Cpath d='m35.0947 26.4184c2.4453-.1016 4.5341 2.399 4.5342 5.3691 0 2.9702-2.0889 5.3691-4.5342 5.3691-2.5747-.0001-4.6474-2.399-4.6474-5.3691.0001-2.97 2.0889-5.369 4.6474-5.3691zm19.3252 0c2.5748-.1015 4.6474 2.399 4.6475 5.3691 0 2.9702-2.0888 5.3691-4.6475 5.3691s-4.5342-2.3989-4.5342-5.3691c.0001-2.9701 2.089-5.3691 4.5342-5.3691z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  /* The computer's avatar, on the TV's computer blue. */
+  --cdc-computer-avatar:
+    var(--cdc-computer) center / 80% no-repeat, linear-gradient(160deg, #5ec7e8, #2a8fb8);
+  --cdc-font:
+    'CDC Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+
+  --c-bg: var(--cdc-bg-panel) !important;
+  --c-bg-box: var(--cdc-bg-panel) !important;
+  --c-bg-high: var(--cdc-bg-panel) !important;
+  --c-bg-opaque: var(--cdc-bg-panel) !important;
+  --c-bg-page: var(--cdc-bg-page) !important;
+  --c-bg-mid: #2b2a27 !important;
+  --c-bg-low: var(--cdc-bg-raised) !important;
+  --c-bg-popup: var(--cdc-bg-panel) !important;
+  --c-bg-header-dropdown: var(--cdc-bg-panel) !important;
+  --c-bg-zebra: #2b2a27 !important;
+  --c-bg-zebra2: #33312e !important;
+  --c-bg-input: var(--cdc-bg-raised) !important;
+  --c-page-input: var(--cdc-bg-raised) !important;
+  --c-bg-variation: #2b2a27 !important;
+  --c-body-gradient: var(--cdc-bg-page) !important;
+  --c-font: #d4d3d1 !important;
+  --c-font-dim: var(--cdc-text-dim) !important;
+  --c-font-dimmer: var(--cdc-font-dimmer) !important;
+  --c-font-clear: #f0efed !important;
+  --c-font-clearer: #fff !important;
+  --c-font-page: var(--cdc-text-dim) !important;
+  --c-font-shadow: transparent !important;
+  --c-header-dropdown: var(--cdc-text) !important;
+  --c-border: var(--cdc-border) !important;
+  --c-border-page: var(--cdc-border) !important;
+  --c-border-light: #5d5b58 !important;
+  --c-shade: #4b4847 !important;
+  --c-dark: #21201d !important;
+  --c-dimmer: #000 !important;
+  --c-clearer: #fff !important;
+  --c-over: #fff !important;
+  --c-primary: var(--cdc-green) !important;
+  --c-primary-dim: #5d9948 !important;
+  --c-primary-clear: var(--cdc-green-hover) !important;
+  --c-secondary: var(--cdc-green) !important;
+  --c-secondary-dim: #5d9948 !important;
+  --c-secondary-dimmer: #45753c !important;
+  --c-link: var(--cdc-green) !important;
+  --c-link-dim: #5d9948 !important;
+  --c-link-clear: var(--cdc-green-hover) !important;
+  --c-link-hover: var(--cdc-green-hover) !important;
+  --c-good: var(--cdc-green) !important;
+  --c-bad: #e02828 !important;
+  --c-accent: var(--cdc-green) !important;
+  --c-future: #4b4847 !important;
+  --c-brag: #e3aa24 !important;
+  --c-metal-top: var(--cdc-bg-raised) !important;
+  --c-metal-bottom: var(--cdc-bg-raised) !important;
+  --c-metal-top-hover: var(--cdc-bg-raised-hover) !important;
+  --c-metal-bottom-hover: var(--cdc-bg-raised-hover) !important;
+  --c-page-mask: #000000b3 !important;
+  --c-chat-host-bg: #81b64c33 !important;
+  --c-chat-mention-bg: #81b64c26 !important;
+  --c-paper: #262522 !important;
+
+  color-scheme: dark;
+  background: var(--cdc-bg-page) !important;
+}
+
+/* Paint html, not body: Lichess draws some things behind the page with a
+ * negative z-index (the clock faces), which a painted body hides. */
+html {
+  background: var(--cdc-bg-page) !important;
+  background-image: none !important;
+}
+
+body {
+  background: transparent !important;
+}
+
+html,
+body,
+.site-title,
+input,
+button,
+textarea,
+select {
+  font-family: var(--cdc-font) !important;
+}
+
+/* Lichess's transparent theme hangs a wallpaper on html::before. */
+html.transp::before {
+  display: none !important;
+}
+
+/* ---- Buttons --- */
+
+.button {
+  background: var(--cdc-btn-green) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 7px !important;
+  text-transform: none !important;
+  font-weight: 800 !important;
+  text-shadow: 0 1px 1px #00000033 !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
+  filter: none !important;
+  transition:
+    filter 0.1s,
+    transform 0.1s !important;
+}
+
+.button:not(.disabled):hover {
+  background: var(--cdc-btn-green-hover) !important;
+}
+
+.button:not(.disabled):active {
+  transform: translateY(1px);
+}
+
+.button.button-empty,
+.button.button-metal,
+.button.button-inverse {
+  background: var(--cdc-btn-grey) !important;
+  color: var(--cdc-text) !important;
+  text-shadow: none !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+}
+
+.button.button-empty:not(.disabled):hover,
+.button.button-metal:not(.disabled):hover,
+.button.button-inverse:not(.disabled):hover {
+  background: var(--cdc-btn-grey-hover) !important;
+  color: #fff !important;
+}
+
+.button.button-red {
+  background: var(--cdc-btn-red) !important;
+  color: #fff !important;
+  box-shadow: var(--cdc-btn-red-shadow) !important;
+}
+
+.button.button-red:not(.disabled):hover {
+  background: var(--cdc-btn-red-hover) !important;
+}
+
+/* ---- Boxes --- */
+
+.box,
+.page-menu__content,
+.lobby__app,
+.lobby__side,
+.round__side .game__meta,
+.puzzle__side .puzzle__side__box {
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+input,
+textarea,
+select {
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b4847;
+  border-radius: 4px;
+}
+
+/* Firefox ignores ::-webkit-scrollbar. Firefox only: in Chrome, scrollbar-color
+ * would switch off the rules above. */
+@supports (-moz-appearance: none) {
+  html {
+    scrollbar-color: #4b4847 transparent;
+  }
+}
+
+/* ---- Titles --- */
+
+/* A player's title (span.utitle), wherever a name shows, as a white-on-red badge.
+ * Sized in em to follow the text around it; Lichess already adds the space. */
+.utitle,
+.utitle[data-bot] {
+  display: inline-block;
+  margin-inline-end: 0.15em;
+  padding: 0 0.3em;
+  border-radius: 0.25em;
+  background: var(--cdc-title-bg);
+  color: #fff !important;
+  font-size: 0.72em;
+  font-weight: 800 !important;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-shadow: none;
+  vertical-align: 0.14em;
+}

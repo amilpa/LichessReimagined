@@ -1,0 +1,273 @@
+/* ---- Game setup: mode, level, color --- */
+
+/* Mode (casual / rated) and computer level: segments on the same track. */
+.game-setup group.radio {
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px !important;
+  background: var(--cdc-setup-track);
+  overflow: visible !important;
+}
+
+.game-setup group.radio label {
+  min-height: 36px;
+  padding: 6px 8px !important;
+  border: none !important;
+  border-radius: 7px;
+  background: transparent !important;
+  color: var(--cdc-text-dim);
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    background-color 0.15s,
+    color 0.15s !important;
+}
+
+.game-setup group.radio label:not(.disabled):hover {
+  background: #ffffff0a !important;
+  color: #fff;
+}
+
+.game-setup group.radio input:checked + label,
+.game-setup group.radio input:checked + label:not(.disabled):hover {
+  background: var(--cdc-setup-tint) !important;
+  box-shadow: var(--cdc-setup-chosen) !important;
+  color: #fff !important;
+}
+
+.game-setup group.radio input:focus-visible + label {
+  outline: 2px solid #fff !important;
+  outline-offset: -2px;
+}
+
+/* Each Stockfish level shows an approximate Elo, keyed on its radio id: a Lichess dev's
+ * figures (forum, "How strong are the stockfish levels?"), for OTB play, hence the "~". */
+/* Equal cells: sized by content, a "~400" cell was narrower than a "~1100" one. */
+.game-setup
+  group.radio
+  > div:has(
+    > :is(
+      #sf_level_1,
+      #sf_level_2,
+      #sf_level_3,
+      #sf_level_4,
+      #sf_level_5,
+      #sf_level_6,
+      #sf_level_7,
+      #sf_level_8
+    )
+  ) {
+  flex-basis: 0 !important;
+}
+
+.game-setup group.radio label[for^='sf_level_'] {
+  flex-direction: column;
+  gap: 2px;
+  min-height: 46px;
+  padding: 6px 4px !important;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.game-setup group.radio label[for^='sf_level_']::after {
+  content: var(--cdc-level-elo);
+  color: var(--cdc-text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.15s !important;
+}
+
+.game-setup group.radio input:checked + label[for^='sf_level_']::after {
+  color: var(--cdc-green-hover);
+}
+
+.game-setup label[for='sf_level_1'] {
+  --cdc-level-elo: '~400';
+}
+
+.game-setup label[for='sf_level_2'] {
+  --cdc-level-elo: '~500';
+}
+
+.game-setup label[for='sf_level_3'] {
+  --cdc-level-elo: '~800';
+}
+
+.game-setup label[for='sf_level_4'] {
+  --cdc-level-elo: '~1100';
+}
+
+.game-setup label[for='sf_level_5'] {
+  --cdc-level-elo: '~1500';
+}
+
+.game-setup label[for='sf_level_6'] {
+  --cdc-level-elo: '~1900';
+}
+
+.game-setup label[for='sf_level_7'] {
+  --cdc-level-elo: '~2300';
+}
+
+.game-setup label[for='sf_level_8'] {
+  --cdc-level-elo: '2800+';
+}
+
+/* Phones: four levels a row (eight left a lone eighth), and time tabs sized by their
+ * labels ("Correspondence" didn't fit a third). */
+@media (max-width: 459.29px) {
+  .game-setup
+    group.radio
+    > div:has(
+      > :is(
+        #sf_level_1,
+        #sf_level_2,
+        #sf_level_3,
+        #sf_level_4,
+        #sf_level_5,
+        #sf_level_6,
+        #sf_level_7,
+        #sf_level_8
+      )
+    ) {
+    flex: 1 0 calc(25% - 3px) !important;
+  }
+
+  .game-setup .time-control-tabs .tabs-horiz button {
+    flex: 1 1 auto;
+    padding: 0 6px !important;
+    font-size: 13px;
+  }
+}
+
+/* Rating and rating filter: quiet lines under the mode. */
+.game-setup .ratings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: -8px;
+  color: var(--cdc-text-dim);
+  font-size: 14px;
+}
+
+.game-setup .ratings strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 !important;
+  color: #fff;
+}
+
+.game-setup .setup-content > div.disabled {
+  opacity: 1 !important;
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.game-setup .rating-range {
+  gap: 10px;
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-setup .rating-range :is(.rating-min, .rating-max) {
+  color: #fff;
+}
+
+/* White / random / black: separate cards, off the segmented track. */
+.game-setup group.radio.color-cards {
+  gap: 8px;
+  padding: 0;
+  background: none;
+  box-shadow: none !important;
+}
+
+.game-setup .color-cards label.card-radio {
+  border: none !important;
+  border-radius: 10px !important;
+  background: var(--cdc-bg-raised) !important;
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s !important;
+}
+
+.game-setup .color-cards label.card-radio:hover {
+  background: var(--cdc-bg-raised-hover) !important;
+}
+
+.game-setup .color-cards input:checked + label.card-radio {
+  background: var(--cdc-setup-tint) !important;
+  box-shadow: var(--cdc-setup-chosen) !important;
+  text-shadow: none !important;
+}
+
+.game-setup .color-cards .card-radio .text {
+  font-weight: 700 !important;
+}
+
+/* The footer button is the dialog's primary action. */
+.game-setup .footer {
+  padding: 24px !important;
+}
+
+.game-setup .footer .lobby__start__button.button {
+  justify-content: center;
+  width: 100%;
+  height: 56px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
+  color: #fff !important;
+  font-size: 20px !important;
+}
+
+.game-setup .footer .lobby__start__button.button:not(.disabled):hover {
+  background: var(--cdc-btn-green-hover) !important;
+}
+
+dialog .game-setup .footer .lobby__start__button.button::before {
+  color: #fff !important;
+}
+
+/* ---- Radio groups --- */
+
+/* Lichess's metal segmented controls (setup, coordinate trainer, preferences), flat. */
+group.radio {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+group.radio label,
+group.radio .label {
+  border-color: var(--cdc-bg-panel) !important;
+  background: var(--cdc-bg-raised) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+group.radio label:not(.disabled):hover {
+  background: var(--cdc-bg-raised-hover) !important;
+}
+
+group.radio input:checked + label,
+group.radio input:checked + label:not(.disabled):hover {
+  background: var(--cdc-green) !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+/* Range sliders (time controls). */
+input.range::-webkit-slider-runnable-track {
+  background: var(--cdc-bg-raised-hover) !important;
+}
+
+input.range::-webkit-slider-thumb {
+  border: none !important;
+  background: var(--cdc-green) !important;
+}

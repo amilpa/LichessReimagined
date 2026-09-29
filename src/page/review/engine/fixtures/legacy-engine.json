@@ -1,0 +1,259 @@
+{
+  "outputs": [
+    {
+      "lines": [
+        "info depth 1 seldepth 1 multipv 1 score cp 25 nodes 20 nps 10000 pv e2e4",
+        "info depth 1 multipv 2 score cp 10 pv d2d4 d7d5",
+        "bestmove e2e4 ponder e7e5"
+      ],
+      "sent": [
+        "position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "go depth 9 movetime 77"
+      ],
+      "result": {
+        "lines": [
+          { "cp": 25, "pv": ["e2e4"] },
+          { "cp": 10, "pv": ["d2d4", "d7d5"] }
+        ],
+        "bestmove": "e2e4"
+      }
+    },
+    {
+      "lines": [
+        "info string NNUE",
+        "info depth 10 score cp 30 pv e2e4 e7e5",
+        "info depth 12 multipv 1 score cp 40 lowerbound pv g1f3",
+        "info depth 12 multipv 1 score cp 38 upperbound pv g1f3",
+        "info depth 12 multipv 2 score mate -3 pv a2a3",
+        "bestmove e2e4"
+      ],
+      "sent": [
+        "position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "go depth 9 movetime 77"
+      ],
+      "result": {
+        "lines": [
+          { "cp": 30, "pv": ["e2e4", "e7e5"] },
+          { "mate": -3, "pv": ["a2a3"] }
+        ],
+        "bestmove": "e2e4"
+      }
+    },
+    {
+      "lines": ["info depth 0 score mate 0", "bestmove (none)"],
+      "sent": [
+        "position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "go depth 9 movetime 77"
+      ],
+      "result": { "lines": [{ "mate": 0, "pv": [] }], "bestmove": "(none)" }
+    },
+    {
+      "lines": [
+        "info depth 5 multipv 2 score cp -15 pv b1c3",
+        "info depth 5 multipv 1 score mate 2 pv h5f7 e8e7   d1d8",
+        "bestmove h5f7"
+      ],
+      "sent": [
+        "position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "go depth 9 movetime 77"
+      ],
+      "result": {
+        "lines": [
+          { "mate": 2, "pv": ["h5f7", "e8e7", "d1d8"] },
+          { "cp": -15, "pv": ["b1c3"] }
+        ],
+        "bestmove": "h5f7"
+      }
+    },
+    {
+      "lines": [
+        "info depth 5 multipv 1 score cp 12 pv    ",
+        "info depth 5 multipv 3 score cp 3 pv a2a4",
+        "bestmove"
+      ],
+      "sent": [
+        "position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "go depth 9 movetime 77"
+      ],
+      "result": {
+        "lines": [
+          { "cp": 12, "pv": [] },
+          { "cp": 3, "pv": ["a2a4"] }
+        ]
+      }
+    },
+    {
+      "lines": [
+        "id name Stockfish",
+        "uciok",
+        "info depth 3 currmove e2e4 currmovenumber 1",
+        "info depth 4 multipv 1 score cp 7 time 3 pv c2c4 e7e5 b1c3",
+        "bestmove c2c4"
+      ],
+      "sent": [
+        "position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "go depth 9 movetime 77"
+      ],
+      "result": { "lines": [{ "cp": 7, "pv": ["c2c4", "e7e5", "b1c3"] }], "bestmove": "c2c4" }
+    }
+  ],
+  "records": [
+    {
+      "fen": "8/8/8/8/8/8/8/K6k w - - 0 1",
+      "result": { "lines": [] },
+      "record": { "cp": 0, "wp": 50, "wp2": null, "best": null }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k w - - 0 1",
+      "result": { "lines": [{ "mate": 0, "pv": [] }] },
+      "record": { "mate": 0, "wp": 0, "wp2": null, "best": null }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k w - - 0 1",
+      "result": {
+        "lines": [
+          { "cp": 0, "pv": ["e2e4"] },
+          { "mate": 2, "pv": ["d2d4"] }
+        ]
+      },
+      "record": { "cp": 0, "wp": 50, "wp2": 100, "best": "e2e4" }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k w - - 0 1",
+      "result": {
+        "lines": [
+          { "mate": -3, "pv": ["a2a3"] },
+          { "cp": -500, "pv": [] }
+        ]
+      },
+      "record": { "mate": -3, "wp": 0, "wp2": 13.692834003181723, "best": "a2a3" }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k w - - 0 1",
+      "result": { "lines": [{ "cp": -120, "pv": [] }] },
+      "record": { "cp": -120, "wp": 39.13003349547192, "wp2": null, "best": null }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k b - - 0 1",
+      "result": { "lines": [] },
+      "record": { "cp": 0, "wp": 50, "wp2": null, "best": null }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k b - - 0 1",
+      "result": { "lines": [{ "mate": 0, "pv": [] }] },
+      "record": { "mate": 0, "wp": 100, "wp2": null, "best": null }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k b - - 0 1",
+      "result": {
+        "lines": [
+          { "cp": 0, "pv": ["e2e4"] },
+          { "mate": 2, "pv": ["d2d4"] }
+        ]
+      },
+      "record": { "cp": 0, "wp": 50, "wp2": 0, "best": "e2e4" }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k b - - 0 1",
+      "result": {
+        "lines": [
+          { "mate": -3, "pv": ["a2a3"] },
+          { "cp": -500, "pv": [] }
+        ]
+      },
+      "record": { "mate": 3, "wp": 100, "wp2": 86.30716599681827, "best": "a2a3" }
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/K6k b - - 0 1",
+      "result": { "lines": [{ "cp": -120, "pv": [] }] },
+      "record": { "cp": 120, "wp": 60.86996650452808, "wp2": null, "best": null }
+    }
+  ],
+  "clouds": [
+    {
+      "fen": "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1",
+      "payload": {
+        "pvs": [
+          { "moves": "e1h1 e8h8 d2d4", "cp": 40 },
+          { "moves": "e2e4 e7e5", "cp": 20 }
+        ]
+      },
+      "result": {
+        "lines": [
+          { "cp": 40, "pv": ["e1g1", "e8g8", "d2d4"] },
+          { "cp": 20, "pv": ["e2e4", "e7e5"] }
+        ]
+      },
+      "record": { "cp": 40, "wp": 53.675438329054, "wp2": 51.84020844121936, "best": "e1g1" }
+    },
+    {
+      "fen": "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1",
+      "payload": { "pvs": [{ "moves": "e8a8 a2a3", "mate": 3 }] },
+      "result": { "lines": [{ "mate": 3, "pv": ["e8c8", "a2a3"] }] },
+      "record": { "mate": 3, "wp": 100, "wp2": null, "best": "e8c8" }
+    },
+    {
+      "fen": "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1",
+      "payload": {
+        "pvs": [
+          { "moves": "e1a1", "mate": -2 },
+          { "moves": "g1f3", "cp": -300 }
+        ]
+      },
+      "result": {
+        "lines": [
+          { "mate": -2, "pv": ["e1c1"] },
+          { "cp": -300, "pv": ["g1f3"] }
+        ]
+      },
+      "record": { "mate": -2, "wp": 0, "wp2": 24.88744990616516, "best": "e1c1" }
+    },
+    {
+      "fen": "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1",
+      "payload": {
+        "pvs": [
+          { "moves": "e1h1 e8h8 d2d4", "cp": 40 },
+          { "moves": "e2e4 e7e5", "cp": 20 }
+        ]
+      },
+      "result": {
+        "lines": [
+          { "cp": -40, "pv": ["e1g1", "e8g8", "d2d4"] },
+          { "cp": -20, "pv": ["e2e4", "e7e5"] }
+        ]
+      },
+      "record": { "cp": 40, "wp": 53.675438329054, "wp2": 51.84020844121936, "best": "e1g1" }
+    },
+    {
+      "fen": "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1",
+      "payload": { "pvs": [{ "moves": "e8a8 a2a3", "mate": 3 }] },
+      "result": { "lines": [{ "mate": -3, "pv": ["e8c8", "a2a3"] }] },
+      "record": { "mate": 3, "wp": 100, "wp2": null, "best": "e8c8" }
+    },
+    {
+      "fen": "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1",
+      "payload": {
+        "pvs": [
+          { "moves": "e1a1", "mate": -2 },
+          { "moves": "g1f3", "cp": -300 }
+        ]
+      },
+      "result": {
+        "lines": [
+          { "mate": 2, "pv": ["e1c1"] },
+          { "cp": 300, "pv": ["g1f3"] }
+        ]
+      },
+      "record": { "mate": -2, "wp": 0, "wp2": 24.88744990616516, "best": "e1c1" }
+    }
+  ],
+  "settings": {
+    "engine": {
+      "root": "npm/stockfish-web",
+      "js": "sf_19_smallnet.js",
+      "depth": 16,
+      "movetime": 1500
+    },
+    "quick": { "depth": 12, "movetime": 500 }
+  }
+}

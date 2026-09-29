@@ -1,0 +1,137 @@
+[
+  {
+    "name": "a game that just started",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1234\",\"status\":{\"id\":20,\"name\":\"started\"},\"turns\":0},\"player\":{\"color\":\"white\"}}}",
+    "played": [["play", "cdc-game-start", null]],
+    "stored": ["cdc-started:abcd1234"]
+  },
+  {
+    "name": "a game one move in",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1235\",\"status\":{\"name\":\"started\"},\"turns\":1},\"player\":{\"color\":\"black\"}}}",
+    "played": [["play", "cdc-game-start", null]],
+    "stored": ["cdc-started:abcd1234", "cdc-started:abcd1235"]
+  },
+  {
+    "name": "a game two moves in",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1236\",\"status\":{\"name\":\"started\"},\"turns\":2},\"player\":{\"color\":\"white\"}}}",
+    "played": null,
+    "stored": ["cdc-started:abcd1234", "cdc-started:abcd1235"]
+  },
+  {
+    "name": "a game just created",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1237\",\"status\":{\"name\":\"created\"}},\"player\":{\"color\":\"white\"}}}",
+    "played": [["play", "cdc-game-start", null]],
+    "stored": ["cdc-started:abcd1234", "cdc-started:abcd1235", "cdc-started:abcd1237"]
+  },
+  {
+    "name": "a finished game",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1238\",\"status\":{\"name\":\"mate\"},\"turns\":1},\"player\":{\"color\":\"white\"}}}",
+    "played": null,
+    "stored": ["cdc-started:abcd1234", "cdc-started:abcd1235", "cdc-started:abcd1237"]
+  },
+  {
+    "name": "a spectator",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1239\",\"status\":{\"name\":\"started\"},\"turns\":0},\"player\":{\"color\":\"white\",\"spectator\":true}}}",
+    "played": null,
+    "stored": ["cdc-started:abcd1234", "cdc-started:abcd1235", "cdc-started:abcd1237"]
+  },
+  {
+    "name": "a player who is not a spectator",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1240\",\"status\":{\"name\":\"started\"},\"turns\":0},\"player\":{\"color\":\"white\",\"spectator\":false}}}",
+    "played": [["play", "cdc-game-start", null]],
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "no player",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1241\",\"status\":{\"name\":\"started\"},\"turns\":0}}}",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "no game id",
+    "text": "{\"data\":{\"game\":{\"status\":{\"name\":\"started\"},\"turns\":0},\"player\":{}}}",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "an empty game id",
+    "text": "{\"data\":{\"game\":{\"id\":\"\",\"status\":{\"name\":\"started\"},\"turns\":0},\"player\":{}}}",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "no status",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1242\",\"turns\":0},\"player\":{}}}",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "no data",
+    "text": "{\"game\":{\"id\":\"abcd1243\",\"status\":{\"name\":\"started\"},\"turns\":0},\"player\":{}}",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "another page",
+    "text": "{\"data\":{\"puzzle\":{\"id\":\"x\"}}}",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "broken JSON",
+    "text": "{\"data\": {\"game\": ",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  },
+  {
+    "name": "the same game again",
+    "text": "{\"data\":{\"game\":{\"id\":\"abcd1234\",\"status\":{\"name\":\"started\"},\"turns\":0},\"player\":{\"color\":\"white\"}}}",
+    "played": null,
+    "stored": [
+      "cdc-started:abcd1234",
+      "cdc-started:abcd1235",
+      "cdc-started:abcd1237",
+      "cdc-started:abcd1240"
+    ]
+  }
+]

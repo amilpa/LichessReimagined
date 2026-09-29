@@ -1,0 +1,177 @@
+[
+  {
+    "name": "promotion",
+    "prev": { "ply": 60, "fen": "4k3/1P6/8/8/8/8/8/4K3 w - - 0 31" },
+    "node": {
+      "ply": 61,
+      "fen": "1Q2k3/8/8/8/8/8/8/4K3 b - - 0 31",
+      "uci": "b7b8q",
+      "san": "b8=Q+"
+    },
+    "a": { "cp": 900, "wp": 96.49016480280658, "wp2": null, "best": "b7b8q" },
+    "b": { "cp": 905, "wp": 96.55198345255863, "wp2": null, "best": "e8d7" },
+    "cls": "best",
+    "slower": false,
+    "en": {
+      "fact": "The pawn promotes to a [[p:wq]]queen.",
+      "parts": [
+        ["The pawn promotes to a [[p:wq]]queen."],
+        ["White still has a winning position.", true]
+      ]
+    },
+    "fr": {
+      "fact": "Le pion devient une [[p:wq]]dame.",
+      "parts": [
+        ["Le pion devient une [[p:wq]]dame."],
+        ["Les Blancs ont toujours une position gagnante.", true]
+      ]
+    }
+  },
+  {
+    "name": "underpromotion",
+    "prev": { "ply": 60, "fen": "4k3/1P6/8/8/8/8/8/4K3 w - - 0 31" },
+    "node": { "ply": 61, "fen": "1N2k3/8/8/8/8/8/8/4K3 b - - 0 31", "uci": "b7b8n", "san": "b8=N" },
+    "a": { "cp": 300, "wp": 75.11255009383484, "wp2": null, "best": "b7b8q" },
+    "b": { "cp": 296, "wp": 74.83620769618608, "wp2": null, "best": "e8d7" },
+    "cls": "best",
+    "slower": false,
+    "en": {
+      "fact": "The pawn promotes to a [[p:wn]]knight.",
+      "parts": [
+        ["The pawn promotes to a [[p:wn]]knight."],
+        ["White keeps a clear advantage.", true]
+      ]
+    },
+    "fr": {
+      "fact": "Le pion devient un [[p:wn]]cavalier.",
+      "parts": [
+        ["Le pion devient un [[p:wn]]cavalier."],
+        ["Les Blancs gardent un net avantage.", true]
+      ]
+    }
+  },
+  {
+    "name": "held out longer",
+    "prev": { "ply": 80, "fen": "k7/8/1K6/8/8/8/8/7R w - - 0 41", "san": "Ka8", "uci": "b8a8" },
+    "node": { "ply": 81, "fen": "k7/8/1K6/8/8/7R/8/8 b - - 1 41", "uci": "h1h3", "san": "Rh3" },
+    "a": { "mate": -6, "wp": 0, "wp2": null, "best": "h1h2" },
+    "b": { "mate": -2, "wp": 0, "wp2": null, "best": "a8b8" },
+    "cls": "inaccuracy",
+    "slower": true,
+    "en": {
+      "fact": "[[m:w:Rh2]] held out longer.",
+      "parts": [["Black still has a mate in 2.", true], ["[[m:w:Rh2]] held out longer."]]
+    },
+    "fr": {
+      "fact": "[[m:w:Rh2]] tenait plus longtemps.",
+      "parts": [
+        ["Les Noirs ont toujours un mat en 2.", true],
+        ["[[m:w:Rh2]] tenait plus longtemps."]
+      ]
+    }
+  },
+  {
+    "name": "slower mate",
+    "prev": { "ply": 80, "fen": "k7/8/1K6/8/8/8/8/7R w - - 0 41" },
+    "node": { "ply": 81, "fen": "k7/8/1K6/8/8/7R/8/8 b - - 1 41", "uci": "h1h3", "san": "Rh3" },
+    "a": { "mate": 2, "wp": 100, "wp2": null, "best": "h1h8" },
+    "b": { "mate": 5, "wp": 100, "wp2": null, "best": "a8b8" },
+    "cls": "good",
+    "slower": true,
+    "en": {
+      "fact": "[[m:w:Rh8]] mated in 2.",
+      "parts": [["[[m:w:Rh8]] mated in 2."], ["White still has a mate in 5.", true]]
+    },
+    "fr": {
+      "fact": "[[m:w:Rh8]] matait en 2.",
+      "parts": [["[[m:w:Rh8]] matait en 2."], ["Les Blancs ont toujours un mat en 5.", true]]
+    }
+  },
+  {
+    "name": "black slower mate",
+    "prev": { "ply": 81, "fen": "8/8/8/8/8/1k6/7r/K7 b - - 0 41" },
+    "node": { "ply": 82, "fen": "8/8/8/8/8/1k5r/8/K7 w - - 1 42", "uci": "h2h3", "san": "Rh3" },
+    "a": { "mate": -1, "wp": 0, "wp2": null, "best": "h2h1" },
+    "b": { "mate": -4, "wp": 0, "wp2": null, "best": "a1b1" },
+    "cls": "good",
+    "slower": true,
+    "en": {
+      "fact": "[[m:b:Rh1]] mated in 1.",
+      "parts": [["[[m:b:Rh1]] mated in 1."], ["Black still has a mate in 4.", true]]
+    },
+    "fr": {
+      "fact": "[[m:b:Rh1]] matait en 1.",
+      "parts": [["[[m:b:Rh1]] matait en 1."], ["Les Noirs ont toujours un mat en 4.", true]]
+    }
+  },
+  {
+    "name": "en passant",
+    "prev": {
+      "ply": 4,
+      "fen": "rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3",
+      "san": "f5",
+      "uci": "f7f5"
+    },
+    "node": {
+      "ply": 5,
+      "fen": "rnbqkbnr/ppp1p1pp/5P2/3p4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 3",
+      "uci": "e5f6",
+      "san": "exf6"
+    },
+    "a": { "cp": 60, "wp": 55.50076484124536, "wp2": null, "best": "e5f6" },
+    "b": { "cp": 62, "wp": 55.68256609665036, "wp2": null, "best": "g8f6" },
+    "cls": "best",
+    "slower": false,
+    "en": { "fact": null, "parts": [["A good capture."], ["The game stays balanced.", true]] },
+    "fr": { "fact": null, "parts": [["Une bonne prise."], ["La partie reste équilibrée.", true]] }
+  },
+  {
+    "name": "free pawn",
+    "prev": {
+      "ply": 4,
+      "fen": "rnbqkbnr/ppp2ppp/8/3pp3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3",
+      "san": "e5",
+      "uci": "e7e5"
+    },
+    "node": {
+      "ply": 5,
+      "fen": "rnbqkbnr/ppp2ppp/8/3Pp3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 3",
+      "uci": "e4d5",
+      "san": "exd5"
+    },
+    "a": { "cp": 60, "wp": 55.50076484124536, "wp2": null, "best": "e4d5" },
+    "b": { "cp": 62, "wp": 55.68256609665036, "wp2": null, "best": "d8d5" },
+    "cls": "best",
+    "slower": false,
+    "en": { "fact": null, "parts": [["A good capture."], ["It’s still an even game.", true]] },
+    "fr": { "fact": null, "parts": [["Une bonne prise."], ["L’équilibre tient toujours.", true]] }
+  },
+  {
+    "name": "black great",
+    "prev": { "ply": 9, "fen": "rnbqkbnr/ppp2ppp/8/3pp3/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 3" },
+    "node": {
+      "ply": 10,
+      "fen": "rnbqkbnr/ppp2ppp/8/4p3/4p3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 4",
+      "uci": "d5e4",
+      "san": "dxe4"
+    },
+    "a": { "cp": -300, "wp": 24.88744990616516, "wp2": 67.6211637485054, "best": "d5e4" },
+    "b": { "cp": -295, "wp": 25.23319525399643, "wp2": null, "best": "d1h5" },
+    "cls": "great",
+    "slower": false,
+    "en": {
+      "fact": "Every other move would have let the advantage slip.",
+      "parts": [
+        ["Every other move would have let the advantage slip."],
+        ["Black still has a clear advantage.", true]
+      ]
+    },
+    "fr": {
+      "fact": "Tout autre coup laissait filer l’avantage.",
+      "parts": [
+        ["Tout autre coup laissait filer l’avantage."],
+        ["Les Noirs ont toujours un net avantage.", true]
+      ]
+    }
+  }
+]

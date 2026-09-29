@@ -1,0 +1,114 @@
+{
+  "fide": [
+    {
+      "path": "/fide",
+      "search": "?page=3",
+      "skip": "60",
+      "variable": "60"
+    },
+    {
+      "path": "/fide/federation",
+      "search": "?page=2",
+      "skip": "30",
+      "variable": "30"
+    },
+    {
+      "path": "/fide",
+      "search": "?page=1",
+      "skip": null,
+      "variable": null
+    },
+    {
+      "path": "/fide",
+      "search": "",
+      "skip": null,
+      "variable": null
+    },
+    {
+      "path": "/fide",
+      "search": "?page=2.5",
+      "skip": "45",
+      "variable": "45"
+    },
+    {
+      "path": "/fide",
+      "search": "?page=abc",
+      "skip": null,
+      "variable": null
+    },
+    {
+      "path": "/fide/players",
+      "search": "?page=4",
+      "skip": null,
+      "variable": null
+    },
+    {
+      "path": "/fr/fide",
+      "search": "?page=5&sort=blitz",
+      "skip": "120",
+      "variable": "120"
+    },
+    {
+      "path": "/fide/federation/France",
+      "search": "?page=2",
+      "skip": null,
+      "variable": null
+    }
+  ],
+  "tv": [
+    {
+      "path": "/tv",
+      "referrer": "",
+      "type": "navigate",
+      "still": false
+    },
+    {
+      "path": "/tv/blitz",
+      "referrer": "<origin>/tv",
+      "type": "navigate",
+      "still": true
+    },
+    {
+      "path": "/tv",
+      "referrer": "<origin>/tv/bullet",
+      "type": "navigate",
+      "still": true
+    },
+    {
+      "path": "/tv",
+      "referrer": "<origin>/tvx",
+      "type": "navigate",
+      "still": false
+    },
+    {
+      "path": "/tv",
+      "referrer": "https://example.org/tv",
+      "type": "navigate",
+      "still": false
+    },
+    {
+      "path": "/tv",
+      "referrer": "",
+      "type": "reload",
+      "still": true
+    },
+    {
+      "path": "/tv",
+      "referrer": "<origin>/",
+      "type": "back_forward",
+      "still": false
+    },
+    {
+      "path": "/tvx",
+      "referrer": "",
+      "type": "reload",
+      "still": false
+    },
+    {
+      "path": "/games/tv",
+      "referrer": "<origin>/tv",
+      "type": "navigate",
+      "still": true
+    }
+  ]
+}

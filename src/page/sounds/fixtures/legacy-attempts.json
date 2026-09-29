@@ -1,0 +1,272 @@
+[
+  {
+    "name": "a click-to-move that makes no sound",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": "e4"
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a click-to-move that queues a premove",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": "e4",
+        "premove": ["e2", "e4"]
+      }
+    ],
+    "calls": [["play", "cdc-premove", null]]
+  },
+  {
+    "name": "a click-to-move with a premove already queued",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "premoves": ["d2", "d4"],
+    "steps": [
+      {
+        "down": "e4"
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a click-to-move that replaces the premove",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "premoves": ["d2", "d4"],
+    "steps": [
+      {
+        "down": "e4",
+        "premove": ["e2", "e4"]
+      }
+    ],
+    "calls": [["play", "cdc-premove", null]]
+  },
+  {
+    "name": "a click-to-move that plays a move",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": "e4",
+        "premove": ["e2", "e4"],
+        "moveSound": {
+          "name": "move"
+        }
+      }
+    ],
+    "calls": [["play", "cdc-move-self", 1]]
+  },
+  {
+    "name": "a click on another own piece",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": "d2",
+        "premove": ["e2", "e4"]
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a click on an opponent piece",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": "e7",
+        "premove": ["e2", "e7"]
+      }
+    ],
+    "calls": [["play", "cdc-premove", null]]
+  },
+  {
+    "name": "a click on the selected piece",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": "e2",
+        "premove": ["e2", "e4"]
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a click with nothing selected",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e4",
+        "premove": ["e2", "e4"]
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a refused drop",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e2",
+        "drag": true,
+        "up": "e5"
+      }
+    ],
+    "calls": [["play", "cdc-illegal", null]]
+  },
+  {
+    "name": "a drop that queues a premove",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "black",
+    "steps": [
+      {
+        "down": "e7",
+        "drag": true,
+        "up": "e5",
+        "premove": ["e7", "e5"]
+      }
+    ],
+    "calls": [["play", "cdc-premove", null]]
+  },
+  {
+    "name": "a drop that plays a move",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e2",
+        "drag": true,
+        "up": "e4",
+        "moveSound": {
+          "name": "move"
+        }
+      }
+    ],
+    "calls": [["play", "cdc-move-self", 1]]
+  },
+  {
+    "name": "a drop back on its square",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e2",
+        "drag": true,
+        "up": "e2"
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a drop off the board",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e2",
+        "drag": true,
+        "up": [520, 200]
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a release with no drag",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e2",
+        "up": "e5"
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a right-button drag",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e2",
+        "drag": true,
+        "up": "e5",
+        "button": 2
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a press outside the board",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": "e4",
+        "target": "outside",
+        "drag": true,
+        "up": "e5"
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "a press on the board edge outside the squares",
+    "placement": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "orientation": "white",
+    "selected": "e2",
+    "steps": [
+      {
+        "down": [99, 200]
+      }
+    ],
+    "calls": []
+  },
+  {
+    "name": "the pieces pressed on are kept for the promotion",
+    "placement": "8/4P1k1/8/8/8/8/8/4K3",
+    "orientation": "white",
+    "steps": [
+      {
+        "down": "e7",
+        "board": "4Q3/6k1/8/8/8/8/8/4K3",
+        "moveSound": {
+          "name": "move"
+        }
+      }
+    ],
+    "calls": [["play", "cdc-promote", 1]]
+  },
+  {
+    "name": "a promotion with nothing pressed on",
+    "placement": "8/4P1k1/8/8/8/8/8/4K3",
+    "orientation": "white",
+    "steps": [
+      {
+        "board": "4Q3/6k1/8/8/8/8/8/4K3",
+        "moveSound": {
+          "name": "move"
+        }
+      }
+    ],
+    "calls": [["play", "cdc-move-self", 1]]
+  }
+]

@@ -1,0 +1,29 @@
+import { createCustomElement, queryOne } from '#shared/dom.ts';
+
+// A bar in the markup of the round's `.ruser` (name, <rating>, rating
+// change), so both pages share one style (styles/playerbar.css).
+
+function userParts(link: HTMLAnchorElement): Element[] {
+  const rating = link.querySelector('.rating')?.textContent.replace(/[()\s]/g, '');
+  const change = link.querySelector('good, bad');
+  for (const extra of link.querySelectorAll('.rating, good, bad')) extra.remove();
+  // The title's badge has its own margin: drop the no-break space after it
+  // (trim() counts it as white space).
+  for (const node of link.childNodes) if (node instanceof Text) node.data = node.data.trim();
+  const parts: Element[] = [link];
+  if (rating) parts.push(createCustomElement('rating', { text: rating }));
+  if (change) parts.push(change);
+  return parts;
+}
+
+/** Fills `bar` from a player of the game info (`.game__meta__players .player`). */
+export function fillPlayerBar(bar: HTMLElement, source: Element | null): void {
+  const link = source && queryOne(source, 'a.user-link', HTMLAnchorElement);
+  const copy = link?.cloneNode(true);
+  if (copy instanceof HTMLAnchorElement) {
+    bar.replaceChildren(...userParts(copy));
+    return;
+  }
+  // Anonymous, or the computer.
+  bar.replaceChildren(createCustomElement('name', { text: source?.textContent.trim() ?? '' }));
+}

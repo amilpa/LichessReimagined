@@ -1,0 +1,146 @@
+/* ---- Static pages --- */
+
+/* About, FAQ, terms, variants, streamers, videos, current games…: Lichess's plain pages,
+ * fixed only where they break the layout or clash with our look. */
+
+/* Side menus and titles stay put while the content scrolls (desktop only: below, Lichess's
+ * top bar would cover them). Boxes use `clip`, as `hidden` would catch the sticky title. */
+@media (min-width: 1020px) {
+  main.page-menu
+    > .subnav:is([data-cdc-nav~='about'], [data-cdc-nav~='variants'], [data-cdc-nav~='streamers']),
+  main.page-menu:is(.video, .tv-games) > .page-menu__menu {
+    position: sticky;
+    top: 16px;
+    align-self: start;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  /* `overflow: clip` loses a scroller's zero min-width: set it back so the box can shrink. */
+  main.page-menu > .page-menu__content:is(.page.box-pad, .variants, .streamer-list),
+  main.page-menu > .page-menu__content > :is(.faq, .lag).box-pad,
+  main.page-menu.video > .page-menu__content.box {
+    min-width: 0;
+    overflow: clip !important;
+  }
+
+  /* These titles have Lichess's 4vh padding... */
+  main.page-menu > .page-menu__content.variants > h1.box__top,
+  main.page-menu > .page-menu__content.streamer-list > .box__top,
+  main.page-menu.video > .page-menu__content.box > .box__top,
+  /* ...these sit in their card's padding: pulled out to its edges, same 4vh. */
+  main.page-menu > .page-menu__content.page.box-pad > .box__top,
+  main.page-menu > .page-menu__content > :is(.faq, .lag).box-pad > h1.box__top {
+    container-type: scroll-state;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    background: var(--cdc-bg-panel);
+  }
+
+  main.page-menu > .page-menu__content.page.box-pad > .box__top,
+  main.page-menu > .page-menu__content > :is(.faq, .lag).box-pad > h1.box__top {
+    margin: -4vh calc(-1 * var(---box-padding)) 0 !important;
+    padding: 4vh var(---box-padding) !important;
+  }
+
+  /* A soft edge under the title once it's stuck. */
+  main.page-menu > .page-menu__content:is(.variants, .page.box-pad) > .box__top::after,
+  main.page-menu > .page-menu__content.streamer-list > .box__top::after,
+  main.page-menu.video > .page-menu__content.box > .box__top::after,
+  main.page-menu > .page-menu__content > :is(.faq, .lag).box-pad > h1.box__top::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: 14px;
+    background: linear-gradient(var(--cdc-bg-panel), transparent);
+    opacity: 0;
+    transition: opacity 0.2s !important;
+    pointer-events: none;
+  }
+
+  @container scroll-state(stuck: top) {
+    main.page-menu > .page-menu__content:is(.variants, .page.box-pad) > .box__top::after,
+    main.page-menu > .page-menu__content.streamer-list > .box__top::after,
+    main.page-menu.video > .page-menu__content.box > .box__top::after,
+    main.page-menu > .page-menu__content > :is(.faq, .lag).box-pad > h1.box__top::after {
+      opacity: 1;
+    }
+  }
+
+  /* Anchor links (#tldr, a FAQ question) land below the title, not under it. */
+  main.page-menu > .page-menu__content.page .body [id],
+  main.page-menu > .page-menu__content > .faq [id] {
+    scroll-margin-top: calc(8vh + 80px);
+  }
+}
+
+/* Lichess rules each section off in its gold: a quiet line instead. */
+.page .body h2,
+.cms-preview h2 {
+  border-bottom-color: var(--cdc-border) !important;
+}
+
+/* Variants: bold headings instead of thin spaced-out capitals, and a grey hover
+ * instead of Lichess's green tint on the whole row. */
+.page-menu__content.variants .variant:hover {
+  background: #ffffff0a !important;
+}
+
+.page-menu__content.variants .variant h2 {
+  color: #fff;
+  font-family: var(--cdc-font) !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.page-menu__content.variants .variant h3 {
+  margin-top: 2px !important;
+  color: var(--cdc-text-dim);
+  font-size: 14px;
+  font-style: normal !important;
+  font-weight: 600 !important;
+}
+
+.page-menu__content.variant .headline {
+  color: var(--cdc-text-dim);
+  font-style: normal !important;
+  font-weight: 600 !important;
+}
+
+/* Streamers: Lichess sizes the name from the window's width, so on a narrow desktop it ran
+ * out of the card. A smaller name there, and a grey hover. */
+.streamer-list .streamer .overview {
+  min-width: 0;
+}
+
+.streamer-list .streamer h1 {
+  overflow-wrap: anywhere;
+}
+
+.streamer-list .streamer:hover {
+  background: #ffffff0a !important;
+}
+
+@media (min-width: 1020px) and (max-width: 1259.98px) {
+  .streamer-list .streamer h1 {
+    font-size: 26px !important;
+  }
+}
+
+/* The LIVE ribbon hangs over the text's top-right corner: the name stops short of it.
+ * Its folds take our green's shade, not Lichess's blue. */
+@media (min-width: 1020px) {
+  .streamer-list .streamer:has(> .live-ribbon) .streamer-title h1 {
+    margin-right: 70px !important;
+  }
+}
+
+.streamer-list .live-ribbon::before,
+.streamer-list .live-ribbon::after {
+  border-color: transparent transparent var(--cdc-green-shadow) var(--cdc-green-shadow) !important;
+}

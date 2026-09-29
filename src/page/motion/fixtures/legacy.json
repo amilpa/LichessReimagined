@@ -1,0 +1,93 @@
+{
+  "queries": [
+    {
+      "query": "(prefers-reduced-motion: reduce)",
+      "rewritten": "(width < 0)"
+    },
+    {
+      "query": "(prefers-reduced-motion: no-preference)",
+      "rewritten": "(width >= 0)"
+    },
+    {
+      "query": "(prefers-reduced-motion)",
+      "rewritten": "(width < 0)"
+    },
+    {
+      "query": "( prefers-reduced-motion : reduce )",
+      "rewritten": "(width < 0)"
+    },
+    {
+      "query": "(prefers-reduced-motion:reduce)",
+      "rewritten": "(width < 0)"
+    },
+    {
+      "query": "screen and (prefers-reduced-motion: reduce), print",
+      "rewritten": "screen and (width < 0), print"
+    },
+    {
+      "query": "(min-width: 800px) and (prefers-reduced-motion: no-preference)",
+      "rewritten": "(min-width: 800px) and (width >= 0)"
+    },
+    {
+      "query": "not all and (prefers-reduced-motion: reduce)",
+      "rewritten": "not all and (width < 0)"
+    },
+    {
+      "query": "(prefers-reduced-motion: reduce) and (prefers-reduced-motion: no-preference)",
+      "rewritten": "(width < 0) and (width >= 0)"
+    },
+    {
+      "query": "(prefers-color-scheme: dark)",
+      "rewritten": "(prefers-color-scheme: dark)"
+    },
+    {
+      "query": "(PREFERS-REDUCED-MOTION: REDUCE)",
+      "rewritten": "(PREFERS-REDUCED-MOTION: REDUCE)"
+    },
+    {
+      "query": "(prefers-reduced-motion: Reduce)",
+      "rewritten": "(prefers-reduced-motion: Reduce)"
+    },
+    {
+      "query": "(prefers-reduced-transparency: reduce)",
+      "rewritten": "(prefers-reduced-transparency: reduce)"
+    },
+    {
+      "query": "",
+      "rewritten": ""
+    }
+  ],
+  "sheets": [
+    {
+      "css": "@media (prefers-reduced-motion: reduce) { *, :before, :after { transition: none !important; animation: none !important; } }",
+      "hit": true,
+      "rewritten": [
+        "@media (width < 0) {\n  *, :before, :after { transition: none !important; animation: none !important; }\n}"
+      ]
+    },
+    {
+      "css": "@media (prefers-reduced-motion: no-preference) { a { color: red; } }",
+      "hit": true,
+      "rewritten": ["@media (width >= 0) {\n  a { color: red; }\n}"]
+    },
+    {
+      "css": "a { color: blue; } @media (min-width: 800px) { b { color: red; } }",
+      "hit": false,
+      "rewritten": ["a { color: blue; }", "@media (min-width: 800px) {\n  b { color: red; }\n}"]
+    },
+    {
+      "css": "@supports (display: grid) { @media (prefers-reduced-motion: reduce) { c { transition: none; } } }",
+      "hit": true,
+      "rewritten": [
+        "@supports (display: grid) {\n  @media (width < 0) {\n  c { transition: none; }\n}\n}"
+      ]
+    },
+    {
+      "css": "@media screen { @media (prefers-reduced-motion) { d { color: red; } } e { color: blue; } }",
+      "hit": true,
+      "rewritten": [
+        "@media screen {\n  @media (width < 0) {\n  d { color: red; }\n}\n  e { color: blue; }\n}"
+      ]
+    }
+  ]
+}

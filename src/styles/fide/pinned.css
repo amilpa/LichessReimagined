@@ -1,0 +1,209 @@
+/* ---- Pinned --- */
+
+/* Desktop only (Lichess's fixed top bar would cover them): the side menu, title and column
+ * pills stay put while the rows scroll; the pills' shadow shows once stuck. */
+@media (min-width: 1020px) {
+  main.page-menu:has(> .fide-players) > .subnav {
+    position: sticky;
+    top: 16px;
+    align-self: start;
+  }
+
+  /* Lichess's box and table wrapper clip, which makes them scrollers that never scroll, so
+   * nothing inside sticks. */
+  .fide-players.page-menu__content.box,
+  .fide-players .slist-wrapper {
+    max-width: none !important;
+    overflow: visible !important;
+  }
+
+  /* The table no longer scrolls sideways, so it must fit: the name takes what the ratings leave
+   * and ends in "…", instead of widening the page under the sidebar. */
+  :is(.fide-players, .fide-federation) .fide-players-table .player-intro__info {
+    flex: 1 1 0;
+    width: 0;
+  }
+
+  :is(.fide-players, .fide-federation) .fide-players-table .player-intro__fed {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .fide-players > .box__top {
+    flex-wrap: nowrap !important;
+    position: sticky;
+    z-index: 3;
+    top: 0;
+    height: 84px;
+    background: var(--cdc-bg-page);
+  }
+
+  /* The federations' title and column heads, and a federation's header, pinned the same way. */
+  .fide-federations.page-menu__content.box,
+  .fide-federation.page-menu__content.box {
+    overflow: visible !important;
+  }
+
+  :is(.fide-federations, .fide-federation) > .box__top {
+    container-type: scroll-state;
+    position: sticky;
+    z-index: 3;
+    top: 0;
+    height: 84px;
+    background: var(--cdc-bg-page);
+  }
+
+  .fide-federation > .box__top {
+    height: 104px;
+  }
+
+  .fide-federations .slist thead th {
+    container-type: scroll-state;
+    position: sticky;
+    z-index: 2;
+    top: 84px;
+  }
+
+  :is(.fide-federations .slist thead th, .fide-federation > .box__top)::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: 14px;
+    background: linear-gradient(var(--cdc-bg-page), transparent);
+    opacity: 0;
+    transition: opacity 0.2s !important;
+    pointer-events: none;
+  }
+
+  @container scroll-state(stuck: top) {
+    :is(.fide-federations .slist thead th, .fide-federation > .box__top)::after {
+      opacity: 1;
+    }
+  }
+
+  .fide-players__search-form__input {
+    width: 260px;
+  }
+
+  /* The list's own table only: a federation's keeps Lichess's scrolling wrapper, which would hold
+   * the pills 84px down, over the rows. */
+  .fide-players .fide-players-table thead th {
+    container-type: scroll-state;
+    position: sticky;
+    z-index: 2;
+    top: 84px;
+  }
+
+  .fide-players .fide-players-table thead th::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: 14px;
+    background: linear-gradient(var(--cdc-bg-page), transparent);
+    opacity: 0;
+    transition: opacity 0.2s !important;
+    pointer-events: none;
+  }
+
+  @container scroll-state(stuck: top) {
+    .fide-players .fide-players-table thead th::after {
+      opacity: 1;
+    }
+  }
+}
+
+/* Narrowest desktops: tighter pills, cells and photos leave the names room. */
+@media (min-width: 1020px) and (max-width: 1199.98px) {
+  :is(.fide-players, .fide-federation) .fide-players-table thead th {
+    padding-inline: 6px !important;
+  }
+
+  :is(.fide-players, .fide-federation) .fide-players-table thead th > a {
+    gap: 5px;
+    padding-inline: 9px;
+  }
+
+  :is(.fide-players, .fide-federation)
+    .fide-players-table
+    tbody
+    tr.paginated
+    > td:not(:first-child) {
+    padding-inline: 6px !important;
+  }
+
+  :is(.fide-players, .fide-federation) .fide-players-table tbody tr.paginated > td:last-child {
+    padding-inline-end: 12px !important;
+  }
+
+  :is(.fide-players, .fide-federation) .fide-players-table .fide-players__photo {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .fide-federations .slist :is(th, td):not(:first-child) {
+    padding-inline: 6px !important;
+  }
+
+  .fide-federation__card > div {
+    gap: 4px;
+  }
+
+  .fide-federation__card strong {
+    font-size: 19px;
+  }
+}
+
+/* Mobile: keep the title and rows off the screen's edges, as on the leaderboards. Lichess's
+ * wrapper is 100vw wide, scrollbar included: no minimum, the table scrolls inside. */
+@media (max-width: 799.98px) {
+  :is(.fide-players, .fide-federations, .fide-federation).page-menu__content.box {
+    min-width: 0;
+    padding: 12px 12px 32px !important;
+  }
+}
+
+/* Phones: drop the player count so the names keep their room. */
+@media (max-width: 559.98px) {
+  .fide-federations .slist :is(th, td):nth-child(2) {
+    display: none;
+  }
+
+  .fide-federations .slist :is(th, td):not(:first-child) {
+    padding-inline: 4px !important;
+  }
+
+  .fide-federations .slist thead th {
+    font-size: 12px !important;
+  }
+
+  .fide-federations .slist tbody tr.paginated > td {
+    font-size: 14px;
+  }
+
+  .fide-federations .slist tbody tr.paginated > td:first-child {
+    padding-inline-start: 8px !important;
+  }
+
+  .fide-federations .slist tbody tr.paginated > td:last-child {
+    padding-inline-end: 10px !important;
+  }
+
+  .fide-federations .slist tbody td:first-child a {
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .fide-federations .slist tbody td:first-child a::before {
+    min-width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .fide-federations .slist tbody td:first-child .flag {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}

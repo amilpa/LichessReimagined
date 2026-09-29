@@ -1,0 +1,279 @@
+{
+  "fontFaces": "@font-face{font-family:'Roboto';font-weight:100 450;src:local('Segoe UI'), local('SegoeUI'), local('Helvetica Neue'), local('Roboto')}@font-face{font-family:'Roboto';font-weight:451 650;src:local('Segoe UI Semibold'), local('SegoeUI-Semibold'), local('HelveticaNeue-Medium'), local('Roboto Medium')}@font-face{font-family:'Roboto';font-weight:651 850;src:local('Segoe UI Bold'), local('SegoeUI-Bold'), local('HelveticaNeue-Bold'), local('Roboto Bold')}@font-face{font-family:'Roboto';font-weight:851 1000;src:local('Segoe UI Black'), local('SegoeUI-Black'), local('HelveticaNeue-Bold'), local('Roboto Black')}@font-face{font-family:'Noto Sans';font-weight:100 450;src:local('Segoe UI'), local('SegoeUI'), local('Helvetica Neue'), local('Roboto')}@font-face{font-family:'Noto Sans';font-weight:451 650;src:local('Segoe UI Semibold'), local('SegoeUI-Semibold'), local('HelveticaNeue-Medium'), local('Roboto Medium')}@font-face{font-family:'Noto Sans';font-weight:651 850;src:local('Segoe UI Bold'), local('SegoeUI-Bold'), local('HelveticaNeue-Bold'), local('Roboto Bold')}@font-face{font-family:'Noto Sans';font-weight:851 1000;src:local('Segoe UI Black'), local('SegoeUI-Black'), local('HelveticaNeue-Bold'), local('Roboto Black')}@font-face{font-family:'CDC Sans';font-weight:100 450;src:local('Segoe UI'), local('SegoeUI'), local('Helvetica Neue'), local('Roboto')}@font-face{font-family:'CDC Sans';font-weight:451 650;src:local('Segoe UI Semibold'), local('SegoeUI-Semibold'), local('HelveticaNeue-Medium'), local('Roboto Medium')}@font-face{font-family:'CDC Sans';font-weight:651 850;src:local('Segoe UI Bold'), local('SegoeUI-Bold'), local('HelveticaNeue-Bold'), local('Roboto Bold')}@font-face{font-family:'CDC Sans';font-weight:851 1000;src:local('Segoe UI Black'), local('SegoeUI-Black'), local('HelveticaNeue-Bold'), local('Roboto Black')}",
+  "fonts": [
+    {
+      "readyState": "complete",
+      "before": 1906,
+      "after": "<style id=\"lichess\">x</style><style id=\"cdc-fonts\"><faces></style>"
+    },
+    {
+      "readyState": "loading",
+      "before": 29,
+      "after": "<style id=\"lichess\">x</style><style id=\"cdc-fonts\"><faces></style>"
+    }
+  ],
+  "coach": [
+    {
+      "stored": null,
+      "random": 0,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": "1",
+      "random": 0,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": "4",
+      "random": 0,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": "0",
+      "random": 0,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": "5",
+      "random": 0,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": " 3 ",
+      "random": 0,
+      "dataset": "3",
+      "storedAfter": " 3 "
+    },
+    {
+      "stored": "x",
+      "random": 0,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": "",
+      "random": 0,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": "3e0",
+      "random": 0,
+      "dataset": "3",
+      "storedAfter": "3e0"
+    },
+    {
+      "stored": "-1",
+      "random": 0,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": null,
+      "random": 0.3,
+      "dataset": "2",
+      "storedAfter": "2"
+    },
+    {
+      "stored": "1",
+      "random": 0.3,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": "4",
+      "random": 0.3,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": "0",
+      "random": 0.3,
+      "dataset": "2",
+      "storedAfter": "2"
+    },
+    {
+      "stored": "5",
+      "random": 0.3,
+      "dataset": "2",
+      "storedAfter": "2"
+    },
+    {
+      "stored": " 3 ",
+      "random": 0.3,
+      "dataset": "3",
+      "storedAfter": " 3 "
+    },
+    {
+      "stored": "x",
+      "random": 0.3,
+      "dataset": "2",
+      "storedAfter": "2"
+    },
+    {
+      "stored": "",
+      "random": 0.3,
+      "dataset": "2",
+      "storedAfter": "2"
+    },
+    {
+      "stored": "3e0",
+      "random": 0.3,
+      "dataset": "3",
+      "storedAfter": "3e0"
+    },
+    {
+      "stored": "-1",
+      "random": 0.3,
+      "dataset": "2",
+      "storedAfter": "2"
+    },
+    {
+      "stored": null,
+      "random": 0.99,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": "1",
+      "random": 0.99,
+      "dataset": "1",
+      "storedAfter": "1"
+    },
+    {
+      "stored": "4",
+      "random": 0.99,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": "0",
+      "random": 0.99,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": "5",
+      "random": 0.99,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": " 3 ",
+      "random": 0.99,
+      "dataset": "3",
+      "storedAfter": " 3 "
+    },
+    {
+      "stored": "x",
+      "random": 0.99,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": "",
+      "random": 0.99,
+      "dataset": "4",
+      "storedAfter": "4"
+    },
+    {
+      "stored": "3e0",
+      "random": 0.99,
+      "dataset": "3",
+      "storedAfter": "3e0"
+    },
+    {
+      "stored": "-1",
+      "random": 0.99,
+      "dataset": "4",
+      "storedAfter": "4"
+    }
+  ],
+  "lateReload": [
+    {
+      "readyState": "loading",
+      "stored": null,
+      "now": 1800000000000,
+      "reloaded": false,
+      "reloads": 0,
+      "storedAfter": null
+    },
+    {
+      "readyState": "complete",
+      "stored": null,
+      "now": 1800000000000,
+      "reloaded": true,
+      "reloads": 1,
+      "storedAfter": "1800000000000"
+    },
+    {
+      "readyState": "interactive",
+      "stored": null,
+      "now": 1800000000000,
+      "reloaded": true,
+      "reloads": 1,
+      "storedAfter": "1800000000000"
+    },
+    {
+      "readyState": "complete",
+      "stored": "1799999990000",
+      "now": 1800000000000,
+      "reloaded": false,
+      "reloads": 0,
+      "storedAfter": "1799999990000"
+    },
+    {
+      "readyState": "complete",
+      "stored": "1799999970000",
+      "now": 1800000000000,
+      "reloaded": false,
+      "reloads": 0,
+      "storedAfter": "1799999970000"
+    },
+    {
+      "readyState": "complete",
+      "stored": "1799999969999",
+      "now": 1800000000000,
+      "reloaded": true,
+      "reloads": 1,
+      "storedAfter": "1800000000000"
+    },
+    {
+      "readyState": "complete",
+      "stored": "junk",
+      "now": 1800000000000,
+      "reloaded": true,
+      "reloads": 1,
+      "storedAfter": "1800000000000"
+    },
+    {
+      "readyState": "complete",
+      "stored": "",
+      "now": 1800000000000,
+      "reloaded": true,
+      "reloads": 1,
+      "storedAfter": "1800000000000"
+    },
+    {
+      "readyState": "complete",
+      "stored": "1800000005000",
+      "now": 1800000000000,
+      "reloaded": false,
+      "reloads": 0,
+      "storedAfter": "1800000005000"
+    },
+    {
+      "readyState": "complete",
+      "stored": " 1799999999900 ",
+      "now": 1800000000000,
+      "reloaded": false,
+      "reloads": 0,
+      "storedAfter": " 1799999999900 "
+    }
+  ]
+}

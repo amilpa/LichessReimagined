@@ -1,0 +1,166 @@
+/* Learn (#learn-app) in Practice's look (practice.css). The map (`.learn--map`) and a stage
+ * (`.learn--run`) are one snabbdom app on one URL. */
+
+/* A color per category, for the map and the stage list; "what next" (links out) in green. */
+#learn-app .categ {
+  --cdc-practice: #81b64c;
+  --cdc-practice-2: #5d9948;
+}
+
+#learn-app .categ:nth-of-type(5n + 1) {
+  --cdc-practice: #f06a4a;
+  --cdc-practice-2: #c9412d;
+}
+#learn-app .categ:nth-of-type(5n + 2) {
+  --cdc-practice: #45a3f5;
+  --cdc-practice-2: #2474c9;
+}
+#learn-app .categ:nth-of-type(5n + 3) {
+  --cdc-practice: #a98bf0;
+  --cdc-practice-2: #7458c7;
+}
+#learn-app .categ:nth-of-type(5n + 4) {
+  --cdc-practice: #f5a93b;
+  --cdc-practice-2: #d27a1c;
+}
+#learn-app .categ.what_next {
+  --cdc-practice: #95c85a;
+  --cdc-practice-2: #5d9948;
+}
+
+/* ---- Side --- */
+
+.learn__side-home {
+  gap: 14px !important;
+  padding: 20px !important;
+  border: 1px solid var(--cdc-card-border) !important;
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+}
+
+/* The Lessons illustration instead of Lichess's grey helmet, floating like Practice's. */
+.learn__side-home img.decoration {
+  content: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg');
+  width: 120px !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 8px 16px #0006) !important;
+  animation: cdc-float 4s ease-in-out infinite !important;
+}
+
+.learn__side-home__header {
+  gap: 8px !important;
+}
+
+.learn__side-home h1 {
+  margin: 0 !important;
+  color: #fff;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.1;
+}
+
+.learn__side-home h2 {
+  margin: 4px 0 0 !important;
+  color: var(--cdc-text-dim);
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+/* Desktop only (Lichess's top bar holds the top edge below 1020px): the progress card stays
+ * in view while the stages scroll. */
+@media (min-width: 1020px) {
+  .learn--map .learn__side-home {
+    position: sticky;
+    top: 16px;
+  }
+}
+
+/* Progress: a green bar on a dark track. */
+.learn__side-home .progress {
+  height: 30px !important;
+  border: none !important;
+  border-radius: 999px !important;
+  background: #ffffff12 !important;
+  box-shadow: inset 0 1px 2px #00000066 !important;
+}
+
+.learn__side-home .progress .bar {
+  min-width: 30px;
+  border-radius: 999px !important;
+  background: var(--cdc-btn-green) !important;
+  box-shadow: inset 0 1px 0 #9ccd5e;
+}
+
+/* No progress yet: an empty track, not a min-width green blob. */
+.learn__side-home .progress .bar[style*='width: 0%'] {
+  visibility: hidden;
+}
+
+.learn__side-home .progress .text {
+  line-height: 30px !important;
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 800;
+  text-shadow: 0 1px 1px #00000066;
+}
+
+/* "Reset my progress": a quiet grey button, not a bare link. */
+.learn__side-home .actions .confirm {
+  width: 100%;
+  padding: 8px 12px !important;
+  border: none !important;
+  border-radius: 7px !important;
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+  color: var(--cdc-text) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  text-transform: none !important;
+}
+
+.learn__side-home .actions .confirm:hover {
+  background: var(--cdc-btn-grey-hover) !important;
+  color: #fff !important;
+}
+
+/* ---- Categories --- */
+
+/* Bold titles with a dot in the category's color, not Lichess's spaced-out grey capitals. */
+.learn-stages .categ > h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 0 !important;
+  color: #fff !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: normal !important;
+  text-align: start !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+}
+
+.learn-stages .categ > h2::before {
+  content: '';
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--cdc-practice), var(--cdc-practice-2));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cdc-practice) 22%, transparent);
+}
+
+.learn-stages .categ_stages {
+  ---min-width: 320px !important;
+  gap: 12px !important;
+  margin: 16px 0 36px !important;
+}
+
+.learn-stages .what_next > p {
+  margin: 6px 0 0 !important;
+  color: var(--cdc-text-dim);
+  font-size: 15px !important;
+  text-align: start !important;
+  text-shadow: none !important;
+}

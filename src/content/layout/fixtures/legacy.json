@@ -1,0 +1,122 @@
+{
+  "marks": [
+    {
+      "page": "<main class=\"page-menu\"><nav class=\"subnav\"><a href=\"/player\">Leaderboard</a><a class=\"active\" href=\"/fr/player/bots\">Bots</a><a href=\"/training/themes\">Themes</a><a href=\"/thanks-not\">x</a></nav><div class=\"page-menu__content\"></div></main>",
+      "marked": "<main class=\"page-menu\" data-cdc-nav-active=\"/fr/player/bots\"><nav class=\"subnav\" data-cdc-nav=\"bots puzzles\"><a href=\"/player\">Leaderboard</a><a class=\"active\" href=\"/fr/player/bots\">Bots</a><a href=\"/training/themes\">Themes</a><a href=\"/thanks-not\">x</a></nav><div class=\"page-menu__content\"></div></main>"
+    },
+    {
+      "page": "<main class=\"page-menu\" data-cdc-nav-active=\"/stale\"><nav class=\"subnav\" data-cdc-nav=\"stale\"><a href=\"/somewhere\">x</a></nav></main>",
+      "marked": "<main class=\"page-menu\"><nav class=\"subnav\"><a href=\"/somewhere\">x</a></nav></main>"
+    },
+    {
+      "page": "<main class=\"page-menu\"><nav class=\"subnav\"><a href=\"/account/kid\">Kid</a><a href=\"/variant/chess960\">960</a><a class=\"active\" href=\"/streamer/edit\">Edit</a><a href=\"/broadcast/calendar\">Cal</a><a href=\"/thanks\">Thanks</a></nav></main>",
+      "marked": "<main class=\"page-menu\" data-cdc-nav-active=\"/streamer/edit\"><nav class=\"subnav\" data-cdc-nav=\"broadcast account about variants streamers\"><a href=\"/account/kid\">Kid</a><a href=\"/variant/chess960\">960</a><a class=\"active\" href=\"/streamer/edit\">Edit</a><a href=\"/broadcast/calendar\">Cal</a><a href=\"/thanks\">Thanks</a></nav></main>"
+    },
+    {
+      "page": "<main class=\"round\"><div class=\"game__meta\"><section><div class=\"game__meta__infos\" data-icon=\"&#xe008;\"><div>Blitz</div></div></section></div></main>",
+      "marked": "<main class=\"round\"><div class=\"game__meta\" data-cdc-icon=\"\"><section><div class=\"game__meta__infos\" data-icon=\"\"><div>Blitz</div></div></section></div></main>"
+    },
+    {
+      "page": "<main class=\"round\"><div class=\"game__meta\" data-cdc-icon=\"old\"><section></section></div></main>",
+      "marked": "<main class=\"round\"><div class=\"game__meta\"><section></section></div></main>"
+    },
+    {
+      "page": "<main class=\"round\"><div class=\"game__meta\"><div class=\"game__meta__infos\" data-icon=\"\"></div></div></main>",
+      "marked": "<main class=\"round\"><div class=\"game__meta\"><div class=\"game__meta__infos\" data-icon=\"\"></div></div></main>"
+    },
+    {
+      "page": "<div class=\"community\"><div class=\"user-top\"><h2 data-icon=\"&#xe032;\">Bullet</h2></div><div class=\"user-top\"><h2>No icon</h2></div><div class=\"user-top\"><div><h2 data-icon=\"x\">Nested</h2></div></div></div>",
+      "marked": "<div class=\"community\"><div class=\"user-top\" data-cdc-icon=\"\"><h2 data-icon=\"\">Bullet</h2></div><div class=\"user-top\"><h2>No icon</h2></div><div class=\"user-top\"><div><h2 data-icon=\"x\">Nested</h2></div></div></div>"
+    },
+    {
+      "page": "<div class=\"tournament-leaderboards\"><div class=\"tournament-leaderboards__item\"><h2 data-icon=\"&#xe002;\">Rapid</h2></div></div>",
+      "marked": "<div class=\"tournament-leaderboards\"><div class=\"tournament-leaderboards__item\" data-cdc-icon=\"\"><h2 data-icon=\"\">Rapid</h2></div></div>"
+    },
+    {
+      "page": "<div class=\"tournament-shields\"><div class=\"tournament-shields__item\"><h2><a href=\"/tournament/shields/blitz\">Blitz</a></h2></div><div class=\"tournament-shields__item\"><h2>x</h2></div></div>",
+      "marked": "<div class=\"tournament-shields\"><div class=\"tournament-shields__item\" data-cdc-href=\"/tournament/shields/blitz\"><h2><a href=\"/tournament/shields/blitz\">Blitz</a></h2></div><div class=\"tournament-shields__item\"><h2>x</h2></div></div>"
+    },
+    {
+      "page": "<main class=\"forum\"><table class=\"categs\"><tbody><tr><td><h2><a href=\"/forum/general-chess-discussion\">General</a></h2></td></tr><tr><td>none</td></tr></tbody></table></main>",
+      "marked": "<main class=\"forum\"><table class=\"categs\"><tbody><tr data-cdc-href=\"/forum/general-chess-discussion\"><td><h2><a href=\"/forum/general-chess-discussion\">General</a></h2></td></tr><tr><td>none</td></tr></tbody></table></main>"
+    },
+    {
+      "page": "<main class=\"forum forum-categ\"><div class=\"box__top\"><h1><a href=\"/forum\" data-icon=\"x\"></a>General</h1></div><table><tbody><tr><td class=\"subject\"><a href=\"/forum/general-chess-discussion/abc\">Topic</a></td></tr></tbody></table></main>",
+      "marked": "<main class=\"forum forum-categ\" data-cdc-href=\"/forum/general-chess-discussion/abc\" data-cdc-back=\"/forum\"><div class=\"box__top\"><h1><a href=\"/forum\" data-icon=\"x\"></a>General</h1></div><table><tbody><tr><td class=\"subject\"><a href=\"/forum/general-chess-discussion/abc\">Topic</a></td></tr></tbody></table></main>"
+    },
+    {
+      "page": "<main class=\"forum forum-topic\"><div class=\"box__top\"><h1><a href=\"/forum/general-chess-discussion\"></a>Topic</h1></div></main>",
+      "marked": "<main class=\"forum forum-topic\" data-cdc-back=\"/forum/general-chess-discussion\"><div class=\"box__top\"><h1><a href=\"/forum/general-chess-discussion\"></a>Topic</h1></div></main>"
+    },
+    {
+      "page": "<main class=\"forum forum-topic\"><div class=\"box__top\"><h1><span><a href=\"/nested\"></a></span>Topic</h1></div></main>",
+      "marked": "<main class=\"forum forum-topic\"><div class=\"box__top\"><h1><span><a href=\"/nested\"></a></span>Topic</h1></div></main>"
+    },
+    {
+      "page": "<main class=\"search\"><div class=\"box__top\"><form class=\"search\" action=\"/forum/search\"><input></form></div></main>",
+      "marked": "<main class=\"search\" data-cdc-search=\"/forum/search\"><div class=\"box__top\"><form class=\"search\" action=\"/forum/search\"><input></form></div></main>"
+    },
+    {
+      "page": "<main class=\"search\"><div class=\"box__top\"><form action=\"/other\"></form></div></main>",
+      "marked": "<main class=\"search\"><div class=\"box__top\"><form action=\"/other\"></form></div></main>"
+    },
+    {
+      "page": "<main class=\"box page-small\"><table class=\"slist-invert\"><tbody><tr><td><a class=\"user-link\" href=\"/@/a\">a</a></td><td>x</td></tr></tbody></table></main>",
+      "marked": "<main class=\"box page-small\" data-cdc-list=\"players\"><table class=\"slist-invert\"><tbody><tr><td><a class=\"user-link\" href=\"/@/a\">a</a></td><td>x</td></tr></tbody></table></main>"
+    },
+    {
+      "page": "<main class=\"box page-small\"><table class=\"slist-invert\"><tbody><tr><td>Nobody here.</td></tr></tbody></table></main>",
+      "marked": "<main class=\"box page-small\" data-cdc-list=\"players\"><table class=\"slist-invert\"><tbody><tr><td>Nobody here.</td></tr></tbody></table></main>"
+    },
+    {
+      "page": "<main class=\"box page-small\" data-cdc-list=\"players\"><table class=\"slist-invert\"><tbody><tr><td>a</td><td>b</td></tr><tr><td>c</td></tr></tbody></table></main>",
+      "marked": "<main class=\"box page-small\"><table class=\"slist-invert\"><tbody><tr><td>a</td><td>b</td></tr><tr><td>c</td></tr></tbody></table></main>"
+    }
+  ],
+  "has": [
+    {
+      "page": "",
+      "has": ""
+    },
+    {
+      "page": "<main class=\"round\"><div class=\"round__app\"><div class=\"round__app__board main-board\"><div class=\"cg-wrap orientation-black\"></div></div><div class=\"rclock rclock-top\"><div class=\"time\"></div><div class=\"berserked\"></div></div><div class=\"rclock rclock-bottom\"><div class=\"rclock-turn__text\"></div></div></div><aside class=\"round__side\"><section class=\"mchat\"></section></aside><div class=\"pocket\"></div></main>",
+      "has": "round round-chat pocket clock-extras-top clock-extras-bottom round-black"
+    },
+    {
+      "page": "<main class=\"round tv-single\"><aside class=\"round__side\"><nav class=\"subnav\"></nav></aside><div class=\"round__app\"><div class=\"rclock rclock-top\"><div class=\"moretime\"></div></div><div class=\"rclock rclock-bottom\"><div class=\"tour-rank\"></div><div class=\"go-berserk\"></div></div><div class=\"round__app__board\"><div class=\"orientation-white\"></div></div></div></main>",
+      "has": "round tv-channels clock-extras-top clock-extras-bottom"
+    },
+    {
+      "page": "<main class=\"analyse has-relay-tour\"><div class=\"analyse__side\"><div class=\"study__side\"></div></div><div class=\"analyse__board main-board\"><div class=\"cg-wrap orientation-white\"></div></div><div class=\"analyse__clock\"></div><section class=\"mchat\"></section><div class=\"cdc-player\"></div><div class=\"keyboard-move\"></div></main>",
+      "has": "analyse analyse-chat analyse-players analyse-clock analyse-white relay-tour study-side keyboard-move"
+    },
+    {
+      "page": "<main class=\"analyse\"><div class=\"analyse__board\"><div class=\"orientation-black\"></div></div><div class=\"analyse__tools\"><div class=\"practice-box\"></div></div><aside class=\"analyse__side\"><div class=\"practice__side\"></div></aside><div><section class=\"mchat\"></section></div></main>",
+      "has": "analyse analyse-black practice practice-box"
+    },
+    {
+      "page": "<main class=\"puzzle\"><div class=\"keyboard-move\"></div></main>",
+      "has": "puzzle puzzle-keyboard"
+    },
+    {
+      "page": "<main class=\"puzzle\"><div><div class=\"keyboard-move\"></div></div></main>",
+      "has": "puzzle"
+    },
+    {
+      "page": "<main><div class=\"storm storm--play\"></div></main>",
+      "has": "storm storm-play"
+    },
+    {
+      "page": "<main><div><div class=\"storm\"></div></div></main>",
+      "has": ""
+    },
+    {
+      "page": "<main class=\"swiss\"></main><main class=\"lobby\"></main><main class=\"coach-list\"></main><main class=\"team-list\"></main>",
+      "has": "swiss lobby coach-list team-list"
+    },
+    {
+      "page": "<main class=\"page-menu\"><div class=\"page-menu__content\"><div class=\"user-show\"></div><div class=\"puzzle-themes\"></div></div><div class=\"perf-stat\"></div></main>",
+      "has": "user-show perf-stat puzzle-themes"
+    }
+  ]
+}

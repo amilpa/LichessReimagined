@@ -1,0 +1,176 @@
+/* ---- Rows --- */
+
+.fide-players-table tbody tr.paginated {
+  counter-increment: cdc-fide;
+  background: none !important;
+}
+
+.fide-players-table tbody tr.paginated > td {
+  padding: 10px !important;
+  border: none !important;
+  background: var(--cdc-bg-panel);
+  color: var(--cdc-text);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: background 0.15s !important;
+}
+
+.fide-players-table tbody tr.paginated > td:first-child {
+  padding-inline-start: 14px !important;
+  border-start-start-radius: 10px;
+  border-end-start-radius: 10px;
+}
+
+.fide-players-table tbody tr.paginated > td:last-child {
+  padding-inline-end: 18px !important;
+  border-start-end-radius: 10px;
+  border-end-end-radius: 10px;
+}
+
+.fide-players-table tbody tr.paginated:hover > td {
+  background: var(--cdc-card-hover);
+}
+
+/* A rating FIDE doesn't have. */
+.fide-players-table tbody td:empty::before {
+  content: '–';
+  color: var(--cdc-text-dim);
+  font-weight: 400;
+}
+
+/* The sorted-by column stands out; age stays in the back. */
+.fide-players-table tbody tr.paginated > td:last-child {
+  color: var(--cdc-text-dim);
+  font-weight: 400;
+}
+
+.fide-players-table:has(thead th:nth-child(2) > a.active) tbody td:nth-child(2),
+.fide-players-table:has(thead th:nth-child(3) > a.active) tbody td:nth-child(3),
+.fide-players-table:has(thead th:nth-child(4) > a.active) tbody td:nth-child(4),
+.fide-players-table:has(thead th:nth-child(5) > a.active) tbody td:nth-child(5) {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* ---- Player --- */
+
+.fide-players-table .player-intro {
+  gap: 14px;
+  min-width: 0;
+}
+
+.fide-players-table .player-intro__photo {
+  flex: none;
+  display: block;
+  line-height: 0;
+}
+
+.fide-players-table .fide-players__photo {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 6px !important;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 1px #ffffff14,
+    0 2px 6px #0000004d;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.fide-players-table tbody tr:hover .fide-players__photo {
+  transform: scale(1.06);
+}
+
+/* No photo: the default avatar instead of Lichess's grey face. */
+.fide-players-table .fide-players__photo--fallback {
+  object-position: -9999px 0;
+  background: var(--cdc-avatar);
+}
+
+.fide-players-table .player-intro__info {
+  gap: 3px;
+  min-width: 0;
+}
+
+.fide-players-table .player-intro__name {
+  overflow: hidden;
+  color: #fff !important;
+  font-size: 15px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fide-players-table .player-intro__name:hover {
+  color: var(--cdc-green-hover) !important;
+}
+
+.fide-players-table .player-intro__fed {
+  gap: 6px;
+  color: var(--cdc-text-dim);
+  font-family: var(--cdc-font) !important;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.fide-players-table .player-intro__fed .flag {
+  width: 18px !important;
+  height: auto !important;
+  margin: 0 !important;
+  border-radius: 2px;
+}
+
+/* ---- Rank --- */
+
+/* Ranked only when sorted by a rating (not by name, age or a search). The infinite scroll adds
+ * rows to the same tbody, so the count carries on. */
+.fide-players-table--sortable:has(
+    thead th:is(:nth-child(2), :nth-child(3), :nth-child(4)) > a.active
+  )
+  .player-intro::before {
+  content: counter(cdc-fide);
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  margin-inline-end: -2px;
+  border-radius: 999px;
+  background: var(--cdc-medal, transparent);
+  box-shadow: var(--cdc-medal-shadow, none);
+  color: var(--cdc-medal-text, var(--cdc-text-dim));
+  font-size: 14px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-shadow: var(--cdc-medal-text-shadow, none);
+}
+
+/* Gold, silver and bronze for the top three, on the first page only. */
+html:not([data-cdc-fide-skip])
+  :is(.fide-players-table, .fide-federations .slist)
+  tbody
+  tr.paginated:nth-child(-n + 3) {
+  --cdc-medal-shadow: inset 0 1px 0 #ffffff59, inset 0 -2px 0 #00000026, 0 2px 6px #00000040;
+  --cdc-medal-text: #fff;
+  --cdc-medal-text-shadow: 0 1px 1px #00000073;
+}
+
+html:not([data-cdc-fide-skip])
+  :is(.fide-players-table, .fide-federations .slist)
+  tbody
+  tr.paginated:nth-child(1) {
+  --cdc-medal: linear-gradient(145deg, #fad541, #d8a31a);
+}
+html:not([data-cdc-fide-skip])
+  :is(.fide-players-table, .fide-federations .slist)
+  tbody
+  tr.paginated:nth-child(2) {
+  --cdc-medal: linear-gradient(145deg, #d9dde3, #9aa3ad);
+}
+html:not([data-cdc-fide-skip])
+  :is(.fide-players-table, .fide-federations .slist)
+  tbody
+  tr.paginated:nth-child(3) {
+  --cdc-medal: linear-gradient(145deg, #e0a06a, #b06a35);
+}

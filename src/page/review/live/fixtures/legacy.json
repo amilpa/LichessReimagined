@@ -1,0 +1,191 @@
+{
+  "paths": [
+    {
+      "path": "",
+      "book": true,
+      "opening": null,
+      "gap": null,
+      "digest": "",
+      "ply": null,
+      "opened": null
+    },
+    {
+      "path": "/?",
+      "book": true,
+      "opening": null,
+      "gap": null,
+      "digest": "book,-1.97,a7a6,a2a3,,",
+      "ply": 1,
+      "opened": ""
+    },
+    {
+      "path": "/?WG",
+      "book": true,
+      "opening": { "book": true, "name": "King's Pawn Game", "eco": "" },
+      "gap": null,
+      "digest": "book,+2.37,a2a3,a7a6,King's Pawn Game,book",
+      "ply": 2,
+      "opened": "King's Pawn Game"
+    },
+    {
+      "path": "/?WG)8",
+      "book": true,
+      "opening": { "book": true, "name": "King's Pawn Game", "eco": "" },
+      "gap": null,
+      "digest": "book,-0.86,a7a6,a2a3,King's Pawn Game,book",
+      "ply": 3,
+      "opened": "King's Pawn Game"
+    },
+    {
+      "path": "/?WG)8\\M",
+      "book": "undefined",
+      "opening": { "book": true, "name": "King's Pawn Game", "eco": "" },
+      "gap": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "digest": "",
+      "ply": null,
+      "opened": null
+    },
+    {
+      "path": "/?WG)8\\M(D",
+      "book": "undefined",
+      "opening": { "book": true, "name": "King's Pawn Game", "eco": "" },
+      "gap": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "digest": "",
+      "ply": null,
+      "opened": null
+    },
+    {
+      "path": "/?WG)8\\M(DSK",
+      "book": "undefined",
+      "opening": { "book": true, "name": "King's Pawn Game", "eco": "" },
+      "gap": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "digest": "",
+      "ply": null,
+      "opened": null
+    },
+    {
+      "path": "/?WG(=",
+      "book": true,
+      "opening": { "book": true, "name": "King's Pawn Game", "eco": "" },
+      "gap": null,
+      "digest": "book,-2.20,a7a6,a2a3,King's Pawn Game,book",
+      "ply": 3,
+      "opened": "King's Pawn Game"
+    },
+    {
+      "path": "/?WG(=`E",
+      "book": true,
+      "opening": { "book": true, "name": "Open Game: Kings Knight", "eco": "" },
+      "gap": null,
+      "digest": "book,+2.32,a2a3,a7a6,Open Game: Kings Knight,book",
+      "ply": 4,
+      "opened": "Open Game: Kings Knight"
+    },
+    {
+      "path": "/?WG(=`E.6",
+      "book": false,
+      "opening": { "book": true, "name": "Open Game: Kings Knight", "eco": "" },
+      "gap": null,
+      "digest": "",
+      "ply": null,
+      "opened": null
+    },
+    {
+      "path": "/?WG)8zz",
+      "book": true,
+      "opening": { "book": true, "name": "King's Pawn Game", "eco": "" },
+      "gap": null,
+      "digest": "",
+      "ply": null,
+      "opened": null
+    }
+  ],
+  "wanted": [
+    [
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4",
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR b - - 0 2",
+      "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/8/PPPP1PPP/RNBQK1NR w - - 0 3",
+      "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/3P4/PPP2PPP/RNBQK1NR b - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4"
+    ],
+    [
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4",
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR b - - 0 2",
+      "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/8/PPPP1PPP/RNBQK1NR w - - 0 3",
+      "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/3P4/PPP2PPP/RNBQK1NR b - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4"
+    ],
+    [
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4",
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b - - 0 1",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b - - 0 2",
+      "rnbqkbnr/pppp1ppp/8/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR b - - 0 2",
+      "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/8/PPPP1PPP/RNBQK1NR w - - 0 3",
+      "rnbqk1nr/pppp1ppp/8/2b1p3/2B1P3/3P4/PPP2PPP/RNBQK1NR b - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w - - 0 3",
+      "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b - - 0 3",
+      "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w - - 0 4"
+    ]
+  ],
+  "noBook": [
+    [false, "blunder,-1.97,a7a6,a2a3,,"],
+    [false, "miss,+2.37,a2a3,a7a6,King's Pawn Game,blunder"],
+    [false, "miss,-0.86,a7a6,a2a3,King's Pawn Game,miss"],
+    [false, "good,-0.46,a2a3,a7a6,King's Pawn Game,miss"],
+    [false, "best,+0.11,a7a6,a2a3,King's Pawn Game,good"],
+    [false, ""],
+    [false, "miss,-2.20,a7a6,a2a3,King's Pawn Game,miss"],
+    [false, "miss,+2.32,a2a3,a7a6,Open Game: Kings Knight,miss"],
+    [false, ""]
+  ]
+}

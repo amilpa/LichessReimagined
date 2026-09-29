@@ -1,13 +1,8 @@
-/*
- * The weekly rating distribution (/stat/rating/distribution/<perf>), redrawn
- * in SVG by distribution.js in the look of the profile's rating chart (whose
- * chips, grid, labels and tooltip it reuses from ratingchart.css): a column
- * per 25 points in the rating's color, the cumulative share as a curve, your
- * rating as a white pill on a dashed line. Lichess's canvas is hidden only
- * once ours is in, marked by .cdc-dist-on.
- */
+/* The rating distribution (/stat/rating/distribution/<perf>), drawn in SVG by
+ * page/charts/distribution/. Reuses ratingchart.css's chips, grid and tooltip.
+ * Lichess's canvas is hidden only once ours is in (.cdc-dist-on). */
 
-/* ------------------------------------------------------------ page --- */
+/* ---- Page --- */
 
 .rating-stats .desc {
   gap: 14px;
@@ -17,7 +12,7 @@
   line-height: 1.5;
 }
 
-/* The rating's icon, theme.css's in its color, a little smaller. */
+/* The rating's icon (from theme/), a little smaller. */
 .rating-stats .desc::before {
   flex: none;
   margin: 0 !important;
@@ -31,7 +26,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ----------------------------------------------------------- chart --- */
+/* ---- Chart --- */
 
 .rating-stats #rating_distribution.cdc-dist-on {
   height: auto !important;
@@ -55,7 +50,7 @@
   gap: 6px;
 }
 
-/* A legend, not a toggle. */
+/* These chips are a legend, not toggles. */
 .cdc-dist__chip,
 .cdc-dist__chip:hover {
   border-color: var(--cdc-card-border);
@@ -70,10 +65,8 @@
   height: clamp(240px, 100dvh - 330px, 760px);
 }
 
-/* On a big window too (760px left a third of a 1440px-tall one empty), as
- * long as the chart stays about twice as wide as it is tall. The cap leaves
- * room for Lichess's box padding, which grows with the window's width (the
- * rest of the page is 330px tall at 1920px, 370px at 2560px). */
+/* Taller on a big window, up to half as tall as wide. The cap leaves room for
+ * Lichess's box padding, which grows with the window's width. */
 @media (min-width: 1020px) {
   .cdc-dist__plot {
     height: clamp(240px, min(100dvh - 330px, 50vw), 1060px);
@@ -102,10 +95,12 @@
 
 .cdc-dist__bar {
   fill: url(#cdc-dist-g);
-  transition: opacity 0.2s, filter 0.2s !important;
+  transition:
+    opacity 0.2s,
+    filter 0.2s !important;
 }
 
-/* The players rated above you (or above the column under the pointer). */
+/* Players rated above you, or above the column under the pointer. */
 .cdc-dist__bar--dim {
   opacity: 0.32;
 }
@@ -125,7 +120,7 @@
 }
 
 .cdc-dist__mline {
-  stroke: var(--c);
+  stroke: var(--cdc-marker-color);
   stroke-width: 1.5;
   stroke-dasharray: 4 4;
   pointer-events: none;
@@ -144,7 +139,7 @@
   opacity: 1;
 }
 
-/* A marker's pill: who, and the rating. */
+/* A marker's pill: the player's name and rating. */
 .cdc-dist__marks {
   position: absolute;
   inset: 0;
@@ -168,7 +163,7 @@
   white-space: nowrap;
 }
 
-/* The player you came from: a dark pill, yours stays the bright one. */
+/* The player you came from gets a dark pill; yours stays bright. */
 .cdc-dist__mark--other {
   border: 1px solid #ffffff2e;
   background: var(--cdc-bg-raised);
@@ -184,15 +179,14 @@
   min-width: 170px;
 }
 
-/* ------------------------------------------------------------ intro --- */
+/* ---- Intro --- */
 
-/* The columns rise one after the other, left to right; the curve draws
- * itself over them, then the markers drop in. */
+/* The columns rise left to right, the curve draws itself, then the markers drop in. */
 .cdc-dist__svg--intro .cdc-dist__bar {
   transform-box: fill-box;
   transform-origin: bottom;
   animation: cdc-dist-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(var(--k) * 7ms);
+  animation-delay: calc(var(--cdc-bar-index) * 7ms);
 }
 
 .cdc-dist__svg--intro .cdc-dist__cumul {
@@ -206,16 +200,30 @@
 }
 
 @keyframes cdc-dist-rise {
-  from { transform: scaleY(0); }
-  to { transform: none; }
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: none;
+  }
 }
 
 @keyframes cdc-dist-draw {
-  from { stroke-dashoffset: 1; }
-  to { stroke-dashoffset: 0; }
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes cdc-dist-drop {
-  from { opacity: 0; translate: 0 -6px; }
-  to { opacity: 1; translate: none; }
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
 }

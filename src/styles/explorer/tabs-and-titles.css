@@ -1,0 +1,217 @@
+/* Opening explorer (.explorer-box, in the analysis panel), styled at every width;
+ * its share of the panel is set for desktop only. Rows stay real rows (Lichess's
+ * tr[data-uci] draws the arrow on hover): only colors and sizes change. */
+
+.explorer-box {
+  --cdc-ex-white: linear-gradient(#fff, #e3e2e0);
+  --cdc-ex-draw: #8b8987;
+  --cdc-ex-black: linear-gradient(#45423e, #383633);
+  --cdc-ex-row-hover: #ffffff0f;
+
+  /* Lichess underlines the box (.sub-box) in green. */
+  border: none !important;
+  background: var(--cdc-bg-panel) !important;
+  color: var(--cdc-text) !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 13px !important;
+}
+
+.explorer-box table {
+  border-collapse: collapse;
+}
+
+.explorer-box tr:nth-child(even) {
+  background: #ffffff05 !important;
+}
+
+.explorer-box tbody tr:hover {
+  background: var(--cdc-ex-row-hover) !important;
+}
+
+.explorer-box.loading tbody {
+  opacity: 0.5;
+}
+
+/* ---- Database tabs --- */
+
+.explorer-box .explorer-title {
+  align-items: center !important;
+  gap: 4px;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 6px 0 8px !important;
+  border-bottom: 1px solid var(--cdc-border);
+  background: var(--cdc-bg-panel-dark) !important;
+  backdrop-filter: none !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+}
+
+.explorer-box .explorer-title > :is(button.button-link, .active) {
+  flex: none;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  height: 30px;
+  margin: 0 !important;
+  padding: 0 11px !important;
+  border: none !important;
+  border-radius: 5px;
+  background: none !important;
+  color: var(--cdc-text-dim) !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 13px !important;
+  font-weight: 700;
+  line-height: 1 !important;
+  text-decoration: none !important;
+}
+
+.explorer-box .explorer-title > button.button-link:hover {
+  background: #ffffff14 !important;
+  color: #fff !important;
+}
+
+/* The chosen database: a raised grey tab. */
+.explorer-box .explorer-title > .active {
+  flex: 0 1 auto;
+  min-width: 0;
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow);
+  color: #fff !important;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.explorer-box .explorer-title > .active::before {
+  flex: none;
+  margin: 0 !important;
+  color: var(--cdc-green);
+  font-size: 15px;
+}
+
+/* "Masters database" reads "Masters", like the other tabs. The player tab keeps
+ * "as white": that's what a click on it switches. */
+.explorer-box .explorer-title > .active:is(.masters, .lichess) {
+  font-size: 0 !important;
+  gap: 0;
+}
+
+.explorer-box .explorer-title > .active:is(.masters, .lichess)::before {
+  margin-right: 6px !important;
+}
+
+.explorer-box .explorer-title > .active strong {
+  margin: 0 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.explorer-box .explorer-title > .active.player {
+  gap: 4px;
+  overflow: hidden;
+}
+
+.explorer-box .explorer-title > .active.player::before {
+  margin-right: 2px !important;
+}
+
+.explorer-box .explorer-title > .active.player:hover {
+  background: var(--cdc-btn-grey-hover) !important;
+}
+
+.explorer-box .explorer-title .ddloader {
+  flex: none;
+  padding: 0 !important;
+}
+
+.explorer-box .explorer-title > .toconf {
+  position: static !important;
+  flex: none;
+  display: grid !important;
+  place-items: center;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0 0 0 auto !important;
+  padding: 0 !important;
+  border-radius: 5px;
+  background: none !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 18px !important;
+  opacity: 1 !important;
+}
+
+.explorer-box .explorer-title > .toconf::before {
+  top: 0 !important;
+  margin: 0 !important;
+}
+
+.explorer-box .explorer-title > .toconf:hover {
+  background: #ffffff14 !important;
+  color: #fff !important;
+}
+
+/* ---- Titles --- */
+
+/* The opening's name on a card, behind a green book tile. */
+.explorer-box .data > .title:has(> a) {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 8px 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 6px;
+  background: var(--cdc-bg-panel-dark);
+}
+
+.explorer-box .data > .title:has(> a)::before {
+  content: '\e03b';
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--cdc-btn-green);
+  box-shadow: var(--cdc-btn-green-shadow);
+  color: #fff;
+  font-family: 'lichess';
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* The Game Review (page/review/) already names the line over the move list. */
+html.cdc-opening-on main.analyse .explorer-box .data > .title:has(> a) {
+  display: none !important;
+}
+
+.explorer-box .data > .title > a {
+  min-width: 0;
+  overflow: hidden;
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.explorer-box .data > .title > a:hover {
+  color: var(--cdc-green-hover) !important;
+}
+
+/* Other titles head lists: "Top games", "Winning", "Game over". */
+.explorer-box :is(.data > .title:not(:has(> a)), th.title) {
+  padding: 14px 12px 6px !important;
+  background: none !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  line-height: 1.2 !important;
+  text-align: start;
+  text-transform: uppercase;
+}

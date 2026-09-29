@@ -1,0 +1,339 @@
+/* ---- Move list --- */
+
+@media (min-width: 1020px) {
+  /* 30px rows, "8." numbers, a box on the current move, its eval dim on the right. Stripes go
+   * by move number, so comments in between don't shift them. */
+  main.analyse .analyse__moves {
+    background: var(--cdc-bg-panel) !important;
+  }
+
+  main.analyse .tview2-column {
+    padding-bottom: 8px;
+    background: none !important;
+    font-family: var(--cdc-font) !important;
+  }
+
+  main.analyse .tview2-column > index {
+    flex: 0 0 44px !important;
+    justify-content: flex-start !important;
+    box-sizing: border-box;
+    height: 30px;
+    padding-left: 12px !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--cdc-text-dim) !important;
+    font-size: 13px !important;
+    font-weight: 700;
+    line-height: 30px !important;
+  }
+
+  main.analyse .tview2-column > index::after {
+    content: '.';
+  }
+
+  main.analyse .tview2-column > move {
+    flex: 0 0 calc((100% - 44px) / 2) !important;
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+    height: 30px;
+    padding: 0 10px 0 0 !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--cdc-text) !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 30px !important;
+  }
+
+  /* The review's list has its own stripes (review/). */
+  html:not(.cdc-review-moves) main.analyse .tview2-column > index:nth-of-type(even),
+  html:not(.cdc-review-moves) main.analyse .tview2-column > index:nth-of-type(even) + move,
+  html:not(.cdc-review-moves) main.analyse .tview2-column > index:nth-of-type(even) + move + move {
+    background: #2a2926 !important;
+  }
+
+  main.analyse .tview2-column > move san {
+    padding: 0 5px;
+    border-radius: 3px;
+    border-bottom: 2px solid transparent;
+    line-height: 22px;
+  }
+
+  main.analyse .tview2-column > move:hover san {
+    background: #ffffff14;
+    color: #fff;
+  }
+
+  main.analyse .tview2-column > move.active san {
+    background: #ffffff26;
+    border-bottom-color: #ffffff3d;
+    color: #fff;
+  }
+
+  main.analyse .tview2-column > move.empty {
+    padding-left: 5px !important;
+    color: var(--cdc-text-dim) !important;
+    font-weight: 400 !important;
+  }
+
+  main.analyse .tview2-column > move eval {
+    flex: none;
+    margin-left: auto;
+    padding: 0 !important;
+    color: var(--cdc-text-dim) !important;
+    font-size: 11px !important;
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  /* Annotated moves take the Game Review's colors; the glyph is a round badge before the move. */
+  main.analyse .tview2 move.brilliant {
+    --cdc-glyph: #26c2a3;
+  }
+  main.analyse .tview2 move.good {
+    --cdc-glyph: #749bbf;
+  }
+  main.analyse .tview2 move.interesting {
+    --cdc-glyph: #96af8b;
+  }
+  main.analyse .tview2 move.inaccuracy {
+    --cdc-glyph: #f7c631;
+  }
+  main.analyse .tview2 move.mistake {
+    --cdc-glyph: #ffa459;
+  }
+  main.analyse .tview2 move.blunder {
+    --cdc-glyph: #fa412d;
+  }
+
+  main.analyse .tview2 move:is(.brilliant, .good, .interesting, .inaccuracy, .mistake, .blunder) {
+    color: var(--cdc-glyph) !important;
+  }
+
+  main.analyse .tview2-column > move glyph {
+    order: -1;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin: 0 -1px 0 0 !important;
+    border-radius: 50%;
+    background: var(--cdc-glyph, #8b8987);
+    box-shadow: 0 1px 0 #0000004d;
+    color: #fff !important;
+    font-family: var(--cdc-font) !important;
+    font-size: 10px !important;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1 !important;
+  }
+
+  /* Comments and variations: a card under the move, accented in its color, not a boxed tree. */
+  main.analyse .tview2-column > interrupt {
+    flex: 0 0 calc(100% - 16px) !important;
+    max-width: none !important;
+    box-sizing: border-box;
+    margin: 4px 8px 6px !important;
+    padding: 8px 10px !important;
+    border: none !important;
+    border-left: 3px solid var(--cdc-note, #5d5b58) !important;
+    border-radius: 5px !important;
+    background: var(--cdc-bg-panel-dark) !important;
+    box-shadow: none !important;
+    font-family: var(--cdc-font) !important;
+  }
+
+  main.analyse .tview2-column > interrupt:has(> comment.inaccuracy) {
+    --cdc-note: #f7c631;
+  }
+  main.analyse .tview2-column > interrupt:has(> comment.mistake) {
+    --cdc-note: #ffa459;
+  }
+  main.analyse .tview2-column > interrupt:has(> comment.blunder) {
+    --cdc-note: #fa412d;
+  }
+
+  main.analyse .tview2 interrupt comment {
+    display: block;
+    padding: 0 !important;
+    border: none !important;
+    color: var(--cdc-text) !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  main.analyse .tview2 interrupt comment:is(.inaccuracy, .mistake, .blunder) {
+    color: var(--cdc-note) !important;
+    font-weight: 700;
+  }
+
+  main.analyse .tview2 interrupt lines {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  main.analyse .tview2 interrupt comment + lines,
+  main.analyse .tview2 interrupt lines + comment {
+    margin-top: 4px !important;
+  }
+
+  main.analyse .tview2 interrupt line {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 1px;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  main.analyse .tview2 interrupt line + line {
+    margin-top: 2px !important;
+    padding-top: 2px !important;
+    border-top: 1px solid #ffffff0a !important;
+  }
+
+  main.analyse .tview2 interrupt branch {
+    display: none !important;
+  }
+
+  main.analyse .tview2 interrupt line move {
+    margin: 0 !important;
+    padding: 0 3px !important;
+    line-height: 20px !important;
+    border-radius: 3px;
+    background: none !important;
+    color: var(--cdc-text-dim) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+  }
+
+  main.analyse .tview2 interrupt line move index {
+    margin-right: 2px;
+    padding: 0 !important;
+    color: #ffffff59 !important;
+    font-weight: 400;
+  }
+
+  main.analyse .tview2 interrupt line move:hover {
+    background: #ffffff14 !important;
+    color: #fff !important;
+  }
+
+  main.analyse .tview2 interrupt line move.active {
+    background: #ffffff26 !important;
+    color: #fff !important;
+  }
+
+  /* The result as a scoreboard card: the score between both kings (it can't tell a win from a
+   * draw), how it ended below. Two sibling lines, each drawing half the card. */
+  main.analyse .analyse__moves .result {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 10px 10px 0 !important;
+    padding: 14px 12px 6px !important;
+    border: 1px solid var(--cdc-card-border) !important;
+    border-bottom: none !important;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(#ffffff12, #ffffff0a) !important;
+    color: var(--cdc-text-strong) !important;
+    font-family: var(--cdc-font) !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    animation: cdc-result-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  main.analyse .analyse__moves .result::before,
+  main.analyse .analyse__moves .result::after {
+    content: '';
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background:
+      url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp') center / 84% no-repeat,
+      var(--cdc-sq-light, #ebecd0);
+    box-shadow:
+      inset 0 1px 0 #ffffff40,
+      inset 0 -3px 0 #00000026,
+      0 2px 6px #00000040;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  }
+
+  main.analyse .analyse__moves .result::after {
+    background:
+      url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bk.webp') center / 84% no-repeat,
+      var(--cdc-sq-dark, #739552);
+  }
+
+  main.analyse .analyse__moves .result:hover::before {
+    transform: rotate(-6deg) scale(1.08);
+  }
+
+  main.analyse .analyse__moves .result:hover::after {
+    transform: rotate(6deg) scale(1.08);
+  }
+
+  main.analyse .analyse__moves .result + .status {
+    margin: 0 10px 12px !important;
+    padding: 6px 12px 14px !important;
+    border: 1px solid var(--cdc-card-border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    background: #ffffff0a !important;
+    color: var(--cdc-text-dim) !important;
+    font-family: var(--cdc-font) !important;
+    font-size: 13px !important;
+    font-style: normal !important;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+    animation: cdc-result-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes cdc-result-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  /* A study's "Next chapter": a real button, green once the chapter is done. */
+  main.analyse .analyse__moves button.next {
+    flex: none;
+    width: calc(100% - 16px) !important;
+    margin: 8px !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    background: var(--cdc-btn-grey) !important;
+    box-shadow: var(--cdc-btn-grey-shadow);
+    color: var(--cdc-text) !important;
+    font-family: var(--cdc-font) !important;
+    font-weight: 700;
+  }
+
+  main.analyse .analyse__moves button.next.highlighted {
+    background: var(--cdc-btn-green) !important;
+    box-shadow: var(--cdc-btn-green-shadow);
+    color: #fff !important;
+    text-shadow: 0 1px 1px #00000033;
+  }
+
+  main.analyse .analyse__moves button.next:hover {
+    background: var(--cdc-btn-grey-hover) !important;
+    color: #fff !important;
+  }
+
+  main.analyse .analyse__moves button.next.highlighted:hover {
+    background: var(--cdc-btn-green-hover) !important;
+  }
+}

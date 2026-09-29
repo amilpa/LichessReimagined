@@ -1,0 +1,155 @@
+/* Players leaderboard (/player, .community) in the Practice look, and the tournament winners
+ * and shields pages, which reuse its cards. The online players sit in a sticky side card. */
+
+/* ---- Page --- */
+
+/* Transparent now, but its `overflow: hidden` would still clip the cards' hover lift and make
+ * the box the online card's scroller, so that card never stuck. */
+.community.page-menu__content.box {
+  overflow: visible !important;
+  gap: 24px !important;
+  padding: 16px 0 40px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.community h2 {
+  color: #fff;
+  letter-spacing: normal !important;
+}
+
+.community__leaders > h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+}
+
+/* The trophies icon, as on the broadcasts. */
+.community__leaders > h2::before {
+  content: '';
+  flex: none;
+  width: 36px;
+  height: 36px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center /
+    contain no-repeat;
+}
+
+/* ---- Online --- */
+
+.community__online {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  min-width: 0;
+  padding: 16px 0 8px;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 12px;
+  background: var(--cdc-bg-panel);
+}
+
+.community__online > h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 18px 10px !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+.community__online > h2::before {
+  content: '';
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--cdc-green);
+  box-shadow: 0 0 0 0 #81b64cb3;
+  animation: cdc-online-pulse 1.6s ease-out infinite;
+}
+
+@keyframes cdc-online-pulse {
+  70% {
+    box-shadow: 0 0 0 6px #81b64c00;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 #81b64c00;
+  }
+}
+
+.community__online .user-top {
+  min-height: 0;
+  margin: 0 !important;
+  padding: 0 6px !important;
+  scrollbar-width: thin;
+}
+
+.community__online li {
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px !important;
+  border-radius: 8px;
+}
+
+.community__online li:hover {
+  background: #ffffff0d;
+}
+
+.community .user-top .user-link {
+  min-width: 0;
+  margin: 0 !important;
+  color: var(--cdc-text) !important;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.community .user-top li:hover .user-link {
+  color: #fff !important;
+}
+
+/* The rating as a chip, its time control's icon in front. */
+.community__online li > span {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px 2px 7px;
+  border-radius: 999px;
+  background: var(--cdc-bg-raised);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.community__online li > span::before {
+  margin: 0 !important;
+  font-size: 13px;
+}
+
+/* Desktop: a long list keeps to the window and scrolls in place. */
+@media (min-width: 1020px) {
+  .community.page-menu__content.box {
+    grid-template-columns: minmax(250px, 290px) minmax(0, 1fr) !important;
+  }
+
+  .community__online {
+    position: sticky;
+    top: 16px;
+    max-height: calc(100dvh - 32px);
+  }
+
+  .community__online .user-top {
+    overflow-y: auto;
+  }
+}
+
+/* Narrower desktops, beside a side menu some languages make long: a slimmer online card. */
+@media (min-width: 1020px) and (max-width: 1365.98px) {
+  .community.page-menu__content.box {
+    grid-template-columns: minmax(220px, 250px) minmax(0, 1fr) !important;
+  }
+}

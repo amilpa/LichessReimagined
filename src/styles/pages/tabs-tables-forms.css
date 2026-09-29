@@ -1,0 +1,158 @@
+/* ---- Tabs --- */
+
+.tabs-horiz {
+  text-shadow: none !important;
+}
+
+.tabs-horiz span,
+.tabs-horiz button {
+  color: var(--cdc-text-dim);
+  font-family: var(--cdc-font) !important;
+  font-weight: 700;
+  letter-spacing: 0 !important;
+}
+
+.tabs-horiz span:hover,
+.tabs-horiz button:hover {
+  color: #fff;
+}
+
+.tabs-horiz span.active,
+.tabs-horiz button.active {
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+/* The underline is the sliding piece (see "Sliding tabs" in theme/). */
+.tabs-horiz[data-cdc-tabs='line'] > .active {
+  border-bottom-color: transparent !important;
+}
+
+/* ---- Tables --- */
+
+.slist thead {
+  background: var(--cdc-bg-panel-dark) !important;
+  box-shadow: none !important;
+  font-family: var(--cdc-font) !important;
+  font-weight: 600 !important;
+}
+
+.slist thead th {
+  border-bottom-color: var(--cdc-border) !important;
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+}
+
+.slist tbody tr:nth-child(2n) {
+  background: #2a2926 !important;
+}
+
+.slist tbody tr:hover {
+  background: #ffffff0a !important;
+}
+
+.slist td {
+  border-color: var(--cdc-border) !important;
+}
+
+/* ---- Forms --- */
+
+input:not([type='checkbox'], [type='radio'], [type='range'], [type='file'], [type='color']),
+select,
+textarea {
+  border: 1px solid #4b4847 !important;
+  border-radius: 6px !important;
+  background-color: var(--cdc-bg-raised) !important;
+  color: #fff !important;
+}
+
+input:not([type='checkbox'], [type='radio'], [type='range'], [type='file'], [type='color']):focus,
+select:focus,
+textarea:focus {
+  border-color: var(--cdc-green) !important;
+  outline: none !important;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: var(--cdc-green);
+}
+
+/* The file picker's "Choose file" button, in our grey button style. */
+input[type='file']::file-selector-button {
+  margin-inline-end: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--cdc-btn-grey);
+  box-shadow: var(--cdc-btn-grey-shadow);
+  color: #fff;
+  font: 700 14px var(--cdc-font);
+  cursor: pointer;
+}
+
+input[type='file']::file-selector-button:hover {
+  background: var(--cdc-btn-grey-hover);
+}
+
+/* Lichess's switches (.cmn-toggle) as a pill with a white knob. */
+.cmn-toggle label {
+  box-sizing: border-box !important;
+  width: 40px !important;
+  height: 22px !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  background: #5d5b58 !important;
+}
+
+.cmn-toggle label::before {
+  display: none !important;
+}
+
+.cmn-toggle label::after {
+  bottom: 2px !important;
+  left: 2px !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  box-shadow: 0 1px 3px #0006 !important;
+}
+
+.cmn-toggle input:checked + label {
+  background: var(--cdc-green) !important;
+}
+
+.cmn-toggle input:checked + label::after {
+  margin-inline-start: 18px !important;
+}
+
+/* The sidebar search box stays borderless. */
+#top #clinput input {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* An input with a button glued to it reads as one control: square the joined corners
+ * and drop the button's shadow, which hung below the input. */
+input:not([type='hidden']):has(+ .button) {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+input:not([type='hidden']) + .button {
+  margin: 0 !important;
+  border-radius: 0 6px 6px 0 !important;
+  box-shadow: none !important;
+}
+
+input:not([type='hidden']) + .button.button-metal {
+  border: 1px solid #4b4847 !important;
+  border-left: none !important;
+  color: var(--cdc-text-dim) !important;
+}
+
+input:not([type='hidden']) + .button.button-metal:hover {
+  color: #fff !important;
+}

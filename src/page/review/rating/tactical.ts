@@ -1,0 +1,18 @@
+import { attackers, opposite, parseFen } from '#shared/chess/index.ts';
+import { isHanging } from '#page/review/chess/material.ts';
+
+/**
+ * A position with a tactic in it: the side to move is in check, the last
+ * move threw away 10% or more (a chance to punish it), or a piece hangs.
+ * tools/game-rating/extract.py must agree.
+ */
+export function isTactical(fen: string, previousLoss: number): boolean {
+  const { board, turn } = parseFen(fen);
+  if (previousLoss >= 10) return true;
+  const king = [...board].find(([, piece]) => piece.role === 'king' && piece.color === turn)?.[0];
+  if (king && attackers(board, king, opposite(turn)).length > 0) return true;
+  return [...board].some(
+    ([square, piece]) =>
+      piece.role !== 'pawn' && piece.role !== 'king' && isHanging(board, square, piece),
+  );
+}

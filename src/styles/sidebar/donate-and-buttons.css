@@ -1,0 +1,203 @@
+/* ---- Donate --- */
+
+@media (min-width: 1020px) {
+  /* Lichess's own Donate link is missing for patrons and on zen pages (a game):
+   * content/sidebar/donate.ts copies the flyout's one into #cdc-donate, under Tools. */
+  #topnav div a.community-patron,
+  #top .site-title-nav__donate {
+    display: none !important;
+  }
+
+  #cdc-donate {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    height: 40px;
+    margin: 0 8px;
+    padding: 0 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cdc-text) !important;
+    background: transparent;
+    transition: background-color 0.15s !important;
+  }
+
+  #cdc-donate::before {
+    content: '';
+    flex: none;
+    width: 24px;
+    height: 24px;
+    background: url('https://lichess1.org/assets/flair/img/objects.money-bag.webp') center / contain
+      no-repeat;
+  }
+
+  #cdc-donate:hover {
+    background: var(--cdc-sb-hover);
+    color: #fff !important;
+  }
+
+  #cdc-donate:hover::before {
+    transform-origin: 50% 85%;
+    animation: cdc-jingle 0.8s ease-in-out infinite;
+  }
+
+  @keyframes cdc-jingle {
+    0%,
+    70%,
+    100% {
+      transform: rotate(0) scale(1);
+    }
+    15% {
+      transform: rotate(-14deg) scale(1.12);
+    }
+    30% {
+      transform: rotate(12deg) scale(1.12);
+    }
+    45% {
+      transform: rotate(-8deg) scale(1.06);
+    }
+    60% {
+      transform: rotate(4deg) scale(1.02);
+    }
+  }
+
+  /* ---- Bottom buttons --- */
+
+  #top .site-buttons {
+    display: flex !important;
+    flex-flow: row wrap !important;
+    align-items: center !important;
+    gap: 4px;
+    padding: 8px 8px 12px !important;
+  }
+
+  #top .site-buttons > * {
+    order: 2;
+  }
+
+  #top .site-buttons .link,
+  #top .site-buttons .toggle {
+    height: 36px !important;
+    line-height: 36px !important;
+    padding: 0 8px !important;
+    color: var(--cdc-text-dim) !important;
+  }
+
+  #top .site-buttons .link:hover,
+  #top .site-buttons .toggle:hover {
+    color: #fff !important;
+  }
+
+  #top #clinput {
+    order: 0;
+    flex: 1 0 100%;
+    height: 36px !important;
+    align-items: center;
+    border-radius: 5px;
+  }
+
+  #top #clinput input {
+    width: 100% !important;
+    padding: 0 4px !important;
+    line-height: 36px !important;
+    color: var(--cdc-text) !important;
+  }
+
+  #top #clinput input::placeholder {
+    color: var(--cdc-text-dim);
+  }
+
+  #top #clinput:hover,
+  #top #clinput:focus-within {
+    background: var(--cdc-sb-hover);
+  }
+
+  #top .signin-or-signup {
+    order: 1;
+    flex: 1 0 100%;
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    margin: 4px 0 8px;
+  }
+
+  #top .signin-or-signup .button {
+    display: block;
+    padding: 8px 0 !important;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  /* min-width: 0, or a long name pushes the avatar icon out of the sidebar. */
+  #top .dasher:has(#user_tag) {
+    order: 1;
+    flex: 1 0 100%;
+    min-width: 0;
+  }
+
+  /* The name on the left, Lichess's avatar icon pinned to the right. */
+  #top #user_tag {
+    position: relative;
+    box-sizing: border-box;
+    max-width: none !important;
+    width: 100%;
+    padding-inline-end: 44px !important;
+    border-radius: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 700;
+    color: var(--cdc-text) !important;
+  }
+
+  #top #user_tag::after {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    margin: 0 !important;
+    font-size: 28px !important;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+
+  #top #user_tag:hover,
+  #top .dasher.shown #user_tag {
+    background: var(--cdc-sb-hover) !important;
+    color: #fff !important;
+  }
+
+  /* Dropdowns (preferences, notifications, challenges) open beside the sidebar. */
+  #top .site-buttons .dropdown {
+    position: fixed !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: 12px !important;
+    left: calc(var(--cdc-sidebar-w) + 6px) !important;
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+    border-radius: 6px;
+    background: var(--cdc-bg-panel) !important;
+    box-shadow: 0 6px 24px #0009 !important;
+  }
+
+  /* Search suggestions too: under the search box they'd open off screen. */
+  #top #clinput .complete-list {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 12px;
+    left: calc(var(--cdc-sidebar-w) + 6px);
+    width: 280px !important;
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto !important;
+  }
+
+  #top .site-buttons .shown .toggle {
+    background: transparent !important;
+  }
+}

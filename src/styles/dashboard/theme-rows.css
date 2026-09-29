@@ -1,0 +1,126 @@
+/* ---- Theme rows --- */
+/* Improvement areas and strengths: a card per theme, its tiles inside. */
+
+.puzzle-dashboard .puzzle-dashboard__theme {
+  gap: 24px;
+  margin: 0 0 12px !important;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--cdc-bg-panel);
+  box-shadow: inset 0 1px 0 #ffffff0f;
+}
+
+/* Lichess's 40% basis for the name pushed the tiles under it on narrower pages, row by row.
+ * A plain basis: they wrap together, and only when really narrow. */
+.puzzle-dashboard .puzzle-dashboard__theme__meta {
+  flex: 1 1 260px !important;
+  min-width: 0;
+  margin-inline-end: 0 !important;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme__name {
+  margin: 0 0 4px;
+  font-size: 17px !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme__name a {
+  color: #fff !important;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme__name a:hover {
+  color: var(--cdc-green-hover) !important;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme__description {
+  margin: 0;
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Smaller, darker tiles of a fixed width; the last one as wide as a "12 to replay", so the
+ * rows line up whichever tile they end on. */
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metrics {
+  flex: 0 0 auto !important;
+  justify-content: flex-end;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric--fix {
+  min-width: 140px;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric {
+  flex: 0 0 106px !important;
+  padding: 12px 8px 20px !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  font-size: 11px !important;
+}
+
+.puzzle-dashboard
+  .puzzle-dashboard__theme
+  .puzzle-dashboard__metric:not(.puzzle-dashboard__metric--fix) {
+  background: var(--cdc-bg-panel-dark) !important;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric strong {
+  font-size: 26px !important;
+}
+
+/* Too narrow for a stacked number and caption: "3 to replay" on one line. */
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric--fix[href] {
+  flex: 0 0 auto !important;
+  gap: 8px;
+  padding-inline: 16px !important;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric--fix__text {
+  flex-direction: row;
+  gap: 5px;
+  align-items: baseline;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric--fix[href] strong {
+  font-size: 18px !important;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric--fix icon::before {
+  width: 16px;
+  height: 16px;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric--fix:not([href]) icon {
+  width: 46px;
+  height: 46px;
+}
+
+.puzzle-dashboard .puzzle-dashboard__theme .puzzle-dashboard__metric--fix:not([href]) icon::before {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---- No data --- */
+
+.puzzle-dashboard .puzzle-dashboard__empty {
+  margin: 0 !important;
+  padding: 72px 24px !important;
+  border-radius: 12px;
+  background: var(--cdc-bg-panel);
+  box-shadow: inset 0 1px 0 #ffffff0f;
+}
+
+.puzzle-dashboard .puzzle-dashboard__empty a {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 7px;
+  background: var(--cdc-btn-green);
+  box-shadow: var(--cdc-btn-green-shadow);
+  color: #fff !important;
+  font-weight: 800;
+}
+
+.puzzle-dashboard .puzzle-dashboard__empty a:hover {
+  background: var(--cdc-btn-green-hover);
+}

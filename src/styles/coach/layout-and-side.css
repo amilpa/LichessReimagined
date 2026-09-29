@@ -1,0 +1,185 @@
+/* Coach directory (main.coach-list): a grid of coach cards and a sticky side
+ * card. Lichess alternates wide rows; here every coach gets the same card.
+ * content/pages/coach-titles.ts splits the title badge out of the name. */
+
+/* ---- Layout --- */
+
+/* The directory only: a coach's own page (main.coach-show) is a coach-full-page
+ * too, and this grid cut off its header. */
+@media (min-width: 1020px) {
+  main.coach-list.coach-full-page {
+    grid-template-columns: minmax(0, 1fr) 280px !important;
+    grid-template-areas: 'main side' !important;
+    gap: 24px !important;
+    align-items: start;
+    margin: 8px 0 40px;
+  }
+
+  /* Level with the first row of cards, under the 72px title bar, stuck or not. */
+  main.coach-list .coach-side {
+    position: sticky;
+    top: 72px;
+    margin: 72px 0 0 !important;
+  }
+}
+
+/* Lichess's mobile layout runs the list edge to edge; cards need a margin. */
+@media (max-width: 1019.98px) {
+  main.coach-list.coach-full-page {
+    padding: 0 12px 24px;
+  }
+
+  main.coach-list .coach-side {
+    margin: 24px 0 0 !important;
+  }
+}
+
+/* No longer a card: Lichess's overflow: hidden would cut the cards' hover shadows. */
+.coach-list__main.box {
+  overflow: visible !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.coach-list__main .box__top {
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 16px 0 20px !important;
+}
+
+.coach-list__main .box__top h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+}
+
+/* The coaches icon, as in the sidebar menu. */
+.coach-list__main .box__top h1::before {
+  content: '';
+  flex: none;
+  width: 36px;
+  height: 36px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/coaches.svg') center /
+    contain no-repeat;
+}
+
+.coach-list__main .box__top__actions {
+  gap: 8px;
+}
+
+.coach-list .mselect {
+  font-size: 15px !important;
+}
+
+.coach-list .mselect__label {
+  padding: 8px 12px 8px 14px !important;
+}
+
+/* The filters' menus open from their end, toward the page: even closed, a list
+ * is laid out and widened the page. Up to 800px included Lichess centers the open
+ * menu, so at 800px only the closed one is anchored. */
+@media (min-width: 800px) {
+  .coach-list__main .box__top .mselect__toggle:not(:checked) ~ .mselect__list {
+    inset-inline: auto 0 !important;
+  }
+}
+
+@media (min-width: 800.02px) {
+  .coach-list__main .box__top .mselect__list {
+    inset-inline: auto 0 !important;
+  }
+
+  /* Except the first: from its end, it ran over the sidebar at 1024px. */
+  .coach-list__main .box__top .mselect:first-child .mselect__list {
+    inset-inline: 0 auto !important;
+  }
+}
+
+/* Only the cards scroll: the title bar stays put, with a shadow once stuck.
+ * Desktop only: below 1020px Lichess's own top bar holds the top edge. */
+@media (min-width: 1020px) {
+  /* Side shadows cover the cards' shadows passing under it; margins would widen
+   * the page. */
+  .coach-list__main .box__top {
+    container-type: scroll-state;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--cdc-bg-page);
+    box-shadow:
+      -12px 0 var(--cdc-bg-page),
+      12px 0 var(--cdc-bg-page);
+  }
+
+  .coach-list__main .box__top::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: 14px;
+    background: linear-gradient(var(--cdc-bg-page), transparent);
+    opacity: 0;
+    transition: opacity 0.2s !important;
+    pointer-events: none;
+  }
+
+  @container scroll-state(stuck: top) {
+    .coach-list__main .box__top::after {
+      opacity: 1;
+    }
+  }
+
+  /* The bar's stacking context would sink an open menu's click-away mask under
+   * the sidebar (z-index 106). */
+  .coach-list__main .box__top:has(.mselect__toggle:checked) {
+    z-index: 107;
+  }
+
+  /* Keyboard focus scrolls to below the bar, not under it. */
+  html[data-cdc-has~='coach-list'] {
+    scroll-padding-top: 90px;
+  }
+}
+
+/* ---- Side --- */
+
+.coach-list__side {
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 10px;
+  background: var(--cdc-bg-panel);
+  color: var(--cdc-text) !important;
+  text-align: left !important;
+}
+
+.coach-list__side p {
+  margin: 0 !important;
+  font-size: 15px !important;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.coach-list__side p br {
+  display: none;
+}
+
+/* The application link becomes the card's call to action. */
+.coach-list__side p a {
+  display: block;
+  margin-top: 16px;
+  padding: 10px 14px 9px;
+  border-radius: 6px;
+  background: var(--cdc-btn-grey);
+  box-shadow: var(--cdc-btn-grey-shadow);
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.coach-list__side p a:hover {
+  background: var(--cdc-btn-grey-hover);
+}

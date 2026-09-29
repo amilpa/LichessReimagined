@@ -1,0 +1,67 @@
+{
+  "steps": [
+    {
+      "step": "first placement",
+      "tabs": "line",
+      "still": "",
+      "x": "89.5px",
+      "y": "4px",
+      "w": "95.25px",
+      "h": "30px"
+    },
+    {
+      "step": "another tab picked",
+      "tabs": "line",
+      "still": null,
+      "x": "4px",
+      "y": "4px",
+      "w": "80px",
+      "h": "30px"
+    },
+    {
+      "step": "the same tab resized",
+      "tabs": "line",
+      "still": "",
+      "x": "4px",
+      "y": "4px",
+      "w": "90px",
+      "h": "30px"
+    },
+    {
+      "step": "the bar scrolled",
+      "tabs": "line",
+      "still": "",
+      "x": "43px",
+      "y": "8px",
+      "w": "90px",
+      "h": "30px"
+    },
+    {
+      "step": "nothing moved",
+      "tabs": "line",
+      "still": "",
+      "x": "43px",
+      "y": "8px",
+      "w": "90px",
+      "h": "30px"
+    },
+    {
+      "step": "the picked tab is hidden",
+      "tabs": "line",
+      "still": "",
+      "x": "43px",
+      "y": "8px",
+      "w": "90px",
+      "h": "30px"
+    },
+    {
+      "step": "no active tab",
+      "tabs": null,
+      "still": "",
+      "x": "43px",
+      "y": "8px",
+      "w": "90px",
+      "h": "30px"
+    }
+  ]
+}

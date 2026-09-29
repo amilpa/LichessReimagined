@@ -1,23 +1,7 @@
-/*
- * The online friends box (#friend_box, bottom right, signed in only) as a
- * dock: a tab docked to the window's bottom edge that opens into a list of
- * friend rows.
- *
- *   +-------------------------------+
- *   | •  1 friend online         ^  |
- *   |-------------------------------|
- *   | [avatar] GM Name        [tv]  |
- *   +-------------------------------+
- *
- * Lichess renders .friend_box_title (the toggle) and .content_wrap, which it
- * toggles with .none; each friend is a div holding a user link (its
- * icon.line is the online mark) and, while they play, a TV link. Lichess
- * only shows the box when the top nav is visible and the window tall, so
- * its display is left alone.
- */
+/* Online friends dock (#friend_box, bottom right, signed in only).
+   Lichess shows and hides the box itself, so its display is left alone. */
 
-/* Closed, only as wide as its title, tucked in the corner; open, wide
- * enough for the rows. Frosted, so the page shows through. */
+/* Closed, as wide as its title; open, wide enough for the rows. */
 #friend_box {
   inset-inline-end: 6px !important;
   width: max-content;
@@ -38,10 +22,9 @@
   background: #3c3a37cc !important;
 }
 
-/* ------------------------------------------------------------ title --- */
+/* ---- Title --- */
 
-/* Not a flexbox: the count and the words are separate nodes, which a gap
- * would push apart. */
+/* Not a flexbox: the count and the words are separate text nodes a gap would split. */
 #friend_box .friend_box_title {
   position: relative;
   padding: 6px 28px 6px 10px !important;
@@ -66,13 +49,12 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Before the first count, Lichess shows an up triangle in the number's
- * place: the chevron already says "open me". */
+/* Lichess shows a triangle until the first count arrives; the chevron replaces it. */
 #friend_box .friend_box_title [data-icon] {
   display: none;
 }
 
-/* A dot: green with a halo when someone is online, grey otherwise. */
+/* Status dot: green when a friend is online, grey otherwise. */
 #friend_box .friend_box_title::before {
   content: '';
   display: inline-block;
@@ -89,7 +71,7 @@
   box-shadow: 0 0 0 3px #81b64c33;
 }
 
-/* The chevron, pointing up while closed, down while open. */
+/* Chevron: up while closed, down while open. */
 #friend_box .friend_box_title::after {
   content: '';
   position: absolute;
@@ -108,7 +90,7 @@
   transform: translateY(-2px) rotate(135deg);
 }
 
-/* ------------------------------------------------------------- list --- */
+/* ---- List --- */
 
 #friend_box .content_wrap:not(.none) {
   border-top: 1px solid var(--cdc-menu-border);
@@ -158,7 +140,7 @@
   color: var(--cdc-green-hover) !important;
 }
 
-/* Lichess has no profile pictures: a default avatar. */
+/* Lichess has no profile pictures: everyone gets the default avatar. */
 #friend_box .content a.user-link::before {
   content: '';
   display: inline-block;
@@ -170,8 +152,7 @@
   background: var(--cdc-avatar);
 }
 
-/* The online mark (a line, or a patron's wings) becomes a dot on the
- * avatar's corner. */
+/* The online mark (a line, or patron wings) becomes a dot on the avatar's corner. */
 #friend_box .content a.user-link .line {
   position: absolute;
   top: 26px;
@@ -195,7 +176,7 @@
   display: none;
 }
 
-/* Playing: a round grey button that opens their game. */
+/* While they play: a round button to their game. */
 #friend_box .content a.tv {
   display: grid !important;
   flex: none !important;
@@ -209,7 +190,9 @@
   box-shadow: var(--cdc-btn-grey-shadow);
   color: var(--cdc-text-dim) !important;
   font-size: 14px;
-  transition: background 0.15s, color 0.15s !important;
+  transition:
+    background 0.15s,
+    color 0.15s !important;
 }
 
 #friend_box .content a.tv:hover {

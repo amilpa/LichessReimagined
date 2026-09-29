@@ -1,0 +1,38 @@
+[
+  {
+    "name": "two rated players",
+    "html": "<main class=\"analyse\"><div class=\"analyse__board main-board\"><div class=\"cg-wrap orientation-white\"></div></div><div class=\"game__meta\"><section class=\"game__meta__players\"><div class=\"player color-icon is white text\"><a class=\"user-link ulpt\" href=\"/@/Alice\"><span class=\"utitle\" title=\"Grandmaster\">GM</span>&nbsp;Alice <span class=\"rating\">(2500)</span> <good>+5</good></a></div><div class=\"player color-icon is black text\"><a class=\"user-link ulpt\" href=\"/@/Bob\">Bob <span class=\"rating\">(1500?)</span><bad>-12</bad></a></div></section></div></main>",
+    "top": "<a class=\"user-link ulpt\" href=\"/@/Bob\">Bob</a><rating>1500?</rating><bad>-12</bad>",
+    "bottom": "<a class=\"user-link ulpt\" href=\"/@/Alice\"><span class=\"utitle\" title=\"Grandmaster\">GM</span>Alice</a><rating>2500</rating><good>+5</good>"
+  },
+  {
+    "name": "flipped",
+    "html": "<main class=\"analyse\"><div class=\"analyse__board main-board\"><div class=\"cg-wrap orientation-black\"></div></div><div class=\"game__meta\"><section class=\"game__meta__players\"><div class=\"player color-icon is white text\"><a class=\"user-link ulpt\" href=\"/@/Alice\"><span class=\"utitle\" title=\"Grandmaster\">GM</span>&nbsp;Alice <span class=\"rating\">(2500)</span> <good>+5</good></a></div><div class=\"player color-icon is black text\"><a class=\"user-link ulpt\" href=\"/@/Bob\">Bob <span class=\"rating\">(1500?)</span><bad>-12</bad></a></div></section></div></main>",
+    "top": "<a class=\"user-link ulpt\" href=\"/@/Alice\"><span class=\"utitle\" title=\"Grandmaster\">GM</span>Alice</a><rating>2500</rating><good>+5</good>",
+    "bottom": "<a class=\"user-link ulpt\" href=\"/@/Bob\">Bob</a><rating>1500?</rating><bad>-12</bad>"
+  },
+  {
+    "name": "anonymous against the computer",
+    "html": "<main class=\"analyse\"><div class=\"analyse__board main-board\"><div class=\"cg-wrap orientation-white\"></div></div><div class=\"game__meta\"><section class=\"game__meta__players\"><div class=\"player color-icon is white text\"><span class=\"user-link\">  Anonymous </span></div><div class=\"player color-icon is black text\"><span class=\"user-link\">Stockfish level 8</span></div></section></div></main>",
+    "top": "<name>Stockfish level 8</name>",
+    "bottom": "<name>Anonymous</name>"
+  },
+  {
+    "name": "one player missing",
+    "html": "<main class=\"analyse\"><div class=\"analyse__board main-board\"><div class=\"cg-wrap orientation-white\"></div></div><div class=\"game__meta\"><section class=\"game__meta__players\"><div class=\"player color-icon is white text\"><a class=\"user-link ulpt\" href=\"/@/Alice\"><span class=\"utitle\" title=\"Grandmaster\">GM</span>&nbsp;Alice <span class=\"rating\">(2500)</span> <good>+5</good></a></div></section></div></main>",
+    "top": "<name></name>",
+    "bottom": "<a class=\"user-link ulpt\" href=\"/@/Alice\"><span class=\"utitle\" title=\"Grandmaster\">GM</span>Alice</a><rating>2500</rating><good>+5</good>"
+  },
+  {
+    "name": "a practice lesson",
+    "html": "<main class=\"analyse\"><div class=\"analyse__board main-board\"><div class=\"cg-wrap orientation-white\"></div></div><div class=\"game__meta\"><section class=\"game__meta__players\"><div class=\"player color-icon is white text\"><a class=\"user-link ulpt\" href=\"/@/Alice\"><span class=\"utitle\" title=\"Grandmaster\">GM</span>&nbsp;Alice <span class=\"rating\">(2500)</span> <good>+5</good></a></div><div class=\"player color-icon is black text\"><a class=\"user-link ulpt\" href=\"/@/Bob\">Bob <span class=\"rating\">(1500?)</span><bad>-12</bad></a></div></section></div><div class=\"practice__side\"></div></main>",
+    "top": null,
+    "bottom": null
+  },
+  {
+    "name": "no game info",
+    "html": "<main class=\"analyse\"><div class=\"analyse__board main-board\"><div class=\"cg-wrap orientation-white\"></div></div></main>",
+    "top": null,
+    "bottom": null
+  }
+]

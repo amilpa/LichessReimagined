@@ -1,0 +1,199 @@
+/* ---- Crazyhouse --- */
+
+@media (min-width: 1020px) {
+  /* Pockets go in a strip right of the board, a cell being 3/4 of a square. Lichess's
+   * `mat-top` / `mat-bot` areas aren't in this grid: they'd get tracks of their own. */
+  html[data-cdc-has~='pocket'] main.round {
+    --cdc-pocket-gap: 8px;
+    --cdc-pocket-sq: calc(var(--cdc-board) * 0.09375);
+    --cdc-board: max(
+      320px,
+      calc(
+        min(
+            calc(100dvh - 32px - 2 * var(--cdc-bar) - var(--cdc-coords-off)),
+            calc(
+              (100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-panel-min) -
+                  var(--cdc-gap) - var(--cdc-pocket-gap) - 48px) /
+                1.09375
+            )
+          ) *
+          var(--cdc-board-scale, 1)
+      )
+    );
+    --cdc-panel-w: clamp(
+      var(--cdc-panel-min),
+      calc(
+        100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-lead-w, 0px) - var(--cdc-board) -
+          var(--cdc-pocket-gap) - var(--cdc-pocket-sq) - var(--cdc-gap) - 48px
+      ),
+      500px
+    );
+
+    grid-template-columns:
+      var(--cdc-board)
+      calc(var(--cdc-pocket-gap) + var(--cdc-pocket-sq) + var(--cdc-gap))
+      var(--cdc-panel-w) !important;
+    grid-template-areas:
+      'user-top .      moves'
+      'board    pocket moves'
+      'board    pocket controls'
+      'board    pocket chat'
+      'user-bot .      chat' !important;
+    column-gap: 0 !important;
+  }
+
+  main.round .pocket {
+    grid-area: pocket !important;
+    flex-direction: column;
+    width: var(--cdc-pocket-sq) !important;
+    margin: 0 0 0 var(--cdc-pocket-gap) !important;
+    overflow: hidden;
+    border-radius: 4px !important;
+    background: var(--cdc-bg-panel) !important;
+    box-shadow: none !important;
+  }
+
+  main.round .pocket-top {
+    align-self: start;
+    margin-top: var(--cdc-inset-t, 0px) !important;
+  }
+
+  main.round .pocket-bottom {
+    align-self: end;
+    margin-bottom: var(--cdc-inset-b, 0px) !important;
+  }
+
+  main.round .pocket-c1 {
+    flex: none !important;
+    max-width: none !important;
+  }
+
+  /* Lichess's light grey hover was made for its grey strip. */
+  main.round .pocket.usable piece:hover {
+    background-color: #ffffff1a !important;
+  }
+
+  /* ---- Board tools --- */
+
+  /* Our board tools (content/game/board-tools.ts) in the gap right of the board: the cog, and
+   * the flip button while the pointer is over the board. The cog replaces the move bar's menu
+   * button. */
+  main.round :is(i5d, rm6) bo3 .board-menu-toggle-btn {
+    display: none !important;
+  }
+
+  main.round > .cdc-board-tools {
+    grid-area: board;
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: var(--cdc-gap);
+    margin-inline-end: calc(-1 * var(--cdc-gap));
+    z-index: 2;
+  }
+
+  /* Crazyhouse: the tools go after the pockets' strip. */
+  html[data-cdc-has~='pocket'] main.round > .cdc-board-tools {
+    grid-area: pocket;
+    margin-inline-end: 0;
+  }
+
+  main.round .cdc-board-tools__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: #8b8987;
+    cursor: pointer;
+    transition:
+      color 0.15s,
+      opacity 0.2s,
+      visibility 0.2s !important;
+  }
+
+  main.round .cdc-board-tools__btn:is(:hover, .cdc-board-tools__btn--on) {
+    color: #fff;
+  }
+
+  main.round .cdc-board-tools__btn::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: currentColor;
+    mask: center / contain no-repeat;
+  }
+
+  /* The cog and the flip arrows. */
+  main.round .cdc-board-tools__btn--menu::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M10.3 1.5h3.4l.6 3a8 8 0 0 1 2 1.2l2.9-1 1.7 3-2.3 2a8 8 0 0 1 0 2.4l2.3 2-1.7 3-2.9-1a8 8 0 0 1-2 1.2l-.6 3h-3.4l-.6-3a8 8 0 0 1-2-1.2l-2.9 1-1.7-3 2.3-2a8 8 0 0 1 0-2.4l-2.3-2 1.7-3 2.9 1a8 8 0 0 1 2-1.2zM12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z'/%3E%3C/svg%3E");
+  }
+
+  main.round .cdc-board-tools__btn--flip::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 2 2.5 7.5h3.5V21h3V7.5h3.5zM16.5 22l5-5.5H18V3h-3v13.5h-3.5z'/%3E%3C/svg%3E");
+  }
+
+  main.round .cdc-board-tools:not(.cdc-board-tools--hover) .cdc-board-tools__btn--flip {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  /* ---- Zen --- */
+
+  /* Zen mode shows only the board, clocks and controls; the rules above would bring the
+   * rest back. */
+  body.zenable.zen {
+    --cdc-sidebar-w: 0px;
+  }
+
+  body.zenable.zen #top,
+  body.zenable.zen main.round :is(.ruser, .cdc-captured, .mchat, .round__side),
+  body.zenable.zen main.round :is(i5d, rm6) :is(qZM, i5z, Z7yx, kwdb) {
+    display: none !important;
+  }
+
+  body.zenable.zen main.round :is(i5d, rm6) :is(aPp, l4x) {
+    background: none !important;
+  }
+}
+
+/* Zen's way home is Lichess's logo, drawn dark for its light theme; ours is always dark. */
+html.light #zenzone .zen-home {
+  filter: invert(1);
+}
+
+/* ---- Mobile --- */
+
+/* Below 1020px Lichess's own layout stays, with our theme. */
+@media (max-width: 1019.98px) {
+  /* Captured pieces and board tools belong to the desktop layout. */
+  main.round > :is(.cdc-captured, .cdc-board-tools) {
+    display: none !important;
+  }
+}
+
+/* Lichess draws clock faces behind the clock (`z-index: -1`) and from 800px lifts only the
+ * bottom one over the page background (painted by theme/): the top one vanished. */
+@media (min-width: 799.3px) and (max-width: 1019.98px),
+  (max-width: 1019.98px) and (orientation: landscape) {
+  main.round .rclock-top {
+    z-index: 0;
+  }
+}
+
+/* Lichess's light theme gives the phone's move strip fixed colors, under our white moves. */
+@media (max-width: 799.29px) and (orientation: portrait) {
+  html.light main.round :is(i5d, rm6) :is(aPp, l4x) {
+    box-shadow: inset 0 4px 16px #0006 !important;
+  }
+
+  html.light main.round :is(i5d, rm6) :is(Z7yx, kwdb):is(.a1t, .active, :hover) {
+    background: var(--c-bg-zebra) !important;
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "initial": [
+    {
+      "stored": null,
+      "zoom": ""
+    },
+    {
+      "stored": "85",
+      "zoom": "85"
+    },
+    {
+      "stored": "100",
+      "zoom": ""
+    },
+    {
+      "stored": "120",
+      "zoom": ""
+    },
+    {
+      "stored": "0",
+      "zoom": "0"
+    },
+    {
+      "stored": "-5",
+      "zoom": "-5"
+    },
+    {
+      "stored": "",
+      "zoom": "0"
+    },
+    {
+      "stored": "99.5",
+      "zoom": "99.5"
+    },
+    {
+      "stored": " 70 ",
+      "zoom": "70"
+    }
+  ],
+  "steps": [
+    {
+      "step": "loaded",
+      "zoom": "80",
+      "stored": "80",
+      "bodyZoom": "",
+      "resizes": 0
+    },
+    {
+      "step": "mousedown elsewhere",
+      "zoom": "80",
+      "stored": "80",
+      "bodyZoom": "",
+      "resizes": 0
+    },
+    {
+      "step": "zoom set without a drag",
+      "zoom": "80",
+      "stored": "80",
+      "bodyZoom": "60",
+      "resizes": 0
+    },
+    {
+      "step": "mousedown on the handle",
+      "zoom": "80",
+      "stored": "80",
+      "bodyZoom": "80",
+      "resizes": 0
+    },
+    {
+      "step": "second mousedown while dragging",
+      "zoom": "80",
+      "stored": "80",
+      "bodyZoom": "80",
+      "resizes": 0
+    },
+    {
+      "step": "dragged to 70",
+      "zoom": "70",
+      "stored": "70",
+      "bodyZoom": "70",
+      "resizes": 1
+    },
+    {
+      "step": "dragged to 55.7",
+      "zoom": "55",
+      "stored": "55",
+      "bodyZoom": "55.7",
+      "resizes": 2
+    },
+    {
+      "step": "dragged to abc",
+      "zoom": "55",
+      "stored": "55",
+      "bodyZoom": "abc",
+      "resizes": 2
+    },
+    {
+      "step": "dragged to 100",
+      "zoom": "",
+      "stored": null,
+      "bodyZoom": "100",
+      "resizes": 3
+    },
+    {
+      "step": "dragged to -3",
+      "zoom": "",
+      "stored": null,
+      "bodyZoom": "-3",
+      "resizes": 3
+    },
+    {
+      "step": "other body style",
+      "zoom": "",
+      "stored": null,
+      "bodyZoom": "-3",
+      "resizes": 3
+    },
+    {
+      "step": "after mouseup",
+      "zoom": "",
+      "stored": null,
+      "bodyZoom": "40",
+      "resizes": 3
+    },
+    {
+      "step": "touchstart on the handle",
+      "zoom": "",
+      "stored": null,
+      "bodyZoom": "100",
+      "resizes": 3
+    },
+    {
+      "step": "mouseup does not end a touch",
+      "zoom": "45",
+      "stored": "45",
+      "bodyZoom": "45",
+      "resizes": 4
+    },
+    {
+      "step": "after touchend",
+      "zoom": "45",
+      "stored": "45",
+      "bodyZoom": "50",
+      "resizes": 4
+    },
+    {
+      "step": "a drag from full size",
+      "zoom": "",
+      "stored": "45",
+      "bodyZoom": "100",
+      "resizes": 4
+    }
+  ]
+}

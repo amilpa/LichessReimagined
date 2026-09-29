@@ -1,0 +1,100 @@
+/* Player profile (/@/<user>): a hero card, a strip of rating cards, then the body.
+ * Lichess puts the ratings in the side menu and the rest in the content box: both
+ * become display: contents so their children share one column, sequenced with order.
+ * Logged out, Lichess serves no rating chart and no activity feed. */
+
+:root {
+  /* Icons for "member since" and "time spent", drawn like our 24x24 masks (theme/). */
+  --cdc-pf-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 1h2v3H7zm8 0h2v3h-2zM4.5 4h15A2.5 2.5 0 0 1 22 6.5V9H2V6.5A2.5 2.5 0 0 1 4.5 4zM2 11h20v8.5A2.5 2.5 0 0 1 19.5 22h-15A2.5 2.5 0 0 1 2 19.5z'/%3E%3C/svg%3E");
+  --cdc-pf-clock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2.6a7.4 7.4 0 1 1 0 14.8 7.4 7.4 0 0 1 0-14.8zM11 6.5h2V12h4.5v2H11z'/%3E%3C/svg%3E");
+}
+
+/* ---- Layout --- */
+
+@media (min-width: 1020px) {
+  html[data-cdc-has~='user-show'] #main-wrap {
+    ---main-max-width: 1300px !important;
+  }
+
+  /* One column, so the menu's ratings and the box's blocks can be reordered. */
+  main.page-menu:has(.user-show) {
+    display: grid !important;
+    grid-template: none !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: none !important;
+    gap: 0 !important;
+    margin: 8px 0 40px;
+  }
+
+  main.page-menu:has(.user-show) > .page-menu__menu,
+  main.page-menu:has(.user-show) > .page-menu__content.user-show {
+    display: contents !important;
+  }
+
+  main.page-menu > .page-menu__content.user-show > *,
+  main.page-menu:has(.user-show) .page-menu__menu > .sub-ratings {
+    min-width: 0;
+    /* Anything unexpected (a flash message, the mod zone) goes before the tabs. */
+    order: 6;
+  }
+
+  main.page-menu:has(.user-show) .user-show > .user-show__header {
+    order: 1;
+  }
+  main.page-menu:has(.user-show) .user-show > .user-show__social {
+    order: 2;
+  }
+  main.page-menu:has(.user-show) .page-menu__menu > .sub-ratings {
+    order: 3;
+  }
+  main.page-menu:has(.user-show) .user-show > .note-zone {
+    order: 4;
+  }
+  main.page-menu:has(.user-show) .user-show > #us_profile {
+    order: 5;
+  }
+  main.page-menu:has(.user-show) .user-show > .user-show__blog {
+    order: 7;
+  }
+  main.page-menu:has(.user-show) .user-show > .angles {
+    order: 8;
+  }
+  main.page-menu:has(.user-show) .user-show > .angle-content {
+    order: 9;
+  }
+
+  main.page-menu:has(.user-show) .page-menu__menu > .sub-ratings {
+    margin-bottom: 16px;
+  }
+}
+
+/* Lichess's mobile layout runs edge to edge: the cards need a margin. min-width: 0
+ * keeps an unwrapped forum excerpt from widening the page now the box doesn't clip. */
+@media (max-width: 1019.98px) {
+  main.page-menu:has(.user-show) {
+    padding: 0 12px 24px;
+  }
+
+  main.page-menu > .page-menu__content.user-show {
+    min-width: 0;
+  }
+}
+
+/* The box is only a wrapper, each block is its own card. It holds the hero's
+ * sizes, shared by the header and the social bar. */
+.page-menu__content.box.user-show {
+  --cdc-pf-avatar: 96px;
+  --cdc-pf-pad: 24px;
+  --cdc-pf-gap: 20px;
+
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+.user-show
+  > :is(.note-zone, #us_profile, .user-show__blog, .angles, .flash, .mod-zone, .claim-title) {
+  margin-bottom: 16px !important;
+}

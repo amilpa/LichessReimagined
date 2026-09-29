@@ -1,0 +1,121 @@
+import { z } from 'zod/mini';
+import { describe, expect, it } from 'vitest';
+import { MOVE_CLASSES } from '#page/review/classes/classes.ts';
+import { en } from '#page/review/i18n/en.ts';
+import { fr } from '#page/review/i18n/fr.ts';
+import type { ReviewLanguage } from '#page/review/i18n/types.ts';
+import {
+  type CommentPart,
+  commentKey,
+  commentMarkup,
+  type StreamState,
+  streamFor,
+} from './markup.ts';
+import { verdictTitle } from './title.ts';
+import { moveToken, pieceToken, squareToken } from './tokens.ts';
+// What the original script drew for these comments, tokens and verdicts.
+import legacyStreams from './fixtures/legacy-stream.json' with { type: 'json' };
+import legacy from './fixtures/legacy-units.json' with { type: 'json' };
+
+const ASSETS = 'chrome-extension://abc/';
+const LANGUAGES: Readonly<Record<string, ReviewLanguage>> = { en, fr };
+const languageOf = (lang: unknown): ReviewLanguage => LANGUAGES[String(lang)] ?? en;
+
+const StreamSchema = z.array(
+  z.object({
+    lang: z.string(),
+    parts: z.array(z.union([z.tuple([z.string()]), z.tuple([z.string(), z.boolean()])])),
+    shown: z.nullable(z.number()),
+    dropped: z.boolean(),
+    html: z.string(),
+  }),
+);
+
+const say = (text: string, droppable = false): CommentPart => ({ text, droppable });
+
+function markup(parts: readonly CommentPart[], stream: Partial<StreamState> = {}): string {
+  const state = { key: commentKey(parts), shown: Infinity, dropped: false, ...stream };
+  return commentMarkup(parts, { stream: state, assets: ASSETS, language: en }).value;
+}
+
+describe('commentMarkup', () => {
+  it('draws the comments as the original did', () => {
+    for (const { lang, parts, shown, dropped, html } of StreamSchema.parse(legacyStreams)) {
+      const comment = parts.map(([text, droppable]) => say(text, droppable ?? false));
+      const stream = { key: commentKey(comment), shown: shown ?? Infinity, dropped };
+      const options = { stream, assets: ASSETS, language: languageOf(lang) };
+      expect(commentMarkup(comment, options).value).toBe(html);
+    }
+  });
+
+  it('draws each token as the original did', () => {
+    for (const [kind, value, html] of legacy.tokens) {
+      const word = `[[${kind}:${value}]]`;
+      expect(markup([say(word)])).toBe(
+        `<span class="cdc-say"><span class="cdc-w">${html}</span> </span>`,
+      );
+    }
+  });
+
+  it('builds the tokens the text carries', () => {
+    expect(pieceToken({ color: 'black', role: 'knight' })).toBe('[[p:bn]]');
+    expect(moveToken('Qxf7#', 'white')).toBe('[[m:w:Qxf7#]]');
+    expect(squareToken('e4')).toBe('[[s:e4]]');
+  });
+
+  it('escapes the text around the tokens', () => {
+    expect(markup([say('a<b [[s:e4]]&')])).toBe(
+      '<span class="cdc-say"><span class="cdc-w">a&lt;b </span><span class="cdc-w"><b class="cdc-sq">e4</b>&amp;</span> </span>',
+    );
+  });
+
+  it('hides the words not typed yet, and leaves a dropped sentence out', () => {
+    const parts = [say('one two', true), say('three')];
+    expect(markup(parts, { shown: 1 })).toContain(
+      '<span class="cdc-w">one </span><span class="cdc-w cdc-w--off">two</span>',
+    );
+    expect(markup(parts, { dropped: true })).toBe(
+      '<span class="cdc-say"><span class="cdc-w">three</span> </span>',
+    );
+  });
+});
+
+describe('streamFor', () => {
+  it('starts over for a new comment only', () => {
+    const parts = [say('Hello there.')];
+    const typing: StreamState = { key: commentKey(parts), shown: 2, dropped: true };
+    expect(streamFor(typing, parts)).toBe(typing);
+    expect(streamFor(typing, [say('Something else.')])).toEqual({
+      key: 'Something else.',
+      shown: 0,
+      dropped: false,
+    });
+    expect(commentKey([say('a'), say('b', true)])).toBe('a|b');
+  });
+});
+
+describe('verdictTitle', () => {
+  it('writes the verdicts as the original did', () => {
+    for (const [lang, key, san, html] of legacy.titles) {
+      const moveClass = MOVE_CLASSES.find(candidate => candidate === key);
+      if (!moveClass) throw new Error(`unknown class ${key}`);
+      expect(verdictTitle(moveClass, String(san), languageOf(lang)).value).toBe(html);
+    }
+  });
+});
+
+describe('the languages’ helpers', () => {
+  it('punctuate and count as the original did', () => {
+    for (const [text, french, english] of legacy.typos) {
+      expect(fr.typography(String(text))).toBe(french);
+      expect(en.typography(String(text))).toBe(english);
+    }
+    for (const [lang, moveClass, count, label] of legacy.counts) {
+      const counted =
+        moveClass === 'brilliant' || moveClass === 'great' || moveClass === 'best'
+          ? moveClass
+          : 'best';
+      expect(languageOf(lang).countLabel(counted, Number(count))).toBe(label);
+    }
+  });
+});

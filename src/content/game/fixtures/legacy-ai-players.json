@@ -1,0 +1,71 @@
+[
+  {
+    "name": "a game page against level 3",
+    "text": "{\"data\":{\"player\":{\"color\":\"white\",\"user\":{\"id\":\"alice\"}},\"opponent\":{\"color\":\"black\",\"ai\":3}}}",
+    "ai": "black",
+    "white": null,
+    "black": "\"1400\"",
+    "ratings": {
+      "black": "1400"
+    }
+  },
+  {
+    "name": "an analysis board, two computers",
+    "text": "{\"cfg\":{\"data\":{\"player\":{\"color\":\"white\",\"ai\":8},\"opponent\":{\"color\":\"black\",\"ai\":1}}}}",
+    "ai": "white black",
+    "white": "\"3000\"",
+    "black": "\"800\"",
+    "ratings": {
+      "white": "3000",
+      "black": "800"
+    }
+  },
+  {
+    "name": "a level without a rating",
+    "text": "{\"data\":{\"player\":{\"color\":\"white\",\"ai\":9},\"opponent\":{\"color\":\"black\"}}}",
+    "ai": "white",
+    "white": null,
+    "black": null,
+    "ratings": {}
+  },
+  {
+    "name": "level 0",
+    "text": "{\"data\":{\"player\":{\"color\":\"white\",\"ai\":0},\"opponent\":{\"color\":\"black\"}}}",
+    "ai": null,
+    "white": null,
+    "black": null,
+    "ratings": {}
+  },
+  {
+    "name": "two humans",
+    "text": "{\"data\":{\"player\":{\"color\":\"white\"},\"opponent\":{\"color\":\"black\"}}}",
+    "ai": null,
+    "white": null,
+    "black": null,
+    "ratings": {}
+  },
+  {
+    "name": "data without players",
+    "text": "{\"data\":{\"game\":{}},\"cfg\":{\"data\":{\"player\":{\"color\":\"white\",\"ai\":2}}}}",
+    "ai": null,
+    "white": null,
+    "black": null,
+    "ratings": {}
+  },
+  {
+    "name": "no data",
+    "text": "{\"other\":1}",
+    "ai": null,
+    "white": null,
+    "black": null,
+    "ratings": {}
+  },
+  {
+    "name": "not JSON",
+    "text": "{oops",
+    "ai": null,
+    "white": null,
+    "black": null,
+    "ratings": {}
+  }
+]

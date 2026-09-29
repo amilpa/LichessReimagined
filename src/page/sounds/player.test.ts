@@ -1,0 +1,102 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { z } from 'zod/mini';
+import { SquareSchema } from '#shared/chess/square-schema.ts';
+import { SoundNameSchema } from '#shared/sounds.ts';
+import { ColorSchema, renderBoard } from './fixtures/boards.ts';
+import { fakeSoundPlayer } from './fixtures/sound-player.ts';
+import { hookSoundPlayer } from './player.ts';
+import { createSession } from './session.ts';
+// Each scenario's calls to Lichess's player, as recorded from the original.
+import legacy from './fixtures/legacy-hooks.json' with { type: 'json' };
+
+const StepSchema = z.object({
+  call: z.enum(['play', 'move']),
+  args: z.array(z.unknown()),
+  wait: z.optional(z.number()),
+  board: z.optional(z.tuple([z.string(), z.array(SquareSchema), ColorSchema])),
+  theme: z.optional(z.string()),
+});
+
+const ScenarioSchema = z.object({
+  name: z.string(),
+  names: z.array(SoundNameSchema),
+  steps: z.array(StepSchema),
+  paths: z.array(z.tuple([z.string(), z.string()])),
+  hooked: z.boolean(),
+  calls: z.array(z.unknown()),
+  results: z.array(z.string()),
+});
+
+const scenarios = z.array(ScenarioSchema).parse(legacy);
+
+const describeResult = (value: unknown): string => {
+  if (value === undefined) return 'undefined';
+  return value instanceof Promise ? 'promise' : typeof value;
+};
+
+// JSON turns an undefined volume into null, as it did when recording.
+const asRecorded = (value: unknown): unknown => JSON.parse(JSON.stringify(value));
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'Date'] });
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+  document.body.replaceChildren();
+});
+
+describe('hookSoundPlayer', () => {
+  it.each(scenarios)('$name, as the original did', async scenario => {
+    const { sound, calls } = fakeSoundPlayer();
+    const urls = new Map(scenario.names.map(name => [name, `blob:${name}`]));
+    expect(hookSoundPlayer(sound, urls, createSession())).toBe(true);
+    expect([...sound.paths]).toEqual(scenario.paths);
+    expect(sound.cdcHooked).toBe(scenario.hooked);
+    const results: string[] = [];
+    for (const step of scenario.steps) {
+      if (step.board) {
+        const [placement, lastMove, orientation] = step.board;
+        renderBoard({ placement, lastMove, orientation });
+      }
+      if (step.theme !== undefined) sound.theme = step.theme;
+      const [first, second] = step.args;
+      const returned =
+        step.call === 'play' ? sound.play(first, second) : sound.move(...step.args.slice(0, 1));
+      results.push(describeResult(returned));
+      await vi.advanceTimersByTimeAsync(step.wait ?? 40);
+    }
+    expect(asRecorded(calls)).toEqual(scenario.calls);
+    expect(results).toEqual(scenario.results);
+  });
+
+  it('only adds the sounds when another copy of the script hooked the player first', () => {
+    const { sound, calls } = fakeSoundPlayer();
+    sound.cdcHooked = true;
+    const { play } = sound;
+    const session = createSession();
+    expect(hookSoundPlayer(sound, new Map([['capture', 'blob:capture']]), session)).toBe(false);
+    expect(sound.paths.get('cdc-capture')).toBe('blob:capture');
+    expect(sound.play).toBe(play);
+    expect(session.playOurs).toBeNull();
+    expect(calls).toEqual([]);
+  });
+
+  it('remembers the board after each move, for the next one', async () => {
+    const { sound } = fakeSoundPlayer();
+    const session = createSession();
+    hookSoundPlayer(sound, new Map([['move-self', 'blob:move-self']]), session);
+    renderBoard({ placement: '4k3/8/8/8/8/8/8/4K3', orientation: 'white' });
+    sound.move({ san: 'Kd2', ply: 1 });
+    await vi.advanceTimersByTimeAsync(20);
+    expect(session.lastPieces?.size).toBe(2);
+    renderBoard({ placement: '4k3/8/8/8/8/8/3K4/8', orientation: 'white', lastMove: ['e1', 'd2'] });
+    const movedAt = Date.now();
+    sound.move({ name: 'move' });
+    expect(session.lastMoveSoundAt).toBe(movedAt);
+    await vi.advanceTimersByTimeAsync(20);
+    expect(session.lastPieces?.has('d2')).toBe(true);
+    // Played on the next frame, once the board is redrawn.
+    expect(session.lastMoveSoundAt).toBeGreaterThan(movedAt);
+  });
+});

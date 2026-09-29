@@ -1,0 +1,241 @@
+/* ---- Rating cards --- */
+
+/* The perf list as rating cards, from 1020px (below, Lichess shows only the icon and
+ * rating). The same list is the perf-stat page's side menu: layouts come further down. */
+@media (min-width: 1020px) {
+  .side.sub-ratings {
+    box-shadow: none !important;
+  }
+
+  /* Top-aligned, so the mode names line up whether or not a card has a rank. */
+  .side.sub-ratings a {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    box-sizing: border-box;
+    padding: 14px 16px !important;
+    border: 1px solid var(--cdc-card-border);
+    border-radius: 12px !important;
+    background: #ffffff06;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s,
+      box-shadow 0.15s,
+      transform 0.15s !important;
+  }
+
+  .side.sub-ratings a[href]:hover {
+    border-color: var(--cdc-card-border-hover);
+    background: var(--cdc-card-hover) !important;
+    box-shadow: var(--cdc-card-shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Perf-stat page: the current card gets a green ring and stays dark. */
+  .side.sub-ratings a.active {
+    border-color: var(--cdc-green) !important;
+    background: var(--cdc-card-hover) !important;
+  }
+
+  .side.sub-ratings a.empty {
+    opacity: 0.45 !important;
+  }
+
+  .side.sub-ratings a::before {
+    grid-column: 1;
+    margin: 3px 0 0 !important;
+    font-size: 30px !important;
+    opacity: 1 !important;
+  }
+
+  .side.sub-ratings a[href]:hover::before {
+    color: inherit;
+    opacity: 1 !important;
+  }
+
+  .side.sub-ratings a > span {
+    grid-column: 2;
+    display: block !important;
+    min-width: 0;
+    margin: 0 !important;
+  }
+
+  .side.sub-ratings h3 {
+    display: block;
+    color: var(--cdc-text-dim);
+    font-family: var(--cdc-font) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .side.sub-ratings rating {
+    display: block;
+    line-height: 1.15;
+  }
+
+  .side.sub-ratings rating strong {
+    color: var(--cdc-text-strong);
+    font-family: var(--cdc-font) !important;
+    font-size: 25px !important;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  /* Change since yesterday. A drop in the chart's red: Lichess's reads at 2.9:1. */
+  .side.sub-ratings rating .rp {
+    font-size: 12px;
+    font-weight: 800;
+    vertical-align: 4px;
+  }
+
+  .side.sub-ratings rating bad.rp {
+    color: #ff7769;
+  }
+
+  .side.sub-ratings rating good.rp:not([data-icon])::before {
+    content: '▲';
+    margin-inline-end: 1px;
+    font-size: 9px;
+    vertical-align: 1px;
+  }
+
+  .side.sub-ratings rating bad.rp:not([data-icon])::before {
+    content: '▼';
+    margin-inline-end: 1px;
+    font-size: 9px;
+    vertical-align: 1px;
+  }
+
+  .side.sub-ratings rating > span {
+    display: block;
+    margin-top: 3px;
+    color: var(--cdc-text-dim);
+    font-size: 12px !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .side.sub-ratings .rank {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 1px 7px;
+    border-radius: 5px;
+    background: #ffffff0f;
+    color: var(--cdc-text-dim);
+    font-size: 11px !important;
+    font-weight: 700;
+  }
+
+  /* The play arrow adds nothing on a card. */
+  .side.sub-ratings a > icon {
+    display: none !important;
+  }
+
+  /* The group dividers would leave holes in the grid. */
+  .side.sub-ratings hr {
+    display: none !important;
+  }
+
+  /* Perf-stat page: a column in a narrower menu. */
+  main.page-menu:not(:has(.user-show)) .side.sub-ratings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 260px;
+    margin-inline-end: 20px;
+  }
+
+  /* Perf-stat page: the menu stays in view and scrolls on its own (a player of every
+   * variant has 18 cards). The padding leaves room for the hover lift. */
+  main.page-menu:has(> .perf-stat) > .page-menu__menu {
+    position: sticky;
+    top: 12px;
+    align-self: start;
+    max-height: calc(100dvh - 24px);
+    margin: -4px;
+    padding: 4px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  /* The box's clip would stop the title from sticking. */
+  main.page-menu > .page-menu__content.perf-stat {
+    overflow: visible !important;
+  }
+
+  main.page-menu > .perf-stat > .box__top {
+    container-type: scroll-state;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    border-radius: 7px 7px 0 0;
+    background: var(--cdc-bg-panel);
+  }
+
+  main.page-menu > .perf-stat > .box__top::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: 14px;
+    background: linear-gradient(var(--cdc-bg-panel), transparent);
+    opacity: 0;
+    transition: opacity 0.2s !important;
+    pointer-events: none;
+  }
+
+  @container scroll-state(stuck: top) {
+    main.page-menu > .perf-stat > .box__top::after {
+      opacity: 1;
+    }
+  }
+
+  html[data-cdc-has~='perf-stat'] {
+    scroll-padding-top: 110px;
+  }
+
+  /* Profile: a full-width strip under the hero. */
+  main.page-menu:has(.user-show) .side.sub-ratings {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+    gap: 10px;
+  }
+}
+
+/* Puzzle modes get the sidebar's color pictures (a background, not a mask).
+ * Matched on the href, which isn't localized. */
+.side.sub-ratings
+  a:is(
+    [href*='/training/dashboard'],
+    [href*='/storm/dashboard/'],
+    [href$='/racer'],
+    [href$='/streak']
+  )::before {
+  content: '' !important;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: var(--cdc-puzzle-icon) center / contain no-repeat;
+  opacity: 1 !important;
+}
+
+.side.sub-ratings a[href*='/training/dashboard'] {
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
+}
+.side.sub-ratings a[href*='/storm/dashboard/'] {
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-rush.svg');
+}
+.side.sub-ratings a[href$='/racer'] {
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/battle.svg');
+}
+.side.sub-ratings a[href$='/streak'] {
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/calendar-dailypuzzle.svg');
+}

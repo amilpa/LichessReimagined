@@ -1,23 +1,10 @@
-/*
- * Player lists (a player's following, your blocks, favourite opponents) as
- * a friends list: one rounded card per player.
- *
- *   +--------------------------------------------------------------+
- *   | [avatar]  GM Name                                            |
- *   |       •   (blitz) 1508 · 36,931 games · Active 32 minutes ago|
- *   +--------------------------------------------------------------+
- *
- * Lichess renders a table in main.page-small whose first cell is a user
- * link, then best rating (absent when ratings are hidden), games and last
- * seen. The rows become cards; the online dot moves onto the avatar.
- */
+/* Player lists (following, blocks, favourite opponents) as friend cards. Lichess renders a
+ * table: user link, best rating (absent when ratings are hidden), games, last seen. */
 
-/* Also an empty list: one row, one cell ("None"), which gets the same header
- * and an empty-state card instead of Lichess's strip. content.js tells these
- * lists apart (`data-cdc-list`): a `:has()` over the rules below, which end
- * on plain `tr` and `td`, slowed every move on a board (AGENTS.md, "`:has()` slows the board"). */
+/* content/layout/marks.ts tags these lists (`data-cdc-list`): a `:has()` over rules ending on
+ * `tr` and `td` slowed every board move. Covers the empty list too (one "None" cell). */
 main.box.page-small[data-cdc-list='players'] {
-  /* ------------------------------------------------------- header --- */
+  /* ---- Header --- */
 
   & > .box__top {
     padding-block: 24px 16px !important;
@@ -55,7 +42,7 @@ main.box.page-small[data-cdc-list='players'] {
     opacity: 1;
   }
 
-  /* --------------------------------------------------------- list --- */
+  /* ---- List --- */
 
   & > table.slist {
     display: block;
@@ -69,10 +56,9 @@ main.box.page-small[data-cdc-list='players'] {
     padding: 0 var(---box-padding) var(---box-padding);
   }
 
-  /* --------------------------------------------------------- card --- */
+  /* ---- Card --- */
 
-  /* The rating and the games count keep their width; the last cell (last
-   * seen) takes the rest, so on a phone it's the one that ends in "…". */
+  /* Rating and games keep their width; last seen takes the rest, and is cut short on phones. */
   & > table.slist > tbody > tr,
   & > table.slist > tbody > tr:nth-child(n) {
     position: relative;
@@ -86,7 +72,10 @@ main.box.page-small[data-cdc-list='players'] {
     border: 1px solid #ffffff14;
     border-radius: 10px;
     background: #ffffff06 !important;
-    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s !important;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s,
+      box-shadow 0.15s !important;
   }
 
   & > table.slist > tbody > tr:hover {
@@ -122,7 +111,7 @@ main.box.page-small[data-cdc-list='players'] {
     font-variant-numeric: tabular-nums;
   }
 
-  /* The name on its own line; the rest is one dim line below it. */
+  /* The name on its own line, the rest on one dim line below. */
   & > table.slist > tbody > tr > td:first-child {
     grid-column: 1 / -1;
     font-size: 16px;
@@ -174,7 +163,7 @@ main.box.page-small[data-cdc-list='players'] {
     vertical-align: -3px;
   }
 
-  /* Online: a green dot on the avatar's corner. Offline: nothing. */
+  /* Online: a green dot on the avatar's corner. */
   & .user-link .line {
     display: none;
   }
@@ -224,7 +213,7 @@ main.box.page-small[data-cdc-list='players'] {
     display: none;
   }
 
-  /* Nobody in the list: a quiet card, no avatar. */
+  /* Empty list: a quiet card, no avatar. */
   & > table.slist > tbody > tr:only-child:has(> td:only-child) {
     display: block;
     min-height: 0;

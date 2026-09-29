@@ -1,0 +1,172 @@
+/* ---- Coordinates --- */
+
+coords {
+  text-shadow: none !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+/* Mobile only (desktop always draws them outside): ranks top-left, files bottom-right, in the
+ * opposite square's color. */
+@media (max-width: 1019.98px) {
+  body.coords-in .is2d coords .coord-dark,
+  body.coords-in .is2d coords.files .coord-dark {
+    color: var(---cg-ccw) !important;
+  }
+
+  body.coords-in .is2d coords .coord-light,
+  body.coords-in .is2d coords.files .coord-light {
+    color: var(---cg-ccb) !important;
+  }
+
+  /* Ranks move to the left edge, which puts each on the opposite color. */
+  body.coords-in .is2d coords.ranks .coord-dark {
+    color: var(---cg-ccb) !important;
+  }
+
+  body.coords-in .is2d coords.ranks .coord-light {
+    color: var(---cg-ccw) !important;
+  }
+
+  body.coords-in coords.ranks {
+    left: 0 !important;
+    right: auto !important;
+    top: 0 !important;
+    width: 12.5% !important;
+    height: 100% !important;
+  }
+
+  body.coords-in coords.ranks coord {
+    transform: none !important;
+    padding: 0.25em 0 0 0.3em;
+    text-align: left;
+  }
+
+  body.coords-in coords.files {
+    bottom: 0 !important;
+    left: 0 !important;
+    height: auto !important;
+  }
+
+  /* Same 0.25em inset as the ranks. */
+  body.coords-in coords.files coord {
+    padding: 0 0.3em 0.25em 0 !important;
+    text-align: right;
+  }
+}
+
+/* Below 1020px "outside" coordinates stay where Lichess puts them: moved left of the board,
+ * they fell off phone screens. Inside, color them from our board. */
+html:not([data-cdc-board='lichess']) body .is2d coords {
+  ---cg-ccw: var(--cdc-sq-light) !important;
+  ---cg-ccb: var(--cdc-sq-dark) !important;
+}
+
+/* Desktop: always outside. Lichess swaps `coords-out` for `coords-in` while its eval gauge
+ * shows, so they jumped in and out between moves. Layouts leave room for both classes. */
+@media (min-width: 1020px) {
+  body:is(.coords-in, .coords-out) {
+    --cdc-coords-size: clamp(13px, 1.7vh, 16px);
+  }
+
+  body:is(.coords-in, .coords-out) coords {
+    font-size: var(--cdc-coords-size) !important;
+  }
+
+  body:is(.coords-in, .coords-out) .is2d coords coord {
+    color: var(--cdc-text-dim) !important;
+  }
+
+  body:is(.coords-in, .coords-out) coords.ranks {
+    top: 0 !important;
+    left: calc(-0.6em - 10px) !important;
+    right: auto !important;
+    width: 0.6em !important;
+    height: 100% !important;
+    text-align: center;
+  }
+
+  body:is(.coords-in, .coords-out) coords.ranks coord {
+    padding: 0 !important;
+    transform: translateY(42%) !important;
+  }
+
+  /* As far below the squares as the ranks stand left of them. */
+  body:is(.coords-in, .coords-out) coords.files {
+    top: calc(100% + 6px) !important;
+    bottom: auto !important;
+    left: 0 !important;
+    height: 1.2em !important;
+    line-height: 1.2em !important;
+    text-align: center !important;
+  }
+
+  body:is(.coords-in, .coords-out) coords.files coord {
+    padding: 0 !important;
+  }
+
+  /* The margin Lichess gives an "outside" board, for the files. */
+  body.coords-in .main-board {
+    margin-bottom: 12px;
+  }
+}
+
+/* ---- Eval bar --- */
+
+/* Lichess's eval bar drawn like the Game Review's, the score from content/analysis/eval-gauge.ts.
+ * Registered so it slides. Lichess flips it for Black, which would flip the score: turn the
+ * gradient instead. */
+@property --eval-percent {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 50%;
+}
+
+.eval-gauge {
+  box-sizing: border-box;
+  width: var(--cdc-gauge-w, 15px) !important;
+  overflow: hidden;
+  border-radius: 3px !important;
+  background: linear-gradient(
+    to bottom,
+    #403d39 var(--eval-percent),
+    #fff var(--eval-percent)
+  ) !important;
+  transition: --eval-percent 0.3s ease !important;
+}
+
+.eval-gauge.reverse {
+  transform: none !important;
+  background: linear-gradient(
+    to top,
+    #403d39 var(--eval-percent),
+    #fff var(--eval-percent)
+  ) !important;
+}
+
+.eval-gauge tick {
+  display: none !important;
+}
+
+.eval-gauge::after {
+  content: attr(data-cdc-eval) !important;
+  inset: auto 0 !important;
+  bottom: 5px !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: #403d39;
+  font-family: var(--cdc-font);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.eval-gauge:is([data-cdc-lead='black']:not(.reverse), [data-cdc-lead='white'].reverse)::after {
+  top: 5px !important;
+  bottom: auto !important;
+}
+
+.eval-gauge[data-cdc-lead='black']::after {
+  color: #fff;
+}

@@ -1,0 +1,282 @@
+{
+  "labels": [
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 600,
+        "increment": 0
+      },
+      "label": "New 10 min"
+    },
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 180,
+        "increment": 2
+      },
+      "label": "New 3 |⁠ 2"
+    },
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 30,
+        "increment": 0
+      },
+      "label": "New 30 s"
+    },
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 15,
+        "increment": 0
+      },
+      "label": "New 15 s"
+    },
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 45,
+        "increment": 1
+      },
+      "label": "New 0.75 |⁠ 1"
+    },
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 90,
+        "increment": 0
+      },
+      "label": "New 1.5 min"
+    },
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 5400,
+        "increment": 30
+      },
+      "label": "New 90 |⁠ 30"
+    },
+    {
+      "lang": "en",
+      "clock": {
+        "initial": 20,
+        "increment": 3
+      },
+      "label": "New 0.33 |⁠ 3"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 600,
+        "increment": 0
+      },
+      "label": "Nouvelle 10 min"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 180,
+        "increment": 2
+      },
+      "label": "Nouvelle 3 |⁠ 2"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 30,
+        "increment": 0
+      },
+      "label": "Nouvelle 30 s"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 15,
+        "increment": 0
+      },
+      "label": "Nouvelle 15 s"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 45,
+        "increment": 1
+      },
+      "label": "Nouvelle 0.75 |⁠ 1"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 90,
+        "increment": 0
+      },
+      "label": "Nouvelle 1.5 min"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 5400,
+        "increment": 30
+      },
+      "label": "Nouvelle 90 |⁠ 30"
+    },
+    {
+      "lang": "fr",
+      "clock": {
+        "initial": 20,
+        "increment": 3
+      },
+      "label": "Nouvelle 0.33 |⁠ 3"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 600,
+        "increment": 0
+      },
+      "label": "Nouvelle 10 min"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 180,
+        "increment": 2
+      },
+      "label": "Nouvelle 3 |⁠ 2"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 30,
+        "increment": 0
+      },
+      "label": "Nouvelle 30 s"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 15,
+        "increment": 0
+      },
+      "label": "Nouvelle 15 s"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 45,
+        "increment": 1
+      },
+      "label": "Nouvelle 0.75 |⁠ 1"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 90,
+        "increment": 0
+      },
+      "label": "Nouvelle 1.5 min"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 5400,
+        "increment": 30
+      },
+      "label": "Nouvelle 90 |⁠ 30"
+    },
+    {
+      "lang": "fr-CA",
+      "clock": {
+        "initial": 20,
+        "increment": 3
+      },
+      "label": "Nouvelle 0.33 |⁠ 3"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 600,
+        "increment": 0
+      },
+      "label": "New 10 min"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 180,
+        "increment": 2
+      },
+      "label": "New 3 |⁠ 2"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 30,
+        "increment": 0
+      },
+      "label": "New 30 s"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 15,
+        "increment": 0
+      },
+      "label": "New 15 s"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 45,
+        "increment": 1
+      },
+      "label": "New 0.75 |⁠ 1"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 90,
+        "increment": 0
+      },
+      "label": "New 1.5 min"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 5400,
+        "increment": 30
+      },
+      "label": "New 90 |⁠ 30"
+    },
+    {
+      "lang": "de",
+      "clock": {
+        "initial": 20,
+        "increment": 3
+      },
+      "label": "New 0.33 |⁠ 3"
+    }
+  ],
+  "id": "abcdefgh",
+  "clock": {
+    "initial": 180,
+    "increment": 2
+  },
+  "followUps": [
+    {
+      "name": "a player: our button goes first",
+      "html": "<div class=\"follow-up\"><button class=\"fbt rematch\">Rematch</button><a class=\"fbt\" href=\"/analysis\">Analysis board</a></div>",
+      "after": "<a class=\"fbt cdc-new-game\" href=\"/?hook_like=abcdefgh\">New 3&nbsp;|⁠&nbsp;2</a><button class=\"fbt rematch\">Rematch</button><a class=\"fbt\" href=\"/analysis\">Analysis board</a>"
+    },
+    {
+      "name": "Lichess has its own New opponent",
+      "html": "<div class=\"follow-up\"><button class=\"fbt rematch\">Rematch</button><a class=\"fbt new-opponent\" href=\"/?hook_like=abcdefgh\">New opponent</a></div>",
+      "after": "<button class=\"fbt rematch\">Rematch</button><a class=\"fbt new-opponent\" href=\"/?hook_like=abcdefgh\" data-cdc-label=\"New 3 |⁠ 2\">New opponent</a>"
+    },
+    {
+      "name": "a spectator has no rematch",
+      "html": "<div class=\"follow-up\"><a class=\"fbt\" href=\"/analysis\">Analysis board</a></div>",
+      "after": "<a class=\"fbt\" href=\"/analysis\">Analysis board</a>"
+    }
+  ]
+}

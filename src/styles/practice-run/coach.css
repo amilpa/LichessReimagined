@@ -1,0 +1,245 @@
+/* ---- Coach --- */
+
+@media (min-width: 1020px) {
+  /* Practice pages only: a user-made gamebook study keeps Lichess's layout. */
+  html[data-cdc-has~='practice'] main.analyse .gamebook {
+    grid-area: book !important;
+  }
+
+  main.analyse .gamebook {
+    min-height: 0;
+  }
+
+  /* The lesson talks in a white bubble like the Game Review's, the octopus under
+   * its tail. */
+  main.analyse .gamebook .comment {
+    border: none !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    box-shadow: 0 6px 18px #00000059 !important;
+    color: #312e2b;
+    font-size: 15px !important;
+  }
+
+  main.analyse .gamebook .comment .content {
+    padding: 14px 16px !important;
+    color: #312e2b;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* Links on white: the site's green is too pale (2.4:1), the darker one reads (5.4:1). */
+  main.analyse :is(.gamebook .comment .content, .analyse__underboard .feedback) a {
+    color: var(--cdc-green-shadow) !important;
+    font-weight: 700;
+  }
+
+  main.analyse :is(.gamebook .comment .content, .analyse__underboard .feedback) a:hover {
+    text-decoration: underline;
+  }
+
+  /* On a lesson the bubble shares the panel with the chapter list, so a long
+   * comment scrolls. A gamebook study keeps Lichess's full height. */
+  html[data-cdc-has~='practice'] main.analyse .gamebook .comment .content {
+    max-height: min(240px, 26vh);
+  }
+
+  main.analyse .gamebook .comment::after {
+    width: 14px;
+    height: 14px;
+    bottom: -6px;
+    border: none !important;
+    background: #fff !important;
+  }
+
+  main.analyse .gamebook .comment.hinted::after {
+    background: var(--cdc-green) !important;
+  }
+
+  /* The hint button, then the hint as a green band under the bubble. */
+  main.analyse .gamebook .comment button.hint {
+    padding: 0 16px 12px !important;
+    color: #4e8a3c !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  main.analyse .gamebook .comment button.hint:hover {
+    color: #3d7030 !important;
+  }
+
+  main.analyse .gamebook .comment div.hint {
+    padding: 12px 16px !important;
+    border-radius: 0 0 12px 12px !important;
+    background: var(--cdc-green) !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+
+  main.analyse .gamebook .floor {
+    flex: none !important;
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 12px !important;
+  }
+
+  /* Floats like the practice list's illustration. */
+  main.analyse .gamebook .mascot {
+    flex: 0 0 88px !important;
+    width: 88px !important;
+    height: 88px !important;
+    margin: 0 !important;
+    align-self: end;
+    filter: drop-shadow(0 8px 16px #0006);
+    animation: cdc-float 4s ease-in-out infinite;
+  }
+
+  main.analyse .gamebook .feedback {
+    height: auto !important;
+    min-height: 88px;
+    padding: 12px 14px;
+    border-radius: 12px !important;
+  }
+
+  main.analyse .gamebook .feedback.info {
+    border: 1px solid var(--cdc-card-border);
+    background: var(--cdc-bg-panel);
+    font-size: 16px !important;
+  }
+
+  /* "Your turn": the king on a tile, as on the puzzle page. */
+  main.analyse .gamebook .feedback.play > div {
+    gap: 14px;
+    margin: 0 !important;
+  }
+
+  main.analyse .gamebook .feedback.play .no-square {
+    box-sizing: border-box;
+    flex: 0 0 56px !important;
+    height: 56px !important;
+    margin: 0 !important;
+    padding: 4px;
+    border-radius: 12px;
+    background: #ffffff14;
+  }
+
+  /* A light tile under a black king, painted by the king (see puzzle/). */
+  main.analyse .gamebook .feedback.play .no-square > piece.black {
+    border-radius: 8px;
+    background-color: #ffffffd9;
+    box-shadow: 0 0 0 4px #ffffffd9;
+  }
+
+  main.analyse .gamebook .feedback.play strong {
+    color: #fff;
+    font-size: 19px !important;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  main.analyse .gamebook .feedback.play em {
+    margin-top: 2px;
+    color: var(--cdc-text-dim);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* "Good move": the verdict in green on a dark card; a green card would shout. */
+  main.analyse .gamebook .feedback.info.good {
+    color: var(--cdc-green-hover);
+    font-size: 19px !important;
+    font-weight: 800;
+  }
+
+  /* Next / retry: one big button. */
+  main.analyse .gamebook .feedback.act {
+    border: none;
+    color: #fff !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    opacity: 1 !important;
+    text-shadow: 0 1px 1px #00000040;
+  }
+
+  main.analyse .gamebook .feedback.act.good {
+    background: var(--cdc-btn-green) !important;
+    box-shadow: var(--cdc-btn-green-shadow) !important;
+  }
+
+  main.analyse .gamebook .feedback.act.good:hover {
+    background: var(--cdc-btn-green-hover) !important;
+  }
+
+  main.analyse .gamebook .feedback.act.bad {
+    background: var(--cdc-btn-red) !important;
+    box-shadow: var(--cdc-btn-red-shadow) !important;
+  }
+
+  main.analyse .gamebook .feedback.act.bad:hover {
+    background: var(--cdc-btn-red-hover) !important;
+  }
+
+  main.analyse .gamebook .feedback.act:active {
+    transform: translateY(1px);
+  }
+
+  main.analyse .gamebook .feedback.act span.text::before {
+    margin-inline-end: 8px;
+    font-size: 0.8em;
+  }
+
+  main.analyse .gamebook .feedback.act kbd {
+    margin-top: 8px !important;
+    padding: 2px 9px;
+    border-radius: 5px;
+    background: #ffffff26;
+    box-shadow: inset 0 -1px 0 #00000026;
+    color: #ffffffe6;
+    font-family: var(--cdc-font);
+    font-size: 12px !important;
+    font-weight: 700;
+    text-shadow: none;
+  }
+
+  /* End of the lesson: next chapter in green, the rest grey, side by side. */
+  main.analyse .gamebook .feedback.end {
+    gap: 8px;
+    background: transparent !important;
+  }
+
+  main.analyse .gamebook .feedback.end button {
+    border: none !important;
+    border-radius: 12px !important;
+    background: var(--cdc-btn-grey) !important;
+    box-shadow: var(--cdc-btn-grey-shadow) !important;
+    color: var(--cdc-text) !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    transition: background 0.15s !important;
+  }
+
+  main.analyse .gamebook .feedback.end button::before {
+    margin: 0 0 8px !important;
+    font-size: 26px !important;
+  }
+
+  main.analyse .gamebook .feedback.end button:hover {
+    background: var(--cdc-btn-grey-hover) !important;
+    color: #fff !important;
+  }
+
+  main.analyse .gamebook .feedback.end button.next {
+    background: var(--cdc-btn-green) !important;
+    box-shadow: var(--cdc-btn-green-shadow) !important;
+    color: #fff !important;
+  }
+
+  main.analyse .gamebook .feedback.end button.next:hover {
+    background: var(--cdc-btn-green-hover) !important;
+    color: #fff !important;
+  }
+}

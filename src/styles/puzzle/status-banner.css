@@ -1,0 +1,287 @@
+/* ---- Status banner --- */
+
+main.puzzle .puzzle__feedback {
+  margin: 10px;
+  border-radius: 12px;
+  background: var(--cdc-bg-raised) !important;
+  transition: background 0.2s !important;
+}
+
+/* Heading at the top, buttons at the bottom, so the banner doesn't look empty while
+   Lichess keeps the buttons hidden. */
+main.puzzle .puzzle__feedback:not(.after) {
+  justify-content: flex-start !important;
+  padding: 20px !important;
+}
+
+main.puzzle .puzzle__feedback .no-square,
+main.puzzle .puzzle__feedback .icon {
+  flex: 0 0 56px !important;
+  width: 56px !important;
+  height: 56px !important;
+  margin-inline-end: 14px !important;
+}
+
+/* The king on a tile; the card stays dark, so the tile shows the side to move
+   (light under the black king, which would vanish otherwise). */
+main.puzzle .puzzle__feedback .no-square {
+  box-sizing: border-box;
+  padding: 4px;
+  border-radius: 12px;
+  background: #ffffff14;
+}
+
+/* The black king paints its own light tile with a spread shadow: a :has(piece) restyled
+   the page on every move (AGENTS.md, ":has() slows the board"). */
+main.puzzle .puzzle__feedback.play .no-square > piece.black {
+  border-radius: 8px;
+  background-color: #ffffffd9;
+  box-shadow: 0 0 0 4px #ffffffd9;
+}
+
+main.puzzle .puzzle__feedback .instruction strong {
+  font-size: 19px !important;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+main.puzzle .puzzle__feedback .instruction em {
+  margin-top: 2px;
+  font-size: 14px;
+  font-style: normal;
+  opacity: 0.85;
+}
+
+/* Your turn: the same dark card for either side; a white card was the page's brightest spot. */
+main.puzzle .puzzle__feedback.play {
+  background: var(--cdc-bg-raised) !important;
+  color: var(--cdc-text) !important;
+}
+
+main.puzzle .puzzle__feedback.play strong {
+  color: #fff;
+}
+
+/* Right or wrong: the card stays dark, only the badge and the title take the color. */
+main.puzzle .puzzle__feedback:is(.good, .fail) {
+  background: var(--cdc-bg-raised) !important;
+  color: var(--cdc-text) !important;
+}
+
+main.puzzle .puzzle__feedback.good {
+  --cdc-feedback: var(--cdc-green-hover);
+  --cdc-feedback-badge: var(--cdc-btn-green);
+}
+
+main.puzzle .puzzle__feedback.fail {
+  --cdc-feedback: #ff7769;
+  --cdc-feedback-badge: var(--cdc-btn-red);
+}
+
+main.puzzle .puzzle__feedback:is(.good, .fail) strong {
+  color: var(--cdc-feedback) !important;
+}
+
+main.puzzle .puzzle__feedback:is(.good, .fail) em {
+  color: var(--cdc-text-dim);
+  opacity: 1;
+}
+
+main.puzzle .puzzle__feedback:is(.good, .fail) .icon {
+  border-radius: 50%;
+  background: var(--cdc-feedback-badge);
+  box-shadow:
+    inset 0 1px 0 #ffffff40,
+    0 0 0 5px color-mix(in srgb, var(--cdc-feedback) 18%, transparent);
+  color: #fff !important;
+  font-size: 30px !important;
+  font-weight: 800;
+  line-height: 56px !important;
+  text-shadow: 0 1px 1px #00000040;
+}
+
+/* Hint and solution as stacked full-width buttons: side by side, the labels don't fit. */
+main.puzzle .puzzle__feedback .view_solution {
+  display: grid;
+  gap: 8px;
+  margin-top: auto !important;
+  padding-top: 18px;
+}
+
+main.puzzle .puzzle__feedback .view_solution.show {
+  opacity: 1 !important;
+}
+
+main.puzzle .puzzle__feedback .view_solution .button {
+  min-height: 42px;
+  margin: 0 !important;
+  padding: 6px 12px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.15;
+  text-transform: none !important;
+  white-space: normal;
+}
+
+main.puzzle .puzzle__feedback .view_solution .button:hover {
+  background: var(--cdc-btn-grey-hover) !important;
+}
+
+/* Icons as masks, so they follow the label's color (dimmed hint included).
+   The streak's lone skip button gets none. */
+main.puzzle .puzzle__feedback .view_solution:not(.skip) .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+main.puzzle .puzzle__feedback .view_solution:not(.skip) .button::before {
+  content: '';
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  -webkit-mask: var(--cdc-hint-icon) center / contain no-repeat;
+  mask: var(--cdc-hint-icon) center / contain no-repeat;
+}
+
+main.puzzle .puzzle__feedback .view_solution:not(.skip) .button:first-child {
+  --cdc-hint-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-10 8.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm20 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-3.33-6.67c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-13.34 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm8.44 15.17h-3.53c-1.03 0-1.43-.4-1.43-1.43v.33c0-3.73-2.97-3.57-2.97-8.1 0-3.13 2.7-5.8 6.17-5.8s6.17 2.67 6.17 5.8c0 4.53-2.97 4.37-2.97 8.1v-.33c0 1.03-.4 1.43-1.43 1.43zm-3.9 2h4.33c-.27 1.03-1.33 1.43-2.17 1.43-.83 0-1.9-.4-2.17-1.43z'/%3E%3C/svg%3E");
+}
+
+main.puzzle .puzzle__feedback .view_solution:not(.skip) .button:nth-child(2) {
+  --cdc-hint-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 1.5c5.8 0 10.5 4.7 10.5 10.5s-4.7 10.5-10.5 10.5-10.5-4.7-10.5-10.5 4.7-10.5 10.5-10.5zm-.07 12.13c4.5 0 5.57-2.53 5.57-4.23 0-3-2.5-4.57-5.17-4.57-2.3 0-4.03 1.27-4.93 2.1-.47.53-.5.93-.07 1.47l.63.77c.47.57.83.57 1.3.07.67-.6 1.83-1.4 3.17-1.4 1 0 2.07.37 2.07 1.6 0 1.07-.87 1.2-2.57 1.2h-.4c-.73 0-1 .27-1 .97v1.03c0 .73.27 1 .97 1zm.07 5.2c1.13 0 1.83-.7 1.83-1.83s-.7-1.83-1.83-1.83-1.83.7-1.83 1.83.7 1.83 1.83 1.83z'/%3E%3C/svg%3E");
+}
+
+/* The streak's "skip" comes lowercase from Lichess (its uppercase buttons used to hide it). */
+main.puzzle .puzzle__feedback .view_solution.skip .button::first-letter {
+  text-transform: uppercase;
+}
+
+/* The hint once shown: pressed in, not a green call to action. */
+main.puzzle .puzzle__feedback .view_solution .button:not(.button-empty) {
+  background: #282725 !important;
+  box-shadow: inset 0 2px 5px #00000080 !important;
+  color: var(--cdc-text-dim) !important;
+}
+
+/* Solved or failed: a big title and a green next button. */
+main.puzzle .puzzle__feedback.after {
+  gap: 12px;
+  padding: 20px !important;
+}
+
+main.puzzle .puzzle__feedback.after .complete {
+  flex: none !important;
+  padding: 0 !important;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Streak end: "Game over" as a plain title, not spaced capitals over a rule; the score under it. */
+main.puzzle .puzzle__feedback.after .complete .game-over {
+  margin: 0 0 4px !important;
+  padding: 0 !important;
+  border: none !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+main.puzzle .puzzle__feedback.after .complete .game-over + span {
+  color: var(--cdc-text-dim);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+main.puzzle .puzzle__feedback.after .continue {
+  gap: 10px;
+  padding: 16px !important;
+  border-radius: 10px;
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow);
+  color: #fff !important;
+  font-size: 18px !important;
+  font-weight: 800;
+  text-transform: none !important;
+}
+
+main.puzzle .puzzle__feedback.after .continue:hover {
+  background: var(--cdc-btn-green-hover) !important;
+}
+
+main.puzzle .puzzle__feedback.after .continue icon::before {
+  margin: 0 !important;
+  font-size: 1.4em !important;
+}
+
+/* Play vs computer and the two thumbs: one row of equal buttons, not a cluster on the left. */
+main.puzzle .puzzle__feedback.after .puzzle__more {
+  flex-wrap: wrap !important;
+  gap: 8px;
+  padding: 0 !important;
+}
+
+main.puzzle .puzzle__feedback.after :is(.puzzle__vote, .puzzle__vote__buttons) {
+  display: contents !important;
+}
+
+/* Flex to center: "Play against the computer" is a link, which doesn't center its icon. */
+main.puzzle .puzzle__feedback.after .puzzle__more .button {
+  flex: 1 1 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 18px;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__vote__help {
+  flex: 0 0 100%;
+  order: -1;
+  margin: 0 !important;
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+  text-align: center;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__vote .button {
+  color: var(--cdc-text) !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__vote .button.vote-up:is(:hover, .active) {
+  color: var(--cdc-green-hover) !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__vote .button.vote-down:is(:hover, .active) {
+  color: #ff7769 !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__vote .button.active {
+  background: #282725 !important;
+  box-shadow: inset 0 2px 5px #00000080 !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__more .button {
+  border: none !important;
+  border-radius: 8px !important;
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__more .button::before {
+  margin: 0 !important;
+}
+
+main.puzzle .puzzle__feedback.after .puzzle__more .button:hover {
+  background: var(--cdc-btn-grey-hover) !important;
+}

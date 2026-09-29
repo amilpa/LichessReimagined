@@ -1,0 +1,88 @@
+{
+  "empty board": {
+    "html": "cdc-review cdc-review-live",
+    "cls": "",
+    "placement": "#cdc-review:analyse #cdc-review-graph:analyse #cdc-review-controls:analyse #cdc-evalbar:analyse #cdc-board-overlay:analyse__board main-board #cdc-opening:analyse__tools #cdc-tip:-",
+    "panel": "<div class=\"cdc-coach\"><button class=\"cdc-coach__avatar\" data-cdc=\"coach\" data-coach=\"2\" data-mood=\"neutral\" data-cdc-tip=\"Change coach\" aria-label=\"Change coach\"><span class=\"cdc-coach__face\"></span></button><div class=\"cdc-bubble\"><p class=\"cdc-bubble__title\">Play a move and I’ll tell you what I think.</p></div></div>",
+    "graph": "<div id=\"cdc-review-graph\"></div>",
+    "controls": "",
+    "bar": "<div id=\"cdc-evalbar\"><div class=\"cdc-evalbar__fill\"></div><span class=\"cdc-evalbar__label\"></span></div>",
+    "overlay": "",
+    "opening": "<div id=\"cdc-opening\" data-key=\"\"></div>",
+    "tip": null,
+    "moves": "",
+    "arrows": [],
+    "coach": "1 2/neutral/false",
+    "cache": null
+  },
+  "play d2d4": {
+    "html": "cdc-review cdc-review-live",
+    "cls": "inaccuracy",
+    "placement": "#cdc-review:analyse #cdc-review-graph:analyse #cdc-review-controls:analyse #cdc-evalbar:analyse #cdc-board-overlay:analyse__board main-board #cdc-opening:analyse__tools #cdc-tip:-",
+    "panel": "<div class=\"cdc-coach\"><button class=\"cdc-coach__avatar cdc-coach__avatar--react\" data-cdc=\"coach\" data-coach=\"2\" data-mood=\"doubt\" data-cdc-tip=\"Change coach\" aria-label=\"Change coach\" style=\"--cdc-mood-c:#f7c631\"><span class=\"cdc-coach__face\"></span></button><div class=\"cdc-bubble\"><div class=\"cdc-bubble__row\"><span class=\"cdc-cls-icon\">[icon #f7c631 1k7ezx6]</span>\n      <p class=\"cdc-bubble__title\">d4 is an inaccuracy</p>\n      <span class=\"cdc-bubble__eval cdc-bubble__eval--black\">-1.79</span></div>\n    <p class=\"cdc-bubble__sub\"><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--in\">The </span><span class=\"cdc-w cdc-w--in\">game </span><span class=\"cdc-w cdc-w--in\">was </span><span class=\"cdc-w cdc-w--in\">balanced, </span><span class=\"cdc-w cdc-w--in\">but </span><span class=\"cdc-w cdc-w--in\">now </span><span class=\"cdc-w cdc-w--in\">Black </span><span class=\"cdc-w cdc-w--in\">has </span><span class=\"cdc-w cdc-w--in\">a </span><span class=\"cdc-w cdc-w--in\">slight </span><span class=\"cdc-w cdc-w--in\">edge.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--in\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wp.webp\">a3</span> </span><span class=\"cdc-w cdc-w--in\">was </span><span class=\"cdc-w cdc-w--in\">more </span><span class=\"cdc-w cdc-w--in\">precise.</span> </span></p></div></div>",
+    "graph": "<div id=\"cdc-review-graph\"></div>",
+    "controls": "",
+    "bar": "<div id=\"cdc-evalbar\"><div class=\"cdc-evalbar__fill\"></div><span class=\"cdc-evalbar__label\"></span></div>",
+    "overlay": "<div class=\"cdc-badge\" style=\"left:50%;top:50%\">[icon #f7c631 1k7ezx6]</div>",
+    "opening": "<div id=\"cdc-opening\" data-key=\"\"></div>",
+    "tip": null,
+    "moves": "<index>1</index><move p=\".>\" class=\"active\" data-cdc-cls=\"inaccuracy\" style=\"--c: #f7c631; --i: url(icon 1e327kp);\" data-cdc-badge=\"\"><san>d4</san></move>",
+    "arrows": [
+      {
+        "orig": "a2",
+        "dest": "a3",
+        "brush": "best"
+      }
+    ],
+    "coach": "5 2/doubt/false",
+    "cache": null
+  },
+  "play d7d5": {
+    "html": "cdc-review cdc-review-live",
+    "cls": "best",
+    "placement": "#cdc-review:analyse #cdc-review-graph:analyse #cdc-review-controls:analyse #cdc-evalbar:analyse #cdc-board-overlay:analyse__board main-board #cdc-opening:analyse__tools #cdc-tip:-",
+    "panel": "<div class=\"cdc-coach\"><button class=\"cdc-coach__avatar cdc-coach__avatar--react\" data-cdc=\"coach\" data-coach=\"2\" data-mood=\"happy\" data-cdc-tip=\"Change coach\" aria-label=\"Change coach\" style=\"--cdc-mood-c:#81b64c\"><span class=\"cdc-coach__face\"></span></button><div class=\"cdc-bubble\"><div class=\"cdc-bubble__row\"><span class=\"cdc-cls-icon\">[icon #81b64c 1ydkrq2]</span>\n      <p class=\"cdc-bubble__title\">d5 is best</p>\n      <span class=\"cdc-bubble__eval cdc-bubble__eval--black\">-2.01</span></div>\n    <p class=\"cdc-bubble__sub\"><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--in\">Clean </span><span class=\"cdc-w cdc-w--in\">and </span><span class=\"cdc-w cdc-w--in\">precise.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--in\">Black </span><span class=\"cdc-w cdc-w--in\">still </span><span class=\"cdc-w cdc-w--in\">has </span><span class=\"cdc-w cdc-w--in\">a </span><span class=\"cdc-w cdc-w--in\">slight </span><span class=\"cdc-w cdc-w--in\">edge.</span> </span></p></div></div>",
+    "graph": "<div id=\"cdc-review-graph\"></div>",
+    "controls": "",
+    "bar": "<div id=\"cdc-evalbar\"><div class=\"cdc-evalbar__fill\"></div><span class=\"cdc-evalbar__label\"></span></div>",
+    "overlay": "<div class=\"cdc-badge\" style=\"left:50%;top:37.5%\">[icon #81b64c 1ydkrq2]</div>",
+    "opening": "<div id=\"cdc-opening\" data-key=\"\"></div>",
+    "tip": null,
+    "moves": "<index>1</index><move p=\".>\" data-cdc-cls=\"inaccuracy\" style=\"--c: #f7c631; --i: url(icon 1e327kp);\" data-cdc-badge=\"\"><san>d4</san></move><move p=\".>VF\" class=\"active\" data-cdc-cls=\"best\" style=\"--c: #81b64c; --i: url(icon dtsff5);\"><san>d5</san></move>",
+    "arrows": [],
+    "coach": "9 2/happy/false",
+    "cache": null
+  },
+  "play c1f4": {
+    "html": "cdc-review cdc-review-live",
+    "cls": "best",
+    "placement": "#cdc-review:analyse #cdc-review-graph:analyse #cdc-review-controls:analyse #cdc-evalbar:analyse #cdc-board-overlay:analyse__board main-board #cdc-opening:analyse__tools #cdc-tip:-",
+    "panel": "<div class=\"cdc-coach\"><button class=\"cdc-coach__avatar cdc-coach__avatar--react\" data-cdc=\"coach\" data-coach=\"2\" data-mood=\"happy\" data-cdc-tip=\"Change coach\" aria-label=\"Change coach\" style=\"--cdc-mood-c:#81b64c\"><span class=\"cdc-coach__face\"></span></button><div class=\"cdc-bubble\"><div class=\"cdc-bubble__row\"><span class=\"cdc-cls-icon\">[icon #81b64c 1ydkrq2]</span>\n      <p class=\"cdc-bubble__title\"><span class=\"cdc-fig\">♝</span>f4 is best</p>\n      <span class=\"cdc-bubble__eval\">+1.60</span></div>\n    <p class=\"cdc-bubble__sub\"><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--in\">The </span><span class=\"cdc-w cdc-w--in\">engine’s </span><span class=\"cdc-w cdc-w--in\">top </span><span class=\"cdc-w cdc-w--in\">move. </span><span class=\"cdc-w cdc-w--in\">Well </span><span class=\"cdc-w cdc-w--in\">played.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--in\">Black </span><span class=\"cdc-w cdc-w--in\">had </span><span class=\"cdc-w cdc-w--in\">a </span><span class=\"cdc-w cdc-w--in\">slight </span><span class=\"cdc-w cdc-w--in\">edge, </span><span class=\"cdc-w cdc-w--in\">but </span><span class=\"cdc-w cdc-w--in\">now </span><span class=\"cdc-w cdc-w--in\">White </span><span class=\"cdc-w cdc-w--in\">has </span><span class=\"cdc-w cdc-w--in\">a </span><span class=\"cdc-w cdc-w--in\">slight </span><span class=\"cdc-w cdc-w--in\">edge.</span> </span></p></div></div>",
+    "graph": "<div id=\"cdc-review-graph\"></div>",
+    "controls": "",
+    "bar": "<div id=\"cdc-evalbar\"><div class=\"cdc-evalbar__fill\"></div><span class=\"cdc-evalbar__label\"></span></div>",
+    "overlay": "<div class=\"cdc-badge\" style=\"left:75%;top:50%\">[icon #81b64c 1ydkrq2]</div>",
+    "opening": "<div id=\"cdc-opening\" data-key=\"\"></div>",
+    "tip": null,
+    "moves": "<index>1</index><move p=\".>\" data-cdc-cls=\"inaccuracy\" style=\"--c: #f7c631; --i: url(icon 1e327kp);\" data-cdc-badge=\"\"><san>d4</san></move><move p=\".>VF\" data-cdc-cls=\"best\" style=\"--c: #81b64c; --i: url(icon dtsff5);\"><san>d5</san></move><index>2</index><move p=\".>VF%@\" class=\"active\" data-cdc-cls=\"best\" style=\"--c: #81b64c; --i: url(icon dtsff5);\"><san>Bf4</san></move>",
+    "arrows": [],
+    "coach": "13 2/happy/false",
+    "cache": null
+  },
+  "play g8f6": {
+    "html": "cdc-review cdc-review-live",
+    "cls": "great",
+    "placement": "#cdc-review:analyse #cdc-review-graph:analyse #cdc-review-controls:analyse #cdc-evalbar:analyse #cdc-board-overlay:analyse__board main-board #cdc-opening:analyse__tools #cdc-tip:-",
+    "panel": "<div class=\"cdc-coach\"><button class=\"cdc-coach__avatar cdc-coach__avatar--react\" data-cdc=\"coach\" data-coach=\"2\" data-mood=\"delight\" data-cdc-tip=\"Change coach\" aria-label=\"Change coach\" style=\"--cdc-mood-c:#749bbf\"><span class=\"cdc-coach__face\"></span></button><div class=\"cdc-bubble\"><div class=\"cdc-bubble__row\"><span class=\"cdc-cls-icon\">[icon #749bbf 1cnexu2]</span>\n      <p class=\"cdc-bubble__title\"><span class=\"cdc-fig\">♞</span>f6 is a great move</p>\n      <span class=\"cdc-bubble__eval cdc-bubble__eval--black\">-2.98</span></div>\n    <p class=\"cdc-bubble__sub\"><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--in\">Every </span><span class=\"cdc-w cdc-w--in\">other </span><span class=\"cdc-w cdc-w--in\">move </span><span class=\"cdc-w cdc-w--in\">would </span><span class=\"cdc-w cdc-w--in\">have </span><span class=\"cdc-w cdc-w--in\">let </span><span class=\"cdc-w cdc-w--in\">the </span><span class=\"cdc-w cdc-w--in\">advantage </span><span class=\"cdc-w cdc-w--in\">slip.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--in\">White </span><span class=\"cdc-w cdc-w--in\">had </span><span class=\"cdc-w cdc-w--in\">a </span><span class=\"cdc-w cdc-w--in\">slight </span><span class=\"cdc-w cdc-w--in\">edge, </span><span class=\"cdc-w cdc-w--in\">but </span><span class=\"cdc-w cdc-w--in\">now </span><span class=\"cdc-w cdc-w--in\">Black </span><span class=\"cdc-w cdc-w--in\">has </span><span class=\"cdc-w cdc-w--in\">a </span><span class=\"cdc-w cdc-w--in\">clear </span><span class=\"cdc-w cdc-w--in\">advantage.</span> </span></p></div></div>",
+    "graph": "<div id=\"cdc-review-graph\"></div>",
+    "controls": "",
+    "bar": "<div id=\"cdc-evalbar\"><div class=\"cdc-evalbar__fill\"></div><span class=\"cdc-evalbar__label\"></span></div>",
+    "overlay": "<div class=\"cdc-badge\" style=\"left:75%;top:25%\">[icon #749bbf 1cnexu2]</div>",
+    "opening": "<div id=\"cdc-opening\" data-key=\"\"></div>",
+    "tip": null,
+    "moves": "<index>1</index><move p=\".>\" data-cdc-cls=\"inaccuracy\" style=\"--c: #f7c631; --i: url(icon 1e327kp);\" data-cdc-badge=\"\"><san>d4</san></move><move p=\".>VF\" data-cdc-cls=\"best\" style=\"--c: #81b64c; --i: url(icon dtsff5);\"><san>d5</san></move><index>2</index><move p=\".>VF%@\" data-cdc-cls=\"best\" style=\"--c: #81b64c; --i: url(icon dtsff5);\"><san>Bf4</san></move><move p=\".>VF%@aP\" class=\"active\" data-cdc-cls=\"great\" style=\"--c: #749bbf; --i: url(icon m7qab1);\" data-cdc-badge=\"\"><san>Nf6</san></move>",
+    "arrows": [],
+    "coach": "17 2/delight/false",
+    "cache": null
+  }
+}

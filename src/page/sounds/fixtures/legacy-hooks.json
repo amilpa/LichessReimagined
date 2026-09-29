@@ -1,0 +1,594 @@
+[
+  {
+    "name": "plays our sounds for Lichess events",
+    "names": [
+      "move-self",
+      "move-opponent",
+      "move-check",
+      "capture",
+      "castle",
+      "promote",
+      "premove",
+      "illegal",
+      "notify",
+      "tenseconds",
+      "game-start",
+      "game-end"
+    ],
+    "steps": [
+      {
+        "call": "play",
+        "args": ["capture"]
+      },
+      {
+        "call": "play",
+        "args": ["check"]
+      },
+      {
+        "call": "play",
+        "args": ["checkmate", 0.4]
+      },
+      {
+        "call": "play",
+        "args": ["victory", 0.5]
+      },
+      {
+        "call": "play",
+        "args": ["defeat"]
+      },
+      {
+        "call": "play",
+        "args": ["draw"]
+      },
+      {
+        "call": "play",
+        "args": ["berserk"]
+      },
+      {
+        "call": "play",
+        "args": ["cdc-notify", 0.2]
+      },
+      {
+        "call": "play",
+        "args": ["lowTime"]
+      },
+      {
+        "call": "play",
+        "args": ["genericNotify"]
+      },
+      {
+        "call": "play",
+        "args": ["error", 0.3]
+      },
+      {
+        "call": "play",
+        "args": ["confirmation"]
+      },
+      {
+        "call": "play",
+        "args": ["newChallenge"]
+      },
+      {
+        "call": "play",
+        "args": ["newPM"]
+      },
+      {
+        "call": "play",
+        "args": ["socialNotify"]
+      },
+      {
+        "call": "play",
+        "args": ["move"]
+      },
+      {
+        "call": "play",
+        "args": [42]
+      }
+    ],
+    "paths": [
+      ["cdc-move-self", "blob:move-self"],
+      ["cdc-move-opponent", "blob:move-opponent"],
+      ["cdc-move-check", "blob:move-check"],
+      ["cdc-capture", "blob:capture"],
+      ["cdc-castle", "blob:castle"],
+      ["cdc-promote", "blob:promote"],
+      ["cdc-premove", "blob:premove"],
+      ["cdc-illegal", "blob:illegal"],
+      ["cdc-notify", "blob:notify"],
+      ["cdc-tenseconds", "blob:tenseconds"],
+      ["cdc-game-start", "blob:game-start"],
+      ["cdc-game-end", "blob:game-end"]
+    ],
+    "hooked": true,
+    "calls": [
+      ["play", "cdc-capture", 1],
+      ["play", "cdc-game-end", 0.5],
+      ["play", "cdc-game-end", 1],
+      ["play", "cdc-game-end", 1],
+      ["play", "berserk", 1],
+      ["play", "cdc-notify", 0.2],
+      ["play", "cdc-tenseconds", 1],
+      ["play", "cdc-game-start", 1],
+      ["play", "cdc-illegal", 0.3],
+      ["play", "cdc-notify", 1],
+      ["play", "cdc-notify", 1],
+      ["play", "cdc-notify", 1],
+      ["play", "cdc-notify", 1],
+      ["play", "cdc-move-self", 1],
+      ["play", 42, 1]
+    ],
+    "results": [
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise",
+      "promise"
+    ]
+  },
+  {
+    "name": "falls back to Lichess when a sound is missing",
+    "names": ["capture", "notify"],
+    "steps": [
+      {
+        "call": "play",
+        "args": ["lowTime", 0.6]
+      },
+      {
+        "call": "play",
+        "args": ["victory"]
+      },
+      {
+        "call": "play",
+        "args": ["capture"]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "Nf3",
+            "ply": 1,
+            "volume": 0.7
+          }
+        ],
+        "board": ["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", [], "white"]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "exd5",
+            "ply": 3
+          }
+        ]
+      }
+    ],
+    "paths": [
+      ["cdc-capture", "blob:capture"],
+      ["cdc-notify", "blob:notify"]
+    ],
+    "hooked": true,
+    "calls": [
+      ["play", "lowTime", 0.6],
+      ["play", "victory", 1],
+      ["play", "cdc-capture", 1],
+      ["play", "move", 0.7],
+      ["play", "cdc-capture", 1]
+    ],
+    "results": ["promise", "promise", "promise", "promise", "promise"]
+  },
+  {
+    "name": "reads the SAN Lichess passes",
+    "names": [
+      "move-self",
+      "move-opponent",
+      "move-check",
+      "capture",
+      "castle",
+      "promote",
+      "premove",
+      "illegal",
+      "notify",
+      "tenseconds",
+      "game-start",
+      "game-end"
+    ],
+    "steps": [
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "Nf3",
+            "ply": 1,
+            "volume": 0.7
+          }
+        ],
+        "board": ["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", [], "white"]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "Nf6",
+            "ply": 2
+          }
+        ]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "Bb5+",
+            "ply": 5
+          }
+        ]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "O-O",
+            "ply": 7,
+            "uci": "e1g1"
+          }
+        ]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "e8=Q",
+            "ply": 41,
+            "name": "capture"
+          }
+        ]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "",
+            "ply": 3,
+            "name": "explosion"
+          }
+        ]
+      }
+    ],
+    "paths": [
+      ["cdc-move-self", "blob:move-self"],
+      ["cdc-move-opponent", "blob:move-opponent"],
+      ["cdc-move-check", "blob:move-check"],
+      ["cdc-capture", "blob:capture"],
+      ["cdc-castle", "blob:castle"],
+      ["cdc-promote", "blob:promote"],
+      ["cdc-premove", "blob:premove"],
+      ["cdc-illegal", "blob:illegal"],
+      ["cdc-notify", "blob:notify"],
+      ["cdc-tenseconds", "blob:tenseconds"],
+      ["cdc-game-start", "blob:game-start"],
+      ["cdc-game-end", "blob:game-end"]
+    ],
+    "hooked": true,
+    "calls": [
+      ["play", "cdc-move-self", 0.7],
+      ["play", "cdc-move-opponent", 1],
+      ["play", "cdc-move-check", 1],
+      ["play", "cdc-castle", 1],
+      ["play", "cdc-promote", 1],
+      [
+        "move",
+        {
+          "san": "",
+          "ply": 3,
+          "name": "explosion"
+        }
+      ]
+    ],
+    "results": ["promise", "promise", "promise", "promise", "promise", "promise"]
+  },
+  {
+    "name": "uses a fresh server move for the board sound",
+    "names": [
+      "move-self",
+      "move-opponent",
+      "move-check",
+      "capture",
+      "castle",
+      "promote",
+      "premove",
+      "illegal",
+      "notify",
+      "tenseconds",
+      "game-start",
+      "game-end"
+    ],
+    "steps": [
+      {
+        "call": "move",
+        "args": [
+          {
+            "filter": "music",
+            "san": "O-O",
+            "ply": 9
+          }
+        ],
+        "board": ["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", [], "black"],
+        "wait": 5
+      },
+      {
+        "call": "move",
+        "args": []
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "filter": "music",
+            "san": "exd5",
+            "ply": 12
+          }
+        ],
+        "wait": 5
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "name": "capture",
+            "volume": 0.5
+          }
+        ]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "filter": "music",
+            "san": "e4",
+            "ply": 1
+          }
+        ],
+        "wait": 350
+      },
+      {
+        "call": "move",
+        "args": [],
+        "board": ["rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR", ["e2", "e4"], "black"]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "filter": "game",
+            "name": "move"
+          }
+        ],
+        "board": ["r3k2r/8/8/8/8/8/8/R4RK1", [], "white"]
+      }
+    ],
+    "paths": [
+      ["cdc-move-self", "blob:move-self"],
+      ["cdc-move-opponent", "blob:move-opponent"],
+      ["cdc-move-check", "blob:move-check"],
+      ["cdc-capture", "blob:capture"],
+      ["cdc-castle", "blob:castle"],
+      ["cdc-promote", "blob:promote"],
+      ["cdc-premove", "blob:premove"],
+      ["cdc-illegal", "blob:illegal"],
+      ["cdc-notify", "blob:notify"],
+      ["cdc-tenseconds", "blob:tenseconds"],
+      ["cdc-game-start", "blob:game-start"],
+      ["cdc-game-end", "blob:game-end"]
+    ],
+    "hooked": true,
+    "calls": [
+      [
+        "move",
+        {
+          "filter": "music",
+          "san": "O-O",
+          "ply": 9
+        }
+      ],
+      ["play", "cdc-castle", 1],
+      [
+        "move",
+        {
+          "filter": "music",
+          "san": "exd5",
+          "ply": 12
+        }
+      ],
+      ["play", "cdc-capture", 0.5],
+      [
+        "move",
+        {
+          "filter": "music",
+          "san": "e4",
+          "ply": 1
+        }
+      ],
+      ["play", "cdc-move-opponent", 1],
+      ["play", "cdc-move-self", 1]
+    ],
+    "results": ["promise", "promise", "promise", "promise", "promise", "promise", "promise"]
+  },
+  {
+    "name": "reads the board after a board move",
+    "names": [
+      "move-self",
+      "move-opponent",
+      "move-check",
+      "capture",
+      "castle",
+      "promote",
+      "premove",
+      "illegal",
+      "notify",
+      "tenseconds",
+      "game-start",
+      "game-end"
+    ],
+    "steps": [
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "Kd2",
+            "ply": 1
+          }
+        ],
+        "board": ["r3k2r/8/8/8/8/8/8/R3K2R", [], "white"]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "name": "move"
+          }
+        ],
+        "board": ["r3k2r/8/8/8/8/8/8/R4RK1", [], "white"]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "name": "capture",
+            "volume": 0.9
+          }
+        ],
+        "board": ["r3k2r/8/8/8/8/8/8/R4RK1", [], "white"]
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "name": "explosion"
+          }
+        ]
+      },
+      {
+        "call": "move",
+        "args": [null]
+      }
+    ],
+    "paths": [
+      ["cdc-move-self", "blob:move-self"],
+      ["cdc-move-opponent", "blob:move-opponent"],
+      ["cdc-move-check", "blob:move-check"],
+      ["cdc-capture", "blob:capture"],
+      ["cdc-castle", "blob:castle"],
+      ["cdc-promote", "blob:promote"],
+      ["cdc-premove", "blob:premove"],
+      ["cdc-illegal", "blob:illegal"],
+      ["cdc-notify", "blob:notify"],
+      ["cdc-tenseconds", "blob:tenseconds"],
+      ["cdc-game-start", "blob:game-start"],
+      ["cdc-game-end", "blob:game-end"]
+    ],
+    "hooked": true,
+    "calls": [
+      ["play", "cdc-move-self", 1],
+      ["play", "cdc-castle", 1],
+      ["play", "cdc-capture", 0.9],
+      [
+        "move",
+        {
+          "name": "explosion"
+        }
+      ],
+      ["play", "cdc-move-self", 1]
+    ],
+    "results": ["promise", "promise", "promise", "promise", "promise"]
+  },
+  {
+    "name": "leaves the music theme alone",
+    "names": [
+      "move-self",
+      "move-opponent",
+      "move-check",
+      "capture",
+      "castle",
+      "promote",
+      "premove",
+      "illegal",
+      "notify",
+      "tenseconds",
+      "game-start",
+      "game-end"
+    ],
+    "steps": [
+      {
+        "call": "move",
+        "args": [
+          {
+            "san": "e4",
+            "ply": 1
+          }
+        ],
+        "theme": "music",
+        "board": ["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", [], "white"]
+      },
+      {
+        "call": "move",
+        "args": []
+      },
+      {
+        "call": "move",
+        "args": [
+          {
+            "name": "capture"
+          }
+        ]
+      },
+      {
+        "call": "play",
+        "args": ["capture"]
+      }
+    ],
+    "paths": [
+      ["cdc-move-self", "blob:move-self"],
+      ["cdc-move-opponent", "blob:move-opponent"],
+      ["cdc-move-check", "blob:move-check"],
+      ["cdc-capture", "blob:capture"],
+      ["cdc-castle", "blob:castle"],
+      ["cdc-promote", "blob:promote"],
+      ["cdc-premove", "blob:premove"],
+      ["cdc-illegal", "blob:illegal"],
+      ["cdc-notify", "blob:notify"],
+      ["cdc-tenseconds", "blob:tenseconds"],
+      ["cdc-game-start", "blob:game-start"],
+      ["cdc-game-end", "blob:game-end"]
+    ],
+    "hooked": true,
+    "calls": [
+      [
+        "move",
+        {
+          "san": "e4",
+          "ply": 1
+        }
+      ],
+      ["move", null],
+      [
+        "move",
+        {
+          "name": "capture"
+        }
+      ],
+      ["play", "cdc-capture", 1]
+    ],
+    "results": ["promise", "promise", "promise", "promise"]
+  }
+]

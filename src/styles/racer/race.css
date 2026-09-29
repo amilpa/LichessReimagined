@@ -1,0 +1,287 @@
+/* ---- Race --- */
+
+/* Your vehicle and its color, for the side panel's tile. Your lane is always first. */
+.racer {
+  --cdc-car: #a42eff;
+  --cdc-car-glyph: '0';
+  --cdc-lane-h: 34px;
+  --cdc-lanes: 1;
+}
+
+.racer:has(.racer__race__track--me .car-1) {
+  --cdc-car: #5757ff;
+}
+.racer:has(.racer__race__track--me .car-2) {
+  --cdc-car: #1f9d3a;
+}
+.racer:has(.racer__race__track--me .car-3) {
+  --cdc-car: #d23b3b;
+}
+.racer:has(.racer__race__track--me .car-4) {
+  --cdc-car: #ec7a51;
+}
+.racer:has(.racer__race__track--me .car-5) {
+  --cdc-car: #8fbf2a;
+}
+.racer:has(.racer__race__track--me .car-6) {
+  --cdc-car: #ff5a1f;
+}
+.racer:has(.racer__race__track--me .car-7) {
+  --cdc-car: #2e8b57;
+}
+.racer:has(.racer__race__track--me .car-8) {
+  --cdc-car: #daa520;
+}
+.racer:has(.racer__race__track--me .car-9) {
+  --cdc-car: #d27e1e;
+}
+
+.racer:has(.racer__race__track--me .vehicle1) {
+  --cdc-car-glyph: '1';
+}
+.racer:has(.racer__race__track--me .vehicle2) {
+  --cdc-car-glyph: '2';
+}
+.racer:has(.racer__race__track--me .vehicle3) {
+  --cdc-car-glyph: '3';
+}
+
+/* The number of lanes, so the board leaves the track room (up to ten racers). */
+.racer:has(.racer__race__track:nth-child(2)) {
+  --cdc-lanes: 2;
+}
+.racer:has(.racer__race__track:nth-child(3)) {
+  --cdc-lanes: 3;
+}
+.racer:has(.racer__race__track:nth-child(4)) {
+  --cdc-lanes: 4;
+}
+.racer:has(.racer__race__track:nth-child(5)) {
+  --cdc-lanes: 5;
+}
+.racer:has(.racer__race__track:nth-child(6)) {
+  --cdc-lanes: 6;
+}
+.racer:has(.racer__race__track:nth-child(7)) {
+  --cdc-lanes: 7;
+}
+.racer:has(.racer__race__track:nth-child(8)) {
+  --cdc-lanes: 8;
+}
+.racer:has(.racer__race__track:nth-child(9)) {
+  --cdc-lanes: 9;
+}
+.racer:has(.racer__race__track:nth-child(10)) {
+  --cdc-lanes: 10;
+}
+
+/* Lichess sizes the board from the whole window, sidebar included, and ignores the
+ * track under it, so the page scrolled. Cap it by what the sidebar and the side
+ * panel leave, and by what the track leaves below. */
+@media (min-width: 1020px) {
+  main > .racer {
+    --cdc-coords-l: 0px;
+    --cdc-race-h: calc(var(--cdc-lanes) * (var(--cdc-lane-h) + 5px) + 15px);
+
+    grid-template-columns:
+      min(
+        var(---col2-uniboard-width),
+        calc(
+          100vw - var(--cdc-sidebar-w, 0px) - 2 * var(---main-margin, 0px) - var(--cdc-coords-l) -
+            275px
+        ),
+        calc(
+          100dvh - 80px - var(---block-gap, 16px) - var(--cdc-race-h) - var(--cdc-coords-off, 0px)
+        )
+      )
+      minmax(240px, 400px) !important;
+    margin-left: var(--cdc-coords-l);
+  }
+
+  body:is(.coords-in, .coords-out) main > .racer {
+    --cdc-coords-l: calc(0.6 * var(--cdc-coords-size, 13px) + 10px);
+  }
+}
+
+/* Lichess fixes the track row's height, which our taller lanes outgrow. */
+@media (min-width: 799.3px), (orientation: landscape) {
+  main > .racer {
+    grid-template-rows: auto auto !important;
+  }
+}
+
+/* ---- Side panel --- */
+
+:is(.racer, .storm) .puz-side {
+  justify-content: flex-start !important;
+  gap: 20px;
+  padding: 20px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: none !important;
+}
+
+:is(.racer, .storm) .puz-side__top {
+  flex: none !important;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Your vehicle, white on a tile in its color. */
+.racer .puz-side__top::before {
+  content: var(--cdc-car-glyph) !important;
+  display: flex;
+  flex: none;
+  align-items: flex-end;
+  justify-content: center;
+  width: 64px !important;
+  height: 64px !important;
+  margin: 0 !important;
+  padding-bottom: 17px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--cdc-car) 65%, #fff),
+    var(--cdc-car)
+  ) !important;
+  box-shadow:
+    inset 0 1px 0 #ffffff4d,
+    inset 0 -2px 0 #0000002e;
+  color: #fff;
+  font: 400 52px / 0.5 racer-car;
+  text-shadow: 0 2px 4px #0000004d;
+}
+
+:is(.racer, .storm) .puz-side__start {
+  margin: 0 !important;
+  color: inherit !important;
+}
+
+:is(.racer, .storm) .puz-side__start__text {
+  align-items: flex-start;
+  gap: 6px;
+}
+
+:is(.racer, .storm) .puz-side__start__text strong {
+  color: #fff;
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  line-height: 1.1;
+}
+
+/* "Waiting to start", "Spectating": a pill with a beating dot. */
+:is(.racer, .storm) .puz-side__start__text span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px 4px 9px;
+  border-radius: 999px;
+  background: #e3aa2424;
+  color: var(--c-brag);
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: normal !important;
+}
+
+:is(.racer, .storm) .puz-side__start__text span::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* The score: a big white number. */
+:is(.racer, .storm) .puz-side__solved {
+  text-align: start;
+}
+
+:is(.racer, .storm) .puz-side__solved__text {
+  margin: 0 !important;
+  color: #fff !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 60px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+:is(.racer, .storm) .puz-side__start__text span::before {
+  animation: cdc-racer-beat 1.2s ease-in-out infinite;
+}
+
+/* A solved puzzle bumps the score. */
+:is(.racer, .storm).puz-mod-puzzle .puz-side__solved__text {
+  animation: cdc-racer-bump 0.4s ease-out;
+}
+
+@keyframes cdc-racer-beat {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes cdc-racer-bump {
+  30% {
+    color: var(--cdc-green-hover);
+    transform: scale(1.15);
+  }
+}
+
+:is(.racer, .storm) .puz-side__solved {
+  text-shadow: none !important;
+}
+
+/* ---- Before the start --- */
+
+.racer .racer__pre__message {
+  display: flex;
+  flex-flow: column;
+  gap: 14px;
+}
+
+.racer .puz-side__link p,
+.racer .racer__pre__message__text p {
+  margin: 0 0 8px;
+  color: var(--cdc-text-dim);
+  font-size: 14px;
+}
+
+.racer .puz-side__start .button,
+.racer .puz-side__join .button {
+  width: 100%;
+  margin: 0 !important;
+  padding: 16px !important;
+  font-size: 20px !important;
+}
+
+/* "You play the white pieces": a chip with a pawn of that color. */
+.racer .racer__pre__message__pov {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  margin: 0 !important;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  background: var(--cdc-bg-raised);
+  color: var(--cdc-text) !important;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.racer .racer__pre__message__pov::before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  margin: -4px -2px -4px -4px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp') center /
+    contain no-repeat;
+}
+
+.racer:has(.cg-wrap.orientation-black) .racer__pre__message__pov::before {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
+}

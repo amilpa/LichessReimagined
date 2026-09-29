@@ -1,0 +1,236 @@
+/* ---- Nav --- */
+
+@media (min-width: 1020px) {
+  #topnav {
+    position: static !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    max-width: none !important;
+    padding: 0 !important;
+    transform: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Lichess hides the nav and dropdowns once the page scrolls (#top.hide), with
+   * pointer-events too. The sidebar is fixed, so bring all three back. */
+  #top #topnav,
+  #top .dropdown {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  #topnav section {
+    position: relative;
+    height: auto !important;
+    margin: 0 !important;
+  }
+
+  #topnav section > a {
+    display: flex !important;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    align-items: center;
+    gap: 12px;
+    height: 40px !important;
+    margin: 0 8px !important;
+    padding: 0 8px !important;
+    line-height: 1 !important;
+    text-transform: none !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: var(--cdc-text) !important;
+    border: none !important;
+    border-radius: 5px !important;
+    background: transparent !important;
+    text-shadow: none !important;
+    transition: background-color 0.15s !important;
+  }
+
+  #topnav section > a .home {
+    display: none !important;
+  }
+
+  #topnav section > a .play {
+    display: inline !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #topnav section > a::before {
+    content: '';
+    flex: none;
+    width: 24px;
+    height: 24px;
+    background: var(--cdc-nav-icon) center / contain no-repeat;
+  }
+
+  #topnav.hover section:hover > a,
+  #topnav section.active > a {
+    background: var(--cdc-sb-hover) !important;
+    color: #fff !important;
+  }
+
+  /* Flyouts open right of the sidebar. The section spans its full width (only the
+   * link is inset), so the pointer never leaves it on the way over. */
+  #topnav section > div {
+    position: absolute !important;
+    top: -8px !important;
+    left: 100% !important;
+    right: auto !important;
+    min-width: 240px;
+    padding: 8px !important;
+    border: none !important;
+    border-radius: 0 5px 5px 0 !important;
+    background: var(--cdc-bg-panel-dark) !important;
+    box-shadow: 4px 4px 12px #0006 !important;
+    z-index: 110;
+  }
+
+  #topnav section > div a {
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 8px !important;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cdc-text) !important;
+    border-radius: 5px !important;
+    transition: background-color 0.15s !important;
+  }
+
+  #topnav section > div a:hover {
+    background: var(--cdc-sb-hover) !important;
+    color: #fff !important;
+  }
+
+  /* Icons from public/img/icons. Sections are matched by position and links by how their
+   * href ends: Lichess localizes the labels and some paths (/fr/training). */
+  #topnav section:nth-of-type(1) > a {
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/play-white.svg');
+  }
+  #topnav section:nth-of-type(2) > a {
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
+  }
+  #topnav section:nth-of-type(3) > a {
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg');
+  }
+  #topnav section:nth-of-type(4) > a {
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/binoculars.svg');
+  }
+  #topnav section:nth-of-type(5) > a {
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/friends.svg');
+  }
+  #topnav section:nth-of-type(6) > a {
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/time-clock.svg');
+  }
+
+  #topnav section > div a {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #topnav section > div a::before {
+    content: '';
+    flex: none;
+    width: 24px;
+    height: 24px;
+    background: var(--cdc-sub-icon, none) center / contain no-repeat;
+  }
+
+  #topnav div a[href*='#hook'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/play-white.svg');
+  }
+  #topnav div a[href$='/tournament'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/tournament-gold.svg');
+  }
+  #topnav div a[href$='/swiss'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/clipboard-vote.svg');
+  }
+  #topnav div a[href$='/simul'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-stack-green.svg');
+  }
+  #topnav div a[href$='/training'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
+  }
+  #topnav div a[href$='/training/themes'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-open-knight.svg');
+  }
+  #topnav div a[href*='/training/dashboard'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/rating-stats.svg');
+  }
+  #topnav div a[href$='/streak'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/calendar-dailypuzzle.svg');
+  }
+  #topnav div a[href$='/storm'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-rush.svg');
+  }
+  #topnav div a[href$='/racer'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/battle.svg');
+  }
+  #topnav div a[href$='/learn'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/chess-rules.svg');
+  }
+  #topnav div a[href$='/practice'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/game-practice.svg');
+  }
+  #topnav div a[href$='/training/coordinate'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-vision-coordinate.svg');
+  }
+  #topnav div a[href$='/study'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-open-aqua.svg');
+  }
+  #topnav div a[href$='/coach'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/coaches.svg');
+  }
+  #topnav div a[href$='/broadcast'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg');
+  }
+  #topnav div a[href$='/tv'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/device-chess-tv.svg');
+  }
+  #topnav div a[href$='/games'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/playing.svg');
+  }
+  #topnav div a[href$='/streamer'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/stream.svg');
+  }
+  #topnav div a[href$='/video'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/today.svg');
+  }
+  #topnav div a[href$='/player'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/masters.svg');
+  }
+  #topnav div a[href$='/following'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/friends.svg');
+  }
+  #topnav div a[href$='/team'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/clubs.svg');
+  }
+  #topnav div a[href$='/forum'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/communication-bubbles.svg');
+  }
+  #topnav div a[href*='/blog'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/page-blog.svg');
+  }
+  #topnav div a[href$='/analysis'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/magnifier-analysis.svg');
+  }
+  #topnav div a[href$='/opening'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-stack-pawn.svg');
+  }
+  #topnav div a[href$='/editor'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-2x2-calculated.svg');
+  }
+  #topnav div a[href$='/paste'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-archive.svg');
+  }
+  #topnav div a[href$='/games/search'] {
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-4x4-brown.svg');
+  }
+}

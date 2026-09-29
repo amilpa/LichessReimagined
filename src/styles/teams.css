@@ -1,21 +1,9 @@
-/*
- * Team lists (main.team-list: all teams, search, my teams, teams I lead) as a
- * grid of club cards:
- *
- *   +------------------------------------------+
- *   | [avatar]  Team name  [LEADER]            |
- *   |           Intro, two lines at most…      |
- *   |           (people) 735,799 members [Quit]|
- *   +------------------------------------------+
- *
- * Lichess renders a table (one row per team). The rows become cards; the
- * avatar is the team's flair when it has one, else the group icon on a tile.
- */
+/* Team lists (main.team-list: all, search, mine, led) as club cards. Lichess renders a table;
+ * each row becomes a card, its avatar the team's flair or the group icon on a tile. */
 
-/* ---------------------------------------------------------- header --- */
+/* ---- Header --- */
 
-/* No longer a card, so nothing to clip: Lichess's overflow: hidden would cut
- * the team cards' hover shadow at the box's edges. */
+/* Transparent now, but its `overflow: hidden` would still clip the cards' hover shadows. */
 main.team-list .page-menu__content.box {
   overflow: visible !important;
   padding: 0 !important;
@@ -36,14 +24,15 @@ main.team-list h1.box__top {
   margin: 0 !important;
 }
 
-/* The clubs icon, as in the sidebar menu. */
+/* The clubs icon, as in the sidebar. */
 main.team-list .box__top h1::before,
 main.team-list h1.box__top::before {
   content: '';
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/clubs.svg') center / contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/clubs.svg') center / contain
+    no-repeat;
 }
 
 main.team-list .box__top .search input {
@@ -59,13 +48,10 @@ html[dir='rtl'] main.team-list .box__top .search input {
   background-position: calc(100% - 12px) center !important;
 }
 
-/* Only the cards scroll: the side menu and the title bar (with the search)
- * stay in view, the bar on the page's color, casting a soft shadow on the
- * cards only once it's stuck (as simul.css does). Desktop only: below
- * 1020px Lichess's own top bar holds the top edge. */
+/* Desktop only (Lichess's top bar holds the top edge below 1020px): the menu and title bar stay
+ * put while the cards scroll, the bar's shadow showing once stuck (as in simul.css). */
 @media (min-width: 1020px) {
-  /* A bit wider than the grid, to also cover the shadows of the cards
-   * passing under it; no more, the gap to the side menu is 10px. */
+  /* Widened to cover the shadows of cards passing under it; no more, the menu is 10px away. */
   main.team-list .box__top {
     container-type: scroll-state;
     position: sticky;
@@ -100,13 +86,13 @@ html[dir='rtl'] main.team-list .box__top .search input {
     align-self: start;
   }
 
-  /* Whatever the browser scrolls to (keyboard focus) stops below the bar. */
+  /* Focused elements scroll to below the bar. */
   html[data-cdc-has~='team-list'] {
     scroll-padding-top: 90px;
   }
 }
 
-/* ------------------------------------------------------------ grid --- */
+/* ---- Grid --- */
 
 main.team-list table.slist {
   display: block;
@@ -119,7 +105,7 @@ main.team-list .slist tbody {
   gap: 12px;
 }
 
-/* ------------------------------------------------------------ card --- */
+/* ---- Card --- */
 
 main.team-list .slist tbody tr,
 main.team-list .slist tbody tr:nth-child(2n) {
@@ -135,7 +121,10 @@ main.team-list .slist tbody tr:nth-child(2n) {
   border: 1px solid var(--cdc-card-border);
   border-radius: 10px;
   background: var(--cdc-bg-panel) !important;
-  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s !important;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s !important;
 }
 
 html[dir='rtl'] main.team-list .slist tbody tr {
@@ -149,11 +138,21 @@ main.team-list .slist tbody tr:hover {
 }
 
 /* Lichess has no team pictures: vary the avatar tints down the list. */
-main.team-list .slist tbody tr:nth-child(6n + 2) { --cdc-team: #3692e7; }
-main.team-list .slist tbody tr:nth-child(6n + 3) { --cdc-team: #e58f2a; }
-main.team-list .slist tbody tr:nth-child(6n + 4) { --cdc-team: #9b7fd8; }
-main.team-list .slist tbody tr:nth-child(6n + 5) { --cdc-team: #e0513a; }
-main.team-list .slist tbody tr:nth-child(6n + 6) { --cdc-team: #26b6a6; }
+main.team-list .slist tbody tr:nth-child(6n + 2) {
+  --cdc-team: #3692e7;
+}
+main.team-list .slist tbody tr:nth-child(6n + 3) {
+  --cdc-team: #e58f2a;
+}
+main.team-list .slist tbody tr:nth-child(6n + 4) {
+  --cdc-team: #9b7fd8;
+}
+main.team-list .slist tbody tr:nth-child(6n + 5) {
+  --cdc-team: #e0513a;
+}
+main.team-list .slist tbody tr:nth-child(6n + 6) {
+  --cdc-team: #26b6a6;
+}
 
 main.team-list .slist td,
 main.team-list .slist th {
@@ -171,7 +170,7 @@ main.team-list .slist td.subject {
   min-height: 44px;
 }
 
-/* The name link covers the whole card. */
+/* The name's link covers the whole card. */
 main.team-list .slist .team-name {
   display: block !important;
   overflow: hidden;
@@ -196,7 +195,7 @@ main.team-list .slist .team-name.mine {
   color: var(--cdc-brag, #e3aa24) !important;
 }
 
-/* Avatar: the group icon on a tile tinted by --cdc-team. */
+/* Avatar: the group icon on a tile tinted by `--cdc-team`. */
 main.team-list .slist .team-name::before {
   position: absolute;
   top: 16px;
@@ -214,7 +213,7 @@ main.team-list .slist .team-name::before {
   opacity: 1 !important;
 }
 
-/* A team flair (emoji) takes the avatar's place. */
+/* A team's flair (emoji) replaces the icon. */
 main.team-list .slist .team-name:has(.uflair)::before {
   color: transparent;
 }
@@ -270,7 +269,7 @@ main.team-list .slist td.info p {
   text-align: start !important;
 }
 
-/* Lichess's group icon (U+E044) before the count. */
+/* Lichess's group glyph (U+E044) before the member count. */
 main.team-list .slist td.info p::before {
   content: '\e044';
   font-family: lichess;
@@ -306,7 +305,7 @@ main.team-list .slist tbody tr > td:only-child {
   text-align: center;
 }
 
-/* Lichess's mobile layout runs the list edge to edge; cards need a margin. */
+/* Lichess's mobile layout runs edge to edge: give the cards a margin. */
 @media (max-width: 799.98px) {
   main.team-list .page-menu__content.box {
     padding: 0 12px 24px !important;

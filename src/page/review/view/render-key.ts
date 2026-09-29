@@ -1,0 +1,42 @@
+import type { Analysis } from '#page/lichess/analysis.ts';
+import { judgeAt, liveDigest } from '#page/review/live/judging.ts';
+import type { Session } from '#page/review/session.ts';
+import { reviewMove } from './navigation.ts';
+
+// What the panel shows, as one string: it's drawn again only when that
+// changes (the render runs every 150 ms).
+
+// The summary and the closed panel show the analysis's progress, which counts
+// in steps: each twentieth of the graph known, each percent at full depth. The
+// move-by-move review depends only on the move on the board.
+function progressKey(session: Session, analysis: Analysis): string {
+  const { view } = session;
+  if (view.mode === 'moves') return '';
+  const { review } = view;
+  const known = review ? review.positions.filter(Boolean).length : 0;
+  return [
+    Math.round(view.progress * 100),
+    Math.round((known / analysis.mainline.length) * 20),
+    Boolean(review?.complete),
+  ].join(',');
+}
+
+export function renderKey(session: Session, analysis: Analysis): string {
+  const { view, live } = session;
+  const { path } = analysis;
+  if (view.mode === 'live')
+    return ['live', path, liveDigest(judgeAt(live, analysis, path)), live.error ?? ''].join('|');
+  return [
+    view.mode,
+    path,
+    analysis.onMainline,
+    analysis.orientation(),
+    view.review !== null,
+    progressKey(session, analysis),
+    view.error ?? '',
+    view.explain,
+    view.playing !== null,
+    liveDigest(reviewMove(session, analysis)),
+    live.error ?? '',
+  ].join('|');
+}

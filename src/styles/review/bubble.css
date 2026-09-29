@@ -1,0 +1,233 @@
+/* ---- Coach bubble --- */
+
+@media (min-width: 1020px) {
+  .cdc-bubble {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 56px;
+    margin-top: max(0px, var(--cdc-tip) - var(--cdc-bubble-h, 56px) / 2);
+    box-sizing: border-box;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: #fff;
+    color: #312e2b;
+  }
+
+  /* The tail: a horn from the bubble's left edge, overlapping it by 1px so there's no
+     seam. The bubble's min-height keeps it clear of the rounded corners. */
+  .cdc-bubble::before {
+    content: '';
+    position: absolute;
+    left: -17px;
+    top: calc(min(50%, var(--cdc-tip)) - 15px);
+    width: 18px;
+    height: 25px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 69'%3E%3Cpath fill='%23fff' d='M49 0A49 42 0 0 1 0 42A49 27 0 0 0 49 69H50V0z'/%3E%3C/svg%3E")
+      center / 100% 100% no-repeat;
+  }
+
+  .cdc-bubble__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cdc-bubble__title {
+    flex: 1;
+    margin: 0;
+    color: #312e2b;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .cdc-fig {
+    margin-right: 2px;
+    font-family: 'Noto Chess', var(--cdc-font);
+    font-size: 1.15em;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .cdc-bubble__eval {
+    flex: none;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: #e8e7e6;
+    color: #312e2b;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .cdc-bubble__eval--black {
+    background: #312e2b;
+    color: #fff;
+  }
+
+  .cdc-bubble__sub {
+    margin: 6px 0 0;
+    color: #312e2b;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  /* Up to three lines; the review drops the second sentence rather than cut it. */
+  .cdc-bubble__sub {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  /* Pieces are drawn as Neo pieces, moves as chips led by the moving piece. Negative
+     margins keep the pieces from pushing the lines apart. */
+  .cdc-pc {
+    display: inline-block;
+    width: 1.45em;
+    height: 1.45em;
+    margin: -0.25em 0.1em -0.2em 0;
+    vertical-align: -0.35em;
+  }
+
+  /* A chip's pieces are sized to its line, and its own negative margins keep the
+     lines together. */
+  .cdc-mv {
+    display: inline-block;
+    margin: -0.05em 0;
+    padding: 0.05em 0.3em 0.05em 0.1em;
+    border-radius: 6px;
+    background: #ebeae8;
+    font-weight: 700;
+    line-height: 1.3;
+    vertical-align: -0.05em;
+    white-space: nowrap;
+  }
+
+  .cdc-mv .cdc-pc {
+    width: 1.3em;
+    height: 1.3em;
+    margin: 0 0.05em 0 0;
+    vertical-align: top;
+  }
+
+  .cdc-sq {
+    font-weight: 700;
+  }
+
+  /* The review types the comment out word by word: hidden words keep their place,
+     then fade in. */
+  .cdc-w--off {
+    visibility: hidden;
+  }
+
+  .cdc-w--in {
+    animation: cdc-w-in 0.28s ease-out;
+  }
+
+  @keyframes cdc-w-in {
+    from {
+      opacity: 0;
+      filter: blur(2px);
+    }
+  }
+
+  .cdc-review__nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 14px 16px 12px;
+  }
+
+  .cdc-review__nav .cdc-btn {
+    min-width: 0;
+    gap: 6px;
+    overflow: hidden;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .cdc-review__nav .cdc-btn:not(.cdc-btn--green) .cdc-i {
+    color: var(--cdc-text-dim);
+  }
+
+  .cdc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    text-align: center;
+    border: none;
+    border-radius: 6px;
+    background: var(--cdc-btn-grey);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    box-shadow: var(--cdc-btn-grey-shadow);
+  }
+
+  .cdc-btn:hover:not(:disabled) {
+    background: var(--cdc-btn-grey-hover);
+  }
+
+  .cdc-btn--green {
+    background: var(--cdc-btn-green);
+    text-shadow: 0 1px 1px #00000033;
+    box-shadow: var(--cdc-btn-green-shadow);
+  }
+
+  .cdc-btn--green:hover:not(:disabled) {
+    background: var(--cdc-btn-green-hover);
+  }
+
+  .cdc-btn:disabled {
+    opacity: 0.5;
+    cursor: default !important;
+  }
+
+  .cdc-btn .cdc-i {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+
+  .cdc-btn--on .cdc-i {
+    color: #f7c045 !important;
+  }
+
+  .cdc-review__foot .cdc-btn {
+    width: 100%;
+    height: 56px;
+    font-size: 20px;
+  }
+
+  /* ---- Controls --- */
+
+  #cdc-review-controls {
+    grid-area: rctrl;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-left: var(--cdc-gap);
+    padding: 10px 8px 18px;
+    box-sizing: border-box;
+    border-top: 1px solid var(--cdc-border);
+    border-radius: 0 0 6px 6px;
+    background: var(--cdc-bg-panel-dark);
+  }
+
+  #cdc-review-controls .cdc-btn {
+    height: 100%;
+    color: var(--cdc-text);
+    cursor: pointer;
+  }
+
+  #cdc-review-controls .cdc-i {
+    width: 26px;
+    height: 26px;
+  }
+}

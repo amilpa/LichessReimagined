@@ -1,0 +1,254 @@
+/* Swiss home (main.swiss-home): "Now playing" and "Starting soon" as tournament cards.
+ * Lichess always renders both lists, even empty. */
+
+/* ---- Page --- */
+
+main.swiss-home {
+  gap: 28px !important;
+  padding-bottom: 40px;
+}
+
+/* Transparent now, but its `overflow: hidden` would still clip the live dot's pulse. */
+main.swiss-home > .box {
+  overflow: visible !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+main.swiss-home h1.box__top {
+  justify-content: flex-start !important;
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+  padding: 16px 0 24px !important;
+}
+
+/* The clipboard icon, as on the sidebar's Swiss entry. */
+main.swiss-home h1.box__top::before {
+  content: '';
+  flex: none;
+  width: 36px;
+  height: 36px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/clipboard-vote.svg') center /
+    contain no-repeat;
+}
+
+/* ---- Lists --- */
+
+main.swiss-home .swisses {
+  display: block;
+  margin: 0 0 28px !important;
+  border: none !important;
+}
+
+main.swiss-home .swisses:has(tbody:empty) {
+  display: none;
+}
+
+main.swiss-home .swisses :is(thead, thead tr, thead th) {
+  display: block;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+main.swiss-home .swisses thead th {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #fff !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  text-align: start;
+}
+
+/* Now playing: a pulsing green dot. */
+main.swiss-home .swisses:nth-of-type(1) thead th::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cdc-green);
+  box-shadow: 0 0 0 0 #81b64cb3;
+  animation: cdc-swiss-pulse 1.6s ease-out infinite;
+}
+
+@keyframes cdc-swiss-pulse {
+  70% {
+    box-shadow: 0 0 0 6px #81b64c00;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 #81b64c00;
+  }
+}
+
+main.swiss-home .swisses tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---- Card --- */
+
+/* Icon, name, rounds and time control, start and players. The link's ::after covers the card. */
+main.swiss-home .swisses tbody tr {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 190px 110px;
+  align-items: center;
+  column-gap: 18px;
+  padding: 12px 18px;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px;
+  background: var(--cdc-bg-panel) !important;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s !important;
+}
+
+main.swiss-home .swisses tbody tr:hover {
+  border-color: var(--cdc-card-border-hover);
+  background: var(--cdc-card-hover) !important;
+  box-shadow: var(--cdc-card-shadow-hover);
+}
+
+main.swiss-home .swisses td {
+  min-width: 0;
+  padding: 0 !important;
+  border: none !important;
+}
+
+main.swiss-home .swisses td.icon icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--cdc-bg-raised);
+  font-size: 28px !important;
+}
+
+main.swiss-home .swisses td.header a {
+  display: block;
+  padding: 0 !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+main.swiss-home .swisses td.header a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+main.swiss-home .swisses .name {
+  overflow: hidden;
+  margin-bottom: 3px;
+  color: #fff;
+  font-size: 17px !important;
+  font-weight: 800;
+  text-overflow: ellipsis;
+}
+
+main.swiss-home .swisses .team {
+  color: var(--cdc-text) !important;
+  font-weight: 700;
+}
+
+main.swiss-home .swisses tr:hover .team {
+  color: #fff !important;
+}
+
+main.swiss-home .swisses .team .uflair {
+  width: 1.3em;
+  height: 1.3em;
+  margin-inline-start: 4px;
+  vertical-align: -0.3em;
+}
+
+/* Rounds (content/pages/swiss.ts adds the progress bar), then the time control. */
+main.swiss-home .swisses td.infos {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+main.swiss-home .swisses .rounds {
+  color: var(--cdc-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+main.swiss-home .swisses .rounds[style*='--cdc-progress']::after {
+  content: '';
+  display: block;
+  height: 4px;
+  margin-top: 5px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--cdc-green) var(--cdc-progress), #ffffff14 0);
+}
+
+html[dir='rtl'] main.swiss-home .swisses .rounds[style*='--cdc-progress']::after {
+  background: linear-gradient(to left, var(--cdc-green) var(--cdc-progress), #ffffff14 0);
+}
+
+main.swiss-home .swisses .setup {
+  overflow: hidden;
+  color: var(--cdc-text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Start time over a player-count chip, at the card's end. */
+main.swiss-home .swisses td:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+main.swiss-home .swisses td:last-child br {
+  display: none;
+}
+
+main.swiss-home .swisses time {
+  color: var(--cdc-text-dim);
+  font-size: 12px !important;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+main.swiss-home .swisses .players {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  margin: 0 !important;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--cdc-bg-raised);
+  color: #fff !important;
+  font-size: 13px;
+  font-weight: 800 !important;
+}
+
+main.swiss-home .swisses .players::before {
+  color: var(--cdc-text-dim);
+  font-size: 12px;
+  vertical-align: 0 !important;
+}

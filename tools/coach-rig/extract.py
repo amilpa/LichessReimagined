@@ -1,311 +1,456 @@
 """Traces the Game Review coaches' features out of their portraits.
 
-Run once per portrait change (needs numpy and opencv-python-headless):
-    python3 tools/coach-rig/extract.py
-It writes img/coaches/rig.json (the features: the brows as sprites, the
-lips and lids as curves, in the portrait's pixels, and their colours) and
-img/coaches/coach-<n>-plate.webp (the portrait with its brows and mouth
-painted out, for the animated features to move over). src/coach-lottie.js
-builds the Lottie animations from rig.json in the page.
+Run it when a portrait changes (needs numpy and opencv-python-headless):
+
+  python3 tools/coach-rig/extract.py
+
+It writes into public/img/coaches:
+
+  rig.json              each coach's brows as sprites, lips and lids as curves
+                        (in the portrait's pixels), and their colors
+  coach-<n>-plate.webp  the portrait with its brows and mouth painted out, for
+                        the animated features to move over
+
+src/content/coach/lottie builds the coach's Lottie animations from rig.json.
 """
-import base64, json, os
+
+import base64
+import json
+from pathlib import Path
+
 import cv2
 import numpy as np
 
-ROOT = os.path.join(os.path.dirname(__file__), '..', '..')
-IMG = os.path.join(ROOT, 'img', 'coaches')
-N = 17  # samples per mouth curve, corner to corner
-E = 11  # samples per eye curve
+COACHES_DIR = Path(__file__).resolve().parents[2] / 'public/img/coaches'
+COACHES = (1, 2, 3, 4)
+MOUTH_SAMPLES = 17  # points per lip curve, corner to corner
+EYE_SAMPLES = 11  # points per lid curve
+SUBPIXELS = 8  # per pixel, when tracing the mouth
+KERNEL = np.ones((3, 3), np.uint8)  # grows a mask by a pixel
+# Where each lip's color is sampled for its gradient, from its top to its bottom.
+UPPER_LIP_STOPS = (0.15, 0.5, 0.85)
+LOWER_LIP_STOPS = (0.2, 0.4, 0.6, 0.8, 0.92)
 
-# Measured by hand on each portrait (300×275). The mouth: its corners' x,
-# the rows it spans, and reference colours for each part, from which every
-# sub-pixel is classified: S skin, U upper lip (both lips on coaches 1 and 2,
-# told apart by the teeth between them), D lower lip, T teeth, N the dark
-# mouth line.
-MOUTH = {
-    1: dict(x=(124, 176), band=(149.5, 167), S=['#f7bc93', '#e5ae89', '#eeb48e'], U=['#e09274', '#e8957a'],
-            T=['#fdf4f0', '#f4e2dc'], N=['#974f36', '#b86a52']),
-    2: dict(x=(126, 173), band=(150, 172), S=['#fbcaa7'], U=['#cf7167', '#ec8b80', '#e8988c'],
-            T=['#fdf7f6', '#f3e6e4']),
-    3: dict(x=(125, 176), band=(157, 176), S=['#cd8159', '#bf704c', '#c7784f'], U=['#a04b3b', '#aa5242'],
-            D=['#bb604e', '#d57763', '#c86b58']),
-    4: dict(x=(131, 172), band=(157.5, 167.6), S=['#fdcba8', '#f5bc98'], U=['#eea887', '#f2b996'],
-            N=['#bc7557', '#c9805f'], D=['#f1a788', '#f4ac8c'], lo_sides=(141, 162)),
+# Measured by hand on each portrait (300×275): the x of the mouth's corners,
+# the rows it spans, and reference colors for its parts. Each sub-pixel is
+# taken for the part of the nearest color. On coaches 1 and 2, 'upper' is
+# both lips, told apart by the teeth between them.
+MOUTHS = {
+    1: {
+        'corners': (124, 176),
+        'rows': (149.5, 167),
+        'skin': ['#f7bc93', '#e5ae89', '#eeb48e'],
+        'upper': ['#e09274', '#e8957a'],
+        'teeth': ['#fdf4f0', '#f4e2dc'],
+        'line': ['#974f36', '#b86a52'],
+    },
+    2: {
+        'corners': (126, 173),
+        'rows': (150, 172),
+        'skin': ['#fbcaa7'],
+        'upper': ['#cf7167', '#ec8b80', '#e8988c'],
+        'teeth': ['#fdf7f6', '#f3e6e4'],
+    },
+    3: {
+        'corners': (125, 176),
+        'rows': (157, 176),
+        'skin': ['#cd8159', '#bf704c', '#c7784f'],
+        'upper': ['#a04b3b', '#aa5242'],
+        'lower': ['#bb604e', '#d57763', '#c86b58'],
+    },
+    4: {
+        'corners': (131, 172),
+        'rows': (157.5, 167.6),
+        'skin': ['#fdcba8', '#f5bc98'],
+        'upper': ['#eea887', '#f2b996'],
+        'lower': ['#f1a788', '#f4ac8c'],
+        'line': ['#bc7557', '#c9805f'],
+        # Between these x, a pale highlight on the lower lip reads as skin.
+        'highlight': (141, 162),
+    },
 }
-BROWS = {  # x range, y range of each brow
+# A tie between two colors goes to the first part here.
+PARTS = ('skin', 'upper', 'lower', 'teeth', 'line')
+MOUTH_PARTS = ['upper', 'lower', 'teeth', 'line']
+# Each brow's x range and y range.
+BROWS = {
     1: [((104, 142), (80, 97)), ((159, 199), (80, 97))],
     2: [((106, 139), (84, 96)), ((161, 190), (84, 96))],
     3: [((102, 141), (89, 105)), ((161, 200), (88, 105))],
     4: [((102, 142), (87, 102)), ((159, 199), (87, 102))],
 }
-EYES = {  # the box around each eye, lashes included
+# The box around each eye, lashes included: left, top, right, bottom.
+EYES = {
     1: [(110, 95, 138, 109), (163, 95, 192, 108)],
-    2: [(110, 101, 134, 113), (164, 101, 189, 113)],  # her left one stops short of the glasses' frame
+    # Her left one stops short of the glasses' frame.
+    2: [(110, 101, 134, 113), (164, 101, 189, 113)],
     3: [(107, 106, 138, 119), (165, 105, 197, 119)],
     4: [(110, 101, 138, 114), (163, 101, 191, 114)],
 }
-SUB = 8  # sub-pixels per pixel when tracing
 
 
 def lerp(a, b, t):
     return a + (b - a) * t
 
 
-def hexc(bgr):
-    b, g, r = (int(round(v)) for v in bgr)
-    return '#%02x%02x%02x' % (r, g, b)
+def hex_color(bgr):
+    blue, green, red = (round(value) for value in bgr)
+    return f'#{red:02x}{green:02x}{blue:02x}'
 
 
-def lab_of(h):
-    c = np.uint8([[[int(h[5:7], 16), int(h[3:5], 16), int(h[1:3], 16)]]])
-    return cv2.cvtColor(c, cv2.COLOR_BGR2LAB)[0, 0].astype(float)
+def hex_to_lab(color):
+    bgr = np.uint8([[[int(color[5:7], 16), int(color[3:5], 16), int(color[1:3], 16)]]])
+    return cv2.cvtColor(bgr, cv2.COLOR_BGR2LAB)[0, 0].astype(float)
 
 
-def smooth(xs, ys, deg=6):
-    """A smooth fit through noisy per-column samples."""
+def median_color(pixels):
+    return hex_color(np.median(np.array(pixels), axis=0)) if pixels else None
+
+
+def smooth(xs, ys, degree):
+    """A polynomial through noisy samples, NaNs left out."""
     xs, ys = np.asarray(xs, float), np.asarray(ys, float)
-    ok = ~np.isnan(ys)
-    p = np.polyfit(xs[ok], ys[ok], min(deg, ok.sum() - 1))
-    return np.poly1d(p)
+    known = ~np.isnan(ys)
+    return np.poly1d(np.polyfit(xs[known], ys[known], min(degree, known.sum() - 1)))
 
 
-def soften(xs, ys, width=9):
-    """A running median then mean: follows the lip, not the pixel steps."""
+def window(values, k, width):
+    half = width // 2
+    return values[max(0, k - half) : k + half + 1]
+
+
+def soften(ys, width=9):
+    """A running median then a running mean: follows the lip, not the pixel steps."""
     ys = np.asarray(ys, float)
     if np.all(np.isnan(ys)):
         return ys
-    h = width // 2
-    med = np.array([np.nanmedian(ys[max(0, k - h):k + h + 1]) for k in range(len(ys))])
-    return np.array([np.nanmean(med[max(0, k - h):k + h + 1]) for k in range(len(med))])
+    medians = np.array([np.nanmedian(window(ys, k, width)) for k in range(len(ys))])
+    return np.array([np.nanmean(window(medians, k, width)) for k in range(len(medians))])
 
 
-def mouth(i, bgr):
-    c = MOUTH[i]
-    big = cv2.resize(bgr, None, fx=SUB, fy=SUB, interpolation=cv2.INTER_CUBIC)
-    lab = cv2.cvtColor(big, cv2.COLOR_BGR2LAB).astype(float)
-    refs, roles = [], []
-    for role in 'SUDTN':
-        for h in c.get(role, []):
-            refs.append(lab_of(h))
-            roles.append(role)
-    refs, roles = np.array(refs), np.array(roles)
-    (xl, xr), (b0, b1) = c['x'], c['band']
-    y0, y1 = int(b0 * SUB), int(b1 * SUB)
-    lip = {'U', 'D', 'T', 'N'}
-    xs, up, ot, ob, lo = [], [], [], [], []
-    pix = {'upper': [], 'lower': [], 'teeth': [], 'line': []}
-    for X in range(xl * SUB + 2, xr * SUB - 1, 2):
-        d = np.linalg.norm(lab[y0:y1, X][:, None, :] - refs[None], axis=2)
-        r = roles[d.argmin(1)]
-        m = np.isin(r, list(lip))
-        # a thin line of shading between two parts (teeth and lip) is still
-        # the mouth: close gaps up to a pixel
-        k = 0
-        while k < len(m):
-            if not m[k]:
-                j = k
-                while j < len(m) and not m[j]:
-                    j += 1
-                if 0 < k and j < len(m) and j - k <= SUB:
-                    m[k:j] = True
-                k = j
-            else:
-                k += 1
-        # the mouth is the first run of mouth colours at least 3 sub-pixels long
-        run = np.convolve(m, np.ones(3), 'same') >= 3
-        idx = np.nonzero(run)[0]
-        if len(idx) < 3:
+# ---- mouth ----
+
+
+def reference_colors(mouth):
+    """The mouth's reference colors in Lab, and the part each one is."""
+    colors, parts = [], []
+    for part in PARTS:
+        for color in mouth.get(part, []):
+            colors.append(hex_to_lab(color))
+            parts.append(part)
+    return np.array(colors), np.array(parts)
+
+
+def close_gaps(is_mouth, longest):
+    """Fills in place the gaps of up to `longest` between two runs."""
+    k = 0
+    while k < len(is_mouth):
+        if is_mouth[k]:
+            k += 1
             continue
-        top = idx[0]
-        # ...down to where it's skin again
-        rest = np.nonzero(~m[top:])[0]
-        bot = top + (rest[0] if len(rest) else len(m) - top)
-        r = np.where(m & (r == 'S'), 'U', r)
-        seg = r[top:bot]
-        if i == 3:
-            # the line is where the dark upper lip gives way to the lower
-            # one: the first long run of lower-lip colour after the upper lip
-            d_ = np.convolve(seg == 'D', np.ones(6), 'same') >= 6
-            u_ = np.nonzero(seg == 'U')[0]
-            dd = np.nonzero(d_ & (np.arange(len(seg)) > (u_[0] + 4 if len(u_) else 0)))[0]
-            o1 = o2 = top + dd[0] - 3 if len(dd) else np.nan
-        else:
-            tn = np.nonzero(np.isin(seg, ['T', 'N']))[0]
-            o1, o2 = (top + tn[0], top + tn[-1] + 1) if len(tn) else (np.nan, np.nan)
-        x = X / SUB
-        xs.append(x)
-        up.append((y0 + top) / SUB)
-        ot.append((y0 + o1) / SUB)
-        ob.append((y0 + o2) / SUB)
-        lo.append((y0 + bot) / SUB)
-        for k in range(top, bot):
-            if r[k] == 'N':
-                pix['line'].append(big[y0 + k, X])
-        # colours, from the sub-pixels well inside each part
-        for k in range(top + 3, bot - 3):
-            px = big[y0 + k, X]
-            if r[k] == 'T':
-                pix['teeth'].append(px)
-            elif r[k] in ('U', 'D'):
-                upper = r[k] == 'U' and (np.isnan(o1) or k < o1)
-                pix['upper' if upper else 'lower'].append(px)
-    xs = np.array(xs)
-    # the teeth's edges are smoother than the classification: a wider window
-    ot_s, ob_s = soften(xs, soften(xs, ot, 25), 9), soften(xs, soften(xs, ob, 25), 9)
-    # where the teeth / line thin out near a corner, the lips just meet:
-    # the mouth line runs on between them
-    # the corners: on the mouth line, or where the lips meet
-    line = np.where(np.isnan(ot_s), (np.array(up) + np.array(lo)) / 2, (ot_s + ob_s) / 2)
-    yl, yr = float(np.median(line[:4])), float(np.median(line[-4:]))
+        end = k
+        while end < len(is_mouth) and not is_mouth[end]:
+            end += 1
+        if k > 0 and end < len(is_mouth) and end - k <= longest:
+            is_mouth[k:end] = True
+        k = end
+
+
+def lips_parting(parts):
+    """Where the lips part when no teeth or line show between them: the first
+    long run of lower lip below the upper lip."""
+    in_lower_run = np.convolve(parts == 'lower', np.ones(6), 'same') >= 6
+    upper = np.nonzero(parts == 'upper')[0]
+    below_upper = np.arange(len(parts)) > (upper[0] + 4 if len(upper) else 0)
+    starts = np.nonzero(in_lower_run & below_upper)[0]
+    return starts[0] - 3 if len(starts) else None
+
+
+def trace_column(parts, lips_by_color):
+    """One sub-pixel column across the mouth: the rows of its top and bottom
+    and of the opening's top and bottom (NaN where the lips don't part), and
+    its parts, the skin inside the mouth taken for the upper lip."""
+    is_mouth = np.isin(parts, MOUTH_PARTS)
+    # A thin line of shading between two parts (the teeth and a lip) is
+    # still the mouth.
+    close_gaps(is_mouth, SUBPIXELS)
+    # The mouth is the first run of at least 3 sub-pixels, down to the skin.
+    in_run = np.nonzero(np.convolve(is_mouth, np.ones(3), 'same') >= 3)[0]
+    if len(in_run) < 3:
+        return None
+    top = in_run[0]
+    skin = np.nonzero(~is_mouth[top:])[0]
+    bottom = top + (skin[0] if len(skin) else len(is_mouth) - top)
+    parts = np.where(is_mouth & (parts == 'skin'), 'upper', parts)
+    inside = parts[top:bottom]
+    if lips_by_color:
+        parting = lips_parting(inside)
+        opening_top = opening_bottom = np.nan if parting is None else top + parting
+    else:
+        teeth = np.nonzero(np.isin(inside, ['teeth', 'line']))[0]
+        opening_top, opening_bottom = (
+            (top + teeth[0], top + teeth[-1] + 1) if len(teeth) else (np.nan, np.nan)
+        )
+    return top, bottom, opening_top, opening_bottom, parts
+
+
+def sample_colors(samples, pixels, parts, top, bottom, opening_top):
+    """Adds a column's pixels to its parts' samples: all of the line's, only
+    those well inside the mouth for the others."""
+    for k in range(top, bottom):
+        if parts[k] == 'line':
+            samples['line'].append(pixels[k])
+    for k in range(top + 3, bottom - 3):
+        if parts[k] == 'teeth':
+            samples['teeth'].append(pixels[k])
+        elif parts[k] in ('upper', 'lower'):
+            upper = parts[k] == 'upper' and (np.isnan(opening_top) or k < opening_top)
+            samples['upper' if upper else 'lower'].append(pixels[k])
+
+
+def mouth_curves(mouth, xs, lip_tops, opening_tops, opening_bottoms, lip_bottoms):
+    """The corners' y, and the edges as curves from corner to corner, under
+    the rig's keys: the upper lip's top, the opening's top and bottom, the
+    lower lip's bottom."""
+    # The opening's edges are smoother than the classification: a wider window first.
+    opening_tops = soften(soften(opening_tops, 25))
+    opening_bottoms = soften(soften(opening_bottoms, 25))
+    # The corners: on the opening, or where the lips meet.
+    middle = np.where(
+        np.isnan(opening_tops),
+        (np.array(lip_tops) + np.array(lip_bottoms)) / 2,
+        (opening_tops + opening_bottoms) / 2,
+    )
+    left_y, right_y = float(np.median(middle[:4])), float(np.median(middle[-4:]))
+    if 'highlight' in mouth:
+        start, end = mouth['highlight']
+        sides = (xs < start) | (xs > end)
+        lip_bottoms = np.poly1d(np.polyfit(xs[sides], np.array(lip_bottoms)[sides], 4))(xs)
+    left, right = mouth['corners']
+    samples_x = np.linspace(left, right, MOUTH_SAMPLES)
     curves = {}
-    xs_s = np.linspace(xl, xr, N)
-    if 'lo_sides' in c:
-        # a pale highlight in the middle of the lower lip reads as skin: fit
-        # its bottom edge from the two sides
-        a, b = c['lo_sides']
-        side = (xs < a) | (xs > b)
-        lo = list(np.poly1d(np.polyfit(xs[side], np.array(lo)[side], 4))(xs))
-    for key, v in (('up', up), ('ot', ot_s), ('ob', ob_s), ('lo', lo)):
-        v = soften(xs, v)
-        ok = ~np.isnan(v)
-        # pinned to the corners at each end
-        y = np.interp(xs_s, np.r_[xl, xs[ok], xr], np.r_[yl, v[ok], yr])
-        curves[key] = y
-    for j in range(N):
-        curves['ob'][j] = max(curves['ob'][j], curves['ot'][j])
-        curves['up'][j] = min(curves['up'][j], curves['ot'][j])
-        curves['lo'][j] = max(curves['lo'][j], curves['ob'][j])
-    curves = {k: list(np.round(v, 2)) for k, v in curves.items()}
-    med = lambda px: hexc(np.median(np.array(px), axis=0)) if len(px) else None
-    return dict(x=[float(xl), float(xr)], y=[yl, yr], curves=curves,
-                colors=dict(upper=med(pix['upper']), lower=med(pix['lower']), teeth=med(pix['teeth']),
-                            line=med(pix['line'])))
+    edges = {'up': lip_tops, 'ot': opening_tops, 'ob': opening_bottoms, 'lo': lip_bottoms}
+    for key, edge in edges.items():
+        edge = soften(edge)
+        known = ~np.isnan(edge)
+        # Pinned to the corners at each end.
+        curves[key] = np.interp(
+            samples_x, np.r_[left, xs[known], right], np.r_[left_y, edge[known], right_y]
+        )
+    # No edge crosses the one before it.
+    curves['ob'] = np.maximum(curves['ob'], curves['ot'])
+    curves['up'] = np.minimum(curves['up'], curves['ot'])
+    curves['lo'] = np.maximum(curves['lo'], curves['ob'])
+    return [left_y, right_y], {key: list(np.round(curve, 2)) for key, curve in curves.items()}
 
 
-def brows(i, bgr):
-    """Each brow as a sprite: its core colour, with an alpha matte from how
-    much darker than the skin each pixel is. Over the plate it composes back
-    into the brow as painted, hair texture and soft edge included."""
-    out = []
-    lab = cv2.cvtColor(bgr, cv2.COLOR_BGR2LAB).astype(float)
-    for (x0, x1), (y0, y1) in BROWS[i]:
-        sx0, sy0, sx1, sy1 = x0 - 4, y0 - 4, x1 + 5, y1 + 3
-        skinL = np.median(lab[y0 - 3, (x0 + x1) // 2 - 6:(x0 + x1) // 2 + 7, 0])
-        box = lab[sy0:sy1, sx0:sx1, 0]
-        core = box < skinL * 0.5
-        coreL = np.median(box[core])
-        alpha = np.clip((skinL - box) / (skinL - coreL), 0, 1)
-        # keep only the brow: its pixels and a soft margin, not the eyes
-        m = (box < skinL * 0.84).astype(np.uint8)
-        n_, lbl, stats, _ = cv2.connectedComponentsWithStats(m)
-        keep = 1 + np.argmax(stats[1:, cv2.CC_STAT_AREA])
-        m = cv2.dilate((lbl == keep).astype(np.uint8), np.ones((3, 3), np.uint8))
-        for ex0, ey0, ex1, ey1 in EYES[i]:
-            m[max(ey0 - 1 - sy0, 0):max(ey1 + 1 - sy0, 0), max(ex0 - 2 - sx0, 0):max(ex1 + 2 - sx0, 0)] = 0
-        alpha = alpha * cv2.GaussianBlur(m.astype(float), (0, 0), 0.6)
-        color = np.median(bgr[sy0:sy1, sx0:sx1][core], axis=0)
-        sprite = np.dstack([np.full(box.shape + (3,), color), alpha * 255]).astype(np.uint8)
-        # 2x, so it stays crisp on a high-density screen
-        sprite = cv2.resize(sprite, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
-        ok, png = cv2.imencode('.png', sprite, [cv2.IMWRITE_PNG_COMPRESSION, 9])
-        ys, xs = np.nonzero(core)
-        out.append(dict(x=sx0, y=sy0, w=sx1 - sx0, h=sy1 - sy0, color=hexc(color),
-                        center=[float(sx0 + xs.mean()), float(sy0 + ys.mean())],
-                        png=base64.b64encode(png.tobytes()).decode(),
-                        mask=(sx0, sy0, m)))
-    return out
+def trace_mouth(mouth, bgr):
+    """The mouth's corners, its edges as curves and its parts' colors,
+    traced on the portrait magnified SUBPIXELS times."""
+    big = cv2.resize(bgr, None, fx=SUBPIXELS, fy=SUBPIXELS, interpolation=cv2.INTER_CUBIC)
+    lab = cv2.cvtColor(big, cv2.COLOR_BGR2LAB).astype(float)
+    colors, parts_of_colors = reference_colors(mouth)
+    left, right = mouth['corners']
+    first_row, last_row = (int(row * SUBPIXELS) for row in mouth['rows'])
+    lips_by_color = 'teeth' not in mouth and 'line' not in mouth
+    xs, lip_tops, opening_tops, opening_bottoms, lip_bottoms = [], [], [], [], []
+    samples = {'upper': [], 'lower': [], 'teeth': [], 'line': []}
+    for column in range(left * SUBPIXELS + 2, right * SUBPIXELS - 1, 2):
+        pixels = lab[first_row:last_row, column]
+        distances = np.linalg.norm(pixels[:, None, :] - colors[None], axis=2)
+        traced = trace_column(parts_of_colors[distances.argmin(1)], lips_by_color)
+        if traced is None:
+            continue
+        top, bottom, opening_top, opening_bottom, parts = traced
+        xs.append(column / SUBPIXELS)
+        lip_tops.append((first_row + top) / SUBPIXELS)
+        opening_tops.append((first_row + opening_top) / SUBPIXELS)
+        opening_bottoms.append((first_row + opening_bottom) / SUBPIXELS)
+        lip_bottoms.append((first_row + bottom) / SUBPIXELS)
+        sample_colors(samples, big[first_row:last_row, column], parts, top, bottom, opening_top)
+    corners_y, curves = mouth_curves(
+        mouth, np.array(xs), lip_tops, opening_tops, opening_bottoms, lip_bottoms
+    )
+    return {
+        'x': [float(left), float(right)],
+        'y': corners_y,
+        'curves': curves,
+        'colors': {part: median_color(samples[part]) for part in MOUTH_PARTS},
+    }
 
 
-def eyes(i, bgr):
-    out = []
-    lab = cv2.cvtColor(bgr, cv2.COLOR_BGR2LAB).astype(float)
-    for (x0, y0, x1, y1) in EYES[i]:
-        skinL = np.median(lab[y0 - 2, x0 + 4:x1 - 4, 0])
-        xs, top, bot = [], [], []
-        for x in range(x0 + 1, x1):
-            col = lab[y0:y1 + 1, x]
-            chroma = np.hypot(col[:, 1] - 128, col[:, 2] - 128)
-            # the eye itself: its white (light, grey) or its iris and lashes
-            # (dark), not the shading around it
-            eye = ((col[:, 0] > skinL + 12) & (chroma < 18)) | (col[:, 0] < skinL * 0.6)
-            ys = np.nonzero(eye)[0]
-            if len(ys) < 2:
-                continue
-            # one run from the top, so a frame or a crease below doesn't count
-            run = ys[:1].tolist()
-            for y in ys[1:]:
-                if y - run[-1] > 2:
-                    break
-                run.append(y)
+def shades(bgr, center, top, bottom, stops):
+    return [
+        hex_color(bgr[round(lerp(top, bottom, t)), center - 2 : center + 3].mean(axis=0))
+        for t in stops
+    ]
+
+
+def lip_shading(bgr, mouth):
+    """Each lip's colors down the middle, for a gradient."""
+    curves = mouth['curves']
+    k = MOUTH_SAMPLES // 2
+    center = round((mouth['x'][0] + mouth['x'][1]) / 2)
+    upper = shades(bgr, center, curves['up'][k] + 0.5, curves['ot'][k] - 0.5, UPPER_LIP_STOPS)
+    lower = shades(bgr, center, curves['ob'][k], curves['lo'][k], LOWER_LIP_STOPS)
+    return {'upper': upper, 'lower': lower}
+
+
+# ---- brows and eyes ----
+
+
+def brow_mask(dark, left, top, eyes):
+    """The largest dark patch, grown by a pixel, less the eyes."""
+    _count, labels, stats, _centroids = cv2.connectedComponentsWithStats(dark.astype(np.uint8))
+    largest = 1 + np.argmax(stats[1:, cv2.CC_STAT_AREA])
+    mask = cv2.dilate((labels == largest).astype(np.uint8), KERNEL)
+    for eye_left, eye_top, eye_right, eye_bottom in eyes:
+        rows = slice(max(eye_top - 1 - top, 0), max(eye_bottom + 1 - top, 0))
+        columns = slice(max(eye_left - 2 - left, 0), max(eye_right + 2 - left, 0))
+        mask[rows, columns] = 0
+    return mask
+
+
+def trace_brow(bgr, lab, brow, eyes):
+    """A brow as a sprite: its core color, with an alpha matte from how much
+    darker than the skin each pixel is. Over the plate it composes back into
+    the brow as painted, hair and soft edge included. Also returns the mask
+    that paints the brow out of the plate."""
+    (brow_left, brow_right), (brow_top, brow_bottom) = brow
+    left, top, right, bottom = brow_left - 4, brow_top - 4, brow_right + 5, brow_bottom + 3
+    middle = (brow_left + brow_right) // 2
+    skin_lightness = np.median(lab[brow_top - 3, middle - 6 : middle + 7, 0])
+    lightness = lab[top:bottom, left:right, 0]
+    core = lightness < skin_lightness * 0.5
+    core_lightness = np.median(lightness[core])
+    alpha = np.clip((skin_lightness - lightness) / (skin_lightness - core_lightness), 0, 1)
+    # Only the brow and a soft margin, not the eyes.
+    mask = brow_mask(lightness < skin_lightness * 0.84, left, top, eyes)
+    alpha = alpha * cv2.GaussianBlur(mask.astype(float), (0, 0), 0.6)
+    color = np.median(bgr[top:bottom, left:right][core], axis=0)
+    sprite = np.dstack([np.full((*lightness.shape, 3), color), alpha * 255]).astype(np.uint8)
+    # At 2x, so it stays sharp on a high-density screen.
+    sprite = cv2.resize(sprite, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+    _ok, png = cv2.imencode('.png', sprite, [cv2.IMWRITE_PNG_COMPRESSION, 9])
+    ys, xs = np.nonzero(core)
+    return {
+        'x': left,
+        'y': top,
+        'w': right - left,
+        'h': bottom - top,
+        'color': hex_color(color),
+        'center': [float(left + xs.mean()), float(top + ys.mean())],
+        'png': base64.b64encode(png.tobytes()).decode(),
+    }, (left, top, mask)
+
+
+def eye_rows(column, skin_lightness):
+    """The eye's rows in a column: its white (light and grey) or its iris and
+    lashes (dark), not the shading around it. One run from the top, so a
+    frame or a crease below doesn't count."""
+    lightness = column[:, 0]
+    chroma = np.hypot(column[:, 1] - 128, column[:, 2] - 128)
+    is_white = (lightness > skin_lightness + 12) & (chroma < 18)
+    is_eye = is_white | (lightness < skin_lightness * 0.6)
+    rows = np.nonzero(is_eye)[0]
+    if len(rows) < 2:
+        return []
+    run = rows[:1].tolist()
+    for row in rows[1:]:
+        if row - run[-1] > 2:
+            break
+        run.append(row)
+    return run
+
+
+def trace_eye(bgr, lab, box):
+    """An eye's lid and lower lash line as curves, corner to corner, and the
+    skin's color above and below them."""
+    left, top, right, bottom = box
+    skin_lightness = np.median(lab[top - 2, left + 4 : right - 4, 0])
+    xs, tops, bottoms = [], [], []
+    for x in range(left + 1, right):
+        rows = eye_rows(lab[top : bottom + 1, x], skin_lightness)
+        if rows:
             xs.append(x)
-            top.append(y0 + run[0])
-            bot.append(y0 + run[-1] + 1)
-        ft, fb = smooth(xs, top, 4), smooth(xs, bot, 4)
-        xl, xr = xs[0] - 0.5, xs[-1] + 1.5
-        xe = np.linspace(xl, xr, E)
-        yt, yb = ft(xe), fb(xe)
-        mid = (yt + yb) / 2
-        # the corners, where lid and lower lash meet
-        yt[0] = yb[0] = mid[0]
-        yt[-1] = yb[-1] = mid[-1]
-        above = [bgr[max(int(round(ft(x))) - 3, 0), int(x)] for x in xe[2:-2]]
-        below = [bgr[min(int(round(fb(x))) + 2, 274), int(x)] for x in xe[2:-2]]
-        out.append(dict(x=np.round(xe, 2).tolist(), top=np.round(yt, 2).tolist(),
-                        bottom=np.round(yb, 2).tolist(),
-                        skin=[hexc(np.median(above, axis=0)), hexc(np.median(below, axis=0))]))
-    return out
+            tops.append(top + rows[0])
+            bottoms.append(top + rows[-1] + 1)
+    lid, lash = smooth(xs, tops, 4), smooth(xs, bottoms, 4)
+    samples_x = np.linspace(xs[0] - 0.5, xs[-1] + 1.5, EYE_SAMPLES)
+    lid_ys, lash_ys = lid(samples_x), lash(samples_x)
+    # The corners, where the lid and the lower lash meet.
+    middle = (lid_ys + lash_ys) / 2
+    lid_ys[0] = lash_ys[0] = middle[0]
+    lid_ys[-1] = lash_ys[-1] = middle[-1]
+    last_row = bgr.shape[0] - 1
+    above = [bgr[max(round(lid(x)) - 3, 0), int(x)] for x in samples_x[2:-2]]
+    below = [bgr[min(round(lash(x)) + 2, last_row), int(x)] for x in samples_x[2:-2]]
+    return {
+        'x': np.round(samples_x, 2).tolist(),
+        'top': np.round(lid_ys, 2).tolist(),
+        'bottom': np.round(lash_ys, 2).tolist(),
+        'skin': [hex_color(np.median(above, axis=0)), hex_color(np.median(below, axis=0))],
+    }
+
+
+# ---- plate ----
+
+
+def paint_out_brows(bgr, brow_masks):
+    """The portrait with its brows painted over from the forehead above them,
+    column by column: below them are the lids and, on coach 2, the glasses."""
+    plate = bgr.copy().astype(float)
+    painted = np.zeros(bgr.shape[:2], np.uint8)
+    for left, top, mask in brow_masks:
+        mask = cv2.dilate(mask, KERNEL, iterations=2)
+        painted[top : top + mask.shape[0], left : left + mask.shape[1]] |= mask
+    for x in range(bgr.shape[1]):
+        rows = np.nonzero(painted[:, x])[0]
+        if len(rows):
+            highest = rows.min()
+            plate[rows, x] = plate[max(highest - 3, 0) : highest - 1, x].mean(axis=0)
+    blurred = cv2.GaussianBlur(plate, (0, 0), 1.6)
+    weight = cv2.GaussianBlur(painted.astype(float), (0, 0), 1.0)[..., None]
+    return np.clip(plate * (1 - weight) + blurred * weight, 0, 255).astype(np.uint8)
+
+
+def paint_out_mouth(image, mouth):
+    """The image with the mouth inpainted, then blurred where it was filled,
+    fading into the rest: inpainting leaves streaks."""
+    curves = mouth['curves']
+    xs = np.linspace(*mouth['x'], MOUTH_SAMPLES)
+    outline = [*zip(xs, curves['up'], strict=True), *zip(xs[::-1], curves['lo'][::-1], strict=True)]
+    mask = np.zeros(image.shape[:2], np.uint8)
+    # With shift=3 the points are in eighths of a pixel.
+    points = np.round(np.array(outline, np.float32) * 8).astype(np.int32)
+    cv2.fillPoly(mask, [points], 255, shift=3)
+    mask = cv2.dilate(mask, KERNEL, iterations=2)
+    plate = cv2.inpaint(image, mask, 6, cv2.INPAINT_TELEA)
+    blurred = cv2.GaussianBlur(plate, (0, 0), 2.2)
+    weight = cv2.GaussianBlur(cv2.dilate(mask, KERNEL).astype(float) / 255, (0, 0), 1.2)[..., None]
+    return np.clip(plate * (1 - weight) + blurred * weight, 0, 255).astype(np.uint8)
 
 
 def main():
     rig = {}
-    for i in range(1, 5):
-        im = cv2.imread(os.path.join(IMG, f'coach-{i}.webp'), cv2.IMREAD_UNCHANGED)
-        bgr = np.ascontiguousarray(im[:, :, :3])
-        m = mouth(i, bgr)
-        b = brows(i, bgr)
-        e = eyes(i, bgr)
-        # The plate: brows and mouth painted out from the skin around them.
-        # The brows are painted out from the forehead above them, column by
-        # column (below them are the lids and, on coach 2, the glasses).
-        plate0 = bgr.copy().astype(float)
-        bmask = np.zeros(bgr.shape[:2], np.uint8)
-        for br in b:
-            sx0, sy0, bm = br.pop('mask')
-            bm = cv2.dilate(bm, np.ones((3, 3), np.uint8), iterations=2)
-            bmask[sy0:sy0 + bm.shape[0], sx0:sx0 + bm.shape[1]] |= bm
-        for x in range(bgr.shape[1]):
-            ys = np.nonzero(bmask[:, x])[0]
-            if len(ys):
-                a = ys.min()
-                src = plate0[max(a - 3, 0):a - 1, x].mean(axis=0)
-                plate0[ys, x] = src
-        soft = cv2.GaussianBlur(plate0, (0, 0), 1.6)
-        al = cv2.GaussianBlur(bmask.astype(float), (0, 0), 1.0)[..., None]
-        bgr_b = np.clip(plate0 * (1 - al) + soft * al, 0, 255).astype(np.uint8)
-        mask = np.zeros(bgr.shape[:2], np.uint8)
-        c = m['curves']
-        xs = np.linspace(*m['x'], N)
-        poly = np.array([*zip(xs, c['up']), *zip(xs[::-1], c['lo'][::-1])], np.float32)
-        cv2.fillPoly(mask, [np.round(poly * 8).astype(np.int32)], 255, shift=3)
-        mask = cv2.dilate(mask, np.ones((3, 3), np.uint8), iterations=2)
-        plate = cv2.inpaint(bgr_b, mask, 6, cv2.INPAINT_TELEA)
-        # Inpainting leaves streaks: blur what it filled, fading into the rest.
-        soft = cv2.GaussianBlur(plate, (0, 0), 2.2)
-        a = cv2.GaussianBlur(cv2.dilate(mask, np.ones((3, 3), np.uint8)).astype(float) / 255, (0, 0), 1.2)[..., None]
-        plate = np.clip(plate * (1 - a) + soft * a, 0, 255).astype(np.uint8)
-        # each lip's shading, top to bottom down the middle, for a gradient
-        c = m['curves']
-        k = N // 2
-        cx = int(round((m['x'][0] + m['x'][1]) / 2))
-        def shade(y0, y1, stops):
-            return [hexc(bgr[int(round(lerp(y0, y1, f))), cx - 2:cx + 3].mean(axis=0)) for f in stops]
-        m['shade'] = dict(upper=shade(c['up'][k] + 0.5, c['ot'][k] - 0.5, (0.15, 0.5, 0.85)),
-                          lower=shade(c['ob'][k], c['lo'][k], (0.2, 0.4, 0.6, 0.8, 0.92)))
-        out = np.dstack([plate, im[:, :, 3]])
-        cv2.imwrite(os.path.join(IMG, f'coach-{i}-plate.webp'), out, [cv2.IMWRITE_WEBP_QUALITY, 92])
-        rig[i] = dict(mouth=m, brows=b, eyes=e)
-    with open(os.path.join(IMG, 'rig.json'), 'w') as f:
-        json.dump(rig, f, separators=(',', ':'))
+    for coach in COACHES:
+        portrait = cv2.imread(str(COACHES_DIR / f'coach-{coach}.webp'), cv2.IMREAD_UNCHANGED)
+        bgr = np.ascontiguousarray(portrait[:, :, :3])
+        lab = cv2.cvtColor(bgr, cv2.COLOR_BGR2LAB).astype(float)
+        mouth = trace_mouth(MOUTHS[coach], bgr)
+        brows = [trace_brow(bgr, lab, brow, EYES[coach]) for brow in BROWS[coach]]
+        eyes = [trace_eye(bgr, lab, box) for box in EYES[coach]]
+        plate = paint_out_brows(bgr, [mask for _sprite, mask in brows])
+        plate = paint_out_mouth(plate, mouth)
+        mouth['shade'] = lip_shading(bgr, mouth)
+        cv2.imwrite(
+            str(COACHES_DIR / f'coach-{coach}-plate.webp'),
+            np.dstack([plate, portrait[:, :, 3]]),
+            [cv2.IMWRITE_WEBP_QUALITY, 92],
+        )
+        rig[coach] = {'mouth': mouth, 'brows': [sprite for sprite, _mask in brows], 'eyes': eyes}
+    with (COACHES_DIR / 'rig.json').open('w') as file:
+        json.dump(rig, file, separators=(',', ':'))
 
 
 if __name__ == '__main__':

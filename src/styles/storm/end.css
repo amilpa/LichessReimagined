@@ -1,0 +1,255 @@
+/* ---- End --- */
+
+/* The score on a dark card like the stats. Lichess fills it with its "good" color,
+   our green, which made a green block next to the green Play again button. */
+.storm--end__score {
+  gap: 6px;
+  padding: 28px 24px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+  color: var(--cdc-text-dim) !important;
+}
+
+.storm--end__score::before {
+  content: '';
+  width: 72px;
+  height: 72px;
+  background: var(--cdc-storm-icon) center / contain no-repeat;
+}
+
+.storm--end__score__number {
+  width: auto !important;
+  min-width: 3ch;
+  color: var(--cdc-green-hover);
+  font-family: var(--cdc-font) !important;
+  font-size: 128px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.storm--end__score p {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* Stats: a row each, dim label and bold white number. */
+.storm--end__stats {
+  padding: 16px 24px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+}
+
+.storm--end__stats table {
+  border-collapse: collapse;
+}
+
+.storm--end__stats :is(tr, th, td) {
+  background: none !important;
+}
+
+.storm--end__stats tr + tr {
+  border-top: 1px solid var(--cdc-border);
+}
+
+.storm--end__stats th {
+  padding: 0 !important;
+  color: var(--cdc-text-dim);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.storm--end__stats td {
+  padding: 10px 0 10px 24px !important;
+  color: var(--cdc-text-dim);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.storm--end__stats td number,
+.storm-dashboard__history number {
+  color: #fff;
+  font-family: var(--cdc-font) !important;
+  font-size: 22px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* New highscore: a dark card with a gold title between two Puzzle Rush icons
+   (Lichess fills it with gold, between two tornadoes). */
+.storm--end__high {
+  padding: 22px 24px !important;
+  border: 1px solid #e3aa2466;
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: inset 0 0 0 1px #e3aa2426 !important;
+  color: var(--cdc-text-dim) !important;
+}
+
+/* Lichess's shimmer, in gold. */
+.storm--end__high.bar-glider::after {
+  width: 120px;
+  background: linear-gradient(to right, transparent, #e3aa2426, transparent);
+}
+
+.storm--end__high__content {
+  justify-content: center !important;
+  gap: 28px;
+}
+
+.storm--end__high__content::before,
+.storm--end__high__content::after {
+  width: 72px !important;
+  height: 72px !important;
+  margin: 0 !important;
+  background: var(--cdc-storm-icon) center / contain no-repeat !important;
+}
+
+.storm--end__high__content::after {
+  transform: scaleX(-1);
+}
+
+.storm--end__high__text {
+  gap: 6px;
+}
+
+.storm--end__high__text strong {
+  margin: 0 !important;
+  color: var(--c-brag);
+  font-size: 32px !important;
+  font-weight: 800;
+  text-align: center;
+}
+
+.storm--end__high__text span {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ---- Play again --- */
+
+/* A big green button led by the Puzzle Rush icon (Lichess puts a tornado at each end). */
+.storm-play-again {
+  justify-content: center !important;
+  gap: 16px;
+  padding: 20px 32px !important;
+  border-radius: 12px !important;
+  font-size: 26px !important;
+}
+
+.storm-play-again::before {
+  width: 52px !important;
+  height: 52px !important;
+  background: var(--cdc-storm-icon) center / contain no-repeat !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 2px 3px #0000004d);
+}
+
+.storm-play-again::after {
+  display: none !important;
+}
+
+/* ---- Dashboard --- */
+
+.storm-dashboard {
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+}
+
+.storm-dashboard__high {
+  padding: 20px 24px 24px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+}
+
+.storm-dashboard__high .box__top {
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+}
+
+.storm-dashboard__high h1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 0 !important;
+  font-size: 26px !important;
+  font-weight: 800 !important;
+}
+
+.storm-dashboard__high h1::before {
+  content: '';
+  flex: none;
+  width: 40px;
+  height: 40px;
+  background: var(--cdc-storm-icon) center / contain no-repeat;
+}
+
+.storm-dashboard__high .storm-dashboard__high__period {
+  padding: 22px 8px 16px !important;
+  background: var(--cdc-bg-panel-dark) !important;
+  font-size: 14px;
+}
+
+.storm-dashboard__high .storm-dashboard__high__period strong {
+  font-size: 48px !important;
+}
+
+.storm-dashboard .storm-play-again {
+  margin: 0 !important;
+}
+
+/* Best run per day: rows with bold white numbers, the score in gold. */
+.storm-dashboard__history {
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+}
+
+.storm-dashboard__history th {
+  color: var(--cdc-text-dim) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.storm-dashboard__history td {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.storm-dashboard__history number {
+  font-size: 18px !important;
+}
+
+.storm-dashboard__history number.score {
+  color: var(--c-brag);
+}
+
+/* ---- Reload --- */
+
+/* "Opened in another tab": the Puzzle Rush icon replaces Lichess's tornado glyph. */
+.storm--reload {
+  align-items: center;
+  gap: 16px;
+  padding: 32px !important;
+  border-radius: 12px !important;
+}
+
+.storm--reload > :first-child {
+  width: 140px;
+  height: 140px;
+  background: var(--cdc-storm-icon) center / contain no-repeat;
+  font-size: 0 !important;
+}
+
+.storm--reload p {
+  margin: 0 !important;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}

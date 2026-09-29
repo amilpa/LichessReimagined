@@ -1,0 +1,330 @@
+{
+  "scenarios": [
+    {
+      "name": "store install",
+      "listeners": {
+        "installed": 1,
+        "startup": 0,
+        "message": 0
+      },
+      "answer": {
+        "responses": []
+      },
+      "log": [
+        {
+          "event": "local.remove",
+          "key": "sounds:v1"
+        }
+      ]
+    },
+    {
+      "name": "store package loaded unpacked",
+      "listeners": {
+        "installed": 1,
+        "startup": 0,
+        "message": 0
+      },
+      "answer": {
+        "responses": []
+      },
+      "log": []
+    }
+  ],
+  "unpacked": {
+    "listeners": {
+      "installed": 2,
+      "startup": 1,
+      "message": 1
+    },
+    "loaded": "oDwBQPYLkbtbgMJq84YPRb/jACs=",
+    "steps": [
+      {
+        "step": "other message",
+        "kept": false,
+        "responses": []
+      },
+      {
+        "step": "no message",
+        "kept": false,
+        "responses": []
+      },
+      {
+        "step": "unchanged",
+        "kept": true,
+        "responses": [
+          {
+            "reload": false
+          }
+        ]
+      },
+      {
+        "step": "changed",
+        "kept": true,
+        "responses": [
+          {
+            "reload": true
+          }
+        ]
+      },
+      {
+        "step": "reloads after 49 ms",
+        "reloads": 0
+      },
+      {
+        "step": "reloads after 50 ms",
+        "reloads": 1
+      },
+      {
+        "step": "while reloading",
+        "kept": true,
+        "responses": [
+          {
+            "reload": true
+          }
+        ]
+      }
+    ],
+    "log": [
+      {
+        "event": "local.remove",
+        "key": "sounds:v1"
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/manifest.json",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/background.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.css",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/page.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "session.set",
+        "items": {
+          "dev:loaded": "oDwBQPYLkbtbgMJq84YPRb/jACs="
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/manifest.json",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/background.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.css",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/page.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/manifest.json",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/background.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.css",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/page.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "at": 50,
+        "event": "reload"
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/manifest.json",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/background.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.css",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/page.js",
+        "options": {
+          "cache": "no-store"
+        }
+      }
+    ]
+  },
+  "firefox": {
+    "steps": [
+      {
+        "step": "stale stored fingerprint",
+        "kept": true,
+        "responses": [
+          {
+            "reload": true
+          }
+        ]
+      }
+    ],
+    "log": [
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/manifest.json",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/background.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/extra.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.css",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/content.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "event": "fetch",
+        "url": "chrome-extension://abc/page.js",
+        "options": {
+          "cache": "no-store"
+        }
+      },
+      {
+        "at": 50,
+        "event": "reload"
+      }
+    ]
+  },
+  "digests": [
+    {
+      "texts": ["m", ""],
+      "fingerprint": "wXcf0Ej6DFKDptEIWmw0k/BcEwI="
+    },
+    {
+      "texts": ["m", "a"],
+      "fingerprint": "x0usFeuaftyWhfN9q5Cj0YZgLxo="
+    },
+    {
+      "texts": ["m", "{}", "bg", "css", "js", "page"],
+      "fingerprint": "wdIU9bq+C9sdAgDzhX486ri2uR0="
+    },
+    {
+      "texts": ["m", "é ♞", "\u0000"],
+      "fingerprint": "YOnIZlsAgPHavej8oGtSOPiJFh8="
+    },
+    {
+      "texts": ["m"],
+      "fingerprint": "aw0xwNVjIjAk2kVpFYRkOseMlug="
+    }
+  ],
+  "fingerprints": {
+    "loaded": "oDwBQPYLkbtbgMJq84YPRb/jACs="
+  }
+}

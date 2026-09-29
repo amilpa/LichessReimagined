@@ -1,0 +1,78 @@
+{
+  "viewport": {
+    "width": 1000,
+    "height": 800
+  },
+  "size": {
+    "width": 120,
+    "height": 30
+  },
+  "scenarios": [
+    {
+      "name": "above the button",
+      "tip": "Flip board (f)",
+      "box": {
+        "top": 400,
+        "left": 500,
+        "width": 40,
+        "height": 40
+      },
+      "html": "<div class=\"cdc-tooltip cdc-tooltip--on\" aria-hidden=\"true\" data-side=\"above\" style=\"top: 362px; left: 460px; --cdc-tooltip-arrow: 60px;\">Flip board<kbd>f</kbd></div>"
+    },
+    {
+      "name": "below, near the top",
+      "tip": "Menu",
+      "box": {
+        "top": 20,
+        "left": 500,
+        "width": 40,
+        "height": 40
+      },
+      "html": "<div class=\"cdc-tooltip cdc-tooltip--on\" aria-hidden=\"true\" data-side=\"below\" style=\"top: 68px; left: 460px; --cdc-tooltip-arrow: 60px;\">Menu</div>"
+    },
+    {
+      "name": "against the right edge",
+      "tip": "Settings  (s)",
+      "box": {
+        "top": 400,
+        "left": 960,
+        "width": 40,
+        "height": 40
+      },
+      "html": "<div class=\"cdc-tooltip cdc-tooltip--on\" aria-hidden=\"true\" data-side=\"above\" style=\"top: 362px; left: 872px; --cdc-tooltip-arrow: 108px;\">Settings<kbd>s</kbd></div>"
+    },
+    {
+      "name": "against the left edge",
+      "tip": "Analysis (a) (b)",
+      "box": {
+        "top": 400,
+        "left": 0,
+        "width": 30,
+        "height": 30
+      },
+      "html": "<div class=\"cdc-tooltip cdc-tooltip--on\" aria-hidden=\"true\" data-side=\"above\" style=\"top: 362px; left: 8px; --cdc-tooltip-arrow: 7px;\">Analysis (a)<kbd>b</kbd></div>"
+    },
+    {
+      "name": "a bracket alone",
+      "tip": "(x)",
+      "box": {
+        "top": 400,
+        "left": 500,
+        "width": 40,
+        "height": 40
+      },
+      "html": "<div class=\"cdc-tooltip cdc-tooltip--on\" aria-hidden=\"true\" data-side=\"above\" style=\"top: 362px; left: 460px; --cdc-tooltip-arrow: 60px;\">(x)</div>"
+    },
+    {
+      "name": "a word in brackets",
+      "tip": "Resign (confirm)",
+      "box": {
+        "top": 400,
+        "left": 500.5,
+        "width": 33,
+        "height": 40
+      },
+      "html": "<div class=\"cdc-tooltip cdc-tooltip--on\" aria-hidden=\"true\" data-side=\"above\" style=\"top: 362px; left: 457px; --cdc-tooltip-arrow: 60px;\">Resign (confirm)</div>"
+    }
+  ]
+}

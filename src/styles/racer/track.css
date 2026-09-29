@@ -1,0 +1,233 @@
+/* ---- Track --- */
+
+/* Each lane is a strip of road: a dashed middle line that moves while racing,
+ * and a finish line before the scores. */
+.racer .racer__race {
+  height: auto !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: none !important;
+}
+
+.racer .racer__race::before {
+  display: none;
+}
+
+.racer .racer__race__tracks {
+  position: relative !important;
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+  padding: 7px 10px 8px !important;
+}
+
+.racer .racer__race__track {
+  height: var(--cdc-lane-h) !important;
+}
+
+.racer .racer__race__track::before,
+.racer .racer__race__track::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+
+.racer .racer__race__track::before {
+  inset: 0 -140px 0 0;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(90deg, #ffffff24 0 18px, transparent 18px 40px) 0 100% / 40px 2px
+      repeat-x,
+    linear-gradient(#34322f, #2c2b28);
+}
+
+html[dir='rtl'] .racer .racer__race__track::before {
+  inset: 0 0 0 -140px;
+}
+
+.racer .racer__race__track::after {
+  top: 0;
+  bottom: 0;
+  inset-inline-end: -88px;
+  width: 10px;
+  background: conic-gradient(#fff 25%, #1b1a18 0 50%, #fff 0 75%, #1b1a18 0) 0 0 / 10px 10px;
+  opacity: 0.85;
+}
+
+.racer .racer__race__track--me::before {
+  background:
+    repeating-linear-gradient(90deg, #ffffff38 0 18px, transparent 18px 40px) 0 100% / 40px 2px
+      repeat-x,
+    linear-gradient(#45423e, #393733);
+  box-shadow: inset 0 0 0 1px #ffffff1f;
+}
+
+.racer--racing .racer__race__track::before {
+  animation: cdc-racer-lane 0.5s linear infinite;
+}
+
+@keyframes cdc-racer-lane {
+  to {
+    background-position:
+      -40px 100%,
+      0 0;
+  }
+}
+
+.racer .racer__race__player {
+  padding-inline-start: 4px;
+}
+
+.racer .racer__race__player__car {
+  flex-basis: 3.4rem !important;
+  font-size: 3.4rem !important;
+  translate: 0 3px;
+  text-shadow: 0 2px 3px #00000080 !important;
+}
+
+/* Lichess's boost flame, in fire colors rather than the car's. */
+.racer .racer__race__track--boost .racer__race__player__car::before {
+  color: #ffc53d;
+  text-shadow: 0 0 8px #ff8a00;
+}
+
+.racer .racer__race__player__name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.racer .racer__race__player :is(.user-link, anonymous) {
+  color: var(--cdc-text) !important;
+}
+
+.racer .racer__race__track--me .racer__race__player :is(.user-link, anonymous) {
+  color: var(--c-brag) !important;
+}
+
+/* The score: a chip, gold for the leader. */
+.racer .racer__race__score {
+  top: 4px !important;
+  justify-content: center !important;
+  width: 46px !important;
+  height: calc(var(--cdc-lane-h) - 8px) !important;
+  padding: 0 !important;
+  border-radius: 6px;
+  background: #0000006b !important;
+  color: #fff !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 14px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.racer .racer__race__track--first .racer__race__score {
+  background: linear-gradient(#f5c451, #d9951f) !important;
+  box-shadow: inset 0 1px 0 #ffffff66;
+  text-shadow: 0 1px 1px #0000004d;
+}
+
+/* ---- Puzzles played --- */
+
+/* After the race, below the fold: a card per puzzle, its time on a pill in the
+ * result's color. */
+:is(.racer, .storm) .puz-history {
+  padding: 20px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px !important;
+  background: var(--cdc-bg-panel) !important;
+}
+
+:is(.racer, .storm) .puz-history .box__top {
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 0 0 16px !important;
+  padding: 0 !important;
+}
+
+:is(.racer, .storm) .puz-history .box__top h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+:is(.racer, .storm) .puz-history .box__top__actions {
+  gap: 8px;
+}
+
+/* The filters as pills, green when on. */
+:is(.racer, .storm) .puz-history__filter {
+  padding: 7px 14px !important;
+  border-radius: 999px !important;
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+  color: var(--cdc-text) !important;
+  font-size: 13px !important;
+}
+
+:is(.racer, .storm) .puz-history__filter.active {
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
+  color: #fff !important;
+}
+
+:is(.racer, .storm) .puz-history__rounds {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+  gap: 12px;
+}
+
+:is(.racer, .storm) .puz-history__round {
+  padding: 8px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px;
+  background: var(--cdc-bg-panel-dark);
+  transition:
+    border-color 0.15s,
+    transform 0.15s !important;
+}
+
+:is(.racer, .storm) .puz-history__round:hover {
+  border-color: var(--cdc-card-border-hover);
+  transform: translateY(-2px);
+}
+
+:is(.racer, .storm) .puz-history__round cg-container {
+  outline: none !important;
+}
+
+:is(.racer, .storm) .puz-history__round cg-board {
+  border-radius: 6px;
+}
+
+:is(.racer, .storm) .puz-history__round__meta {
+  padding-top: 8px !important;
+}
+
+:is(.racer, .storm) .puz-history :is(good, bad, unfinished) {
+  gap: 4px;
+  padding: 2px 9px 2px 6px;
+  border-radius: 999px !important;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+:is(.racer, .storm) .puz-history good {
+  background: #81b64c26;
+  color: var(--cdc-green-hover) !important;
+}
+
+:is(.racer, .storm) .puz-history bad {
+  background: #e0282826;
+  color: #f0645a !important;
+}
+
+:is(.racer, .storm) .puz-history unfinished {
+  background: var(--cdc-bg-raised);
+}
+
+:is(.racer, .storm) .puz-history__round__result rating {
+  color: var(--cdc-text-dim) !important;
+  font-size: 12px !important;
+  font-weight: 700;
+}

@@ -1,0 +1,141 @@
+/* Simuls home (main.simul-list), in the Practice look. Lichess renders one table,
+ * a thead + tbody pair per section. The socket re-renders it (innerHTML), so
+ * nothing animates in: it would replay on every update. */
+
+/* ---- Page --- */
+
+main.page-menu.simul-list {
+  overflow: visible !important;
+  padding-bottom: 40px;
+}
+
+main.simul-list .simul-list__content > .box {
+  overflow: visible !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+main.simul-list h1.box__top {
+  justify-content: flex-start !important;
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+  padding: 16px 0 20px !important;
+}
+
+/* The board stack, as in the sidebar's Simuls entry. */
+main.simul-list h1.box__top::before {
+  content: '';
+  flex: none;
+  width: 38px;
+  height: 38px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-stack-green.svg')
+    center / contain no-repeat;
+}
+
+/* ---- Sections --- */
+
+main.simul-list .slist {
+  display: block;
+  border: none !important;
+}
+
+/* A color per section. Finished is the default: it's always the last. */
+main.simul-list .slist :is(thead, tbody) {
+  --cdc-simul: #a98bf0;
+  --cdc-simul-2: #7458c7;
+}
+
+/* Your pending simuls. */
+main.simul-list .slist tbody:has(> tr.scheduled):not(:has(> tr.create)),
+main.simul-list .slist thead:has(+ tbody > tr.scheduled):not(:has(+ tbody > tr.create)) {
+  --cdc-simul: #f5a93b;
+  --cdc-simul-2: #d27a1c;
+}
+
+/* Open to join, and the "host a simul" row. */
+main.simul-list .slist tbody:has(> tr.create),
+main.simul-list .slist thead:has(+ tbody > tr.create) {
+  --cdc-simul: #45a3f5;
+  --cdc-simul-2: #2474c9;
+}
+
+/* In progress: plain rows, not the last section. :has() can't nest, so the
+ * first row stands for the section. */
+main.simul-list .slist tbody:not(:last-child):not(:has(> tr:first-child:is(.scheduled, .create))),
+main.simul-list
+  .slist
+  thead:has(+ tbody):not(
+    :has(+ tbody:last-child),
+    :has(+ tbody > tr:first-child:is(.scheduled, .create))
+  ) {
+  --cdc-simul: #95c85a;
+  --cdc-simul-2: #5d9948;
+}
+
+main.simul-list .slist :is(thead, thead tr) {
+  display: block;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+main.simul-list .slist thead th:is(.host, .players) {
+  display: none !important;
+}
+
+main.simul-list .slist thead th:first-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 !important;
+  border: none !important;
+  color: #fff !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  text-align: start;
+}
+
+/* The section's marker: a rounded square in its color. */
+main.simul-list .slist thead th:first-child::before {
+  content: '';
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--cdc-simul), var(--cdc-simul-2));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cdc-simul) 22%, transparent);
+}
+
+/* In progress: a live dot that pulses instead. */
+main.simul-list
+  .slist
+  thead:has(+ tbody):not(
+    :has(+ tbody:last-child),
+    :has(+ tbody > tr:first-child:is(.scheduled, .create))
+  )
+  th:first-child::before {
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 #95c85ab3;
+  animation: cdc-simul-pulse 1.6s ease-out infinite;
+}
+
+@keyframes cdc-simul-pulse {
+  70% {
+    box-shadow: 0 0 0 7px #95c85a00;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 #95c85a00;
+  }
+}
+
+main.simul-list .slist tbody {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(270px, 100%), 1fr));
+  gap: 14px;
+  margin: 16px 0 36px;
+}

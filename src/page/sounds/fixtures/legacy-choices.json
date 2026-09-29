@@ -1,0 +1,629 @@
+{
+  "board": [
+    {
+      "name": "a quiet move by the player",
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR",
+      "lastMove": ["e2", "e4"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "a quiet move by the opponent",
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR",
+      "lastMove": ["e2", "e4"],
+      "lichessName": "move",
+      "orientation": "black",
+      "sound": "move-opponent"
+    },
+    {
+      "name": "highlights listed destination first",
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR",
+      "lastMove": ["e4", "e2"],
+      "lichessName": "move",
+      "orientation": "black",
+      "sound": "move-opponent"
+    },
+    {
+      "name": "a capture",
+      "before": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR",
+      "after": "rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR",
+      "lastMove": ["e4", "d5"],
+      "lichessName": "capture",
+      "orientation": "white",
+      "sound": "capture"
+    },
+    {
+      "name": "a check by a bishop",
+      "before": "rnbqkbnr/ppp2ppp/3p4/4p3/4P3/8/PPPP1PPP/RNBQK1NR",
+      "after": "rnbqkbnr/ppp2ppp/3p4/1B2p3/4P3/8/PPPP1PPP/RNBQK1NR",
+      "lastMove": ["f1", "b5"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-check"
+    },
+    {
+      "name": "a capture that checks",
+      "before": "rnb1kbnr/pppp1ppp/8/4p3/7q/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnb1kbnr/pppp1ppp/8/4p3/8/8/PPPPPqPP/RNBQKBNR",
+      "lastMove": ["h4", "f2"],
+      "lichessName": "capture",
+      "orientation": "black",
+      "sound": "move-check"
+    },
+    {
+      "name": "a capture without check",
+      "before": "rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR",
+      "after": "rnb1kbnr/pppp1ppp/8/4p3/5PP1/8/PPPPP2q/RNBQKBNR",
+      "lastMove": ["h4", "h2"],
+      "lichessName": "capture",
+      "orientation": "black",
+      "sound": "capture"
+    },
+    {
+      "name": "a check with no highlight",
+      "before": "rnbqkbnr/ppp2ppp/3p4/4p3/4P3/8/PPPP1PPP/RNBQK1NR",
+      "after": "rnbqkbnr/ppp2ppp/3p4/1B2p3/4P3/8/PPPP1PPP/RNBQK1NR",
+      "lastMove": [],
+      "lichessName": "move",
+      "orientation": "black",
+      "sound": "move-check"
+    },
+    {
+      "name": "a discovered check",
+      "before": "4k3/8/8/8/4N3/8/8/4R1K1",
+      "after": "4k3/8/8/8/8/5N2/8/4R1K1",
+      "lastMove": ["e4", "f3"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-check"
+    },
+    {
+      "name": "castling short, highlighted king to g1",
+      "before": "r3k2r/8/8/8/8/8/8/R3K2R",
+      "after": "r3k2r/8/8/8/8/8/8/R4RK1",
+      "lastMove": ["e1", "g1"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "name": "castling short, not highlighted",
+      "before": "r3k2r/8/8/8/8/8/8/R3K2R",
+      "after": "r3k2r/8/8/8/8/8/8/R4RK1",
+      "lastMove": [],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "name": "castling long by black, not highlighted",
+      "before": "r3k2r/8/8/8/8/8/8/R4RK1",
+      "after": "2kr3r/8/8/8/8/8/8/R4RK1",
+      "lastMove": [],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "name": "castling highlighted, nothing remembered",
+      "before": null,
+      "after": "r3k2r/8/8/8/8/8/8/R4RK1",
+      "lastMove": ["e1", "g1"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "name": "castling highlighted king to rook, nothing remembered",
+      "before": null,
+      "after": "r3k2r/8/8/8/8/8/8/R4RK1",
+      "lastMove": ["e1", "h1"],
+      "lichessName": "move",
+      "orientation": "black",
+      "sound": "castle"
+    },
+    {
+      "name": "Chess960 castling, king moves one square",
+      "before": "rk5r/8/8/8/8/8/8/RK5R",
+      "after": "rk5r/8/8/8/8/8/8/2KR3R",
+      "lastMove": ["b1", "a1"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "name": "Chess960 castling, king moves one square, not highlighted",
+      "before": "rk5r/8/8/8/8/8/8/RK5R",
+      "after": "rk5r/8/8/8/8/8/8/2KR3R",
+      "lastMove": [],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "name": "Chess960 castling, king moves one square, nothing remembered",
+      "before": null,
+      "after": "rk5r/8/8/8/8/8/8/2KR3R",
+      "lastMove": ["b1", "a1"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "Chess960 castling where the king stays put",
+      "before": "6k1/8/8/8/8/8/8/R5KR",
+      "after": "6k1/8/8/8/8/8/8/R4RK1",
+      "lastMove": ["g1", "h1"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "Chess960 castling where the king stays put, not highlighted",
+      "before": "6k1/8/8/8/8/8/8/R5KR",
+      "after": "6k1/8/8/8/8/8/8/R4RK1",
+      "lastMove": [],
+      "lichessName": "move",
+      "orientation": "black",
+      "sound": "move-self"
+    },
+    {
+      "name": "a rook sliding two squares on the back rank",
+      "before": "r3k3/8/8/8/8/8/8/R3K3",
+      "after": "r3k3/8/8/8/8/8/8/2R1K3",
+      "lastMove": ["a1", "c1"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "a promotion with auto-queen",
+      "before": "8/4P1k1/8/8/8/8/8/4K3",
+      "after": "4Q3/6k1/8/8/8/8/8/4K3",
+      "lastMove": ["e7", "e8"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "promote"
+    },
+    {
+      "name": "a promotion with auto-queen, nothing remembered",
+      "before": null,
+      "after": "4Q3/6k1/8/8/8/8/8/4K3",
+      "lastMove": ["e7", "e8"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "a capture that promotes",
+      "before": "3r4/4P1k1/8/8/8/8/8/4K3",
+      "after": "3N4/6k1/8/8/8/8/8/4K3",
+      "lastMove": ["e7", "d8"],
+      "lichessName": "capture",
+      "orientation": "black",
+      "sound": "promote"
+    },
+    {
+      "name": "a pawn waiting for its promotion piece",
+      "before": "8/4P1k1/8/8/8/8/8/4K3",
+      "after": "4P3/6k1/8/8/8/8/8/4K3",
+      "lastMove": ["e7", "e8"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "promote"
+    },
+    {
+      "name": "a black promotion",
+      "before": "4k3/8/8/8/8/7K/3p4/8",
+      "after": "4k3/8/8/8/8/7K/8/3q4",
+      "lastMove": ["d2", "d1"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "promote"
+    },
+    {
+      "name": "a queen moving to the last rank",
+      "before": "8/7k/8/8/8/8/Q7/7K",
+      "after": "Q7/7k/8/8/8/8/8/7K",
+      "lastMove": ["a2", "a8"],
+      "lichessName": "move",
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "a drop",
+      "before": "r3k3/8/8/8/8/8/8/4K3",
+      "after": "r3k3/8/8/4N3/8/8/8/4K3",
+      "lastMove": ["e5"],
+      "orientation": "black",
+      "sound": "move-opponent"
+    },
+    {
+      "name": "a drop that checks",
+      "before": "r3k3/8/8/8/8/8/8/4K3",
+      "after": "r3k3/8/5N2/8/8/8/8/4K3",
+      "lastMove": ["f6"],
+      "orientation": "white",
+      "sound": "move-check"
+    },
+    {
+      "name": "a pawn drop on the last rank highlight",
+      "before": "4k3/8/8/8/8/8/8/4K3",
+      "after": "4k3/8/8/8/8/8/8/P3K3",
+      "lastMove": ["a1"],
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "no highlight, a quiet move",
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR",
+      "lastMove": [],
+      "lichessName": "move",
+      "orientation": "black",
+      "sound": "move-self"
+    },
+    {
+      "name": "no highlight, a capture",
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR",
+      "lastMove": [],
+      "lichessName": "capture",
+      "orientation": "white",
+      "sound": "capture"
+    },
+    {
+      "name": "no highlight, no name",
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "lastMove": [],
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "name": "highlights on empty squares",
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "after": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+      "lastMove": ["d4", "d5"],
+      "lichessName": "move",
+      "orientation": "black",
+      "sound": "move-self"
+    },
+    {
+      "name": "an en passant capture",
+      "before": "rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR",
+      "after": "rnbqkbnr/ppp1p1pp/5P2/3p4/8/8/PPPP1PPP/RNBQKBNR",
+      "lastMove": ["e5", "f6"],
+      "lichessName": "capture",
+      "orientation": "white",
+      "sound": "capture"
+    }
+  ],
+  "san": [
+    {
+      "san": "e4",
+      "ply": 1,
+      "orientation": "white",
+      "sound": "move-self"
+    },
+    {
+      "san": "e4",
+      "ply": 1,
+      "orientation": "black",
+      "sound": "move-opponent"
+    },
+    {
+      "san": "e5",
+      "ply": 2,
+      "orientation": "black",
+      "sound": "move-self"
+    },
+    {
+      "san": "e5",
+      "ply": 2,
+      "orientation": "white",
+      "sound": "move-opponent"
+    },
+    {
+      "san": "Nf3",
+      "ply": 3,
+      "orientation": "black",
+      "sound": "move-opponent"
+    },
+    {
+      "san": "Nf3+",
+      "ply": 3,
+      "orientation": "white",
+      "sound": "move-check"
+    },
+    {
+      "san": "Qxf7#",
+      "ply": 7,
+      "orientation": "white",
+      "sound": "move-check"
+    },
+    {
+      "san": "O-O",
+      "ply": 9,
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "san": "O-O-O",
+      "ply": 10,
+      "orientation": "white",
+      "sound": "castle"
+    },
+    {
+      "san": "O-O-O+",
+      "ply": 10,
+      "orientation": "black",
+      "sound": "move-check"
+    },
+    {
+      "san": "e8=Q",
+      "ply": 41,
+      "orientation": "white",
+      "sound": "promote"
+    },
+    {
+      "san": "exd8=N",
+      "ply": 41,
+      "orientation": "black",
+      "sound": "promote"
+    },
+    {
+      "san": "exd8=Q+",
+      "ply": 41,
+      "orientation": "black",
+      "sound": "move-check"
+    },
+    {
+      "san": "Bxc4",
+      "ply": 12,
+      "orientation": "black",
+      "sound": "capture"
+    },
+    {
+      "san": "e4",
+      "ply": null,
+      "orientation": "black",
+      "sound": "move-self"
+    },
+    {
+      "san": "P@e5",
+      "ply": 22,
+      "orientation": "white",
+      "sound": "move-opponent"
+    },
+    {
+      "san": "N@f7+",
+      "ply": 23,
+      "orientation": "black",
+      "sound": "move-check"
+    },
+    {
+      "san": "Kxe2",
+      "ply": 30,
+      "orientation": "white",
+      "sound": "capture"
+    },
+    {
+      "san": "Rae1",
+      "ply": 0,
+      "orientation": "white",
+      "sound": "move-opponent"
+    }
+  ],
+  "attacks": [
+    {
+      "placement": "8/8/8/3p4/4P3/8/8/8",
+      "target": "d5",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/3p4/4P3/8/8/8",
+      "target": "e4",
+      "by": "black",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/3p4/4P3/8/8/8",
+      "target": "e5",
+      "by": "white",
+      "attacked": false
+    },
+    {
+      "placement": "8/8/8/3p4/4P3/8/8/8",
+      "target": "f5",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/3p4/4P3/8/8/8",
+      "target": "c4",
+      "by": "black",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/3p4/4P3/8/8/8",
+      "target": "d3",
+      "by": "white",
+      "attacked": false
+    },
+    {
+      "placement": "4k3/8/8/8/4p3/8/8/4R3",
+      "target": "e4",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "4k3/8/8/8/4p3/8/8/4R3",
+      "target": "e8",
+      "by": "white",
+      "attacked": false
+    },
+    {
+      "placement": "4k3/8/8/8/4p3/8/8/4R3",
+      "target": "a1",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "4k3/8/8/8/4p3/8/8/4R3",
+      "target": "e7",
+      "by": "black",
+      "attacked": true
+    },
+    {
+      "placement": "4k3/8/8/8/4p3/8/8/4R3",
+      "target": "d3",
+      "by": "black",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/8/3N4/8/4K3/Q7",
+      "target": "e6",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/8/3N4/8/4K3/Q7",
+      "target": "d1",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/8/3N4/8/4K3/Q7",
+      "target": "h8",
+      "by": "white",
+      "attacked": false
+    },
+    {
+      "placement": "8/8/8/8/3N4/8/4K3/Q7",
+      "target": "h1",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/8/3N4/8/4K3/Q7",
+      "target": "a8",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/8/3N4/8/4K3/Q7",
+      "target": "g7",
+      "by": "white",
+      "attacked": false
+    },
+    {
+      "placement": "8/8/8/8/3N4/8/4K3/Q7",
+      "target": "c6",
+      "by": "black",
+      "attacked": false
+    },
+    {
+      "placement": "r3k2r/8/8/8/8/8/8/R3K2R",
+      "target": "e1",
+      "by": "black",
+      "attacked": false
+    },
+    {
+      "placement": "r3k2r/8/8/8/8/8/8/R3K2R",
+      "target": "a8",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "rnbqkbnr/ppp2ppp/3p4/1B2p3/4P3/8/PPPP1PPP/RNBQK1NR",
+      "target": "e8",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "rnbqkbnr/ppp2ppp/3p4/1B2p3/4P3/8/PPPP1PPP/RNBQK1NR",
+      "target": "e1",
+      "by": "black",
+      "attacked": false
+    },
+    {
+      "placement": "7k/8/5B2/8/8/8/8/K7",
+      "target": "h8",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "7k/6p1/5B2/8/8/8/8/K7",
+      "target": "h8",
+      "by": "white",
+      "attacked": false
+    },
+    {
+      "placement": "k7/1K6/8/8/8/8/8/8",
+      "target": "a8",
+      "by": "white",
+      "attacked": true
+    },
+    {
+      "placement": "8/8/8/8/8/8/8/8",
+      "target": "e4",
+      "by": "white",
+      "attacked": false
+    },
+    {
+      "placement": "8/8/8/2n5/8/8/8/8",
+      "target": "a1",
+      "by": "black",
+      "attacked": false
+    },
+    {
+      "placement": "8/8/8/2n5/8/8/8/8",
+      "target": "b3",
+      "by": "black",
+      "attacked": true
+    }
+  ],
+  "read": {
+    "pieces": [
+      ["a8", "black", "rook"],
+      ["b8", "black", "knight"],
+      ["c8", "black", "bishop"],
+      ["d8", "black", "queen"],
+      ["e8", "black", "king"],
+      ["f8", "black", "bishop"],
+      ["g8", "black", "knight"],
+      ["h8", "black", "rook"],
+      ["a7", "black", "pawn"],
+      ["b7", "black", "pawn"],
+      ["c7", "black", "pawn"],
+      ["d7", "black", "pawn"],
+      ["e7", "black", "pawn"],
+      ["f7", "black", "pawn"],
+      ["g7", "black", "pawn"],
+      ["h7", "black", "pawn"],
+      ["a2", "white", "pawn"],
+      ["b2", "white", "pawn"],
+      ["c2", "white", "pawn"],
+      ["d2", "white", "pawn"],
+      ["e2", "white", "pawn"],
+      ["f2", "white", "pawn"],
+      ["g2", "white", "pawn"],
+      ["h2", "white", "pawn"],
+      ["a1", "white", "rook"],
+      ["b1", "white", "knight"],
+      ["c1", "white", "bishop"],
+      ["d1", "white", "queen"],
+      ["e1", "white", "king"],
+      ["f1", "white", "bishop"],
+      ["g1", "white", "knight"],
+      ["h1", "white", "rook"]
+    ],
+    "lastMove": ["e2", "e4"]
+  }
+}

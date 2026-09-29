@@ -78,7 +78,7 @@ moving or deleting it removes the extension.
 
 **To update**, download the new release's ZIP and replace the folder's files with the
 new ones. The extension reloads on its own the next time you go back to a
-Lichess tab. If you cloned it with git, a `git pull` does the same.
+Lichess tab.
 
 **To remove it**, click **Remove** on its card in `chrome://extensions`.
 
@@ -88,6 +88,40 @@ Lichess tab. If you cloned it with git, a `git pull` does the same.
   usual mobile layout, with the new colors, board and pieces.
 - Its sounds and images come with it: it loads nothing from other sites.
 - Nothing is tracked or collected.
+
+## Development
+
+The extension is written in TypeScript and bundled with
+[rolldown](https://rolldown.rs). You need Node.js 24 and pnpm
+(`corepack enable` installs the version the repository pins).
+
+```bash
+pnpm install
+pnpm dev    # builds dist/chrome, then again on every change
+```
+
+Load `dist/chrome` with **Load unpacked** in `chrome://extensions`. It reloads
+itself when you go back to a Lichess tab after a rebuild.
+
+`pnpm check` runs the type checks, the linter, the formatting check and the
+unit tests, and `pnpm test:e2e` the end-to-end tests on lichess.org (after
+`pnpm build`). How the code is organized:
+[docs/architecture.md](docs/architecture.md).
+
+### Building from the sources
+
+Each version sent to Firefox Add-ons comes with the sources it's built from,
+`LichessDotCom-v<version>-source.zip`. To rebuild the add-on from them, with
+Node.js 24 and pnpm, in the unzipped folder:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm build --target firefox --release --version <version>
+```
+
+`dist/firefox` is then the add-on, file for file. From a full clone (not
+`--depth`) at the tag `store-<version>`, `pnpm package` writes every package
+into `dist/`: the version counts the commits.
 
 ## Disclaimer
 

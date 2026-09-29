@@ -1,0 +1,321 @@
+/* Puzzle Storm: a run, its end screen and the dashboard. The panel, clock and combo
+   are Racer's (racer.css shares them); the Puzzle Rush icon replaces the tornado. */
+
+.storm,
+.storm-dashboard,
+html[data-cdc-has~='storm'] main {
+  --cdc-storm: #fa742c;
+  --cdc-storm-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-rush.svg');
+}
+
+/* ---- Run --- */
+
+/* One grid for the run and what Lichess puts under it (the run's own grid is display: contents).
+   Lichess sizes the board from the whole window: cap it to what the sidebar and column leave. */
+@media (min-width: 1020px) {
+  html[data-cdc-has~='storm-play'] #main-wrap > main {
+    --cdc-coords-l: 0px;
+
+    display: grid;
+    grid-template-columns:
+      min(
+        var(---col2-uniboard-width),
+        calc(
+          100vw - var(--cdc-sidebar-w, 0px) - 2 * var(---main-margin, 0px) - var(--cdc-coords-l) -
+            275px
+        )
+      )
+      minmax(240px, 400px);
+    grid-template-rows: 1fr repeat(3, auto);
+    grid-template-areas:
+      'board side'
+      'board scores'
+      'board high'
+      'board about';
+    justify-content: center;
+    gap: 14px var(---block-gap, 16px);
+    margin-left: var(--cdc-coords-l);
+  }
+
+  /* The files under the board use the page's padding, not the board's margin,
+     so the right-hand column ends level with the squares. */
+  html[data-cdc-has~='storm-play'] body:is(.coords-in, .coords-out) #main-wrap > main {
+    --cdc-coords-l: calc(0.6 * var(--cdc-coords-size, 13px) + 10px);
+
+    padding-bottom: 12px;
+  }
+
+  body:is(.coords-in, .coords-out) main > .storm--play .puz-board {
+    margin-bottom: 0 !important;
+  }
+
+  main > .storm--play {
+    display: contents !important;
+  }
+
+  html[data-cdc-has~='storm-play'] main > .storm-play-scores {
+    grid-area: scores;
+    margin: 4px 0 0 !important;
+  }
+
+  html[data-cdc-has~='storm-play'] main > .storm-dashboard__high__periods {
+    grid-area: high;
+  }
+
+  html[data-cdc-has~='storm-play'] main > .storm__about__link {
+    grid-area: about;
+    justify-self: start;
+    margin: 0 !important;
+  }
+
+  main > .storm--play .puz-side {
+    min-height: 0;
+  }
+}
+
+/* ---- Side panel --- */
+
+/* The Puzzle Rush icon on a tinted tile, where Lichess draws its tornado. */
+.storm .puz-side__top::before {
+  content: '' !important;
+  flex: none;
+  width: 64px !important;
+  height: 64px !important;
+  margin: 0 !important;
+  border-radius: 14px;
+  background:
+    var(--cdc-storm-icon) center / 46px no-repeat,
+    color-mix(in srgb, var(--cdc-storm) 18%, var(--cdc-bg-raised)) !important;
+  box-shadow:
+    inset 0 1px 0 #ffffff1f,
+    0 0 0 1px color-mix(in srgb, var(--cdc-storm) 35%, transparent);
+}
+
+/* The icon jolts with each puzzle solved. */
+.storm.puz-mod-puzzle .puz-side__top::before {
+  animation: cdc-storm-jolt 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes cdc-storm-jolt {
+  30% {
+    transform: rotate(-10deg) scale(1.1);
+  }
+
+  60% {
+    transform: rotate(6deg) scale(1.05);
+  }
+}
+
+/* Green for a bonus, red for a penalty: Lichess's colors lose to our white clock's dark digits. */
+.storm.puz-mod-bonus-slow .puz-clock__time {
+  color: #4f8a34 !important;
+}
+
+.storm.puz-mod-malus-slow .puz-clock__time {
+  color: #c0392f !important;
+}
+
+/* Seconds won or lost float up from the clock as pills. */
+.storm :is(.puz-clock__bonus, .puz-clock__malus) {
+  margin: 0 !important;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #81b64c2e;
+  color: var(--cdc-green-hover) !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 22px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.storm .puz-clock__malus {
+  background: #e0282833;
+  color: #f0645a !important;
+}
+
+/* "You play the white pieces": a chip with a pawn of that color, under the clock
+   instead of hanging below the panel. */
+.storm .puz-clock {
+  flex-wrap: wrap;
+}
+
+.storm .puz-clock__pov {
+  position: static !important;
+  display: inline-flex;
+  align-items: center;
+  flex-basis: auto;
+  gap: 8px;
+  margin: 0 !important;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  background: var(--cdc-bg-raised);
+  color: var(--cdc-text) !important;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.storm .puz-clock__pov::before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  margin: -4px -2px -4px -4px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp') center /
+    contain no-repeat;
+}
+
+.storm:has(.cg-wrap.orientation-black) .puz-clock__pov::before {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
+}
+
+/* Flip, new run, end run: grey buttons; flip turns green while flipped. */
+.storm .puz-side__control .button {
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+  color: var(--cdc-text) !important;
+}
+
+.storm .puz-side__control .button:hover {
+  background: var(--cdc-btn-grey-hover) !important;
+  color: #fff !important;
+}
+
+.storm .puz-side__control .button.active {
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
+  color: #fff !important;
+}
+
+/* ---- Highscores --- */
+
+/* "Highscores" with a trophy, and "View best runs" as a pill. */
+.storm-play-scores {
+  align-items: center;
+  gap: 10px;
+  color: #fff !important;
+}
+
+.storm-play-scores span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 17px;
+  font-weight: 800;
+  text-transform: none !important;
+}
+
+.storm-play-scores span::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center /
+    contain no-repeat;
+}
+
+.storm-play-scores a {
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--cdc-bg-raised);
+  color: var(--cdc-text) !important;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    background 0.15s,
+    color 0.15s !important;
+}
+
+.storm-play-scores a:hover {
+  background: var(--cdc-bg-raised-hover);
+  color: #fff !important;
+}
+
+/* A tile per period, the all-time best in gold.
+   Four to a row, or two in a narrow column (never three and one). */
+.storm-dashboard__high__periods {
+  display: grid !important;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(calc(50% - 4px), max(72px, (100% - 330px) * -999)), 1fr)
+  );
+  gap: 8px !important;
+}
+
+/* Zen mode hides them, and then the gaps of their empty rows. */
+body.zenable.zen .storm-dashboard__high__periods {
+  display: none !important;
+}
+
+@media (min-width: 1020px) {
+  html[data-cdc-has~='storm-play'] body.zenable.zen #main-wrap > main {
+    row-gap: 0;
+  }
+}
+
+.storm-dashboard__high__period {
+  display: flex !important;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 12px 6px 10px !important;
+  border: 1px solid var(--cdc-card-border) !important;
+  border-radius: 10px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: none !important;
+  color: var(--cdc-text-dim) !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.storm-dashboard__high__period strong {
+  color: #fff;
+  font-family: var(--cdc-font) !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums;
+  line-height: 1 !important;
+}
+
+.storm-dashboard__high__period:first-child {
+  border-color: #e3aa2466 !important;
+  box-shadow: inset 0 0 0 1px #e3aa2433 !important;
+}
+
+.storm-dashboard__high__period:first-child strong {
+  color: var(--c-brag);
+}
+
+/* "About Puzzle Storm" as a pill, as on the Racer home. */
+.storm__about__link {
+  font-size: 13px !important;
+}
+
+.storm__about__link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--cdc-bg-raised);
+  color: var(--cdc-text) !important;
+  font-weight: 700;
+  transition:
+    background 0.15s,
+    color 0.15s !important;
+}
+
+.storm__about__link a::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg') center /
+    contain no-repeat;
+}
+
+.storm__about__link a:hover {
+  background: var(--cdc-bg-raised-hover);
+  color: #fff !important;
+}

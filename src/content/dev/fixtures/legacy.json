@@ -1,0 +1,170 @@
+{
+  "scenarios": [
+    {
+      "name": "store install",
+      "manifest": {
+        "update_url": "https://x"
+      },
+      "answer": {
+        "reload": true
+      },
+      "log": []
+    },
+    {
+      "name": "nothing changed",
+      "manifest": {},
+      "answer": {
+        "reload": false
+      },
+      "log": [
+        {
+          "at": 0,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 10,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 1020,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no answer",
+      "manifest": {},
+      "log": [
+        {
+          "at": 0,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 10,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 1020,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        }
+      ]
+    },
+    {
+      "name": "worker failed",
+      "manifest": {},
+      "reject": true,
+      "log": [
+        {
+          "at": 0,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 10,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 1020,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        }
+      ]
+    },
+    {
+      "name": "files changed",
+      "manifest": {},
+      "answer": {
+        "reload": true
+      },
+      "orphanAfter": 350,
+      "log": [
+        {
+          "at": 0,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 10,
+          "event": "send",
+          "message": {
+            "type": "cdc:dev-check"
+          }
+        },
+        {
+          "at": 370,
+          "event": "orphaned"
+        },
+        {
+          "at": 650,
+          "event": "reload"
+        },
+        {
+          "at": 660,
+          "event": "reload"
+        },
+        {
+          "at": 1370,
+          "event": "reload"
+        }
+      ]
+    },
+    {
+      "name": "hidden tab",
+      "manifest": {},
+      "answer": {
+        "reload": true
+      },
+      "hidden": true,
+      "log": []
+    },
+    {
+      "name": "orphaned",
+      "manifest": {},
+      "answer": {
+        "reload": false
+      },
+      "orphaned": true,
+      "log": [
+        {
+          "at": 0,
+          "event": "reload"
+        },
+        {
+          "at": 10,
+          "event": "reload"
+        },
+        {
+          "at": 1020,
+          "event": "reload"
+        }
+      ]
+    }
+  ]
+}

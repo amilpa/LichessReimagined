@@ -1,0 +1,143 @@
+import {
+  attackers,
+  type Board,
+  type Color,
+  opposite,
+  parseFen,
+  parseSquare,
+  type Piece,
+} from '#shared/chess/index.ts';
+import { attackerValues, PIECE_VALUES, pieceOn } from '#page/review/chess/material.ts';
+import { roleOfLetter, uciToSan } from '#page/review/chess/notation.ts';
+import { isError, type MoveClass } from '#page/review/classes/classes.ts';
+import { moveToken, squareToken } from '#page/review/comment/tokens.ts';
+import type { PositionRecord } from '#page/review/evaluation/score.ts';
+import type { FactSentences } from '#page/review/i18n/types.ts';
+import type { MoveVerdict } from '#page/review/judge/types.ts';
+import { evaluationLevel } from './trajectory.ts';
+
+// One concrete thing the board or the engine shows about a move: a piece left
+// hanging, a mate allowed or missed, the better move, what a capture won.
+
+interface FactInput {
+  readonly move: MoveVerdict;
+  readonly facts: FactSentences;
+  readonly me: Color;
+  readonly them: Color;
+  /** 1 when the mover is White, -1 when Black. */
+  readonly sign: number;
+  readonly before: Board;
+  readonly after: Board;
+  /** The engine's move instead, as a token, or '' without one. */
+  readonly best: string;
+}
+
+const PUNISHERS: ReadonlySet<MoveClass> = new Set<MoveClass>(['brilliant', 'great', 'best']);
+const PUNISHED: ReadonlySet<MoveClass> = new Set<MoveClass>(['mistake', 'blunder', 'miss']);
+
+/** Whether the side of `sign` has a mate on the board. */
+const mates = (record: PositionRecord, sign: number): boolean =>
+  'mate' in record && record.mate * sign > 0;
+
+const mateDistance = (record: PositionRecord): number => ('mate' in record ? record.mate : 0);
+
+// A piece of the mover's that the engine's reply wins.
+function lostPieceFact(input: FactInput, reply: string, replySan: string): string | null {
+  const { move, facts, me, them, after } = input;
+  const square = parseSquare(reply.slice(2, 4));
+  const victim = square ? after.get(square) : undefined;
+  if (!square || !victim || victim.color !== me || victim.role === 'king') return null;
+  if (move.loss < 10 || PIECE_VALUES[victim.role] < 3) return null;
+  const lost = { piece: victim, square: squareToken(square), reply: replySan };
+  if (attackers(after, square, me).length === 0) return facts.leftUndefended(lost);
+  if (Math.min(...attackerValues(after, square, them)) < PIECE_VALUES[victim.role])
+    return facts.answersAndWins(them, lost);
+  return null;
+}
+
+// A mate the move let in, or missed.
+function mateFact(input: FactInput, replySan: string): string | null {
+  const { move, facts, them, sign, best } = input;
+  if (mates(move.after, -sign) && !mates(move.before, -sign) && replySan)
+    return facts.canForceMate(them, replySan);
+  if (mates(move.before, sign) && !mates(move.after, sign) && best)
+    return facts.wouldForceMate(best, Math.abs(mateDistance(move.before)));
+  return null;
+}
+
+function errorFact(input: FactInput): string | null {
+  const { move, facts, them, before, best } = input;
+  const reply = move.after.best;
+  const replySan = reply ? moveToken(uciToSan(move.position.fen, reply), them) : '';
+  const mate = mateFact(input, replySan);
+  if (mate !== null) return mate;
+  if (move.moveClass === 'miss' && best) return facts.missedPunishment(them, best);
+  const lost = reply ? lostPieceFact(input, reply, replySan) : null;
+  if (lost !== null) return lost;
+  if (!best) return null;
+  const taken = move.best ? pieceOn(before, move.best.slice(2, 4)) : undefined;
+  if (taken?.color === them && taken.role !== 'pawn') return facts.strongerCapture(best, taken);
+  return move.moveClass === 'inaccuracy' ? facts.morePrecise(best) : facts.betterMove(best);
+}
+
+function captureFact(input: FactInput, moved: Piece, dest: string): string | null {
+  const { move, facts, me, them, before } = input;
+  const square = parseSquare(dest);
+  if (!square) return null;
+  // Nothing on the square: en passant.
+  const victim: Piece = { role: before.get(square)?.role ?? 'pawn', color: them };
+  const previous = move.previousPosition;
+  if (previous.san?.includes('x') && previous.uci?.slice(2, 4) === dest)
+    return facts.takesBack(squareToken(dest));
+  if (attackers(before, square, them).length === 0) return facts.winsForFree(victim);
+  if (PIECE_VALUES[victim.role] > PIECE_VALUES[moved.role])
+    return facts.winsMaterial(victim, { role: moved.role, color: me });
+  return null;
+}
+
+// What stands out in a move that needs no correction.
+function standoutFact(input: FactInput, moved: Piece | undefined): string | null {
+  const { move, facts, me, them, sign } = input;
+  const previousClass = move.previousMove?.moveClass;
+  if (PUNISHERS.has(move.moveClass) && previousClass !== undefined && PUNISHED.has(previousClass))
+    return facts.punishesAtOnce(them);
+  if (move.moveClass === 'brilliant' && moved)
+    return facts.offered({ role: moved.role, color: me }, them);
+  if (move.moveClass === 'great')
+    return evaluationLevel(move.after) * sign >= 2 ? facts.keepsAdvantage : facts.holdsPosition(me);
+  return null;
+}
+
+function goodFact(input: FactInput): string | null {
+  const { move, facts, me, them, after, best } = input;
+  const dest = move.uci.slice(2, 4);
+  const moved = pieceOn(after, dest);
+  const standout = standoutFact(input, moved);
+  if (standout !== null) return standout;
+  const promotion = roleOfLetter(/=([QRBN])/.exec(move.san)?.[1] ?? '');
+  if (promotion) return facts.promotes({ role: promotion, color: me });
+  if (move.san.startsWith('O-O')) return facts.castles;
+  const capture = moved && move.san.includes('x') ? captureFact(input, moved, dest) : null;
+  if (capture !== null) return capture;
+  if (move.san.includes('+')) return facts.checkForces(them);
+  return move.moveClass === 'good' && best ? facts.littleMorePrecise(best) : null;
+}
+
+/** One fact about the move, or null when there's nothing concrete to say. */
+export function fact(move: MoveVerdict, facts: FactSentences): string | null {
+  const me = move.color;
+  const them = opposite(me);
+  const sign = me === 'white' ? 1 : -1;
+  if (move.san.includes('#')) return facts.checkmate(them);
+  const best = move.bestSan ? moveToken(move.bestSan, me) : '';
+  // A sure mate slowed down, or one let in sooner. The defense's length isn't
+  // stated, because the engine reports long mates as longer than they are.
+  if (move.slower && best)
+    return mates(move.before, sign)
+      ? facts.matedIn(best, mateDistance(move.before) * sign)
+      : facts.heldOutLonger(best);
+  const before = parseFen(move.previousPosition.fen).board;
+  const after = parseFen(move.position.fen).board;
+  const input: FactInput = { move, facts, me, them, sign, before, after, best };
+  return isError(move.moveClass) ? errorFact(input) : goodFact(input);
+}

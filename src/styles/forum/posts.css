@@ -1,0 +1,321 @@
+/* ---- Posts --- */
+
+main.forum-topic.box {
+  max-width: 1000px;
+}
+
+main.forum-topic .forum-topic__posts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 20px !important;
+}
+
+main.forum-topic .forum-post {
+  position: relative;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-content: start;
+  column-gap: 16px;
+  padding: 18px 20px 14px !important;
+  border: 1px solid var(--cdc-card-border) !important;
+  border-radius: 14px;
+  background: var(--cdc-bg-panel);
+  font-size: 15px !important;
+  animation: cdc-forum-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(min(sibling-index(), 8) * 40ms);
+}
+
+/* Target of a link (#postId): a glow in the category's color. */
+main.forum-topic .forum-post:target {
+  border-color: color-mix(in srgb, var(--cdc-fc) 60%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cdc-fc) 18%, transparent);
+}
+
+main.forum-topic .forum-post > * {
+  grid-column: 2;
+  min-width: 0;
+}
+
+/* Lichess has no profile pictures: everyone gets the default avatar. */
+main.forum-topic .forum-post::before {
+  content: '';
+  grid-column: 1;
+  grid-row: 1 / span 6;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--cdc-avatar);
+}
+
+/* The topic's author: a ring in the category's color. */
+main.forum-topic .forum-post:has(.author--op)::before {
+  box-shadow:
+    0 0 0 2px var(--cdc-bg-panel),
+    0 0 0 4px var(--cdc-fc);
+}
+
+main.forum-topic .forum-post.erased::before {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+main.forum-topic .forum-post__metas > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  min-height: 28px;
+}
+
+main.forum-topic .forum-post__metas .author {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+
+main.forum-topic .forum-post__metas .author:hover {
+  color: var(--cdc-green-hover) !important;
+}
+
+main.forum-topic .forum-post__metas a.author--op {
+  padding: 1px 9px !important;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cdc-fc) 18%, transparent) !important;
+}
+
+main.forum-topic .forum-post__metas .author .uflair {
+  width: 20px;
+  height: 20px;
+  margin-inline-start: 5px;
+  vertical-align: -4px;
+}
+
+/* Online: a green dot on the avatar's corner. Offline: nothing. */
+main.forum-topic .forum-post__metas .author .line {
+  display: none;
+}
+
+main.forum-topic .forum-post__metas .author.online .line {
+  position: absolute;
+  top: 56px;
+  inset-inline-start: 58px;
+  display: block;
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  margin: 0 !important;
+  border: 2px solid var(--cdc-bg-panel);
+  border-radius: 50%;
+  background: var(--cdc-green);
+  font-size: 0;
+}
+
+main.forum-topic .forum-post__metas .author.online .line::before {
+  display: none;
+}
+
+/* The post's date (and "edited"), then the buttons pushed to the end. */
+main.forum-topic .forum-post__metas > div > a:not(.author) {
+  margin-inline-end: auto;
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px;
+}
+
+main.forum-topic .forum-post__metas > div > a:not(.author):hover {
+  color: var(--cdc-text) !important;
+}
+
+main.forum-topic .forum-post__metas time {
+  margin: 0 !important;
+  color: inherit !important;
+  font-size: inherit !important;
+}
+
+main.forum-topic .forum-post__metas .post-edited {
+  font-style: italic;
+}
+
+main.forum-topic .forum-post__metas :is(form, .forum-post__actions) {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+}
+
+main.forum-topic .button.forum-post__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  background: #ffffff0a !important;
+  box-shadow: none !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+main.forum-topic .button.forum-post__button::before {
+  margin: 0 !important;
+}
+
+main.forum-topic .button.forum-post__button:hover {
+  background: var(--cdc-bg-raised) !important;
+  color: #fff !important;
+}
+
+main.forum-topic .button.forum-post__button.delete:hover,
+main.forum-topic .button.forum-post__button.report:hover {
+  color: #f0645a !important;
+}
+
+/* ---- Message --- */
+
+main.forum-topic .forum-post__message {
+  margin: 6px 0 8px !important;
+  color: var(--cdc-text);
+  font-size: 15px !important;
+  line-height: 1.6;
+}
+
+main.forum-topic .forum-post.erased .forum-post__message {
+  color: var(--cdc-text-dim);
+  text-align: start;
+}
+
+main.forum-topic .forum-post__message :is(h1, h2, h3, h4) {
+  margin: 0.9em 0 0.35em !important;
+  padding: 0 !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 800 !important;
+  line-height: 1.3;
+}
+
+main.forum-topic .forum-post__message > :first-child {
+  margin-top: 0 !important;
+}
+
+main.forum-topic .forum-post__message h1 {
+  font-size: 1.45em !important;
+}
+
+main.forum-topic .forum-post__message h2 {
+  font-size: 1.3em !important;
+}
+
+main.forum-topic .forum-post__message h3 {
+  font-size: 1.15em !important;
+}
+
+/* Lichess leaves the headings' anchor links (#challenge-me) empty. */
+main.forum-topic .forum-post__message :is(h1, h2, h3, h4) > a:empty {
+  display: none;
+}
+
+main.forum-topic .forum-post__message p + p {
+  margin-top: 0.7em !important;
+}
+
+main.forum-topic .forum-post__message a {
+  color: var(--cdc-green-hover) !important;
+  font-weight: 600;
+}
+
+main.forum-topic .forum-post__message a:hover {
+  text-decoration: underline;
+}
+
+main.forum-topic .forum-post__message blockquote {
+  margin: 0.6em 0 !important;
+  padding: 10px 16px !important;
+  border: none !important;
+  border-inline-start: 3px solid var(--cdc-fc) !important;
+  border-radius: 0 10px 10px 0;
+  background: #ffffff08;
+  color: #d9d8d6;
+}
+
+html[dir='rtl'] main.forum-topic .forum-post__message blockquote {
+  border-radius: 10px 0 0 10px;
+}
+
+main.forum-topic .forum-post__message blockquote blockquote {
+  background: #ffffff06;
+}
+
+main.forum-topic .forum-post__message :not(pre) > code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #ffffff12;
+  font-size: 0.9em;
+}
+
+main.forum-topic .forum-post__message pre {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--cdc-bg-panel-dark);
+}
+
+main.forum-topic .forum-post__message :is(ul, ol) {
+  margin: 0.5em 0 !important;
+  padding-inline-start: 1.4em;
+}
+
+main.forum-topic .forum-post__message li::marker {
+  color: var(--cdc-fc);
+}
+
+main.forum-topic .forum-post__message img {
+  border-radius: 8px;
+}
+
+main.forum-topic .forum-post__message hr {
+  margin: 1.2em 0;
+  border: none;
+  border-top: 1px solid #ffffff14;
+}
+
+/* Markdown tables come with bare cells: give them rows, and let a wide table
+   scroll inside the post instead of spilling out. */
+main.forum-topic .forum-post__message table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.4;
+  scrollbar-width: thin;
+}
+
+main.forum-topic .forum-post__message :is(th, td) {
+  padding: 8px 14px;
+  border-bottom: 1px solid #ffffff14;
+  text-align: start;
+}
+
+main.forum-topic .forum-post__message th {
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+main.forum-topic .forum-post__message tbody tr:nth-child(2n) {
+  background: #ffffff05;
+}
+
+main.forum-topic .forum-post__blocked > button {
+  margin: 8px 0 !important;
+}
+
+/* board/ draws the coordinates outside the board on desktop: leave the embed's
+   board room for them, or they overlap the player below and get cut off. */
+@media (min-width: 1020px) {
+  body:is(.coords-in, .coords-out) main.forum-topic .forum-post__message .lpv__board {
+    padding: 0 0 calc(1.2 * var(--cdc-coords-size) + 10px) calc(0.6 * var(--cdc-coords-size) + 16px);
+  }
+}

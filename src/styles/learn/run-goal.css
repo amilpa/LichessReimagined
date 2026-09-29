@@ -1,0 +1,193 @@
+/* Inside a stage: the goal panel, the level pills and the intro / outro screens. */
+
+/* The goal panel: a dark card with the piece on a green tile (a green header shouts next to
+ * the board). */
+.learn__table .wrap {
+  overflow: hidden;
+  border: 1px solid var(--cdc-card-border) !important;
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: 0 10px 28px #00000033 !important;
+}
+
+.learn__table .title {
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  isolation: isolate;
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--cdc-card-border);
+  background: none !important;
+  color: #fff !important;
+}
+
+/* A separate tile: the filter that whitens the piece would whiten its own background too. */
+.learn__table .title::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  inset-inline-start: 16px;
+  width: 52px;
+  height: 52px;
+  margin-top: -26px;
+  border-radius: 14px;
+  background: var(--cdc-btn-green);
+  box-shadow:
+    inset 0 1px 0 #ffffff40,
+    inset 0 -3px 0 #00000026,
+    0 4px 10px #00000040;
+}
+
+.learn__table .title img {
+  flex: none;
+  box-sizing: border-box;
+  width: 52px !important;
+  height: 52px !important;
+  margin: 0 !important;
+  padding: 7px;
+  filter: brightness(0) invert(1) drop-shadow(0 1px 1px #0000004d);
+}
+
+.learn__table .title :is(h2, h3) {
+  margin: 0 !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+}
+
+.learn__table .title .subtitle {
+  margin: 3px 0 0 !important;
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  opacity: 1 !important;
+}
+
+.learn__table .goal {
+  padding: 18px 16px !important;
+  border: none !important;
+  background: none !important;
+  color: var(--cdc-text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Level passed or failed: the title and stars take the color; green to go on, grey to retry. */
+.learn__table .result {
+  min-height: 120px !important;
+  border: none !important;
+  border-top: 1px solid var(--cdc-card-border) !important;
+  background: none !important;
+  font-size: 20px !important;
+  font-weight: 800;
+}
+
+.learn__table .result:hover {
+  background: #ffffff08 !important;
+  filter: none !important;
+}
+
+.learn__table .result.completed {
+  color: var(--cdc-green-hover) !important;
+}
+
+.learn__table .result.failed {
+  color: #ff7769 !important;
+}
+
+.learn__table .result h2 {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+.learn__table .result button {
+  padding: 8px 22px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
+  color: #fff !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  text-shadow: 0 1px 1px #00000033;
+  text-transform: none !important;
+  animation: none !important;
+}
+
+.learn__table .result.failed button {
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+}
+
+/* Level pills: green once done, white for the current one. */
+.learn__table .progress {
+  gap: 6px;
+  padding: 0 12px 12px !important;
+  border: none !important;
+}
+
+.learn__table .result + .progress {
+  padding-top: 12px !important;
+}
+
+.learn__table .progress a {
+  min-width: 0;
+  height: 34px !important;
+  border: none !important;
+  border-radius: 8px;
+  background: #ffffff12 !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px !important;
+  font-weight: 800;
+  opacity: 1 !important;
+  transition:
+    background-color 0.15s,
+    color 0.15s !important;
+}
+
+.learn__table .progress a:hover {
+  background: #ffffff1f !important;
+  color: #fff !important;
+}
+
+.learn__table .progress a.done {
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow);
+  color: #fff !important;
+}
+
+.learn__table .progress a.active {
+  background: #fff !important;
+  box-shadow: 0 2px 6px #00000059;
+  color: #312e2b !important;
+}
+
+.learn__table .progress .stars icon {
+  font-size: 10px;
+}
+
+/* The stage's intro and outro screens. */
+.learn__screen {
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 16px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: 0 16px 40px #00000080 !important;
+}
+
+.learn__screen h1 {
+  color: #fff;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+}
+
+.learn__screen p {
+  color: var(--cdc-text);
+  font-size: 15px;
+  line-height: 1.5;
+}

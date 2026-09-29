@@ -1,0 +1,285 @@
+/* ---- Clock and skip --- */
+
+.racer .racer__spectating {
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+}
+
+:is(.racer, .storm) .puz-clock {
+  align-items: center;
+  gap: 12px;
+  margin-block: auto;
+}
+
+/* The running clock: white, the digits dark and bold. */
+:is(.racer, .storm) .puz-clock__time {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 !important;
+  padding: 6px 16px 6px 12px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 6px #0000004d;
+  color: #262421 !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 34px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+:is(.racer, .storm) .puz-clock__time::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/time-clock.svg') center /
+    contain no-repeat;
+}
+
+.racer__spectating .puz-clock__time {
+  font-size: 26px !important;
+}
+
+/* Skip: a red button, Lichess's gear stick beside its name. */
+.racer .racer__skip {
+  flex-flow: row !important;
+  gap: 8px;
+  padding: 10px 16px !important;
+  font-size: 15px !important;
+}
+
+.racer .racer__skip::before {
+  width: 22px !important;
+  height: 22px !important;
+  margin: 0 !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  filter: brightness(0) invert(1);
+}
+
+/* ---- Combo --- */
+
+:is(.racer, .storm) .puz-side__table {
+  flex: none !important;
+  gap: 8px;
+  margin-top: auto;
+}
+
+:is(.racer, .storm) .puz-side__control {
+  height: auto !important;
+  margin: 0 !important;
+}
+
+:is(.racer, .storm) .puz-side__control .button {
+  padding: 8px 14px !important;
+}
+
+:is(.racer, .storm) .puz-combo {
+  align-items: center;
+  gap: 14px;
+}
+
+:is(.racer, .storm) .puz-combo__counter {
+  align-items: center;
+  min-width: 52px;
+}
+
+:is(.racer, .storm) .puz-combo__counter__value {
+  width: auto !important;
+  margin: 0 !important;
+  color: #fff;
+  font-family: var(--cdc-font) !important;
+  font-size: 34px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1 !important;
+}
+
+:is(.racer, .storm) .puz-combo__counter__combo {
+  color: var(--cdc-text-dim) !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+}
+
+:is(.racer, .storm).puz-mod-move .puz-combo__counter__value {
+  color: var(--cdc-green-hover);
+}
+
+:is(.racer, .storm) .puz-combo__bars {
+  gap: 8px;
+  margin: 0 !important;
+}
+
+/* The bar: a rounded groove filled with green. */
+:is(.racer, .storm) .puz-combo__bar {
+  flex: 0 0 16px !important;
+  border: none !important;
+  border-radius: 999px !important;
+  background: #1a1917 !important;
+  box-shadow: inset 0 1px 3px #00000080;
+  overflow: hidden;
+}
+
+:is(.racer, .storm) .puz-combo__bar__in {
+  border-radius: 999px !important;
+  background: var(--cdc-btn-green) !important;
+  box-shadow:
+    inset 0 1px 0 #ffffff4d,
+    0 0 12px #81b64c99 !important;
+}
+
+:is(.racer, .storm) .puz-combo__bar__in-full {
+  border-radius: 999px !important;
+  background: var(--cdc-green-hover) !important;
+}
+
+/* The bonus levels: pills instead of skewed tabs. */
+:is(.racer, .storm) .puz-combo__levels {
+  gap: 6px;
+  margin: 0 !important;
+}
+
+:is(.racer, .storm) .puz-combo__level {
+  flex: 1 1 0 !important;
+  height: 24px !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  background: var(--cdc-bg-raised) !important;
+  box-shadow: none !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 24px !important;
+  transform: none !important;
+}
+
+:is(.racer, .storm) .puz-combo__level span {
+  transform: none !important;
+}
+
+:is(.racer, .storm) .puz-combo__level.active {
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
+  color: #fff !important;
+}
+
+/* ---- After the race --- */
+
+.racer .racer__post {
+  display: flex;
+  flex-flow: column;
+  gap: 14px;
+}
+
+.racer .racer__post h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* A checkered flag before "Race complete!". */
+.racer .racer__post h2::before {
+  content: '';
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  background: conic-gradient(#fff 25%, #1b1a18 0 50%, #fff 0 75%, #1b1a18 0) 0 0 / 12px 12px;
+  box-shadow: 0 0 0 1px #ffffff40;
+}
+
+/* "Your rank: 1/2", on a gold pill with a trophy. */
+.racer .race__post__rank {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  border-radius: 999px;
+  background: linear-gradient(#f5c451, #d9951f);
+  box-shadow:
+    inset 0 1px 0 #ffffff66,
+    0 1px 4px #0000005c;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  text-shadow: 0 1px 1px #0000004d;
+}
+
+.racer .race__post__rank::before {
+  content: '';
+  width: 22px;
+  height: 22px;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center /
+    contain no-repeat;
+}
+
+.racer .racer__post__next {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
+
+.racer .button-navaway,
+.racer .racer__post__next__button {
+  width: 100%;
+  margin: 0 !important;
+  padding: 14px !important;
+  font-size: 18px !important;
+}
+
+.racer .racer__post__next__new {
+  margin: 0 !important;
+}
+
+/* ---- Countdown --- */
+
+.racer .racer__countdown {
+  gap: 24px;
+  padding: 24px 32px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 18px !important;
+  background: #262522eb !important;
+  box-shadow: 0 16px 40px #000000b3 !important;
+  backdrop-filter: blur(6px);
+}
+
+.racer .racer__countdown__lights {
+  gap: 10px;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 10px;
+  border-radius: 999px !important;
+  background: #151412 !important;
+  box-shadow: inset 0 2px 6px #000;
+}
+
+.racer .racer__countdown__lights light {
+  margin: 0 !important;
+}
+
+.racer .racer__countdown__lights light.green {
+  background: var(--cdc-green-hover) !important;
+}
+
+.racer .racer__countdown__seconds {
+  min-width: 1.2ch;
+  justify-content: center;
+  margin: 0 !important;
+  color: #fff !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 110px !important;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}

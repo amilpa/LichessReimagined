@@ -1,0 +1,317 @@
+/* Analysis page (main.analyse, finished games too) from 1020px: the board, then one panel with
+ * engine, moves, controls and chat. The page never scrolls; the rows add up to `--cdc-stage`. */
+
+@media (min-width: 1020px) {
+  main.analyse {
+    --cdc-gap: 24px;
+    --cdc-bar: 0px;
+    --cdc-coords-off: 0px;
+    --cdc-gauge-gap: 10px;
+    --cdc-v-room: 56px;
+    /* Board sized as if the panel were at its minimum; the panel takes the rest, up to 500px. */
+    --cdc-panel-min: 300px;
+    /* Resizable like the game page's board (game/). */
+    --cdc-board: max(
+      320px,
+      calc(
+        min(
+            calc(100dvh - var(--cdc-v-room) - 2 * var(--cdc-bar) - var(--cdc-coords-off)),
+            calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-panel-min) - var(--cdc-gap) - 72px)
+          ) *
+          var(--cdc-board-scale, 1)
+      )
+    );
+    --cdc-panel-w: clamp(
+      var(--cdc-panel-min),
+      calc(100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-board) - var(--cdc-gap) - 72px),
+      500px
+    );
+    --cdc-stage: calc(var(--cdc-board) + 2 * var(--cdc-bar) + var(--cdc-coords-off));
+    --cdc-chat-h: min(clamp(180px, 30vh, 320px), calc(var(--cdc-board) * 0.4));
+    --cdc-ctrl-h: var(--cdc-controls-h, 48px); /* content/layout/controls-height.ts */
+
+    display: grid !important;
+    grid-template-columns: auto var(--cdc-board) calc(var(--cdc-panel-w) + var(--cdc-gap)) !important;
+    grid-template-rows:
+      max(0px, calc(var(--cdc-stage) - var(--cdc-ctrl-h) - var(--cdc-chat-h)))
+      var(--cdc-ctrl-h)
+      var(--cdc-chat-h) !important;
+    grid-auto-rows: auto !important;
+    grid-template-areas:
+      'gauge board tools'
+      'gauge board controls'
+      'gauge board chat' !important;
+    gap: 0 !important;
+    justify-content: center !important;
+    align-content: start !important;
+    margin-top: 12px;
+  }
+
+  main.analyse .analyse__board {
+    grid-area: board !important;
+    align-self: start;
+    margin: var(--cdc-bar) 0 0 !important;
+  }
+
+  /* Placed like the Game Review's bar (review/), which replaces it: level with the squares. */
+  main.analyse .eval-gauge {
+    --cdc-gauge-w: 26px;
+    grid-area: gauge !important;
+    margin: calc(var(--cdc-bar) + var(--cdc-inset-t, 0px)) var(--cdc-gauge-gap)
+      calc(var(--cdc-bar) + var(--cdc-coords-off) + var(--cdc-inset-b, 0px)) 0 !important;
+  }
+
+  /* ---- Player bars --- */
+
+  /* A game gets the game page's player bars (playerbar.css): ours for the players
+   * (content/analysis/players.ts), Lichess's clock strips grown into bars. The board shrinks;
+   * a lesson has none. */
+  html:is([data-cdc-has~='analyse-players'], [data-cdc-has~='analyse-clock']):not(
+      [data-cdc-has~='practice']
+    )
+    main.analyse {
+    --cdc-bar: 56px;
+    --cdc-v-room: 32px;
+    margin-top: 0 !important;
+  }
+
+  html:is([data-cdc-has~='analyse-players'], [data-cdc-has~='analyse-clock']):not(
+      [data-cdc-has~='practice']
+    )
+    body:is(.coords-in, .coords-out)
+    main.analyse {
+    --cdc-coords-off: calc(1.2 * var(--cdc-coords-size, 13px) + 8px);
+  }
+
+  /* Room for the ranks left of the board (board/). */
+  body:is(.coords-in, .coords-out) main.analyse {
+    --cdc-gauge-gap: calc(0.6 * var(--cdc-coords-size, 13px) + 18px);
+  }
+
+  main.analyse > :is(.cdc-player, .cdc-captured) {
+    grid-area: board;
+  }
+
+  main.analyse > :is(.cdc-player--top, .cdc-captured--top) {
+    --cdc-off: var(--cdc-inset-t, 0px);
+  }
+
+  main.analyse > :is(.cdc-player--bottom, .cdc-captured--bottom) {
+    --cdc-off: calc(
+      var(--cdc-bar) + var(--cdc-board) + var(--cdc-coords-off) - var(--cdc-inset-b, 0px)
+    );
+  }
+
+  html[data-cdc-has~='analyse-players'] main.analyse .analyse__player_strip .material {
+    display: none !important;
+  }
+
+  html[data-cdc-has~='analyse-clock'] main.analyse .analyse__player_strip {
+    left: 0 !important;
+    right: 0 !important;
+    box-sizing: border-box;
+    display: flex !important;
+    justify-content: flex-end !important;
+    height: var(--cdc-bar) !important;
+    pointer-events: none;
+  }
+
+  /* Not a `:has()`, which the `*` would make slow on every move; `auto` is the default anyway. */
+  main.analyse .analyse__player_strip > * {
+    pointer-events: auto;
+  }
+
+  /* The clock level with the avatar, as on the game page. */
+  html[data-cdc-has~='analyse-clock'] main.analyse .analyse__player_strip.top {
+    top: auto !important;
+    bottom: calc(100% - var(--cdc-inset-t, 0px)) !important;
+    align-items: flex-end !important;
+    padding: 0 var(--cdc-inset-r, 0px) 8px var(--cdc-inset-l, 0px) !important;
+  }
+
+  html[data-cdc-has~='analyse-clock'] main.analyse .analyse__player_strip.bottom {
+    top: calc(100% + var(--cdc-coords-off) - var(--cdc-inset-b, 0px)) !important;
+    bottom: auto !important;
+    align-items: flex-start !important;
+    padding: 8px var(--cdc-inset-r, 0px) 0 var(--cdc-inset-l, 0px) !important;
+  }
+
+  /* ---- Study, broadcast --- */
+
+  /* Lichess puts a study's chapters and a broadcast's games in a column left of the board, which
+   * our grid lacks. They take the panel's last row instead, where a game's chat goes. */
+  html[data-cdc-has~='study-side'] main.analyse,
+  main.analyse.is-relay:not(.has-relay-tour) {
+    --cdc-side-h: min(clamp(200px, 36vh, 400px), calc(var(--cdc-board) * 0.45));
+    grid-template-rows:
+      max(0px, calc(var(--cdc-stage) - var(--cdc-ctrl-h) - var(--cdc-side-h)))
+      var(--cdc-ctrl-h)
+      var(--cdc-side-h) !important;
+    grid-template-areas:
+      'gauge board tools'
+      'gauge board controls'
+      'gauge board side' !important;
+  }
+
+  main.analyse > .analyse__side:has(> .study__side),
+  main.analyse.is-relay:not(.has-relay-tour) > .relay-tour__side {
+    grid-area: side !important;
+    display: block !important;
+    align-self: stretch !important;
+    min-height: 0;
+    margin: 0 0 0 var(--cdc-gap) !important;
+    overflow-y: auto;
+    border-top: 1px solid var(--cdc-border);
+    border-radius: 0 0 6px 6px;
+    background: var(--cdc-bg-panel);
+  }
+
+  html[data-cdc-has~='study-side'] main.analyse .analyse__controls,
+  main.analyse.is-relay:not(.has-relay-tour) .analyse__controls {
+    border-radius: 0 !important;
+  }
+
+  /* The tabs or header stay at the top as the list scrolls. */
+  main.analyse > .analyse__side .study__side > .tabs-horiz,
+  main.analyse > .relay-tour__side > .relay-tour__side__header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--cdc-bg-panel-dark);
+  }
+
+  /* The chapter or game on the board: a lighter row, not Lichess's green tint (on hover too). */
+  main.analyse > .analyse__side .study-list > button:hover,
+  main.analyse > .relay-tour__side .relay-game:hover {
+    background: #ffffff0f !important;
+  }
+
+  main.analyse > .analyse__side .study-list > button.active,
+  main.analyse > .relay-tour__side .relay-game--current {
+    background: #ffffff14 !important;
+  }
+
+  /* A broadcast game has Lichess's own 45px player bars: here they're rows of the stage, which
+   * the panel spans, rather than Lichess's margin over the page. */
+  main.analyse.is-relay:not(.has-relay-tour) {
+    --cdc-bar: 45px;
+    --cdc-v-room: 32px;
+    margin-top: 0 !important;
+  }
+
+  body:is(.coords-in, .coords-out) main.analyse.is-relay:not(.has-relay-tour) {
+    --cdc-coords-off: calc(1.2 * var(--cdc-coords-size, 13px) + 8px);
+  }
+
+  main.analyse.is-relay:not(.has-relay-tour) > :is(.analyse__tools, .relay-tour__side) {
+    margin-top: 0 !important;
+  }
+
+  /* A study with players has thinner bars (1.6rem), which hung into the margins and the files. */
+  html:not([data-cdc-has~='practice']) main.analyse.has-players:not(.is-relay) {
+    --cdc-bar: 1.6rem;
+    --cdc-v-room: 32px;
+    margin-top: 0 !important;
+  }
+
+  html:not([data-cdc-has~='practice'])
+    body:is(.coords-in, .coords-out)
+    main.analyse.has-players:not(.has-relay-tour) {
+    --cdc-coords-off: calc(1.2 * var(--cdc-coords-size, 13px) + 8px);
+  }
+
+  /* Below the files, like the game page's bar. */
+  main.analyse.is-relay:not(.has-relay-tour) .relay-board-player-bot,
+  html:not([data-cdc-has~='practice']) main.analyse.has-players .study__player-bot {
+    top: calc(100% + var(--cdc-coords-off)) !important;
+  }
+
+  main.analyse > :is(.analyse__tools, .analyse__controls, .mchat) {
+    margin-left: var(--cdc-gap) !important;
+  }
+
+  main.analyse .analyse__tools {
+    grid-area: tools !important;
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 0;
+    border-radius: 6px 6px 0 0;
+    background: var(--cdc-bg-panel) !important;
+    box-shadow: none !important;
+  }
+
+  main.analyse .analyse__controls {
+    grid-area: controls !important;
+    align-self: start;
+    background: var(--cdc-bg-panel) !important;
+    box-shadow: none !important;
+  }
+
+  main.analyse .analyse__controls .fbt,
+  main.analyse .analyse__controls .jumps .fbt {
+    border-radius: 5px;
+    color: var(--cdc-text) !important;
+  }
+
+  main.analyse .analyse__controls .fbt:hover:not(.disabled) {
+    background: var(--cdc-bg-raised) !important;
+    color: #fff !important;
+  }
+
+  main.analyse > .mchat {
+    grid-area: chat !important;
+    align-self: stretch !important;
+    /* Lichess sets an inline height on the analysis chat; the grid row wins. */
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    margin-top: 0 !important;
+    overflow: hidden;
+    border-top: 1px solid var(--cdc-border);
+    border-radius: 0 0 6px 6px !important;
+    background: var(--cdc-bg-panel) !important;
+    box-shadow: none !important;
+  }
+
+  main.analyse > .mchat .mchat__tab {
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--cdc-text-dim) !important;
+    font-family: var(--cdc-font) !important;
+    font-weight: 600 !important;
+  }
+
+  main.analyse > .mchat .mchat__tab-active {
+    color: #fff !important;
+    box-shadow: inset 0 -2px 0 #fff;
+  }
+
+  /* The underline slides (see "Sliding tabs" in theme/). */
+  main.analyse > .mchat .mchat__tabs[data-cdc-tabs] .mchat__tab-active {
+    box-shadow: none;
+  }
+
+  main.analyse > .mchat .mchat__content {
+    min-height: 0;
+    overflow: hidden;
+    background: transparent !important;
+  }
+
+  main.analyse > .mchat .mchat__messages {
+    max-height: none !important;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  main.analyse > .mchat .mchat__say {
+    box-sizing: border-box;
+    width: calc(100% - 16px);
+    margin: 6px 8px 8px;
+    padding: 9px 12px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    background: var(--cdc-bg-raised) !important;
+    color: #fff !important;
+  }
+}

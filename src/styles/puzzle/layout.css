@@ -1,0 +1,147 @@
+/* Puzzles (main.puzzle): rounded side cards, a status card and chunky buttons.
+   From 1260px a grid sized to the viewport, so the page never scrolls. */
+
+/* ---- Layout --- */
+
+/* Stacked layout (1020-1259px): Lichess sizes the board from the whole window, which pushed
+   the panel off screen. Cap it to what the sidebar leaves, with a gutter for the ranks. */
+@media (min-width: 1020px) and (max-width: 1259.29px) {
+  main.puzzle {
+    --cdc-coords-l: 0px;
+
+    grid-template-columns:
+      min(
+        var(---col2-uniboard-width),
+        calc(
+          100vw - var(--cdc-sidebar-w, 0px) - 2 * var(---main-margin, 0px) - var(--cdc-coords-l) -
+            270px
+        )
+      )
+      var(---puzzle-gauge-col)
+      minmax(
+        calc(240px - var(---puzzle-gauge-offset)),
+        calc(400px - var(---puzzle-gauge-offset))
+      ) !important;
+    margin-left: var(--cdc-coords-l);
+  }
+
+  body:is(.coords-in, .coords-out) main.puzzle {
+    --cdc-coords-l: calc(0.6 * var(--cdc-coords-size, 13px) + 10px);
+  }
+
+  /* The files under the board ran into the session chips' row. */
+  body:is(.coords-in, .coords-out) main.puzzle .puzzle__session {
+    margin-top: calc(1.2 * var(--cdc-coords-size, 13px) - 10px) !important;
+  }
+
+  /* Lichess's bar is only 15px wide here: too narrow for the score, which the engine line shows. */
+  main.puzzle .eval-gauge::after {
+    content: none !important;
+  }
+}
+
+/* Three columns from 1259.3px (not 1260px: some zoom levels land in between). The board is
+   sized so it and the session chips fit the window; narrower, it would shrink to a stamp. */
+@media (min-width: 1259.3px) {
+  main.puzzle {
+    --cdc-gap: 16px;
+    --cdc-side-min: 240px;
+    --cdc-tools-min: 260px;
+    --cdc-gauge-w: 26px;
+    --cdc-coords-l: 0px;
+    --cdc-coords-off: 0px;
+    --cdc-gauge-col: calc(var(--cdc-gap) + var(--cdc-coords-l));
+    --cdc-side-col: var(--cdc-side-w);
+    --cdc-session-h: 38px;
+    --cdc-kb-h: 0px;
+    /* As on the game page: size the board as if side card and panel were at their minimum,
+       then they share the rest in the ratio of their minimums. */
+    --cdc-cols-w: calc(
+      100vw - var(--cdc-sidebar-w, 0px) - var(--cdc-coords-l) - 2 * var(--cdc-gap) - 48px
+    );
+    --cdc-board: max(
+      320px,
+      calc(
+        min(
+            calc(100dvh - 28px - var(--cdc-coords-off) - var(--cdc-session-h) - var(--cdc-kb-h)),
+            calc(var(--cdc-cols-w) - var(--cdc-side-min) - var(--cdc-tools-min))
+          ) *
+          var(--cdc-board-scale, 1)
+      )
+    );
+    --cdc-side-w: clamp(
+      var(--cdc-side-min),
+      calc((var(--cdc-cols-w) - var(--cdc-board)) * 0.48),
+      340px
+    );
+    --cdc-tools-w: clamp(
+      var(--cdc-tools-min),
+      calc((var(--cdc-cols-w) - var(--cdc-board)) * 0.52),
+      380px
+    );
+
+    grid-template-columns:
+      var(--cdc-side-col) var(--cdc-gauge-col) var(--cdc-board) var(--cdc-gap)
+      var(--cdc-tools-w) !important;
+    grid-template-rows: var(--cdc-board) calc(var(--cdc-coords-off) + var(--cdc-session-h)) auto !important;
+    grid-template-areas:
+      'side gauge board . tools'
+      'side . session . .'
+      'side . kb-move . .' !important;
+    gap: 0 !important;
+    justify-content: center;
+    align-content: start;
+  }
+
+  /* Coordinates sit outside the board (board/): a gutter for ranks, a strip for files. */
+  body:is(.coords-in, .coords-out) main.puzzle {
+    --cdc-coords-l: calc(0.6 * var(--cdc-coords-size, 13px) + 10px);
+    --cdc-coords-off: calc(1.2 * var(--cdc-coords-size, 13px) + 8px);
+  }
+
+  /* When the puzzle ends the eval bar's column takes its width from the side card,
+     so the centred grid keeps its width and nothing jumps. */
+  main.puzzle.gauge-on {
+    --cdc-gauge-col: calc(var(--cdc-gap) + var(--cdc-gauge-w) + 8px + var(--cdc-coords-l));
+    --cdc-side-col: calc(var(--cdc-side-w) - var(--cdc-gauge-w) - 8px);
+  }
+
+  /* The keyboard-move input (a preference) gets its own row; the board leaves room for it. */
+  html[data-cdc-has~='puzzle-keyboard'] main.puzzle {
+    --cdc-kb-h: 44px;
+  }
+
+  main.puzzle .puzzle__board {
+    grid-area: board !important;
+  }
+
+  /* The page never scrolls: Lichess keeps a bottom margin and its hidden hover cards at the end.
+     The side card and move list scroll in place. */
+  html[data-cdc-has~='puzzle'],
+  html[data-cdc-has~='puzzle'] body {
+    overflow: hidden !important;
+  }
+
+  html[data-cdc-has~='puzzle'] body {
+    height: 100dvh;
+    margin-bottom: 0 !important;
+  }
+
+  /* Chips on one row: a long session scrolls sideways (content/pages/puzzle.ts keeps the latest
+   * in view). */
+  main.puzzle .puzzle__session {
+    flex-wrap: nowrap !important;
+    gap: 6px;
+    margin: var(--cdc-coords-off) 0 0 !important;
+    /* Room for the current chip's ring, which the scroller would clip. */
+    padding: 8px 2px 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  main.puzzle .puzzle__session a {
+    flex: 0 0 auto !important;
+    min-width: 2.3em;
+    margin: 0 !important;
+  }
+}

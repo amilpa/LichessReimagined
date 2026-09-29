@@ -1,0 +1,46 @@
+import { createElement, queryOne } from '#shared/dom.ts';
+
+// The review's own elements, made once and kept: renders refill them, and
+// they're put back where they belong if Lichess redraws their parent.
+
+export interface ReviewElements {
+  readonly panel: HTMLElement;
+  readonly graphBox: HTMLElement;
+  readonly controls: HTMLElement;
+  readonly bar: HTMLElement;
+  readonly barFill: HTMLElement;
+  readonly barLabel: HTMLElement;
+  readonly overlay: HTMLElement;
+  readonly opening: HTMLElement;
+  readonly tip: HTMLElement;
+}
+
+export function createElements(): ReviewElements {
+  const bar = createElement('div', { id: 'cdc-evalbar' });
+  const barFill = createElement('div', { className: 'cdc-evalbar__fill' });
+  const barLabel = createElement('span', { className: 'cdc-evalbar__label' });
+  bar.append(barFill, barLabel);
+  return {
+    panel: createElement('div', { id: 'cdc-review' }),
+    graphBox: createElement('div', { id: 'cdc-review-graph' }),
+    controls: createElement('div', { id: 'cdc-review-controls' }),
+    bar,
+    barFill,
+    barLabel,
+    overlay: createElement('div', { id: 'cdc-board-overlay' }),
+    opening: createElement('div', { id: 'cdc-opening' }),
+    // Put on <body>, because the panel's rows scroll and would clip it.
+    tip: createElement('div', { id: 'cdc-tip', attrs: { role: 'tooltip' } }),
+  };
+}
+
+/** Puts the elements in the analysis page; false when it has no board yet. */
+export function attach(elements: ReviewElements): boolean {
+  const main = queryOne(document, 'main.analyse', HTMLElement);
+  const board = main && queryOne(main, '.analyse__board', HTMLElement);
+  if (!main || !board) return false;
+  for (const element of [elements.panel, elements.graphBox, elements.controls, elements.bar])
+    if (element.parentNode !== main) main.append(element);
+  if (elements.overlay.parentNode !== board) board.append(elements.overlay);
+  return true;
+}

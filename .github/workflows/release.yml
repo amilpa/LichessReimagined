@@ -1,13 +1,14 @@
-# Each push to main checks the extension, zips it (for Chrome, the Chrome Web
-# Store and Firefox) and publishes the zips as a GitHub release. The manifest keeps only `<major>.<minor>`. The CI adds the
-# number of commits on main as the third part, so each push gets a new,
-# higher version and nobody changes it by hand.
+# Each push to main runs the CI, zips the extension (for Chrome, the Chrome
+# Web Store and Firefox) and publishes the zips as a GitHub release. The
+# manifest keeps only `<major>.<minor>`: the version adds the number of
+# commits since that last changed, so each push gets a new, higher one and
+# nobody changes it by hand.
 #
 # A `store-<version>` tag on a commit of main (`store-0.1.295`: the version
 # this commit gets) packages that commit the same way and sends it, for
 # review, to both stores: the store zip to the Chrome Web Store, the Firefox
-# zip to Firefox Add-ons (AMO). Each store has its own job: one failing
-# doesn't hold the other.
+# zip and its sources to Firefox Add-ons (AMO). Each store has its own job:
+# one failing doesn't hold the other.
 name: Release
 
 on:
@@ -16,8 +17,7 @@ on:
     tags: ['store-*']
   workflow_dispatch:
 
-permissions:
-  contents: write
+permissions: {}
 
 concurrency:
   # A tag gets its own group: a push to main would otherwise cancel it while
@@ -26,17 +26,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  release:
+  ci:
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  # The CI has packaged this commit: only check the version it got.
+  version:
+    needs: ci
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
-      version: ${{ steps.package.outputs.version }}
-      store_zip: ${{ steps.package.outputs.store_zip }}
-      firefox_zip: ${{ steps.package.outputs.firefox_zip }}
+      version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # The full history, to count the commits.
           fetch-depth: 0
+          persist-credentials: false
 
       # The version counts the commits on main, so it only means something there.
       - name: On main
@@ -47,64 +55,12 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
+      - uses: ./.github/actions/setup
 
-      # The manifest parses, each file that it names exists, each script parses.
-      - name: Check
+      - name: Version
+        id: version
         run: |
-          node -e '
-            const fs = require("fs");
-            const m = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
-            if (!/^\d+\.\d+$/.test(m.version))
-              throw new Error("manifest version must be <major>.<minor>, not " + m.version);
-            const files = [
-              `_locales/${m.default_locale}/messages.json`,
-              m.background.service_worker,
-              ...Object.values(m.icons),
-              ...m.content_scripts.flatMap(c => [...(c.js || []), ...(c.css || [])]),
-            ];
-            const missing = files.filter(f => !fs.existsSync(f));
-            if (missing.length) throw new Error("missing: " + missing.join(", "));
-          '
-          find src lib -name '*.js' -print0 | xargs -0 -n1 node --check
-
-      # The zip gets the full version. The repository keeps `<major>.<minor>`.
-      - name: Package
-        id: package
-        run: |
-          version=$(node -p 'require("./manifest.json").version').$(git rev-list --count HEAD)
-          VERSION=$version node -e '
-            const fs = require("fs");
-            const m = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
-            m.version = process.env.VERSION;
-            fs.writeFileSync("manifest.json", JSON.stringify(m, null, 2) + "\n");
-          '
-          zip="LichessDotCom-v$version.zip"
-          # Only the files that Chrome loads: not store/, not tools/.
-          files="manifest.json _locales icons img lib sounds src"
-          zip -r -X -q "$zip" $files -x '*.DS_Store'
-          # The Chrome Web Store's package: the same, without the storage
-          # permission. Only an unpacked install uses it (its auto-reload),
-          # and the store turns down a permission its installs don't need.
-          store_zip="LichessDotCom-v$version-store.zip"
-          mkdir store-build
-          cp -R $files store-build/
-          node -e '
-            const fs = require("fs");
-            const path = "store-build/manifest.json";
-            const m = JSON.parse(fs.readFileSync(path, "utf8"));
-            m.permissions = (m.permissions || []).filter(p => p !== "storage");
-            if (!m.permissions.length) delete m.permissions;
-            fs.writeFileSync(path, JSON.stringify(m, null, 2) + "\n");
-          '
-          (cd store-build && zip -r -X -q "../$store_zip" . -x '*.DS_Store')
-          # The Firefox package (tools/firefox/build.mjs): background scripts
-          # for the service worker, a gecko id, moz-extension:// in the CSS.
-          firefox_zip="LichessDotCom-v$version-firefox.zip"
-          node tools/firefox/build.mjs firefox-build --version "$version"
-          (cd firefox-build && zip -r -X -q "../$firefox_zip" . -x '*.DS_Store')
+          version=$(node scripts/version.ts)
           # A store tag names the version it sends, so a tag on the wrong
           # commit stops here.
           if [ "$GITHUB_REF_TYPE" = tag ] && [ "$GITHUB_REF_NAME" != "store-$version" ]; then
@@ -112,94 +68,97 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "zip=$zip" >> "$GITHUB_OUTPUT"
-          echo "store_zip=$store_zip" >> "$GITHUB_OUTPUT"
-          echo "firefox_zip=$firefox_zip" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/upload-artifact@v4
+  # A tag only goes to the stores: the push to main makes the release.
+  release:
+    needs: version
+    if: github.ref_type != 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
         with:
-          name: LichessDotCom-v${{ steps.package.outputs.version }}
-          path: |
-            ${{ steps.package.outputs.zip }}
-            ${{ steps.package.outputs.store_zip }}
-            ${{ steps.package.outputs.firefox_zip }}
+          name: packages
 
-      # A tag only goes to the store: the push to main makes the release.
       - name: Release
-        if: github.ref_type != 'tag'
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.package.outputs.version }}
-          ZIP: ${{ steps.package.outputs.zip }}
-          STORE_ZIP: ${{ steps.package.outputs.store_zip }}
-          FIREFOX_ZIP: ${{ steps.package.outputs.firefox_zip }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.version.outputs.version }}
         run: |
           # A manual run on a commit that has a release already.
-          if gh release view "v$VERSION" > /dev/null 2>&1; then
+          if gh release view "v$VERSION" --json tagName > /dev/null; then
             echo "v$VERSION has a release already."
             exit 0
           fi
-          gh release create "v$VERSION" "$ZIP" "$STORE_ZIP" "$FIREFOX_ZIP" \
+          gh release create "v$VERSION" \
+            "LichessDotCom-v$VERSION.zip" \
+            "LichessDotCom-v$VERSION-store.zip" \
+            "LichessDotCom-v$VERSION-firefox.zip" \
             --target "$GITHUB_SHA" \
             --title "LichessDotCom $VERSION" \
             --generate-notes
 
   store:
-    needs: release
+    needs: version
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
         with:
-          node-version: 22
+          persist-credentials: false
+      - uses: ./.github/actions/setup
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
-          name: LichessDotCom-v${{ needs.release.outputs.version }}
+          name: packages
+          path: dist
 
       - name: Chrome Web Store
         env:
           CWS_SERVICE_ACCOUNT: ${{ secrets.CWS_SERVICE_ACCOUNT }}
           CWS_PUBLISHER_ID: ${{ secrets.CWS_PUBLISHER_ID }}
-        run: >
-          node tools/store/publish.mjs
-          "${{ needs.release.outputs.store_zip }}"
-          "${{ needs.release.outputs.version }}"
+          VERSION: ${{ needs.version.outputs.version }}
+        run: node scripts/store/publish-chrome.ts "dist/LichessDotCom-v$VERSION-store.zip" "$VERSION"
 
   amo:
-    needs: release
+    needs: version
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
-          name: LichessDotCom-v${{ needs.release.outputs.version }}
+          name: packages
 
       # Submits the version to the add-on's AMO listing and ends there, as the
       # Chrome Web Store job does: Mozilla signs and publishes it once
       # reviewed. The add-on must exist on AMO already (its first version is
-      # submitted by hand, with the listing): web-ext only adds versions.
+      # submitted by hand, with the listing): web-ext only adds versions. The
+      # scripts are bundled, so AMO asks for the sources they're built from.
       - name: Firefox Add-ons
         env:
           AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
           AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
-          ZIP: ${{ needs.release.outputs.firefox_zip }}
+          VERSION: ${{ needs.version.outputs.version }}
         run: |
           if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
             echo "::error::the AMO_JWT_ISSUER and AMO_JWT_SECRET secrets must be set"
             exit 1
           fi
           mkdir firefox
-          unzip -q "$ZIP" -d firefox
+          unzip -q "LichessDotCom-v$VERSION-firefox.zip" -d firefox
           npx --yes web-ext@10 sign \
             --source-dir firefox \
             --channel listed \
             --api-key "$AMO_JWT_ISSUER" \
             --api-secret "$AMO_JWT_SECRET" \
-            --approval-timeout 0
+            --approval-timeout 0 \
+            --upload-source-code "LichessDotCom-v$VERSION-source.zip"

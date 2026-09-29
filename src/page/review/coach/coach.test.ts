@@ -1,0 +1,137 @@
+import { z } from 'zod/mini';
+import { describe, expect, it } from 'vitest';
+import { StoredRecordCodec } from '#page/review/evaluation/stored.ts';
+import { fixtureGames, replay } from '#page/review/fixtures/replay.ts';
+import { en } from '#page/review/i18n/en.ts';
+import { fr } from '#page/review/i18n/fr.ts';
+import type { ReviewLanguage } from '#page/review/i18n/types.ts';
+import { judge } from '#page/review/judge/judge.ts';
+import { explanation } from './explanation.ts';
+import { fact } from './fact.ts';
+import { hash } from './hash.ts';
+import { remark } from './remark.ts';
+import { advantageName, evaluationLevel, trajectory, type TrajectoryInput } from './trajectory.ts';
+// What the original script said about every fixture move, in both languages,
+// and its trajectory sentences over a grid of evaluations.
+import legacy from './fixtures/legacy.json' with { type: 'json' };
+import units from './fixtures/legacy-units.json' with { type: 'json' };
+import crafted from './fixtures/legacy-crafted.json' with { type: 'json' };
+
+const LANGUAGES: Readonly<Record<'en' | 'fr', ReviewLanguage>> = { en, fr };
+
+const LegacyPartsSchema = z.array(
+  z.union([z.tuple([z.string()]), z.tuple([z.string(), z.boolean()])]),
+);
+const MoveTextsSchema = z.array(z.object({ remark: z.string(), parts: LegacyPartsSchema }));
+const GameTextsSchema = z.array(z.object({ en: MoveTextsSchema, fr: MoveTextsSchema }));
+
+const toParts = (parts: z.infer<typeof LegacyPartsSchema>) =>
+  parts.map(([text, droppable]) => ({ text, droppable: droppable ?? false }));
+
+const langs: readonly ('en' | 'fr')[] = ['en', 'fr'];
+
+describe('the coach’s comment', () => {
+  const texts = GameTextsSchema.parse(legacy);
+
+  it.each(langs)('says what the original said, in %s', lang => {
+    for (const [index, game] of fixtureGames().entries()) {
+      const context = { gameId: game.id, coach: game.coach, language: LANGUAGES[lang] };
+      const expected = texts[index]?.[lang] ?? [];
+      for (const [i, move] of replay(game).entries()) {
+        const said = expected[i];
+        expect(remark(move, context), `${game.name} ${move.ply}`).toBe(said?.remark);
+        expect(explanation(move, context, game.opening), `${game.name} ${move.ply}`).toEqual(
+          toParts(said?.parts ?? []),
+        );
+      }
+    }
+  });
+
+  it('names checkmate on its own', () => {
+    const game = fixtureGames().find(({ name }) => name === 'opera');
+    const mate = game ? replay(game).at(-1) : undefined;
+    if (!game || !mate) throw new Error('no opera game');
+    expect(fact(mate, en.facts)).toBe('Checkmate: the black king has nowhere to go.');
+    expect(explanation(mate, { gameId: game.id, coach: 1, language: fr }, '')).toEqual([
+      { text: 'Échec et mat\u00a0: le roi noir n’a plus aucune case.', droppable: false },
+    ]);
+  });
+});
+
+const PositionSchema = z.object({
+  ply: z.number(),
+  fen: z.string(),
+  uci: z.optional(z.string()),
+  san: z.optional(z.string()),
+});
+const SaidSchema = z.object({ fact: z.nullable(z.string()), parts: LegacyPartsSchema });
+const CraftedSchema = z.array(
+  z.object({
+    name: z.string(),
+    prev: PositionSchema,
+    node: z.object({ ...PositionSchema.shape, uci: z.string(), san: z.string() }),
+    a: StoredRecordCodec,
+    b: StoredRecordCodec,
+    cls: z.string(),
+    slower: z.boolean(),
+    en: SaidSchema,
+    fr: SaidSchema,
+  }),
+);
+
+describe('rarer moves', () => {
+  it.each(CraftedSchema.parse(crafted))('are explained as the original did: $name', said => {
+    const move = judge({
+      previousPosition: said.prev,
+      position: said.node,
+      before: said.a,
+      after: said.b,
+      book: false,
+      chess960: false,
+    });
+    expect(move).toMatchObject({ moveClass: said.cls, slower: said.slower });
+    for (const lang of langs) {
+      const context = { gameId: 'crafted1', coach: 2, language: LANGUAGES[lang] };
+      expect(fact(move, LANGUAGES[lang].facts)).toBe(said[lang].fact);
+      expect(explanation(move, context, '')).toEqual(toParts(said[lang].parts));
+    }
+  });
+});
+
+describe('trajectory', () => {
+  const all = units.recs.map(record =>
+    StoredRecordCodec.parse({ wp2: null, best: null, ...record }),
+  );
+
+  it('rates evaluations as the original did', () => {
+    for (const [i, [, level, english, french]] of units.levels.entries()) {
+      const record = all[i];
+      if (!record) throw new Error(`no record ${i}`);
+      expect(evaluationLevel(record)).toBe(level);
+      expect(advantageName(Number(level), record, en)).toBe(english);
+      expect(advantageName(Number(level), record, fr)).toBe(french);
+    }
+  });
+
+  it('tells how the game changed, as the original did', () => {
+    for (const [i, j, mover, seed, english, french] of units.trajectories) {
+      const before = all[Number(i)];
+      const after = all[Number(j)];
+      if (!before || !after) throw new Error(`no records ${i}, ${j}`);
+      const input: TrajectoryInput = {
+        before,
+        after,
+        mover: mover === 'w' ? 'white' : 'black',
+        seed: Number(seed),
+      };
+      expect(trajectory(input, en)).toBe(english);
+      expect(trajectory(input, fr)).toBe(french);
+    }
+  });
+});
+
+describe('hash', () => {
+  it('is the original’s FNV-1a', () => {
+    for (const [text, value] of units.hashes) expect(hash(String(text))).toBe(value);
+  });
+});

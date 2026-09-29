@@ -1,0 +1,141 @@
+/* ---- Engine --- */
+
+@media (min-width: 1020px) {
+  /* One compact header row (toggle, eval, engine name, icons), then one row per engine line. */
+  main.analyse .analyse__tools > .ceval {
+    position: relative;
+    flex: none;
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    height: 52px !important;
+    padding: 0 8px 0 12px !important;
+    border-bottom: 1px solid var(--cdc-border);
+    background: var(--cdc-bg-panel-dark) !important;
+  }
+
+  main.analyse .ceval pearl {
+    flex: none;
+    min-width: 52px;
+    padding: 0 !important;
+    color: #fff !important;
+    font-family: var(--cdc-font) !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    text-align: left;
+  }
+
+  main.analyse .ceval .engine {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--cdc-text-dim) !important;
+    font-family: var(--cdc-font) !important;
+    font-size: 12px !important;
+    line-height: 17px !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  main.analyse .ceval .engine .technology {
+    margin-left: 4px;
+    font-weight: 700;
+  }
+
+  main.analyse .ceval .engine .info {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  main.analyse .ceval .engine .cloud {
+    margin-left: 6px;
+    padding: 0 5px;
+    border-radius: 3px;
+    background: #ffffff1a !important;
+    color: var(--cdc-text) !important;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  main.analyse .ceval .engine .deeper {
+    display: none;
+  }
+
+  /* Lichess makes them left-aligned blocks, which pushed the glyph left. */
+  main.analyse .ceval > button {
+    flex: none;
+    display: grid !important;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0 !important;
+    border-radius: 5px;
+    background: none !important;
+    color: var(--cdc-text-dim) !important;
+    font-size: 18px;
+  }
+
+  main.analyse .ceval > button:hover {
+    background: #ffffff14 !important;
+    color: #fff !important;
+  }
+
+  /* Depth progress: a thin line along the header's bottom. */
+  main.analyse .ceval .bar {
+    position: absolute !important;
+    inset: auto 0 -1px !important;
+    height: 2px !important;
+  }
+
+  main.analyse .pv_box {
+    flex: none;
+    border-bottom: 1px solid var(--cdc-border);
+    background: var(--cdc-bg-panel-dark);
+  }
+
+  main.analyse .pv_box .pv {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 30px;
+    padding: 0 12px !important;
+    overflow: hidden;
+    border: none !important;
+    color: var(--cdc-text-dim);
+    font-family: var(--cdc-font) !important;
+    font-size: 13px !important;
+    line-height: 30px !important;
+    white-space: nowrap;
+    mask-image: linear-gradient(to right, #000 85%, transparent);
+  }
+
+  main.analyse .pv_box .pv + .pv {
+    border-top: 1px solid #ffffff0a !important;
+  }
+
+  main.analyse .pv_box .pv strong {
+    flex: none;
+    min-width: 40px;
+    margin-right: 4px;
+    padding: 0 5px;
+    border-radius: 3px;
+    background: #ffffff1f;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  main.analyse .pv_box .pv-san {
+    color: var(--cdc-text);
+    font-weight: 700;
+  }
+
+  main.analyse .pv_box .pv-wrap-toggle {
+    display: none !important;
+  }
+}

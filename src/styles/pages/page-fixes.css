@@ -1,0 +1,102 @@
+/* ---- Leaderboards --- */
+
+.community__leaders .leaderboards h2 {
+  background: var(--cdc-bg-panel-dark) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+}
+
+.community__leaders .leaderboards .user-top {
+  border-color: var(--cdc-border) !important;
+}
+
+/* ---- Sign in --- */
+
+.auth .auth-tabs a {
+  color: var(--cdc-text-dim) !important;
+  font-weight: 700 !important;
+}
+
+.auth .auth-tabs a.active {
+  color: #fff !important;
+  border-bottom-color: #fff !important;
+}
+
+.auth .auth-tabs[data-cdc-tabs] a.active {
+  border-bottom-color: transparent !important;
+}
+
+/* ---- Puzzle modes --- */
+
+.puz-side__start__text span,
+.storm-play-again {
+  letter-spacing: normal !important;
+  font-weight: 700;
+}
+
+/* Coordinate trainer: its board capped as storm.css caps Storm's, or the explanation and
+ * Start button ran past the window. The ranks get a gutter only when shown. */
+@media (min-width: 1020px) {
+  main#trainer > .trainer {
+    --cdc-coords-l: 0px;
+  }
+
+  main#trainer > .trainer:has(coords.ranks) {
+    --cdc-coords-l: calc(0.6 * var(--cdc-coords-size, 13px) + 10px);
+  }
+}
+
+@media (min-width: 1020px) and (max-width: 1259.29px) {
+  main#trainer > .trainer {
+    grid-template-columns:
+      min(
+        var(---col2-uniboard-width),
+        calc(
+          100vw - var(--cdc-sidebar-w, 0px) - 2 * var(---main-margin, 0px) - var(--cdc-coords-l) -
+            275px
+        )
+      )
+      var(---block-gap)
+      minmax(240px, 400px) !important;
+    margin-left: var(--cdc-coords-l);
+  }
+}
+
+@media (min-width: 1259.3px) {
+  main#trainer > .trainer {
+    grid-template-columns:
+      minmax(var(---col3-uniboard-side-min, 250px), 350px)
+      calc(var(---block-gap) + var(--cdc-coords-l))
+      min(
+        var(---col3-uniboard-width),
+        calc(
+          100vw - var(--cdc-sidebar-w, 0px) - 2 * var(---main-margin, 0px) - var(--cdc-coords-l) -
+            540px
+        )
+      )
+      var(---block-gap)
+      minmax(240px, 400px) !important;
+  }
+}
+
+/* A private race's invite link: the field shrinks rather than push its copy button out. */
+.racer .copy-me__target {
+  min-width: 0;
+}
+
+/* ---- Board editor --- */
+
+/* The action buttons were stacked flush, each shadow over the next: space them out. */
+.board-editor__tools .actions {
+  gap: 10px;
+}
+
+.board-editor__tools .actions form .button {
+  width: 100%;
+}
+
+.board-editor__tools .castling label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

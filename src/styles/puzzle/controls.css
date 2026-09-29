@@ -1,0 +1,89 @@
+/* ---- Controls --- */
+
+main.puzzle {
+  --cdc-jumps-h: 48px;
+}
+
+/* Lichess puts the move buttons in a row under the panel, which made the page scroll.
+   Pin them inside the panel's cell and reserve their height (desktop only: no tools area below). */
+@media (min-width: 1020px) {
+  /* Lichess sets the panel to the squares' height, a few px short of the board's wrapper.
+     Filling the cell keeps the buttons' 10px inset equal to the banner's. */
+  main.puzzle .puzzle__tools {
+    height: auto !important;
+    padding-bottom: calc(var(--cdc-jumps-h) + 10px) !important;
+  }
+
+  main.puzzle .puzzle__controls {
+    grid-area: tools !important;
+    align-self: end;
+    margin: 0 10px 10px !important;
+  }
+}
+
+/* Equal chunky grey buttons, dimmer and flatter when disabled. */
+main.puzzle .puzzle__controls {
+  height: auto !important;
+}
+
+main.puzzle .puzzle__controls .jumps {
+  gap: 8px;
+  padding: 0 !important;
+  font-size: 20px !important;
+}
+
+main.puzzle .puzzle__controls .jumps .fbt {
+  flex: 1 1 0 !important;
+  height: var(--cdc-jumps-h);
+  border-radius: 8px !important;
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow);
+  color: #c5c5c4 !important;
+  text-shadow: none !important;
+}
+
+main.puzzle .puzzle__controls .jumps .fbt:hover:not(.disabled, [disabled]) {
+  background: var(--cdc-btn-grey-hover) !important;
+  color: #fff !important;
+}
+
+main.puzzle .puzzle__controls .jumps .fbt:is(.disabled, [disabled]) {
+  background: linear-gradient(#2c2b29, #272624) !important;
+  box-shadow: 0 1px 2px #00000033;
+  color: #747372 !important;
+  opacity: 1 !important;
+}
+
+main.puzzle .puzzle__controls .jumps .fbt.glowing {
+  color: #fff !important;
+  box-shadow:
+    var(--cdc-btn-grey-shadow),
+    0 0 0 2px var(--cdc-green);
+}
+
+/* ---- Moves, engine --- */
+
+/* The current move: a soft highlight, not Lichess's flat green block. */
+main.puzzle .tview2 move.active {
+  border-radius: 4px;
+  background: #ffffff24 !important;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+/* Move numbers in the analysis page's grey: Lichess's dimmer one was barely readable. */
+main.puzzle .tview2-column > index {
+  color: var(--cdc-text-dim) !important;
+}
+
+/* The engine line after the puzzle. Horizontal padding only: the row has a fixed height. */
+main.puzzle .ceval {
+  padding-inline: 8px !important;
+  border-bottom: 1px solid #ffffff14;
+  background: none !important;
+}
+
+/* The eval bar is drawn in board/; its width is --cdc-gauge-w from the layout. */
+main.puzzle .eval-gauge {
+  margin-left: var(--cdc-gap, 0px);
+}

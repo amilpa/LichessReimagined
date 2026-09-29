@@ -1,0 +1,191 @@
+{
+  "scenarios": [
+    {
+      "name": "a blitz game with increment",
+      "path": "/abcdefgh/white",
+      "html": "<main class=\"round\"><div class=\"round__side\"><rm6><l4x><i5z>1</i5z><kwdb>e4</kwdb><kwdb>e5</kwdb><i5z>2</i5z><kwdb>Nf3</kwdb><kwdb>Nc6</kwdb><i5z>3</i5z><kwdb>Bb5</kwdb><kwdb class=\"empty\">…</kwdb><div class=\"result-wrap\"><p class=\"result\">1-0</p></div></l4x></rm6></div></main>",
+      "game": {
+        "id": "abcdefgh",
+        "clock": {
+          "initial": 180,
+          "increment": 2,
+          "totalTime": 260
+        },
+        "clocks": [18003, 18003, 17500, 16012, 17000]
+      },
+      "requests": [
+        {
+          "url": "/game/export/abcdefgh?moves=false&clocks=true&evals=false&opening=false",
+          "init": {
+            "headers": {
+              "Accept": "application/json"
+            }
+          }
+        }
+      ],
+      "moves": [
+        {
+          "time": "0.0s",
+          "share": "0.000"
+        },
+        {
+          "time": "0.0s",
+          "share": "0.000"
+        },
+        {
+          "time": "7.0s",
+          "share": "0.321"
+        },
+        {
+          "time": "21.9s",
+          "share": "1.000"
+        },
+        {
+          "time": "7.0s",
+          "share": "0.319"
+        }
+      ],
+      "listMarked": true,
+      "clock": {
+        "initial": 180,
+        "increment": 2,
+        "totalTime": 260
+      },
+      "id": "abcdefgh"
+    },
+    {
+      "name": "long thinks in a classical game",
+      "path": "/classic1",
+      "html": "<main class=\"round\"><div class=\"round__side\"><rm6><l4x><i5z>1</i5z><kwdb>d4</kwdb><kwdb>Nf6</kwdb><i5z>2</i5z><kwdb>c4</kwdb><kwdb>e6</kwdb><kwdb class=\"empty\">…</kwdb><div class=\"result-wrap\"><p class=\"result\">1-0</p></div></l4x></rm6></div></main>",
+      "game": {
+        "id": "classic1",
+        "clock": {
+          "initial": 1800,
+          "increment": 0,
+          "totalTime": 1800
+        },
+        "clocks": [180000, 180000, 171234, 173990]
+      },
+      "requests": [
+        {
+          "url": "/game/export/classic1?moves=false&clocks=true&evals=false&opening=false",
+          "init": {
+            "headers": {
+              "Accept": "application/json"
+            }
+          }
+        }
+      ],
+      "moves": [
+        {
+          "time": "0.0s",
+          "share": "0.000"
+        },
+        {
+          "time": "0.0s",
+          "share": "0.000"
+        },
+        {
+          "time": "1:27",
+          "share": "1.000"
+        },
+        {
+          "time": "1:00",
+          "share": "0.686"
+        }
+      ],
+      "listMarked": true,
+      "clock": {
+        "initial": 1800,
+        "increment": 0,
+        "totalTime": 1800
+      },
+      "id": "classic1"
+    },
+    {
+      "name": "TV: the id comes from the analysis link",
+      "path": "/tv/blitz",
+      "html": "<main class=\"round\"><div class=\"round__side\"><rm6><div class=\"buttons\"><a class=\"analysis\" href=\"/tvgame12/black\">Analysis</a></div><l4x><i5z>1</i5z><kwdb>e4</kwdb><kwdb>c5</kwdb><kwdb class=\"empty\">…</kwdb><div class=\"result-wrap\"><p class=\"result\">1-0</p></div></l4x></rm6></div></main>",
+      "game": {
+        "id": "tvgame12",
+        "clock": {
+          "initial": 60,
+          "increment": 0,
+          "totalTime": 60
+        },
+        "clocks": [6000, 6000]
+      },
+      "requests": [
+        {
+          "url": "/game/export/tvgame12?moves=false&clocks=true&evals=false&opening=false",
+          "init": {
+            "headers": {
+              "Accept": "application/json"
+            }
+          }
+        }
+      ],
+      "moves": [
+        {
+          "time": "0.0s",
+          "share": "0.000"
+        },
+        {
+          "time": "0.0s",
+          "share": "0.000"
+        }
+      ],
+      "listMarked": true,
+      "clock": {
+        "initial": 60,
+        "increment": 0,
+        "totalTime": 60
+      },
+      "id": "tvgame12"
+    },
+    {
+      "name": "a game without a clock",
+      "path": "/corresp1",
+      "html": "<main class=\"round\"><div class=\"round__side\"><rm6><l4x><i5z>1</i5z><kwdb>e4</kwdb><kwdb>e5</kwdb><kwdb class=\"empty\">…</kwdb><div class=\"result-wrap\"><p class=\"result\">1-0</p></div></l4x></rm6></div></main>",
+      "game": {
+        "id": "corresp1"
+      },
+      "requests": [
+        {
+          "url": "/game/export/corresp1?moves=false&clocks=true&evals=false&opening=false",
+          "init": {
+            "headers": {
+              "Accept": "application/json"
+            }
+          }
+        }
+      ],
+      "moves": [
+        {
+          "time": null,
+          "share": null
+        },
+        {
+          "time": null,
+          "share": null
+        }
+      ],
+      "listMarked": false,
+      "clock": null,
+      "id": "corresp1"
+    }
+  ],
+  "formats": [
+    [0, "0.0s"],
+    [5, "0.1s"],
+    [99, "1.0s"],
+    [100, "1.0s"],
+    [1234, "12.3s"],
+    [5999, "60.0s"],
+    [5999.9, "60.0s"],
+    [6000, "1:00"],
+    [6049, "1:00"],
+    [12345, "2:03"],
+    [360000, "60:00"]
+  ]
+}

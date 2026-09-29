@@ -1,0 +1,85 @@
+{
+  "scores": [
+    {
+      "score": "+1.2",
+      "eval": "1.2",
+      "lead": "white"
+    },
+    {
+      "score": "-0.5",
+      "eval": "0.5",
+      "lead": "black"
+    },
+    {
+      "score": "−3.4",
+      "eval": "3.4",
+      "lead": "black"
+    },
+    {
+      "score": "#5",
+      "eval": "M5",
+      "lead": "white"
+    },
+    {
+      "score": "#-2",
+      "eval": "M2",
+      "lead": "black"
+    },
+    {
+      "score": "#−7",
+      "eval": "M7",
+      "lead": "black"
+    },
+    {
+      "score": "0.0",
+      "eval": "0.0",
+      "lead": "white"
+    },
+    {
+      "score": "+12",
+      "eval": "12",
+      "lead": "white"
+    },
+    {
+      "score": " +0.3 ",
+      "eval": "0.3",
+      "lead": "white"
+    },
+    {
+      "score": "",
+      "eval": null,
+      "lead": "white"
+    },
+    {
+      "score": "abc",
+      "eval": null,
+      "lead": "white"
+    },
+    {
+      "score": "-",
+      "eval": null,
+      "lead": "white"
+    },
+    {
+      "score": "+1.2.3",
+      "eval": null,
+      "lead": "white"
+    },
+    {
+      "score": "#",
+      "eval": null,
+      "lead": "white"
+    },
+    {
+      "score": "1,5",
+      "eval": null,
+      "lead": "white"
+    },
+    {
+      "score": "+0.25",
+      "eval": "0.25",
+      "lead": "white"
+    }
+  ],
+  "cleared": "<div class=\"eval-gauge\" data-cdc-eval=\"\" data-cdc-lead=\"white\"></div>"
+}

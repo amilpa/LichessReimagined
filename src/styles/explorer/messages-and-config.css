@@ -1,0 +1,182 @@
+/* ---- Empty states and messages --- */
+
+/* Nothing to show ("No game found", "Checkmate"): give the move list the room.
+ * A message with buttons stays: signed out it's all the explorer shows, and an
+ * error isn't nothing to show. */
+.explorer-box
+  .data.empty:not(:has(> .message > .explanation ~ button))
+  > :is(.message, .title:not(:has(> a))) {
+  display: none !important;
+}
+
+.explorer-box .message {
+  gap: 8px;
+  padding: 16px 12px;
+  color: var(--cdc-text-dim);
+  font-style: normal !important;
+}
+
+.explorer-box .message > [data-icon]::before,
+.explorer-box .message > i::before {
+  color: var(--cdc-text-dim);
+  font-size: 28px;
+}
+
+.explorer-box .message :is(strong, h3) {
+  margin: 0 !important;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.explorer-box .message p {
+  margin: 0 !important;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.explorer-box .message .button {
+  align-self: center;
+  margin: 4px 0 0 !important;
+}
+
+/* Lichess stretches an empty state over the box (a flex column), which squeezed
+ * the title to a sliver. Let the box scroll instead. */
+.explorer-box .data.empty > * {
+  flex-shrink: 0;
+}
+
+/* Signed out or after an error: the buttons side by side, to fit the explorer's
+ * share of the panel. */
+.explorer-box .message:has(> .explanation ~ button) {
+  flex-flow: row wrap !important;
+  justify-content: center;
+  padding: 10px 12px 14px !important;
+}
+
+.explorer-box .message:has(> .explanation ~ button) > :is(h3, .explanation) {
+  flex: 0 0 100%;
+}
+
+.explorer-box .message:has(> .explanation ~ button) > .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  font-size: 13px;
+}
+
+.explorer-box .message:has(> .explanation ~ button) > .button::before {
+  margin: 0 !important;
+  font-size: 14px;
+}
+
+/* ---- Config --- */
+
+.explorer-box.explorer__config section {
+  margin: 12px 12px 0 !important;
+}
+
+.explorer-box.explorer__config :is(label, .toggle) {
+  color: var(--cdc-text-dim);
+  font-size: 12px;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  line-height: 24px !important;
+  text-transform: uppercase;
+}
+
+.explorer-box.explorer__config .choices {
+  gap: 4px;
+}
+
+.explorer-box.explorer__config .choices button {
+  display: grid;
+  place-items: center;
+  min-height: 34px;
+  padding: 0 4px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow) !important;
+  color: var(--cdc-text-dim) !important;
+  font-family: var(--cdc-font) !important;
+  font-size: 13px;
+  font-weight: 700;
+  text-shadow: none !important;
+}
+
+.explorer-box.explorer__config .choices button:hover {
+  background: var(--cdc-btn-grey-hover) !important;
+  color: #fff !important;
+}
+
+.explorer-box.explorer__config .choices button:is([aria-pressed='true'], .active) {
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
+  color: #fff !important;
+}
+
+.explorer-box.explorer__config .choices button:is([aria-pressed='true'], .active):hover {
+  background: var(--cdc-btn-green-hover) !important;
+}
+
+/* Time controls are our icons (theme/), white once chosen. */
+.explorer-box.explorer__config .speed .choices button [data-icon]::before {
+  font-size: 18px;
+}
+
+.explorer-box.explorer__config .speed .choices button[aria-pressed='true'] [data-icon]::before {
+  --cdc-mode-color: #fff;
+}
+
+.explorer-box.explorer__config .name .player-name {
+  padding: 0 14px !important;
+}
+
+.explorer-box.explorer__config .name .color {
+  color: var(--cdc-text) !important;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.explorer-box.explorer__config .date label {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.explorer-box.explorer__config .date input {
+  height: 30px;
+  padding: 0 8px !important;
+  border-radius: 5px !important;
+  background: var(--cdc-bg-raised) !important;
+  color: #fff !important;
+  color-scheme: dark;
+  font-family: var(--cdc-font) !important;
+}
+
+.explorer-box.explorer__config section.save {
+  padding: 16px 0 14px !important;
+}
+
+/* ---- Analysis panel --- */
+
+/* The explorer takes what it needs, up to 40% of the panel, and scrolls past
+ * that. Lichess still shrinks it once the line leaves book. */
+@media (min-width: 1020px) {
+  main.analyse
+    .analyse__tools:has(> .explorer-box):not(:has(> .explorer-box.reduced))
+    > .analyse__moves {
+    flex: 1 1 0 !important;
+    min-height: 90px;
+  }
+
+  main.analyse .explorer-box:not(.reduced) {
+    flex: 0 1 auto !important;
+    max-height: 40%;
+  }
+}

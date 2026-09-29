@@ -1,0 +1,152 @@
+/* ---- Podium --- */
+
+/* display: contents makes the finished title the card's own child, so it can
+ * stick over the card. The confetti then covers the card, the glow the podium. */
+main.swiss .podium-wrap {
+  display: contents;
+}
+
+main.swiss .podium {
+  padding-bottom: 20px;
+  background: radial-gradient(ellipse 60% 70% at 50% 45%, #e3aa2414, transparent 70%);
+}
+
+/* Keep Lichess's weight and tracking: the podium's widths depend on them.
+ * A disqualified player (.lame) keeps Lichess's strikethrough. */
+main.swiss .podium .user-link {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  color: #fff !important;
+  font-family: var(--cdc-font);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+main.swiss .podium .user-link .uflair {
+  width: 1em;
+  height: 1em;
+  margin-inline-start: 3px;
+}
+
+main.swiss .podium .stats {
+  border-spacing: 0 2px;
+  font-size: 12px !important;
+}
+
+main.swiss .podium .first .stats {
+  font-size: 14px !important;
+}
+
+main.swiss .podium .stats th {
+  padding: 0 !important;
+  color: var(--cdc-text-dim);
+  font-weight: 600;
+  letter-spacing: 0 !important;
+}
+
+main.swiss .podium .stats td {
+  padding-inline-start: 14px !important;
+  color: #fff;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Stats --- */
+
+main.swiss .swiss__stats {
+  padding: 20px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: none !important;
+}
+
+main.swiss .swiss__stats h2 {
+  margin: 0 0 12px !important;
+  color: #fff;
+  font-family: var(--cdc-font) !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  text-align: start !important;
+}
+
+main.swiss .swiss__stats table {
+  width: 100%;
+  margin: 0 !important;
+  border-collapse: collapse;
+}
+
+main.swiss .swiss__stats tr {
+  box-shadow: inset 0 -1px 0 var(--cdc-card-border);
+}
+
+main.swiss .swiss__stats th {
+  padding: 9px 0;
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: start;
+}
+
+main.swiss .swiss__stats td {
+  padding: 9px 0 !important;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4 !important;
+}
+
+/* The round list as a grey button, the downloads as rows. */
+main.swiss .swiss__stats__links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  margin: 16px 0 0 !important;
+}
+
+main.swiss .swiss__stats__links br {
+  display: none;
+}
+
+main.swiss .swiss__stats__links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 !important;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--cdc-text) !important;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background-color 0.15s,
+    color 0.15s !important;
+}
+
+main.swiss .swiss__stats__links a:hover {
+  background: var(--cdc-bg-raised);
+  color: #fff !important;
+}
+
+main.swiss .swiss__stats__links a::before {
+  margin: 0 !important;
+  color: var(--cdc-text-dim);
+}
+
+main.swiss .swiss__stats__links a:first-child {
+  justify-content: center;
+  margin-bottom: 10px !important;
+  padding: 10px;
+  background: var(--cdc-btn-grey);
+  box-shadow: var(--cdc-btn-grey-shadow);
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+main.swiss .swiss__stats__links a:first-child:hover {
+  background: var(--cdc-btn-grey-hover);
+}

@@ -1,0 +1,141 @@
+/* ---- Themes --- */
+
+/* The puzzle's themes as rounded rows with the lock or thumbs at the end, like a settings list. */
+main.puzzle .puzzle__themes {
+  margin: 14px 0 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+main.puzzle .puzzle__themes_list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+main.puzzle .puzzle__themes__list__entry {
+  align-items: center !important;
+  gap: 8px;
+  min-height: 38px;
+  margin: 0 !important;
+  padding: 0 6px 0 12px;
+  border-radius: 8px;
+  background: #ffffff0a !important;
+  transition: background 0.15s !important;
+}
+
+main.puzzle .puzzle__themes__list__entry:hover {
+  background: #ffffff14 !important;
+}
+
+main.puzzle .puzzle__themes__list__entry a {
+  flex: 1;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 9px 0;
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+main.puzzle .puzzle__themes__list__entry.strike a {
+  color: var(--cdc-text-dim) !important;
+}
+
+main.puzzle .puzzle__themes__votes {
+  flex: none !important;
+  gap: 4px;
+}
+
+main.puzzle .puzzle__themes__lock {
+  flex: none !important;
+  width: 28px;
+  color: var(--cdc-text-dim) !important;
+  font-size: 12px;
+  opacity: 0.6 !important;
+}
+
+main.puzzle .puzzle__themes__vote {
+  flex: none !important;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #ffffff0d;
+  color: var(--cdc-text-dim) !important;
+  font-size: 12px;
+  transition:
+    background 0.15s,
+    color 0.15s !important;
+}
+
+main.puzzle .puzzle__themes__vote.vote-up:is(:hover, .active) {
+  background: var(--cdc-btn-green) !important;
+  color: #fff !important;
+}
+
+main.puzzle .puzzle__themes__vote.vote-down:is(:hover, .active) {
+  background: var(--cdc-btn-red) !important;
+  color: #fff !important;
+}
+
+main.puzzle .puzzle__themes__selector {
+  width: 100%;
+  margin: 12px 0 10px !important;
+}
+
+main.puzzle .puzzle__themes__study {
+  color: var(--cdc-text-dim) !important;
+  font-size: 12px;
+  transition: color 0.15s !important;
+}
+
+main.puzzle .puzzle__themes__study:hover {
+  color: var(--cdc-green-hover) !important;
+}
+
+main.puzzle .puzzle__side__config {
+  color: var(--cdc-text);
+}
+
+/* Puzzles played this session: rounded green and red chips. */
+main.puzzle .puzzle__session a {
+  height: 26px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  opacity: 1 !important;
+}
+
+main.puzzle .puzzle__session a.result-true {
+  background: var(--cdc-btn-green) !important;
+}
+
+main.puzzle .puzzle__session a.result-false {
+  background: var(--cdc-btn-red) !important;
+}
+
+main.puzzle .puzzle__session a.current {
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Next puzzle: Lichess paints it in the link color (our green), so it looked solved.
+   A grey chip with the dashboard's replay triangle (--cdc-play, dashboard/) instead. */
+main.puzzle .puzzle__session a.session-new {
+  background: var(--cdc-btn-grey) !important;
+  box-shadow: var(--cdc-btn-grey-shadow);
+  color: var(--cdc-text) !important;
+}
+
+main.puzzle .puzzle__session a.session-new:hover {
+  background: var(--cdc-btn-grey-hover) !important;
+  color: #fff !important;
+}
+
+main.puzzle .puzzle__session a.session-new::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  -webkit-mask: var(--cdc-play) center / contain no-repeat;
+  mask: var(--cdc-play) center / contain no-repeat;
+}

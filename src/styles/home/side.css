@@ -1,0 +1,263 @@
+/* ---- Updates --- */
+
+@media (min-width: 1020px) {
+  /* The feed takes the side column's height (contain: size stops it growing the row) and
+     scrolls, its title pinned and a fade at the bottom. */
+  main.lobby .lobby__feed {
+    contain: size;
+    min-height: 340px;
+    padding: 0 20px !important;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff26 transparent;
+  }
+
+  main.lobby .lobby__feed::before {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    margin: 0 !important;
+    padding: 18px 2px 10px;
+    background: var(--cdc-bg-panel);
+  }
+
+  main.lobby .lobby__feed::after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    display: block;
+    height: 40px;
+    margin-top: -40px;
+    background: linear-gradient(#26252200, var(--cdc-bg-panel));
+    pointer-events: none;
+  }
+
+  /* Lichess's gold rail and ringed markers → a faint rail and icon tiles. */
+  main.lobby .daily-feed__updates {
+    position: relative;
+    margin: 0 0 12px !important;
+    border: none !important;
+  }
+
+  main.lobby .daily-feed__updates::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    bottom: 24px;
+    left: 17px;
+    width: 2px;
+    border-radius: 1px;
+    background: #ffffff12;
+  }
+
+  main.lobby .daily-feed__update {
+    position: relative;
+    display: grid !important;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 14px;
+    margin: 0 !important;
+    padding: 10px 0 !important;
+  }
+
+  main.lobby .daily-feed__update__marker {
+    position: relative;
+    box-sizing: border-box;
+    width: 36px !important;
+    height: 36px !important;
+    margin: 0 !important;
+    padding: 7px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    background: var(--cdc-bg-raised) !important;
+    box-shadow: 0 0 0 4px var(--cdc-bg-panel);
+  }
+
+  main.lobby .daily-feed__update__day {
+    display: inline-flex !important;
+    align-items: center;
+    min-height: 36px;
+    color: var(--cdc-text-dim) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: color 0.15s !important;
+  }
+
+  main.lobby .daily-feed__update__day:hover {
+    color: #fff !important;
+  }
+
+  main.lobby .daily-feed__update p {
+    margin: -7px 0 0;
+    color: #d4d3d1;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  /* The last entry is the "All updates" link. */
+  main.lobby .daily-feed__update a.daily-feed__update__day[href$='/feed'] {
+    color: var(--cdc-green-hover) !important;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px !important;
+  }
+
+  /* ---- Side --- */
+
+  /* A stack of cards (streams, spotlights, about) rather than one tall card with a hole.
+     No longer a card itself, it mustn't clip their shadows. */
+  main.lobby .lobby__side {
+    overflow: visible !important;
+    gap: 20px !important;
+    padding: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  main.lobby .lobby__streams {
+    display: flex !important;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* No one live: Lichess leaves the block empty; hide the titled, empty card. */
+  main.lobby .lobby__streams:not(:has(a)) {
+    display: none !important;
+  }
+
+  main.lobby .lobby__streams::before {
+    margin-bottom: 6px !important;
+  }
+
+  main.lobby .lobby__streams .stream {
+    position: relative;
+    margin: 0 !important;
+    padding: 9px 12px 9px 56px;
+    border-radius: 10px;
+    background: #ffffff08;
+    color: var(--cdc-text-dim) !important;
+    font-size: 13px;
+    line-height: 1.4 !important;
+    text-shadow: none !important;
+    transition: background 0.15s !important;
+  }
+
+  main.lobby .lobby__streams .stream:hover {
+    background: #ffffff12;
+  }
+
+  main.lobby .lobby__streams .stream strong {
+    display: block;
+    overflow: hidden;
+    color: #fff !important;
+    font-family: inherit !important;
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+  }
+
+  /* Lichess's mic icon, in a red "live" tile. */
+  main.lobby .lobby__streams .stream strong::before {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    margin: 0 !important;
+    border-radius: 50%;
+    background: #e0282826;
+    color: #ff6b6b;
+    font-size: 18px !important;
+    transform: translateY(-50%);
+  }
+
+  main.lobby .lobby__streams .stream strong::after {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin: 0 0 1px 8px;
+    border-radius: 50%;
+    background: #ff4d4d;
+    box-shadow: 0 0 0 3px #ff4d4d2e;
+  }
+
+  main.lobby .lobby__streams .more {
+    margin: auto 0 0 !important;
+    padding: 9px;
+    border-radius: 10px;
+    background: #ffffff0a;
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-align: center;
+    transition: background 0.15s !important;
+  }
+
+  main.lobby .lobby__streams .more:hover {
+    background: #ffffff17;
+  }
+
+  main.lobby .lobby__spotlights {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    overflow: visible !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  main.lobby .lobby__spotlights:empty {
+    display: none !important;
+  }
+
+  main.lobby .tour-spotlight {
+    padding: 12px !important;
+    border-radius: 14px !important;
+    background: var(--cdc-bg-panel) !important;
+    box-shadow:
+      inset 0 1px 0 #ffffff0d,
+      0 10px 28px #00000033 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+  }
+
+  main.lobby .tour-spotlight:hover {
+    background: #2c2b28 !important;
+  }
+
+  main.lobby .tour-spotlight .name {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  main.lobby .tour-spotlight :is(.headline, .more) {
+    color: var(--cdc-text-dim);
+  }
+
+  /* The side column is narrow at 1024: long names or counts (Spanish, French) end in an
+     ellipsis instead of being cut at the edge. */
+  main.lobby .tour-spotlight .content {
+    min-width: 0;
+  }
+
+  main.lobby .tour-spotlight :is(.content, .name, .headline) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  main.lobby .about-side {
+    flex: none;
+    margin: 0 !important;
+    color: var(--cdc-text-dim) !important;
+    font-size: 13px;
+    line-height: 1.55;
+    text-shadow: none !important;
+  }
+}

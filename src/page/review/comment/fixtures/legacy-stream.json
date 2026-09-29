@@ -1,0 +1,830 @@
+[
+  {
+    "lang": "en",
+    "parts": [
+      ["Still in theory. So far, so good."],
+      ["Opening: Sicilian Defense: Najdorf Variation.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Still </span><span class=\"cdc-w\">in </span><span class=\"cdc-w\">theory. </span><span class=\"cdc-w\">So </span><span class=\"cdc-w\">far, </span><span class=\"cdc-w\">so </span><span class=\"cdc-w\">good.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Opening: </span><span class=\"cdc-w\">Sicilian </span><span class=\"cdc-w\">Defense: </span><span class=\"cdc-w\">Najdorf </span><span class=\"cdc-w\">Variation.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Cashing in. Well spotted."],
+      ["Opening: Sicilian Defense: Najdorf Variation.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Cashing </span><span class=\"cdc-w\">in. </span><span class=\"cdc-w\">Well </span><span class=\"cdc-w\">spotted.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Opening: </span><span class=\"cdc-w\">Sicilian </span><span class=\"cdc-w\">Defense: </span><span class=\"cdc-w\">Najdorf </span><span class=\"cdc-w\">Variation.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["The [[p:wn]]knight is offered, and Black can’t safely take it."],
+      ["White still has a clear advantage.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wn.webp\">knight </span><span class=\"cdc-w cdc-w--off\">is </span><span class=\"cdc-w cdc-w--off\">offered, </span><span class=\"cdc-w cdc-w--off\">and </span><span class=\"cdc-w cdc-w--off\">Black </span><span class=\"cdc-w cdc-w--off\">can’t </span><span class=\"cdc-w cdc-w--off\">safely </span><span class=\"cdc-w cdc-w--off\">take </span><span class=\"cdc-w cdc-w--off\">it.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">still </span><span class=\"cdc-w cdc-w--off\">has </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Du jeu d’ouverture classique."],
+      ["Ouverture: Sicilian Defense: Najdorf Variation.", true]
+    ],
+    "shown": 0,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Du </span><span class=\"cdc-w cdc-w--off\">jeu </span><span class=\"cdc-w cdc-w--off\">d’ouverture </span><span class=\"cdc-w cdc-w--off\">classique.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Exactement ce que voulait le moteur."],
+      ["Les Blancs ont toujours une position gagnante.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Exactement </span><span class=\"cdc-w cdc-w--off\">ce </span><span class=\"cdc-w cdc-w--off\">que </span><span class=\"cdc-w cdc-w--off\">voulait </span><span class=\"cdc-w cdc-w--off\">le </span><span class=\"cdc-w cdc-w--off\">moteur.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">une </span><span class=\"cdc-w cdc-w--off\">position </span><span class=\"cdc-w cdc-w--off\">gagnante.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Le roi est à l’abri, et la tour entre en jeu."],
+      ["Les Blancs ont toujours une position gagnante.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Le </span><span class=\"cdc-w\">roi </span><span class=\"cdc-w cdc-w--off\">est </span><span class=\"cdc-w cdc-w--off\">à </span><span class=\"cdc-w cdc-w--off\">l’abri, </span><span class=\"cdc-w cdc-w--off\">et </span><span class=\"cdc-w cdc-w--off\">la </span><span class=\"cdc-w cdc-w--off\">tour </span><span class=\"cdc-w cdc-w--off\">entre </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">jeu.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">une </span><span class=\"cdc-w cdc-w--off\">position </span><span class=\"cdc-w cdc-w--off\">gagnante.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Classic opening play."], ["Opening: King's Gambit Accepted.", true]],
+    "shown": 0,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Classic </span><span class=\"cdc-w cdc-w--off\">opening </span><span class=\"cdc-w cdc-w--off\">play.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Black still has a slight edge.", true], ["[[m:b:Qxh2]] was more precise."]],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bq.webp\">xh2</span> </span><span class=\"cdc-w\">was </span><span class=\"cdc-w\">more </span><span class=\"cdc-w\">precise.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["[[m:b:Nd5]] was a little more precise."], ["Black keeps a clear advantage.", true]],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bn.webp\">d5</span> </span><span class=\"cdc-w\">was </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">little </span><span class=\"cdc-w\">more </span><span class=\"cdc-w\">precise.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Couldn’t have done better."],
+      ["Black had a clear advantage; now it’s only a slight edge.", true]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Couldn’t </span><span class=\"cdc-w\">have </span><span class=\"cdc-w cdc-w--off\">done </span><span class=\"cdc-w cdc-w--off\">better.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Black had a slight edge, but now White has a mate in 3.", true],
+      ["White can now force mate, starting with [[m:w:Qxf7]]."]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Black </span><span class=\"cdc-w\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge, </span><span class=\"cdc-w cdc-w--off\">but </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">has </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">mate </span><span class=\"cdc-w cdc-w--off\">in </span><span class=\"cdc-w cdc-w--off\">3.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">can </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">force </span><span class=\"cdc-w cdc-w--off\">mate, </span><span class=\"cdc-w cdc-w--off\">starting </span><span class=\"cdc-w cdc-w--off\">with </span><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wq.webp\">xf7</span>.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["La partie était équilibrée, mais maintenant les Noirs ont un léger avantage.", true],
+      ["[[m:w:Ke2]] était plus précis."]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wk.webp\">e2</span> </span><span class=\"cdc-w\">était </span><span class=\"cdc-w cdc-w--off\">plus </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Parfait. Continue comme ça !"],
+      ["Les Blancs passent d’un net avantage à une position gagnante.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Parfait. </span><span class=\"cdc-w cdc-w--off\">Continue </span><span class=\"cdc-w cdc-w--off\">comme </span><span class=\"cdc-w cdc-w--off\">ça </span><span class=\"cdc-w cdc-w--off\">!</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">passent </span><span class=\"cdc-w cdc-w--off\">d’un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage </span><span class=\"cdc-w cdc-w--off\">à </span><span class=\"cdc-w cdc-w--off\">une </span><span class=\"cdc-w cdc-w--off\">position </span><span class=\"cdc-w cdc-w--off\">gagnante.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["C’est le coup le plus précis."],
+      ["Les Blancs avaient une position gagnante, il ne leur reste qu’un net avantage.", true]
+    ],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">C’est </span><span class=\"cdc-w\">le </span><span class=\"cdc-w\">coup </span><span class=\"cdc-w\">le </span><span class=\"cdc-w\">plus </span><span class=\"cdc-w\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Les Noirs avaient un léger avantage, mais la partie est maintenant équilibrée.", true],
+      ["[[m:b:Qxf4]], qui prend le [[p:wb]]fou, était plus fort."]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Noirs </span><span class=\"cdc-w\">avaient </span><span class=\"cdc-w\">un </span><span class=\"cdc-w\">léger </span><span class=\"cdc-w\">avantage, </span><span class=\"cdc-w\">mais </span><span class=\"cdc-w\">la </span><span class=\"cdc-w\">partie </span><span class=\"cdc-w\">est </span><span class=\"cdc-w\">maintenant </span><span class=\"cdc-w\">équilibrée.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bq.webp\">xf4</span>, </span><span class=\"cdc-w\">qui </span><span class=\"cdc-w\">prend </span><span class=\"cdc-w\">le </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wb.webp\">fou, </span><span class=\"cdc-w\">était </span><span class=\"cdc-w\">plus </span><span class=\"cdc-w\">fort.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Tout autre coup laissait filer l’avantage."],
+      ["Les Noirs gardent un net avantage.", true]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Tout </span><span class=\"cdc-w\">autre </span><span class=\"cdc-w\">coup </span><span class=\"cdc-w\">laissait </span><span class=\"cdc-w\">filer </span><span class=\"cdc-w cdc-w--off\">l’avantage.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">gardent </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["White had a clear advantage; now it’s only a slight edge.", true],
+      ["[[m:w:Nxd4]] was the better move."]
+    ],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wn.webp\">xd4</span> </span><span class=\"cdc-w\">was </span><span class=\"cdc-w\">the </span><span class=\"cdc-w\">better </span><span class=\"cdc-w\">move.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Every other move would have let the advantage slip."],
+      ["Black goes from a slight edge to a clear advantage.", true]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Every </span><span class=\"cdc-w\">other </span><span class=\"cdc-w cdc-w--off\">move </span><span class=\"cdc-w cdc-w--off\">would </span><span class=\"cdc-w cdc-w--off\">have </span><span class=\"cdc-w cdc-w--off\">let </span><span class=\"cdc-w cdc-w--off\">the </span><span class=\"cdc-w cdc-w--off\">advantage </span><span class=\"cdc-w cdc-w--off\">slip.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Checkmate: the black king has nowhere to go."]],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Checkmate: </span><span class=\"cdc-w\">the </span><span class=\"cdc-w\">black </span><span class=\"cdc-w\">king </span><span class=\"cdc-w\">has </span><span class=\"cdc-w cdc-w--off\">nowhere </span><span class=\"cdc-w cdc-w--off\">to </span><span class=\"cdc-w cdc-w--off\">go.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Les Blancs passent d’un léger avantage à un net avantage.", true],
+      ["Il fallait jouer [[m:b:Ne5]]."]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Blancs </span><span class=\"cdc-w\">passent </span><span class=\"cdc-w\">d’un </span><span class=\"cdc-w\">léger </span><span class=\"cdc-w cdc-w--off\">avantage </span><span class=\"cdc-w cdc-w--off\">à </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Il </span><span class=\"cdc-w cdc-w--off\">fallait </span><span class=\"cdc-w cdc-w--off\">jouer </span><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bn.webp\">e5</span>.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Il reprend en [[s:f6]]."],
+      ["Les Noirs passent d’un net avantage à une position gagnante.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Il </span><span class=\"cdc-w\">reprend </span><span class=\"cdc-w\">en </span><span class=\"cdc-w\"><b class=\"cdc-sq\">f6</b>.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Noirs </span><span class=\"cdc-w\">passent </span><span class=\"cdc-w\">d’un </span><span class=\"cdc-w\">net </span><span class=\"cdc-w\">avantage </span><span class=\"cdc-w\">à </span><span class=\"cdc-w\">une </span><span class=\"cdc-w\">position </span><span class=\"cdc-w\">gagnante.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["L’échec force les Noirs à réagir."],
+      ["Les Noirs ont toujours un net avantage.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">L’échec </span><span class=\"cdc-w cdc-w--off\">force </span><span class=\"cdc-w cdc-w--off\">les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">à </span><span class=\"cdc-w cdc-w--off\">réagir.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Black had a winning position; now it’s only a clear advantage.", true],
+      ["[[m:b:Nxd4]] was more precise."]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Black </span><span class=\"cdc-w cdc-w--off\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">winning </span><span class=\"cdc-w cdc-w--off\">position; </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">it’s </span><span class=\"cdc-w cdc-w--off\">only </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bn.webp\">xd4</span> </span><span class=\"cdc-w cdc-w--off\">was </span><span class=\"cdc-w cdc-w--off\">more </span><span class=\"cdc-w cdc-w--off\">precise.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Propre et précis."],
+      ["Les Blancs passent d’un léger avantage à un net avantage.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Propre </span><span class=\"cdc-w cdc-w--off\">et </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">passent </span><span class=\"cdc-w cdc-w--off\">d’un </span><span class=\"cdc-w cdc-w--off\">léger </span><span class=\"cdc-w cdc-w--off\">avantage </span><span class=\"cdc-w cdc-w--off\">à </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Les Blancs avaient un net avantage, il ne leur reste qu’un léger avantage.", true],
+      ["Il fallait jouer [[m:w:Bd3]]."]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Blancs </span><span class=\"cdc-w\">avaient </span><span class=\"cdc-w\">un </span><span class=\"cdc-w\">net </span><span class=\"cdc-w cdc-w--off\">avantage, </span><span class=\"cdc-w cdc-w--off\">il </span><span class=\"cdc-w cdc-w--off\">ne </span><span class=\"cdc-w cdc-w--off\">leur </span><span class=\"cdc-w cdc-w--off\">reste </span><span class=\"cdc-w cdc-w--off\">qu’un </span><span class=\"cdc-w cdc-w--off\">léger </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Il </span><span class=\"cdc-w cdc-w--off\">fallait </span><span class=\"cdc-w cdc-w--off\">jouer </span><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wb.webp\">d3</span>.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Le roi est à l’abri, et la tour entre en jeu."],
+      ["Les Noirs gardent un mat en 1.", true]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Le </span><span class=\"cdc-w\">roi </span><span class=\"cdc-w\">est </span><span class=\"cdc-w\">à </span><span class=\"cdc-w\">l’abri, </span><span class=\"cdc-w cdc-w--off\">et </span><span class=\"cdc-w cdc-w--off\">la </span><span class=\"cdc-w cdc-w--off\">tour </span><span class=\"cdc-w cdc-w--off\">entre </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">jeu.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">gardent </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">mat </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">1.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["La partie était équilibrée, mais maintenant les Noirs ont un net avantage.", true],
+      ["Il fallait jouer [[m:w:Bxh7]]."]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">La </span><span class=\"cdc-w\">partie </span><span class=\"cdc-w\">était </span><span class=\"cdc-w\">équilibrée, </span><span class=\"cdc-w\">mais </span><span class=\"cdc-w\">maintenant </span><span class=\"cdc-w\">les </span><span class=\"cdc-w\">Noirs </span><span class=\"cdc-w\">ont </span><span class=\"cdc-w\">un </span><span class=\"cdc-w\">net </span><span class=\"cdc-w\">avantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w\">Il </span><span class=\"cdc-w\">fallait </span><span class=\"cdc-w\">jouer </span><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wb.webp\">xh7</span>.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Straight out of the opening books."],
+      ["Opening: Sicilian Defense: Najdorf Variation.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Straight </span><span class=\"cdc-w\">out </span><span class=\"cdc-w cdc-w--off\">of </span><span class=\"cdc-w cdc-w--off\">the </span><span class=\"cdc-w cdc-w--off\">opening </span><span class=\"cdc-w cdc-w--off\">books.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Opening: </span><span class=\"cdc-w cdc-w--off\">Sicilian </span><span class=\"cdc-w cdc-w--off\">Defense: </span><span class=\"cdc-w cdc-w--off\">Najdorf </span><span class=\"cdc-w cdc-w--off\">Variation.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["White goes from a clear advantage to a winning position.", true],
+      ["The [[p:br]]rook on [[s:h8]] is left undefended: [[m:w:Bxh8]] wins it."]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">White </span><span class=\"cdc-w\">goes </span><span class=\"cdc-w\">from </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">clear </span><span class=\"cdc-w\">advantage </span><span class=\"cdc-w\">to </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">winning </span><span class=\"cdc-w\">position.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/br.webp\">rook </span><span class=\"cdc-w\">on </span><span class=\"cdc-w\"><b class=\"cdc-sq\">h8</b> </span><span class=\"cdc-w\">is </span><span class=\"cdc-w\">left </span><span class=\"cdc-w\">undefended: </span><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wb.webp\">xh8</span> </span><span class=\"cdc-w\">wins </span><span class=\"cdc-w\">it.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Every other move would have left White worse off."],
+      ["White had a clear advantage; now it’s only a slight edge.", true]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Every </span><span class=\"cdc-w\">other </span><span class=\"cdc-w\">move </span><span class=\"cdc-w\">would </span><span class=\"cdc-w\">have </span><span class=\"cdc-w cdc-w--off\">left </span><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">worse </span><span class=\"cdc-w cdc-w--off\">off.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage; </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">it’s </span><span class=\"cdc-w cdc-w--off\">only </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["The [[p:wn]]knight is offered, and Black can’t safely take it."],
+      ["White goes from a slight edge to a winning position.", true]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wn.webp\">knight </span><span class=\"cdc-w\">is </span><span class=\"cdc-w\">offered, </span><span class=\"cdc-w\">and </span><span class=\"cdc-w cdc-w--off\">Black </span><span class=\"cdc-w cdc-w--off\">can’t </span><span class=\"cdc-w cdc-w--off\">safely </span><span class=\"cdc-w cdc-w--off\">take </span><span class=\"cdc-w cdc-w--off\">it.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">goes </span><span class=\"cdc-w cdc-w--off\">from </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge </span><span class=\"cdc-w cdc-w--off\">to </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">winning </span><span class=\"cdc-w cdc-w--off\">position.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Strong and simple."],
+      ["White had a clear advantage; now it’s only a slight edge.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Strong </span><span class=\"cdc-w cdc-w--off\">and </span><span class=\"cdc-w cdc-w--off\">simple.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage; </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">it’s </span><span class=\"cdc-w cdc-w--off\">only </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["It punishes White’s mistake right away."],
+      ["The game was balanced, and now Black has a slight edge.", true]
+    ],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">It </span><span class=\"cdc-w\">punishes </span><span class=\"cdc-w\">White’s </span><span class=\"cdc-w\">mistake </span><span class=\"cdc-w\">right </span><span class=\"cdc-w\">away.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["White had a winning position; now it’s only a clear advantage.", true],
+      ["[[m:w:Ne5]] was more precise."]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">White </span><span class=\"cdc-w\">had </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">winning </span><span class=\"cdc-w\">position; </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">it’s </span><span class=\"cdc-w cdc-w--off\">only </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wn.webp\">e5</span> </span><span class=\"cdc-w cdc-w--off\">was </span><span class=\"cdc-w cdc-w--off\">more </span><span class=\"cdc-w cdc-w--off\">precise.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Clean and precise."], ["Black keeps a mate in 7.", true]],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Clean </span><span class=\"cdc-w cdc-w--off\">and </span><span class=\"cdc-w cdc-w--off\">precise.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Black </span><span class=\"cdc-w cdc-w--off\">keeps </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">mate </span><span class=\"cdc-w cdc-w--off\">in </span><span class=\"cdc-w cdc-w--off\">7.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Tout autre coup laissait filer l’avantage."],
+      ["La partie était équilibrée, et maintenant les Blancs ont un net avantage.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Tout </span><span class=\"cdc-w\">autre </span><span class=\"cdc-w cdc-w--off\">coup </span><span class=\"cdc-w cdc-w--off\">laissait </span><span class=\"cdc-w cdc-w--off\">filer </span><span class=\"cdc-w cdc-w--off\">l’avantage.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">La </span><span class=\"cdc-w cdc-w--off\">partie </span><span class=\"cdc-w cdc-w--off\">était </span><span class=\"cdc-w cdc-w--off\">équilibrée, </span><span class=\"cdc-w cdc-w--off\">et </span><span class=\"cdc-w cdc-w--off\">maintenant </span><span class=\"cdc-w cdc-w--off\">les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["[[m:w:d3]] était un peu plus précis."],
+      ["Les Blancs ont toujours une position gagnante.", true]
+    ],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wp.webp\">d3</span> </span><span class=\"cdc-w\">était </span><span class=\"cdc-w\">un </span><span class=\"cdc-w\">peu </span><span class=\"cdc-w\">plus </span><span class=\"cdc-w\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Les Blancs ont toujours un net avantage.", true],
+      ["[[m:b:Kf7]] était plus précis."]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bk.webp\">f7</span> </span><span class=\"cdc-w cdc-w--off\">était </span><span class=\"cdc-w cdc-w--off\">plus </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Tout autre coup mettait les Blancs en difficulté."],
+      ["Les Blancs avaient un net avantage, il ne leur reste qu’un léger avantage.", true]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Tout </span><span class=\"cdc-w\">autre </span><span class=\"cdc-w cdc-w--off\">coup </span><span class=\"cdc-w cdc-w--off\">mettait </span><span class=\"cdc-w cdc-w--off\">les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">difficulté.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Tout autre coup mettait les Blancs en difficulté."],
+      [
+        "Les Noirs avaient un léger avantage, mais maintenant les Blancs ont un léger avantage.",
+        true
+      ]
+    ],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Tout </span><span class=\"cdc-w\">autre </span><span class=\"cdc-w\">coup </span><span class=\"cdc-w\">mettait </span><span class=\"cdc-w\">les </span><span class=\"cdc-w\">Blancs </span><span class=\"cdc-w\">en </span><span class=\"cdc-w\">difficulté.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Impossible de faire mieux."],
+      ["Les Blancs avaient un léger avantage, mais la partie est maintenant équilibrée.", true]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Impossible </span><span class=\"cdc-w\">de </span><span class=\"cdc-w cdc-w--off\">faire </span><span class=\"cdc-w cdc-w--off\">mieux.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Il gagne un [[p:bn]]cavalier sans contrepartie."],
+      ["Les Noirs avaient un net avantage, il ne leur reste qu’un léger avantage.", true]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Il </span><span class=\"cdc-w\">gagne </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bn.webp\">cavalier </span><span class=\"cdc-w cdc-w--off\">sans </span><span class=\"cdc-w cdc-w--off\">contrepartie.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Propre et précis."],
+      ["Les Noirs passent d’un net avantage à une position gagnante.", true]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Propre </span><span class=\"cdc-w\">et </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Il punit aussitôt l’erreur des Noirs."],
+      ["Les Blancs avaient un mat en 9, mais maintenant les Noirs ont un mat en 9.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Il </span><span class=\"cdc-w\">punit </span><span class=\"cdc-w cdc-w--off\">aussitôt </span><span class=\"cdc-w cdc-w--off\">l’erreur </span><span class=\"cdc-w cdc-w--off\">des </span><span class=\"cdc-w cdc-w--off\">Noirs.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">avaient </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">mat </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">9, </span><span class=\"cdc-w cdc-w--off\">mais </span><span class=\"cdc-w cdc-w--off\">maintenant </span><span class=\"cdc-w cdc-w--off\">les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">mat </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">9.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["A solid, time-tested choice."], ["Opening: King's Gambit Accepted.", true]],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">A </span><span class=\"cdc-w\">solid, </span><span class=\"cdc-w cdc-w--off\">time-tested </span><span class=\"cdc-w cdc-w--off\">choice.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Prendre est la bonne décision ici."], ["Ouverture: King's Gambit Accepted.", true]],
+    "shown": 5,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Prendre </span><span class=\"cdc-w\">est </span><span class=\"cdc-w\">la </span><span class=\"cdc-w\">bonne </span><span class=\"cdc-w\">décision </span><span class=\"cdc-w cdc-w--off\">ici.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Classic opening play."]],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Classic </span><span class=\"cdc-w\">opening </span><span class=\"cdc-w\">play.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["The check forces Black to respond."],
+      ["Black goes from a clear advantage to a winning position.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\">check </span><span class=\"cdc-w\">forces </span><span class=\"cdc-w\">Black </span><span class=\"cdc-w\">to </span><span class=\"cdc-w\">respond.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Black </span><span class=\"cdc-w\">goes </span><span class=\"cdc-w\">from </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">clear </span><span class=\"cdc-w\">advantage </span><span class=\"cdc-w\">to </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">winning </span><span class=\"cdc-w\">position.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Black had a winning position, but now White has a mate in 7.", true],
+      ["White can now force mate, starting with [[m:w:Ne2]]."]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Black </span><span class=\"cdc-w\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">winning </span><span class=\"cdc-w cdc-w--off\">position, </span><span class=\"cdc-w cdc-w--off\">but </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">has </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">mate </span><span class=\"cdc-w cdc-w--off\">in </span><span class=\"cdc-w cdc-w--off\">7.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">can </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">force </span><span class=\"cdc-w cdc-w--off\">mate, </span><span class=\"cdc-w cdc-w--off\">starting </span><span class=\"cdc-w cdc-w--off\">with </span><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wn.webp\">e2</span>.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["The [[p:bq]]queen is offered, and White can’t safely take it."],
+      ["White had a mate in 5, but now Black has a clear advantage.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bq.webp\">queen </span><span class=\"cdc-w cdc-w--off\">is </span><span class=\"cdc-w cdc-w--off\">offered, </span><span class=\"cdc-w cdc-w--off\">and </span><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">can’t </span><span class=\"cdc-w cdc-w--off\">safely </span><span class=\"cdc-w cdc-w--off\">take </span><span class=\"cdc-w cdc-w--off\">it.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">mate </span><span class=\"cdc-w cdc-w--off\">in </span><span class=\"cdc-w cdc-w--off\">5, </span><span class=\"cdc-w cdc-w--off\">but </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">Black </span><span class=\"cdc-w cdc-w--off\">has </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["It takes back on [[s:e7]]."], ["White keeps a clear advantage.", true]],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">It </span><span class=\"cdc-w\">takes </span><span class=\"cdc-w cdc-w--off\">back </span><span class=\"cdc-w cdc-w--off\">on </span><span class=\"cdc-w cdc-w--off\"><b class=\"cdc-sq\">e7</b>.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">keeps </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["It wins a [[p:wr]]rook for free."],
+      ["White had a winning position; now it’s only a slight edge.", true]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">It </span><span class=\"cdc-w\">wins </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wr.webp\">rook </span><span class=\"cdc-w\">for </span><span class=\"cdc-w cdc-w--off\">free.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">winning </span><span class=\"cdc-w cdc-w--off\">position; </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">it’s </span><span class=\"cdc-w cdc-w--off\">only </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["The game was balanced, but now White has a slight edge.", true],
+      ["[[m:b:Kd6]] was the better move."]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\">game </span><span class=\"cdc-w\">was </span><span class=\"cdc-w\">balanced, </span><span class=\"cdc-w\">but </span><span class=\"cdc-w\">now </span><span class=\"cdc-w\">White </span><span class=\"cdc-w\">has </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">slight </span><span class=\"cdc-w\">edge.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bk.webp\">d6</span> </span><span class=\"cdc-w\">was </span><span class=\"cdc-w\">the </span><span class=\"cdc-w\">better </span><span class=\"cdc-w\">move.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Every other move would have left White worse off."],
+      ["White had a clear advantage; now it’s only a slight edge.", true]
+    ],
+    "shown": 5,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Every </span><span class=\"cdc-w\">other </span><span class=\"cdc-w\">move </span><span class=\"cdc-w\">would </span><span class=\"cdc-w\">have </span><span class=\"cdc-w cdc-w--off\">left </span><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">worse </span><span class=\"cdc-w cdc-w--off\">off.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Strong and simple."], ["White still has a mate in 7.", true]],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Strong </span><span class=\"cdc-w\">and </span><span class=\"cdc-w cdc-w--off\">simple.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">still </span><span class=\"cdc-w cdc-w--off\">has </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">mate </span><span class=\"cdc-w cdc-w--off\">in </span><span class=\"cdc-w cdc-w--off\">7.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["[[m:w:g5]] était un peu plus précis."],
+      ["Les Blancs avaient un net avantage, il ne leur reste qu’un léger avantage.", true]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wp.webp\">g5</span> </span><span class=\"cdc-w\">était </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">peu </span><span class=\"cdc-w cdc-w--off\">plus </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Rien de mieux ici."], ["Les Noirs gardent un net avantage.", true]],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Rien </span><span class=\"cdc-w\">de </span><span class=\"cdc-w\">mieux </span><span class=\"cdc-w\">ici.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Noirs </span><span class=\"cdc-w\">gardent </span><span class=\"cdc-w\">un </span><span class=\"cdc-w\">net </span><span class=\"cdc-w\">avantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Tout autre coup mettait les Noirs en difficulté."],
+      ["Les Noirs gardent un léger avantage.", true]
+    ],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Tout </span><span class=\"cdc-w\">autre </span><span class=\"cdc-w\">coup </span><span class=\"cdc-w\">mettait </span><span class=\"cdc-w\">les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">difficulté.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">gardent </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">léger </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Il gagne une [[p:wr]]tour sans contrepartie."],
+      ["Les Blancs avaient une position gagnante, il ne leur reste qu’un léger avantage.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Il </span><span class=\"cdc-w\">gagne </span><span class=\"cdc-w\">une </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wr.webp\">tour </span><span class=\"cdc-w\">sans </span><span class=\"cdc-w\">contrepartie.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Blancs </span><span class=\"cdc-w\">avaient </span><span class=\"cdc-w\">une </span><span class=\"cdc-w\">position </span><span class=\"cdc-w\">gagnante, </span><span class=\"cdc-w\">il </span><span class=\"cdc-w\">ne </span><span class=\"cdc-w\">leur </span><span class=\"cdc-w\">reste </span><span class=\"cdc-w\">qu’un </span><span class=\"cdc-w\">léger </span><span class=\"cdc-w\">avantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Il punit aussitôt l’erreur des Blancs."],
+      ["Les Noirs ont toujours un net avantage.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Il </span><span class=\"cdc-w\">punit </span><span class=\"cdc-w cdc-w--off\">aussitôt </span><span class=\"cdc-w cdc-w--off\">l’erreur </span><span class=\"cdc-w cdc-w--off\">des </span><span class=\"cdc-w cdc-w--off\">Blancs.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Black had a mate in 1; now it’s only a slight edge.", true],
+      ["[[m:b:Ba3]] would have forced mate in 1."]
+    ],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bb.webp\">a3</span> </span><span class=\"cdc-w\">would </span><span class=\"cdc-w cdc-w--off\">have </span><span class=\"cdc-w cdc-w--off\">forced </span><span class=\"cdc-w cdc-w--off\">mate </span><span class=\"cdc-w cdc-w--off\">in </span><span class=\"cdc-w cdc-w--off\">1.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Every other move would have let the advantage slip."],
+      ["Black had a clear advantage, but now White has a clear advantage.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Every </span><span class=\"cdc-w\">other </span><span class=\"cdc-w\">move </span><span class=\"cdc-w\">would </span><span class=\"cdc-w\">have </span><span class=\"cdc-w\">let </span><span class=\"cdc-w\">the </span><span class=\"cdc-w\">advantage </span><span class=\"cdc-w\">slip.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Black </span><span class=\"cdc-w\">had </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">clear </span><span class=\"cdc-w\">advantage, </span><span class=\"cdc-w\">but </span><span class=\"cdc-w\">now </span><span class=\"cdc-w\">White </span><span class=\"cdc-w\">has </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">clear </span><span class=\"cdc-w\">advantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Il reprend en [[s:h5]]."],
+      ["Les Noirs avaient un léger avantage, mais la partie est maintenant équilibrée.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Il </span><span class=\"cdc-w\">reprend </span><span class=\"cdc-w\">en </span><span class=\"cdc-w\"><b class=\"cdc-sq\">h5</b>.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Noirs </span><span class=\"cdc-w\">avaient </span><span class=\"cdc-w\">un </span><span class=\"cdc-w\">léger </span><span class=\"cdc-w\">avantage, </span><span class=\"cdc-w\">mais </span><span class=\"cdc-w\">la </span><span class=\"cdc-w\">partie </span><span class=\"cdc-w\">est </span><span class=\"cdc-w\">maintenant </span><span class=\"cdc-w\">équilibrée.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Les Noirs gardent un net avantage.", true], ["[[m:w:g3]] était plus précis."]],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Noirs </span><span class=\"cdc-w cdc-w--off\">gardent </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wp.webp\">g3</span> </span><span class=\"cdc-w cdc-w--off\">était </span><span class=\"cdc-w cdc-w--off\">plus </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Les chances restent égales.", true], ["[[m:b:Kb6]] était plus précis."]],
+    "shown": 2,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bk.webp\">b6</span> </span><span class=\"cdc-w\">était </span><span class=\"cdc-w cdc-w--off\">plus </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["L’échec force les Blancs à réagir."],
+      ["Les Blancs avaient une position gagnante, il ne leur reste qu’un net avantage.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">L’échec </span><span class=\"cdc-w\">force </span><span class=\"cdc-w\">les </span><span class=\"cdc-w\">Blancs </span><span class=\"cdc-w\">à </span><span class=\"cdc-w\">réagir.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Blancs </span><span class=\"cdc-w\">avaient </span><span class=\"cdc-w\">une </span><span class=\"cdc-w\">position </span><span class=\"cdc-w\">gagnante, </span><span class=\"cdc-w\">il </span><span class=\"cdc-w\">ne </span><span class=\"cdc-w\">leur </span><span class=\"cdc-w\">reste </span><span class=\"cdc-w\">qu’un </span><span class=\"cdc-w\">net </span><span class=\"cdc-w\">avantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Impossible de faire mieux."],
+      ["Les Blancs avaient un net avantage, il ne leur reste qu’un léger avantage.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Impossible </span><span class=\"cdc-w\">de </span><span class=\"cdc-w cdc-w--off\">faire </span><span class=\"cdc-w cdc-w--off\">mieux.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">avaient </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage, </span><span class=\"cdc-w cdc-w--off\">il </span><span class=\"cdc-w cdc-w--off\">ne </span><span class=\"cdc-w cdc-w--off\">leur </span><span class=\"cdc-w cdc-w--off\">reste </span><span class=\"cdc-w cdc-w--off\">qu’un </span><span class=\"cdc-w cdc-w--off\">léger </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["The [[p:bn]]knight is offered, and White can’t safely take it."],
+      ["Black keeps a clear advantage.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bn.webp\">knight </span><span class=\"cdc-w\">is </span><span class=\"cdc-w\">offered, </span><span class=\"cdc-w\">and </span><span class=\"cdc-w\">White </span><span class=\"cdc-w\">can’t </span><span class=\"cdc-w\">safely </span><span class=\"cdc-w\">take </span><span class=\"cdc-w\">it.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Black </span><span class=\"cdc-w\">keeps </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">clear </span><span class=\"cdc-w\">advantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["It takes back on [[s:c2]]."], ["Black keeps a clear advantage.", true]],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">It </span><span class=\"cdc-w\">takes </span><span class=\"cdc-w\">back </span><span class=\"cdc-w\">on </span><span class=\"cdc-w\"><b class=\"cdc-sq\">c2</b>.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Black </span><span class=\"cdc-w cdc-w--off\">keeps </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["[[m:w:Ka1]] was a little more precise."], ["White keeps a clear advantage.", true]],
+    "shown": 0,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wk.webp\">a1</span> </span><span class=\"cdc-w cdc-w--off\">was </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">little </span><span class=\"cdc-w cdc-w--off\">more </span><span class=\"cdc-w cdc-w--off\">precise.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Black still has a clear advantage.", true], ["[[m:b:f6]] was the better move."]],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bp.webp\">f6</span> </span><span class=\"cdc-w\">was </span><span class=\"cdc-w\">the </span><span class=\"cdc-w\">better </span><span class=\"cdc-w\">move.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["No escape for the king now."], ["White keeps a mate in 7.", true]],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">No </span><span class=\"cdc-w\">escape </span><span class=\"cdc-w\">for </span><span class=\"cdc-w\">the </span><span class=\"cdc-w\">king </span><span class=\"cdc-w\">now.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["The [[p:br]]rook is offered, and White can’t safely take it."],
+      ["White had a mate in 7, but now Black has a mate in 7.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">The </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/br.webp\">rook </span><span class=\"cdc-w\">is </span><span class=\"cdc-w\">offered, </span><span class=\"cdc-w\">and </span><span class=\"cdc-w\">White </span><span class=\"cdc-w\">can’t </span><span class=\"cdc-w\">safely </span><span class=\"cdc-w\">take </span><span class=\"cdc-w\">it.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">White </span><span class=\"cdc-w\">had </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">mate </span><span class=\"cdc-w\">in </span><span class=\"cdc-w\">7, </span><span class=\"cdc-w\">but </span><span class=\"cdc-w\">now </span><span class=\"cdc-w\">Black </span><span class=\"cdc-w\">has </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">mate </span><span class=\"cdc-w\">in </span><span class=\"cdc-w\">7.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Le [[p:bn]]cavalier est offert, et les Blancs ne peuvent pas le prendre sans risque."],
+      ["Les Noirs gardent un net avantage.", true]
+    ],
+    "shown": 5,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Le </span><span class=\"cdc-w\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bn.webp\">cavalier </span><span class=\"cdc-w\">est </span><span class=\"cdc-w\">offert, </span><span class=\"cdc-w\">et </span><span class=\"cdc-w cdc-w--off\">les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">ne </span><span class=\"cdc-w cdc-w--off\">peuvent </span><span class=\"cdc-w cdc-w--off\">pas </span><span class=\"cdc-w cdc-w--off\">le </span><span class=\"cdc-w cdc-w--off\">prendre </span><span class=\"cdc-w cdc-w--off\">sans </span><span class=\"cdc-w cdc-w--off\">risque.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Dans le mille."], ["Les Blancs gardent un mat en 2.", true]],
+    "shown": 5,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Dans </span><span class=\"cdc-w\">le </span><span class=\"cdc-w\">mille.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Blancs </span><span class=\"cdc-w cdc-w--off\">gardent </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">mat </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">2.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Les Noirs ont toujours un net avantage.", true], ["Il fallait jouer [[m:b:f6]]."]],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">Les </span><span class=\"cdc-w\">Noirs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Il </span><span class=\"cdc-w cdc-w--off\">fallait </span><span class=\"cdc-w cdc-w--off\">jouer </span><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bp.webp\">f6</span>.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Le filet de mat se resserre."], ["Les Noirs ont toujours un mat en 6.", true]],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Le </span><span class=\"cdc-w cdc-w--off\">filet </span><span class=\"cdc-w cdc-w--off\">de </span><span class=\"cdc-w cdc-w--off\">mat </span><span class=\"cdc-w cdc-w--off\">se </span><span class=\"cdc-w cdc-w--off\">resserre.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">mat </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">6.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["Propre et précis."], ["Les Noirs ont toujours un mat en 6.", true]],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Propre </span><span class=\"cdc-w\">et </span><span class=\"cdc-w cdc-w--off\">précis.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">toujours </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">mat </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">6.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Black had a slight edge, but now White has a slight edge.", true],
+      ["White’s last move was a mistake, and [[m:b:Qc7]] would have punished it."]
+    ],
+    "shown": 0,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">White’s </span><span class=\"cdc-w cdc-w--off\">last </span><span class=\"cdc-w cdc-w--off\">move </span><span class=\"cdc-w cdc-w--off\">was </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">mistake, </span><span class=\"cdc-w cdc-w--off\">and </span><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/bq.webp\">c7</span> </span><span class=\"cdc-w cdc-w--off\">would </span><span class=\"cdc-w cdc-w--off\">have </span><span class=\"cdc-w cdc-w--off\">punished </span><span class=\"cdc-w cdc-w--off\">it.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["It punishes Black’s mistake right away."],
+      ["White still has a slight edge.", true]
+    ],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">It </span><span class=\"cdc-w\">punishes </span><span class=\"cdc-w\">Black’s </span><span class=\"cdc-w\">mistake </span><span class=\"cdc-w\">right </span><span class=\"cdc-w\">away.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">White </span><span class=\"cdc-w\">still </span><span class=\"cdc-w\">has </span><span class=\"cdc-w\">a </span><span class=\"cdc-w\">slight </span><span class=\"cdc-w\">edge.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["It punishes Black’s mistake right away."],
+      ["White goes from a slight edge to a clear advantage.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">It </span><span class=\"cdc-w cdc-w--off\">punishes </span><span class=\"cdc-w cdc-w--off\">Black’s </span><span class=\"cdc-w cdc-w--off\">mistake </span><span class=\"cdc-w cdc-w--off\">right </span><span class=\"cdc-w cdc-w--off\">away.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">goes </span><span class=\"cdc-w cdc-w--off\">from </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge </span><span class=\"cdc-w cdc-w--off\">to </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Spot on."], ["The game was balanced, and now Black has a clear advantage.", true]],
+    "shown": 0,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Spot </span><span class=\"cdc-w cdc-w--off\">on.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["White had a clear advantage; now it’s only a slight edge.", true],
+      ["[[m:w:Kg2]] was more precise."]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w\">White </span><span class=\"cdc-w\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">clear </span><span class=\"cdc-w cdc-w--off\">advantage; </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">it’s </span><span class=\"cdc-w cdc-w--off\">only </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge.</span> </span><span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\"><span class=\"cdc-mv\"><img class=\"cdc-pc\" alt=\"\" src=\"chrome-extension://abc/img/pieces/neo/wk.webp\">g2</span> </span><span class=\"cdc-w cdc-w--off\">was </span><span class=\"cdc-w cdc-w--off\">more </span><span class=\"cdc-w cdc-w--off\">precise.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [["La partie était équilibrée, mais maintenant les Blancs ont un léger avantage."]],
+    "shown": 5,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">La </span><span class=\"cdc-w\">partie </span><span class=\"cdc-w\">était </span><span class=\"cdc-w\">équilibrée, </span><span class=\"cdc-w\">mais </span><span class=\"cdc-w cdc-w--off\">maintenant </span><span class=\"cdc-w cdc-w--off\">les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">ont </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">léger </span><span class=\"cdc-w cdc-w--off\">avantage.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Tout autre coup mettait les Noirs en difficulté."],
+      ["Les Blancs avaient un net avantage, mais la partie est maintenant équilibrée.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Tout </span><span class=\"cdc-w cdc-w--off\">autre </span><span class=\"cdc-w cdc-w--off\">coup </span><span class=\"cdc-w cdc-w--off\">mettait </span><span class=\"cdc-w cdc-w--off\">les </span><span class=\"cdc-w cdc-w--off\">Noirs </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">difficulté.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">avaient </span><span class=\"cdc-w cdc-w--off\">un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage, </span><span class=\"cdc-w cdc-w--off\">mais </span><span class=\"cdc-w cdc-w--off\">la </span><span class=\"cdc-w cdc-w--off\">partie </span><span class=\"cdc-w cdc-w--off\">est </span><span class=\"cdc-w cdc-w--off\">maintenant </span><span class=\"cdc-w cdc-w--off\">équilibrée.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Tout autre coup mettait les Blancs en difficulté."],
+      ["La partie était équilibrée, et maintenant les Blancs ont un léger avantage.", true]
+    ],
+    "shown": 5,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Tout </span><span class=\"cdc-w\">autre </span><span class=\"cdc-w\">coup </span><span class=\"cdc-w\">mettait </span><span class=\"cdc-w\">les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">en </span><span class=\"cdc-w cdc-w--off\">difficulté.</span> </span>"
+  },
+  {
+    "lang": "fr",
+    "parts": [
+      ["Il punit aussitôt l’erreur des Blancs."],
+      ["Les Blancs passent d’un net avantage à une position gagnante.", true]
+    ],
+    "shown": 0,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w cdc-w--off\">Il </span><span class=\"cdc-w cdc-w--off\">punit </span><span class=\"cdc-w cdc-w--off\">aussitôt </span><span class=\"cdc-w cdc-w--off\">l’erreur </span><span class=\"cdc-w cdc-w--off\">des </span><span class=\"cdc-w cdc-w--off\">Blancs.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">Les </span><span class=\"cdc-w cdc-w--off\">Blancs </span><span class=\"cdc-w cdc-w--off\">passent </span><span class=\"cdc-w cdc-w--off\">d’un </span><span class=\"cdc-w cdc-w--off\">net </span><span class=\"cdc-w cdc-w--off\">avantage </span><span class=\"cdc-w cdc-w--off\">à </span><span class=\"cdc-w cdc-w--off\">une </span><span class=\"cdc-w cdc-w--off\">position </span><span class=\"cdc-w cdc-w--off\">gagnante.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["Classic opening play."]],
+    "shown": null,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Classic </span><span class=\"cdc-w\">opening </span><span class=\"cdc-w\">play.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [["It takes back on [[s:d2]]."], ["Black keeps a mate in 4.", true]],
+    "shown": null,
+    "dropped": true,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">It </span><span class=\"cdc-w\">takes </span><span class=\"cdc-w\">back </span><span class=\"cdc-w\">on </span><span class=\"cdc-w\"><b class=\"cdc-sq\">d2</b>.</span> </span>"
+  },
+  {
+    "lang": "en",
+    "parts": [
+      ["Every other move would have left White worse off."],
+      ["White had a slight edge, but the game is now balanced.", true]
+    ],
+    "shown": 2,
+    "dropped": false,
+    "html": "<span class=\"cdc-say\"><span class=\"cdc-w\">Every </span><span class=\"cdc-w\">other </span><span class=\"cdc-w cdc-w--off\">move </span><span class=\"cdc-w cdc-w--off\">would </span><span class=\"cdc-w cdc-w--off\">have </span><span class=\"cdc-w cdc-w--off\">left </span><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">worse </span><span class=\"cdc-w cdc-w--off\">off.</span> </span><span class=\"cdc-say cdc-say--drop\"><span class=\"cdc-w cdc-w--off\">White </span><span class=\"cdc-w cdc-w--off\">had </span><span class=\"cdc-w cdc-w--off\">a </span><span class=\"cdc-w cdc-w--off\">slight </span><span class=\"cdc-w cdc-w--off\">edge, </span><span class=\"cdc-w cdc-w--off\">but </span><span class=\"cdc-w cdc-w--off\">the </span><span class=\"cdc-w cdc-w--off\">game </span><span class=\"cdc-w cdc-w--off\">is </span><span class=\"cdc-w cdc-w--off\">now </span><span class=\"cdc-w cdc-w--off\">balanced.</span> </span>"
+  }
+]

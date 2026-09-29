@@ -1,0 +1,261 @@
+/* ---- Dialogs --- */
+
+/* Modals: blurred backdrop, rounded card, close button inside the corner. */
+dialog::backdrop,
+.snab-modal-mask {
+  background: #00000073 !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+dialog {
+  border: 1px solid #ffffff14 !important;
+  border-radius: 12px !important;
+  background: var(--cdc-bg-panel) !important;
+  box-shadow: 0 24px 64px #0009 !important;
+  animation: cdc-dialog-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Lichess moves dialogs 16px down to fit its close button above them. Ours is inside,
+ * and the shift pushed a window-tall dialog past the bottom edge. */
+dialog:not(.touch-scroll) {
+  margin-top: 0 !important;
+}
+
+/* A rise, not a zoom: `scale` grows from a dialog's untranslated center, so the ones
+ * Lichess centers with `translate(-50%, -50%)` came in from the right. */
+@keyframes cdc-dialog-in {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+
+dialog:not(.touch-scroll) button.close-button {
+  top: 12px !important;
+  right: 12px !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--cdc-text-dim) !important;
+  transform: none !important;
+}
+
+html[dir='rtl'] dialog:not(.touch-scroll) button.close-button {
+  right: auto !important;
+  left: 12px !important;
+}
+
+dialog:not(.touch-scroll) button.close-button:hover {
+  background: #ffffff14 !important;
+  color: #fff !important;
+}
+
+/* The dialog frame is enough: no second border on alerts. */
+dialog .dialog-content.alert,
+dialog .dialog-content.debug {
+  border: none !important;
+}
+
+dialog .dialog-content > h2 {
+  color: #fff !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+}
+
+/* Keyboard help: plain section headings instead of gold bars. */
+dialog .help th p {
+  margin: 1.2em 0 0.4em !important;
+  padding: 12px 0 0 !important;
+  border-top: 1px solid var(--cdc-border);
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: 800 !important;
+}
+
+/* ---- Game setup --- */
+
+/* Create a game, challenge a friend, play the computer: segments on a dark track,
+ * and one look for any choice (a green ring on a green tint). */
+.game-setup {
+  --cdc-setup-track: #1c1b19;
+  --cdc-setup-chosen: inset 0 0 0 2px var(--cdc-green);
+  --cdc-setup-tint: #81b64c26;
+}
+
+.game-setup h2 {
+  margin: 24px 56px 20px !important;
+  font-size: 22px !important;
+}
+
+.game-setup .setup-content {
+  gap: 22px !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 24px 4px !important;
+}
+
+.game-setup .config-group {
+  gap: 10px !important;
+}
+
+.game-setup .radio-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game-setup :is(.config-group, .radio-pane) > .label {
+  margin: 0 !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px;
+  font-weight: 700 !important;
+  text-align: start;
+}
+
+/* Variant: a tall row, like a game-type picker. */
+.game-setup .mselect .mselect__label {
+  min-height: 56px;
+  gap: 14px !important;
+  padding-inline: 16px 14px !important;
+  border-radius: 10px !important;
+}
+
+.game-setup .mselect .mselect__label .icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.game-setup .mselect .mselect__label .text .name {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.game-setup .mselect .mselect__label .text .desc {
+  font-size: 13px !important;
+  font-weight: 400;
+}
+
+/* Unlimited / real time / correspondence: a segmented control, not tabs. */
+.game-setup .time-control-tabs .tabs-horiz {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 18px !important;
+  padding: 4px;
+  border: none !important;
+  border-radius: 10px;
+  background: var(--cdc-setup-track);
+}
+
+.game-setup .time-control-tabs .tabs-horiz button {
+  flex: 1;
+  height: 36px;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  border: none !important;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 14px;
+  transition:
+    background-color 0.15s,
+    color 0.15s !important;
+}
+
+.game-setup .time-control-tabs .tabs-horiz button:hover {
+  background: #ffffff0a;
+}
+
+.game-setup .time-control-tabs .tabs-horiz button.active {
+  background: var(--cdc-bg-raised) !important;
+  box-shadow: 0 1px 3px #00000080;
+  color: #fff !important;
+}
+
+.game-setup .time-control-tabs .tabs-horiz[data-cdc-tabs] button.active {
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.game-setup .time-control-tabs .time-panel {
+  gap: 16px !important;
+}
+
+/* Minutes and increment read as values, not as green badges. */
+.game-setup .time-control-tabs .time-panel .slider-container .label-row {
+  align-items: baseline !important;
+  margin-bottom: 10px !important;
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.game-setup .time-control-tabs .time-panel .slider-container .label-row .val-box {
+  padding: 0 !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.game-setup .time-control-tabs .time-panel .slider-separator {
+  align-self: start;
+  color: var(--cdc-text-dim);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 20px !important;
+  text-align: center;
+}
+
+.game-setup input.range {
+  height: 18px;
+}
+
+.game-setup input.range::-webkit-slider-runnable-track {
+  height: 6px !important;
+  border-radius: 3px !important;
+}
+
+.game-setup input.range::-webkit-slider-thumb {
+  width: 18px !important;
+  height: 18px !important;
+  margin-top: -6px;
+  border-radius: 50% !important;
+  box-shadow: 0 1px 3px #00000080;
+  transition: box-shadow 0.15s !important;
+}
+
+.game-setup input.range:hover::-webkit-slider-thumb {
+  box-shadow:
+    0 1px 3px #00000080,
+    0 0 0 5px #81b64c33;
+}
+
+/* Presets: one row of chips sharing the width. */
+.game-setup .time-control-tabs .time-panel .presets {
+  gap: 6px !important;
+  margin-top: 4px !important;
+}
+
+.game-setup .time-control-tabs .time-panel .presets .preset-btn {
+  flex: 1 0 auto;
+  height: 36px;
+  padding: 0 6px !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s !important;
+}
+
+.game-setup .time-control-tabs .time-panel .presets .preset-btn.active {
+  background: var(--cdc-setup-tint) !important;
+  box-shadow: var(--cdc-setup-chosen);
+  color: #fff !important;
+}

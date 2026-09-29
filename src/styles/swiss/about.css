@@ -1,0 +1,170 @@
+/* Swiss home, below the lists: the explanations as point cards, a comparison card, FAQ cards. */
+
+/* ---- About Swiss --- */
+
+main.swiss-home .swiss-home__infos {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 14px;
+}
+
+main.swiss-home .swiss-home__infos > :is(.comparison, #faq) {
+  grid-column: 1 / -1;
+}
+
+main.swiss-home .swiss-home__infos .main-point {
+  gap: 18px;
+  margin: 0 !important;
+  padding: 20px 22px !important;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px;
+  background: var(--cdc-bg-panel);
+}
+
+main.swiss-home .swiss-home__infos :is(.main-point, .faq) p {
+  color: var(--cdc-text);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+main.swiss-home .swiss-home__infos .main-point icon {
+  display: flex;
+  flex: none !important;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin: 0 !important;
+  border-radius: 12px;
+  background: var(--cdc-bg-raised);
+  font-size: 26px !important;
+}
+
+/* The comparison table as a card, the Swiss column highlighted. */
+main.swiss-home .comparison {
+  overflow: hidden;
+  margin: 14px 0 0 !important;
+  border: 1px solid var(--cdc-card-border) !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  clip-path: inset(0 round 10px);
+  background: var(--cdc-bg-panel);
+}
+
+main.swiss-home .comparison :is(th, td) {
+  padding: 12px 20px !important;
+  border: none !important;
+  font-size: 14px;
+  text-align: start;
+}
+
+main.swiss-home .comparison thead th {
+  padding-block: 14px !important;
+  color: var(--cdc-text-dim);
+  font-family: var(--cdc-font) !important;
+  font-size: 13px;
+  font-weight: 700 !important;
+}
+
+main.swiss-home .comparison thead strong {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+main.swiss-home .comparison thead th:nth-child(3) strong {
+  color: var(--cdc-green);
+}
+
+main.swiss-home .comparison tbody th {
+  width: 28%;
+  color: #fff;
+  font-family: var(--cdc-font) !important;
+  font-weight: 700 !important;
+}
+
+main.swiss-home .comparison tbody td {
+  color: var(--cdc-text-dim);
+  font-weight: 600;
+}
+
+main.swiss-home .comparison tbody td:nth-child(3) {
+  color: var(--cdc-text);
+}
+
+main.swiss-home .comparison tbody tr:hover {
+  background: #ffffff08 !important;
+}
+
+/* FAQ: a grid of question cards, the "?" as a round badge. */
+main.swiss-home #faq {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+  padding: 0 !important;
+}
+
+main.swiss-home #faq .faq {
+  align-items: flex-start !important;
+  gap: 14px;
+  margin: 0 !important;
+  padding: 18px 20px;
+  border: 1px solid var(--cdc-card-border);
+  border-radius: 10px;
+  background: var(--cdc-bg-panel);
+}
+
+main.swiss-home #faq .faq icon {
+  display: flex;
+  flex: none !important;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0 !important;
+  border-radius: 50%;
+  background: var(--cdc-bg-raised);
+  color: #e3aa24 !important;
+  font-family: var(--cdc-font);
+  font-size: 17px !important;
+  font-weight: 800 !important;
+}
+
+main.swiss-home #faq .faq strong {
+  margin: 5px 0 6px !important;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+/* ---- Mobile --- */
+
+@media (max-width: 799.98px) {
+  main.swiss-home {
+    padding-inline: 12px;
+  }
+
+  main.swiss-home .swisses tbody tr {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    row-gap: 10px;
+    column-gap: 14px;
+    padding: 12px 14px;
+  }
+
+  main.swiss-home .swisses td.infos {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+
+  main.swiss-home .swiss-home__infos,
+  main.swiss-home #faq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  main.swiss-home .comparison :is(th, td) {
+    padding: 10px 12px !important;
+  }
+}

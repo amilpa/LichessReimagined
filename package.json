@@ -1,0 +1,58 @@
+{
+  "name": "lichessdotcom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A browser extension that gives lichess.org a modern look and a Game Review.",
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#background/*": "./src/background/*",
+    "#content/*": "./src/content/*",
+    "#page/*": "./src/page/*",
+    "#shared/*": "./src/shared/*",
+    "#manifest": "./src/manifest.ts",
+    "#scripts/*": "./scripts/*"
+  },
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "dev": "node scripts/build.ts --watch",
+    "package": "node scripts/package.ts",
+    "store:render": "node scripts/store/render.ts",
+    "typecheck": "node scripts/typecheck.ts",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:fast": "playwright test --grep-invert @slow",
+    "test:firefox": "node --test tests/firefox/smoke.test.ts",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && node scripts/check-sources.ts"
+  },
+  "dependencies": {
+    "lottie-web": "5.13.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@puppeteer/browsers": "^3.2.3",
+    "@types/chrome": "^0.3.0",
+    "@types/node": "^24.19.0",
+    "@vitest/coverage-v8": "^5.0.2",
+    "fflate": "^0.8.3",
+    "happy-dom": "^20.14.5",
+    "oxfmt": "0.70.0",
+    "oxlint": "1.85.0",
+    "oxlint-tsgolint": "^7.0.2003",
+    "puppeteer-core": "^25.12.0",
+    "rolldown": "^1.2.11",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.6.0"
+}

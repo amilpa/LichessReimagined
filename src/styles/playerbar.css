@@ -1,19 +1,8 @@
-/*
- * The player bars, one look for both places Lichess shows players
- * around a board: the game page (`.ruser`, `.rclock`) and the analysis board
- * (our `.cdc-player`, copied from the game info by content.js, and Lichess's
- * `.analyse__clock`, the time each side had left at the current move).
- *
- *   [avatar] TITLE name flag (rating)                 [ clock ]
- *            captured pieces +2
- *
- * This is only how they look. Where each piece sits is the page's own layout
- * (game.css, analysis.css): it puts it in the right bar and sets `--cdc-off`,
- * how far down the bar the board's inset and coordinates push the content.
- */
+/* Player bars: game page (.ruser, .rclock) and analysis board (.cdc-player, .analyse__clock).
+   Only the look: each page places the parts and sets --cdc-off for the board's inset. */
 
 @media (min-width: 1020px) {
-  /* ------------------------------------------------------------ player --- */
+  /* ---- Player --- */
 
   :is(main.round .ruser, main.analyse > .cdc-player) {
     position: relative;
@@ -23,9 +12,10 @@
     display: flex !important;
     align-items: center;
     gap: 5px;
-    /* Clear of the clock (140px and a gap, more with the game page's clock
-       extras): a name too long for the bar ends in an ellipsis. */
-    max-width: calc(100% - var(--cdc-inset-l, 0px) - var(--cdc-inset-r, 0px) - var(--cdc-clock-room, 152px));
+    /* Clear of the clock (140px plus a gap), so a long name ends in an ellipsis. */
+    max-width: calc(
+      100% - var(--cdc-inset-l, 0px) - var(--cdc-inset-r, 0px) - var(--cdc-clock-room, 152px)
+    );
     height: 20px;
     margin: calc(var(--cdc-off) + 8px) 0 0 var(--cdc-inset-l, 0px) !important;
     padding: 0 0 0 50px !important;
@@ -43,39 +33,49 @@
     width: 40px;
     height: 40px;
     border-radius: 3px;
-    /* The default avatar. */
     background: var(--cdc-avatar);
   }
 
-  /* The computer (content.js reads which color it plays): the "Play the
-     computer" monitor (theme.css). */
+  /* The computer's side (data-cdc-ai, from content/game/ai-players.ts) gets the monitor avatar. */
   html[data-cdc-ai~='white']:not([data-cdc-has~='round-black']) main.round .ruser-bottom::before,
   html[data-cdc-ai~='white'][data-cdc-has~='round-black'] main.round .ruser-top::before,
   html[data-cdc-ai~='black']:not([data-cdc-has~='round-black']) main.round .ruser-top::before,
   html[data-cdc-ai~='black'][data-cdc-has~='round-black'] main.round .ruser-bottom::before,
-  html[data-cdc-ai~='white']:not([data-cdc-has~='analyse-black']) main.analyse > .cdc-player--bottom::before,
+  html[data-cdc-ai~='white']:not([data-cdc-has~='analyse-black'])
+    main.analyse
+    > .cdc-player--bottom::before,
   html[data-cdc-ai~='white'][data-cdc-has~='analyse-black'] main.analyse > .cdc-player--top::before,
-  html[data-cdc-ai~='black']:not([data-cdc-has~='analyse-black']) main.analyse > .cdc-player--top::before,
-  html[data-cdc-ai~='black'][data-cdc-has~='analyse-black'] main.analyse > .cdc-player--bottom::before {
+  html[data-cdc-ai~='black']:not([data-cdc-has~='analyse-black'])
+    main.analyse
+    > .cdc-player--top::before,
+  html[data-cdc-ai~='black'][data-cdc-has~='analyse-black']
+    main.analyse
+    > .cdc-player--bottom::before {
     background: var(--cdc-computer-avatar);
   }
 
-  /* And its level's rating (content.js), where a player's flag would go. */
+  /* Its level's rating goes where a player's flag would. */
   html[data-cdc-ai~='white']:not([data-cdc-has~='round-black']) main.round .ruser-bottom::after,
   html[data-cdc-ai~='white'][data-cdc-has~='round-black'] main.round .ruser-top::after,
-  html[data-cdc-ai~='white']:not([data-cdc-has~='analyse-black']) main.analyse > .cdc-player--bottom::after,
+  html[data-cdc-ai~='white']:not([data-cdc-has~='analyse-black'])
+    main.analyse
+    > .cdc-player--bottom::after,
   html[data-cdc-ai~='white'][data-cdc-has~='analyse-black'] main.analyse > .cdc-player--top::after {
     content: '(' var(--cdc-ai-white) ')';
   }
 
   html[data-cdc-ai~='black']:not([data-cdc-has~='round-black']) main.round .ruser-top::after,
   html[data-cdc-ai~='black'][data-cdc-has~='round-black'] main.round .ruser-bottom::after,
-  html[data-cdc-ai~='black']:not([data-cdc-has~='analyse-black']) main.analyse > .cdc-player--top::after,
-  html[data-cdc-ai~='black'][data-cdc-has~='analyse-black'] main.analyse > .cdc-player--bottom::after {
+  html[data-cdc-ai~='black']:not([data-cdc-has~='analyse-black'])
+    main.analyse
+    > .cdc-player--top::after,
+  html[data-cdc-ai~='black'][data-cdc-has~='analyse-black']
+    main.analyse
+    > .cdc-player--bottom::after {
     content: '(' var(--cdc-ai-black) ')';
   }
 
-  /* Like a player's rating (a flag's emoji takes no color). */
+  /* Styled like a rating; a flag emoji ignores the color anyway. */
   :is(main.round .ruser, main.analyse > .cdc-player)::after {
     flex: none;
     color: var(--cdc-text-dim);
@@ -98,7 +98,7 @@
     white-space: nowrap;
   }
 
-  /* What follows the name keeps its size. */
+  /* Only the name shrinks. */
   :is(main.round .ruser, main.analyse > .cdc-player) > :not(a, name) {
     flex: none;
   }
@@ -124,11 +124,17 @@
     font-weight: 400;
   }
 
-  :is(main.round .ruser, main.analyse > .cdc-player) rating::before { content: '('; }
-  :is(main.round .ruser, main.analyse > .cdc-player) rating::after  { content: ')'; }
+  :is(main.round .ruser, main.analyse > .cdc-player) rating::before {
+    content: '(';
+  }
+  :is(main.round .ruser, main.analyse > .cdc-player) rating::after {
+    content: ')';
+  }
 
-  /* The player's country flag, right after the name (set by content.js). */
-  :is(main.round .ruser, main.analyse > .cdc-player) :is(rating, good, bad) { order: 2; }
+  /* Country flag right after the name (data-cdc-flag, from content/game/flags.ts). */
+  :is(main.round .ruser, main.analyse > .cdc-player) :is(rating, good, bad) {
+    order: 2;
+  }
   :is(main.round .ruser, main.analyse > .cdc-player)[data-cdc-flag]:not([data-cdc-flag=''])::after {
     order: 1;
     content: attr(data-cdc-flag);
@@ -137,10 +143,10 @@
     line-height: 20px;
   }
 
-  /* ---------------------------------------------------- captured pieces --- */
+  /* ---- Captured pieces --- */
 
-  /* Built by content.js: the opponent's pieces you took,
-     grouped by type, then the material lead, under the name. */
+  /* Built by content/game/captured.ts: the pieces taken, grouped by type, then the material
+   * lead. */
   :is(main.round, main.analyse) > .cdc-captured {
     justify-self: start;
     align-self: start;
@@ -152,13 +158,10 @@
     pointer-events: none;
   }
 
-  /* An analysis board without players (a free board, a study) keeps
-     Lichess's own material difference, above and below the board: the same
-     look, at the board's left edge. It lists the pieces a side is up by, so
-     they're drawn in the other color, as pieces taken. */
+  /* Boards without players (free board, study) keep Lichess's material diff, restyled to match.
+     It lists the pieces a side is up by, so they're drawn in the other color. */
   main.analyse .material {
-    /* Lichess lists the queen first: reversed, the pawns come first and the
-       score still last. */
+    /* Lichess lists the queen first; reversed, pawns lead and the score stays last. */
     flex-direction: row-reverse !important;
     gap: 3px;
     height: 18px;
@@ -194,12 +197,24 @@
     --cdc-mpiece-king: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp');
   }
 
-  main.analyse .material mpiece.pawn { background-image: var(--cdc-mpiece-pawn) !important; }
-  main.analyse .material mpiece.knight { background-image: var(--cdc-mpiece-knight) !important; }
-  main.analyse .material mpiece.bishop { background-image: var(--cdc-mpiece-bishop) !important; }
-  main.analyse .material mpiece.rook { background-image: var(--cdc-mpiece-rook) !important; }
-  main.analyse .material mpiece.queen { background-image: var(--cdc-mpiece-queen) !important; }
-  main.analyse .material mpiece.king { background-image: var(--cdc-mpiece-king) !important; }
+  main.analyse .material mpiece.pawn {
+    background-image: var(--cdc-mpiece-pawn) !important;
+  }
+  main.analyse .material mpiece.knight {
+    background-image: var(--cdc-mpiece-knight) !important;
+  }
+  main.analyse .material mpiece.bishop {
+    background-image: var(--cdc-mpiece-bishop) !important;
+  }
+  main.analyse .material mpiece.rook {
+    background-image: var(--cdc-mpiece-rook) !important;
+  }
+  main.analyse .material mpiece.queen {
+    background-image: var(--cdc-mpiece-queen) !important;
+  }
+  main.analyse .material mpiece.king {
+    background-image: var(--cdc-mpiece-king) !important;
+  }
 
   :is(.cdc-captured__group, main.analyse .material > div) {
     display: flex !important;
@@ -225,14 +240,13 @@
     font-weight: 700 !important;
   }
 
-  /* ------------------------------------------------------------- clock --- */
+  /* ---- Clock --- */
 
-  /* A fixed 140 x 40 box, dim while waiting, lit with a stopwatch while
-     running, red when time is short. Each page only maps its markup onto the
-     clock's state: which side it is, whether it runs, whether it's low. */
+  /* A fixed 140x40 box: dim while waiting, lit while running, red when low.
+     Each page only maps its markup onto that state. */
 
-  /* Which side. The game says it in a class; the analysis board only says top
-     or bottom, so the board's orientation tells. */
+  /* Which side: the game has a class, but the analysis clock only says top or bottom,
+     so the board's orientation decides. */
   main.round .rclock-white .time,
   html[data-cdc-has~='analyse-white'] main.analyse .analyse__clock.bottom,
   html[data-cdc-has~='analyse-black'] main.analyse .analyse__clock.top {
@@ -260,7 +274,6 @@
     align-items: center !important;
     justify-content: flex-end;
     gap: 0;
-    /* The clock is a fixed 140 x 40, whatever the time reads. */
     flex: none !important;
     width: 140px !important;
     height: 40px !important;
@@ -288,7 +301,7 @@
     font-size: 1em !important;
   }
 
-  /* Running. On the analysis board, the side to move. */
+  /* Running; on the analysis board, the side to move. */
   main.round .rclock.running .time,
   main.analyse .analyse__clock.active {
     background: var(--cdc-clock-on-bg) !important;
@@ -302,7 +315,7 @@
     --cdc-clock-icon: invert(1);
   }
 
-  /* Stopwatch icon on the running clock. */
+  /* Stopwatch on the running clock. */
   main.round .rclock.running .time::before,
   main.analyse .analyse__clock.active::before {
     content: '';

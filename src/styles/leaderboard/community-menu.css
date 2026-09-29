@@ -1,0 +1,98 @@
+/* ---- Community menu --- */
+
+/* The side menu these pages share with the rating stats, bots and FIDE players: each link's
+ * icon and color (the tiles are in pages/). */
+.subnav a[href$='/player'] {
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/leaderboard.svg');
+  --cdc-nav-color: #f7c631;
+}
+
+.subnav a[href*='/stat/rating/distribution'] {
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/rating-stats.svg');
+  --cdc-nav-color: #1baaf0;
+}
+
+.subnav a[href$='/tournament/leaderboard'] {
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg');
+  --cdc-nav-color: #fa742c;
+}
+
+.subnav a[href$='/tournament/shields'] {
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/shield.svg');
+  --cdc-nav-color: #81b64c;
+}
+
+.subnav a[href$='/player/bots'] {
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/device-bot.svg');
+  --cdc-nav-color: #8a6fd8;
+}
+
+.subnav[data-cdc-nav~='bots'] a[href*='/fide'] {
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/globe.svg');
+  --cdc-nav-color: #26c2a3;
+}
+
+/* Desktop only (Lichess's fixed top bar would cover them): the menu and the leaderboard's title
+ * stay put; the title's shadow shows once stuck. */
+@media (min-width: 1020px) {
+  main.page-menu > .subnav[data-cdc-nav~='bots'] {
+    position: sticky;
+    top: 16px;
+    align-self: start;
+  }
+
+  .community__leaders > h2 {
+    container-type: scroll-state;
+    position: sticky;
+    z-index: 3;
+    top: 0;
+    /* Into the box's top padding, so it sticks where it stands. */
+    margin: -16px 0 8px !important;
+    padding: 16px 0 10px;
+    background: var(--cdc-bg-page);
+    box-shadow:
+      -12px 0 var(--cdc-bg-page),
+      12px 0 var(--cdc-bg-page);
+  }
+
+  .community__leaders > h2::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    height: 14px;
+    background: linear-gradient(var(--cdc-bg-page), transparent);
+    opacity: 0;
+    transition: opacity 0.2s !important;
+    pointer-events: none;
+  }
+
+  @container scroll-state(stuck: top) {
+    .community__leaders > h2::after {
+      opacity: 1;
+    }
+  }
+}
+
+/* Narrower: the leaderboards first, then the online players in their own scrolling card. */
+@media (max-width: 1019.98px) {
+  .community.page-menu__content.box {
+    grid-template: 'leaders' 'online' / minmax(0, 1fr) !important;
+  }
+
+  .community__online .user-top {
+    max-height: 420px;
+    overflow-y: auto;
+  }
+}
+
+/* Mobile: Lichess runs the lists edge to edge, in a column as wide as its longest line (a name
+ * and a pill could beat the screen): no minimum, the cards fit. */
+@media (max-width: 799.98px) {
+  .community.page-menu__content.box,
+  .page-menu__content.box:has(> :is(.tournament-leaderboards, .tournament-shields)),
+  main.tournament-categ-shields .page-menu__content.box {
+    min-width: 0;
+    padding: 12px 12px 32px !important;
+  }
+}

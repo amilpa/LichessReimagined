@@ -1,0 +1,130 @@
+{
+  "rect": {
+    "left": 100,
+    "top": 50,
+    "width": 400,
+    "height": 400
+  },
+  "cases": [
+    {
+      "orientation": "white",
+      "x": 100,
+      "y": 50,
+      "square": "a8"
+    },
+    {
+      "orientation": "white",
+      "x": 149.9,
+      "y": 99.9,
+      "square": "a8"
+    },
+    {
+      "orientation": "white",
+      "x": 150,
+      "y": 100,
+      "square": "b7"
+    },
+    {
+      "orientation": "white",
+      "x": 499.9,
+      "y": 449.9,
+      "square": "h1"
+    },
+    {
+      "orientation": "white",
+      "x": 500,
+      "y": 449,
+      "square": null
+    },
+    {
+      "orientation": "white",
+      "x": 99.9,
+      "y": 60,
+      "square": null
+    },
+    {
+      "orientation": "white",
+      "x": 300,
+      "y": 250,
+      "square": "e4"
+    },
+    {
+      "orientation": "white",
+      "x": 120,
+      "y": 440,
+      "square": "a1"
+    },
+    {
+      "orientation": "white",
+      "x": 480,
+      "y": 60,
+      "square": "h8"
+    },
+    {
+      "orientation": "white",
+      "x": 310.5,
+      "y": 130.2,
+      "square": "e7"
+    },
+    {
+      "orientation": "black",
+      "x": 100,
+      "y": 50,
+      "square": "h1"
+    },
+    {
+      "orientation": "black",
+      "x": 149.9,
+      "y": 99.9,
+      "square": "h1"
+    },
+    {
+      "orientation": "black",
+      "x": 150,
+      "y": 100,
+      "square": "g2"
+    },
+    {
+      "orientation": "black",
+      "x": 499.9,
+      "y": 449.9,
+      "square": "a8"
+    },
+    {
+      "orientation": "black",
+      "x": 500,
+      "y": 449,
+      "square": null
+    },
+    {
+      "orientation": "black",
+      "x": 99.9,
+      "y": 60,
+      "square": null
+    },
+    {
+      "orientation": "black",
+      "x": 300,
+      "y": 250,
+      "square": "d5"
+    },
+    {
+      "orientation": "black",
+      "x": 120,
+      "y": 440,
+      "square": "h8"
+    },
+    {
+      "orientation": "black",
+      "x": 480,
+      "y": 60,
+      "square": "a1"
+    },
+    {
+      "orientation": "black",
+      "x": 310.5,
+      "y": 130.2,
+      "square": "d2"
+    }
+  ]
+}

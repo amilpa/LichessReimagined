@@ -1,0 +1,102 @@
+import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
+import { homedir } from 'node:os';
+import path from 'node:path';
+import { test } from 'node:test';
+import {
+  Browser as BrowserName,
+  detectBrowserPlatform,
+  install,
+  resolveBuildId,
+} from '@puppeteer/browsers';
+import { launch, type Browser, type Page } from 'puppeteer-core';
+import { SOUND_NAMES } from '#shared/sounds.ts';
+
+// A smoke test of the Firefox build (dist/firefox, from
+// `node scripts/build.ts --target firefox`), run by Node's test runner.
+// Playwright can't load an extension into Firefox; Puppeteer can, over
+// WebDriver BiDi, into a stock Firefox it downloads once into ~/.cache/puppeteer.
+
+const EXTENSION_DIR = path.resolve(
+  process.env['CDC_FIREFOX_EXTENSION_DIR'] ??
+    path.join(import.meta.dirname, '..', '..', 'dist', 'firefox'),
+);
+const CACHE_DIR = path.join(homedir(), '.cache', 'puppeteer');
+const TIMEOUT_MS = 30_000;
+const PANEL_COLOR = '#262522';
+
+/** Firefox's current release, downloaded unless it's already in the cache. */
+async function firefoxPath(): Promise<string> {
+  const platform = detectBrowserPlatform();
+  if (platform === undefined) throw new Error('Firefox has no build for this platform');
+  const buildId = await resolveBuildId(BrowserName.FIREFOX, platform, 'stable');
+  const firefox = await install({ browser: BrowserName.FIREFOX, buildId, cacheDir: CACHE_DIR });
+  return firefox.executablePath;
+}
+
+async function openLichess(browser: Browser, pathname: string): Promise<Page> {
+  const page = await browser.newPage();
+  await page.goto(`https://lichess.org${pathname}`, { waitUntil: 'load' });
+  return page;
+}
+
+/** What the content script sets on <html>: the theme's colors, the extension's base URL. */
+function contentScriptMarks(page: Page): Promise<{ panel: string; assets: string }> {
+  return page.evaluate(() => ({
+    panel: getComputedStyle(document.documentElement).getPropertyValue('--cdc-bg-panel').trim(),
+    assets: document.documentElement.dataset.cdcAssets ?? '',
+  }));
+}
+
+/**
+ * How many of our sounds Lichess's player has, once it has any: the content
+ * script reads them, the page script hands them over.
+ */
+async function ourSoundCount(page: Page): Promise<number> {
+  const count = await page.waitForFunction(
+    () => {
+      let value: unknown = window;
+      for (const key of ['site', 'sound', 'paths']) {
+        if (typeof value !== 'object' || value === null) return 0;
+        value = Reflect.get(value, key);
+      }
+      if (!(value instanceof Map)) return 0;
+      return [...value.keys()].filter(name => String(name).startsWith('cdc-')).length;
+    },
+    { timeout: TIMEOUT_MS },
+  );
+  return count.jsonValue();
+}
+
+// One Firefox for the lot, its pages opened one after the other.
+await test('the Firefox build', async suite => {
+  if (!existsSync(path.join(EXTENSION_DIR, 'manifest.json')))
+    throw new Error(`No extension in ${EXTENSION_DIR}: node scripts/build.ts --target firefox`);
+  const browser = await launch({
+    browser: 'firefox',
+    executablePath: await firefoxPath(),
+    headless: true,
+  });
+  suite.after(() => browser.close());
+  await browser.installExtension(EXTENSION_DIR);
+
+  await suite.test('the home page gets the theme, the hero and our sounds', async () => {
+    const page = await openLichess(browser, '/');
+    const marks = await contentScriptMarks(page);
+    assert.equal(marks.panel, PANEL_COLOR);
+    assert.match(marks.assets, /^moz-extension:\/\//);
+    await page.waitForSelector('main.lobby > .cdc-hero', { timeout: TIMEOUT_MS });
+    assert.equal(await ourSoundCount(page), SOUND_NAMES.length);
+    await page.close();
+  });
+
+  await suite.test('the free analysis board gets the coach, and its face', async () => {
+    const page = await openLichess(browser, '/analysis');
+    assert.equal((await contentScriptMarks(page)).panel, PANEL_COLOR);
+    // The page script adds the coach's panel, the content script its face over the portrait.
+    await page.waitForSelector('#cdc-review .cdc-coach .cdc-coach__rig svg', {
+      timeout: TIMEOUT_MS,
+    });
+    await page.close();
+  });
+});
