@@ -65,8 +65,7 @@ function clearOf(board: Box, box: Box, side: BoardNeighbour['side']): boolean {
   return box.right <= board.left + SLACK;
 }
 
-/** Each neighbour lines up with the board's edges and stays off the board. */
-export async function expectLinedUp(
+async function expectLinedUpNow(
   board: Locator,
   neighbours: readonly BoardNeighbour[],
 ): Promise<void> {
@@ -80,6 +79,18 @@ export async function expectLinedUp(
       ).toBeLessThanOrEqual(SLACK);
     expect(clearOf(boardBox, box, side), `${name} is ${side} the board`).toBe(true);
   }
+}
+
+// The content script sets the board's inset on its 250 ms tick, after
+// chessground has sized the board: give a busy machine a few ticks.
+const LAYOUT_SETTLE_MS = 5_000;
+
+/** Each neighbour lines up with the board's edges and stays off the board, once the layout settles. */
+export async function expectLinedUp(
+  board: Locator,
+  neighbours: readonly BoardNeighbour[],
+): Promise<void> {
+  await expect(() => expectLinedUpNow(board, neighbours)).toPass({ timeout: LAYOUT_SETTLE_MS });
 }
 
 /** The element is entirely in the window. */

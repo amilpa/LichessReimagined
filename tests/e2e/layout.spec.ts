@@ -10,6 +10,7 @@ import {
 import { FINISHED_GAME, openLichess, rootVariable } from './support/lichess.ts';
 import { seedReviewCache } from './support/review.ts';
 import { expectLichessHeader } from './support/sidebar.ts';
+import { onOneTvGame } from './support/tv.ts';
 
 // The pages that must fit the window like an app, at the sizes users have,
 // and Lichess's mobile layout below 1020px.
@@ -38,14 +39,25 @@ interface FittedPage {
   /** What must be entirely in view. */
   readonly shown: string;
   readonly open: (page: Page, context: BrowserContext) => Promise<void>;
+  /** Runs the checks on one page: TV reloads onto another game at any time. */
+  readonly onOnePage?: (page: Page, steps: () => Promise<void>) => Promise<void>;
 }
 
 const BOARD = 'main .main-board cg-container';
 
 async function openTv(page: Page): Promise<void> {
   await openLichess(page, '/tv');
-  await expect(page.locator(BOARD)).toBeVisible();
 }
+
+/** Runs `steps` on one TV game, once its board is in. */
+function onTvBoard(page: Page, steps: () => Promise<void>): Promise<void> {
+  return onOneTvGame(page, async () => {
+    await expect(page.locator(BOARD)).toBeVisible();
+    await steps();
+  });
+}
+
+const onlyPage = (_page: Page, steps: () => Promise<void>): Promise<void> => steps();
 
 async function openAnalysis(page: Page, context: BrowserContext): Promise<void> {
   // From the cache, the review's eval bar is there at once.
@@ -68,7 +80,13 @@ async function openSwissTournament(page: Page): Promise<void> {
 }
 
 const FITTED_PAGES: readonly FittedPage[] = [
-  { name: 'a game on TV', fromWidth: 1020, shown: 'main.round', open: openTv },
+  {
+    name: 'a game on TV',
+    fromWidth: 1020,
+    shown: 'main.round',
+    open: openTv,
+    onOnePage: onTvBoard,
+  },
   { name: 'a game’s analysis', fromWidth: 1020, shown: 'main.analyse', open: openAnalysis },
   {
     name: 'a puzzle',
@@ -130,19 +148,21 @@ for (const size of DESKTOP_SIZES) {
   test.describe(`at ${size.width}×${size.height}`, () => {
     test.use({ viewport: size });
 
-    for (const { name, fromWidth, shown, open } of FITTED_PAGES) {
+    for (const { name, fromWidth, shown, open, onOnePage = onlyPage } of FITTED_PAGES) {
       if (size.width < fromWidth) continue;
       test(`${name} fits the window and doesn't scroll`, async ({ page, context }) => {
         await open(page, context);
-        await expectInView(page, page.locator(shown));
-        expect(await horizontalOverflow(page)).toBe(0);
-        expect(await wheelScroll(page)).toBe(0);
+        await onOnePage(page, async () => {
+          await expectInView(page, page.locator(shown));
+          expect(await horizontalOverflow(page)).toBe(0);
+          expect(await wheelScroll(page)).toBe(0);
+        });
       });
     }
 
     test('on TV, the player bars and the clocks line up with the board', async ({ page }) => {
       await openTv(page);
-      await expectLinedUp(page.locator(BOARD), barsAndClocks(page, TV_BARS));
+      await onTvBoard(page, () => expectLinedUp(page.locator(BOARD), barsAndClocks(page, TV_BARS)));
     });
 
     test('on an analysis, the bars, clocks and eval bar line up with the board', async ({
@@ -166,9 +186,11 @@ for (const size of MOBILE_SIZES) {
 
     test('stays on a game, in our colors', async ({ page }) => {
       await openTv(page);
-      await expectLichessHeader(page);
-      expect(await rootVariable(page, '--cdc-bg-panel')).toBe('#262522');
-      expect(await horizontalOverflow(page)).toBe(0);
+      await onTvBoard(page, async () => {
+        await expectLichessHeader(page);
+        expect(await rootVariable(page, '--cdc-bg-panel')).toBe('#262522');
+        expect(await horizontalOverflow(page)).toBe(0);
+      });
     });
 
     test('stays on an analysis, without the review’s panel', async ({ page, context }) => {
