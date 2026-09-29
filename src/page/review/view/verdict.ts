@@ -29,8 +29,8 @@ export const openingOf = (session: Session, move: JudgedMove): string =>
 export interface VerdictInput {
   readonly move: JudgedMove;
   readonly gameId: string;
-  /** Explain's hint, in place of the comment; '' for none. */
-  readonly hint: string;
+  /** Explain's sentences, in place of the comment; none for the comment. */
+  readonly hint: readonly CommentPart[];
 }
 
 /** A judged move, and what the coach says of it. */
@@ -41,9 +41,10 @@ export interface CoachComment {
 
 /** The coach's comment on a move, or Explain's hint in its place. */
 export function commentOn(session: Session, { move, gameId, hint }: VerdictInput): CoachComment {
-  const parts = hint
-    ? [{ text: hint, droppable: false }]
-    : explanation(move, coachContext(session, gameId), openingOf(session, move));
+  const parts =
+    hint.length > 0
+      ? hint
+      : explanation(move, coachContext(session, gameId), openingOf(session, move));
   return { move, parts };
 }
 

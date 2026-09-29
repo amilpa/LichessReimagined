@@ -130,14 +130,17 @@ describe('Stockfish', () => {
     const [first, second] = await Promise.all([
       engine.analyse('fen one'),
       engine.analyse('fen two', QUICK_SEARCH),
+      engine.analyse('fen three', QUICK_SEARCH, ['g1f3', 'e1h1']),
     ]);
     expect(first?.lines).toEqual([{ cp: 42, pv: ['e2e4', 'for', 'fen', 'one'] }]);
     expect(second?.lines[0]?.pv.at(-1)).toBe('two');
-    expect(sent.slice(-4)).toEqual([
+    expect(sent.slice(-6)).toEqual([
       'position fen fen one',
       'go depth 16 movetime 1500',
       'position fen fen two',
       'go depth 12 movetime 500',
+      'position fen fen three',
+      'go depth 12 movetime 500 searchmoves g1f3 e1h1',
     ]);
   });
 });

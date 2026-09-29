@@ -3,14 +3,32 @@ import { analysis as pageAnalysis, type Analysis } from '#page/lichess/analysis.
 import type { Session } from '#page/review/session.ts';
 import { type PanelAction, PanelActionSchema } from './actions.ts';
 import { nextCoach } from './coach-avatar.ts';
-import { goTo, jump, showBest, stepPath, stopPlaying, togglePlay } from './navigation.ts';
+import {
+  goTo,
+  jump,
+  lineShown,
+  showBest,
+  stepPath,
+  stopPlaying,
+  toggleLine,
+  togglePlay,
+} from './navigation.ts';
 
 // The panel's and the controls' buttons, by their `data-cdc` action.
+
+// Explain off leaves the line it played for the move it stands for.
+function toggleExplain(session: Session, analysis: Analysis): void {
+  const { view } = session;
+  const line = lineShown(session, analysis);
+  view.explain = !view.explain;
+  if (!view.explain && line) goTo(analysis, line.path);
+}
 
 function act(session: Session, analysis: Analysis, action: Exclude<PanelAction, 'coach'>): void {
   const { view } = session;
   if (action === 'play') togglePlay(session, analysis);
-  else if (action === 'explain') view.explain = !view.explain;
+  else if (action === 'explain') toggleExplain(session, analysis);
+  else if (action === 'line') toggleLine(session, analysis);
   else if (action === 'rows') view.allRows = !view.allRows;
   else if (action === 'first') jump(analysis, 0);
   else if (action === 'last') jump(analysis, analysis.mainline.length - 1);

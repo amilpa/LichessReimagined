@@ -13,6 +13,7 @@ const CommandSchema = z.enum([
   'prev',
   'next',
   'best',
+  'line',
   'coach',
 ]);
 

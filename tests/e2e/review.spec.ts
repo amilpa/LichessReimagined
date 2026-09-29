@@ -121,6 +121,26 @@ test.describe('the Game Review of a finished game', () => {
     await expect(page.locator('html')).not.toHaveAttribute('data-cdc-cls', 'best');
   });
 
+  test('Explain writes the engine’s best line, and plays it on the board', async ({ page }) => {
+    const { panel, comment, explain } = reviewParts(page);
+    const lineButton = panel.locator('.cdc-bubble__line');
+    await startReview(page);
+    const played = await nextToBestable(page);
+    await explain.click();
+    await expect(explain).toHaveClass(/\bcdc-btn--on\b/);
+    // The engine boots, then plays the lines out from the cached verdict's best move.
+    await expect(lineButton).toHaveText('Show line', { timeout: 30_000 });
+    await expect(comment).toHaveText(/^Best was \d+\.(\.\.)? /);
+    await lineButton.click();
+    await expect(ownVariations(page)).toHaveCount(1);
+    await expect(lineButton).toHaveText('Back');
+    const lineMoves = ownVariations(page).locator('move');
+    await expect.poll(() => lineMoves.count()).toBeGreaterThanOrEqual(2);
+    await lineButton.click();
+    await expect.poll(() => activePly(page)).toBe(played);
+    await expect(lineButton).toHaveText('Show line');
+  });
+
   test('marks every move of the game in Lichess’s move list', async ({ page }) => {
     const moves = mainlineMoves(page);
     await expect(moves).toHaveCount(PLIES);

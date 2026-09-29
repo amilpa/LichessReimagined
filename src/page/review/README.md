@@ -12,17 +12,17 @@ here is pure but the engine wrapper (`engine/stockfish.ts`), and none of it
 reads the page: the UI passes in the game id, the coach, the language, the
 opening's name and the page's asset URL.
 
-| Folder        | What it holds                                                                                                                                                    |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `chess/`      | `uciToSan`, `normalizeUci` (Lichess's king-takes-rook castling in the engine's terms), piece values, `isHanging`, `isSacrifice`                                  |
-| `evaluation/` | `PositionRecord` (a position's evaluation from White's view), `StoredRecordCodec` (the cache's format), win probability, move accuracy, `formatEval`, `barLabel` |
-| `engine/`     | `Stockfish` (Lichess's own build, one search at a time), UCI output parsing, `toRecord`, the cloud's answers (`CloudEvalSchema`, `fromCloud`), search limits     |
-| `classes/`    | The move classes (`MoveClass`), their colors, sets (`GOOD`, `GRAPH_DOTS`…), ranks, coach moods and icons (`classSvg`, `classImage`, `classIcon`)                 |
-| `judge/`      | `judge` (one move, from its two positions' records), `mateVerdict`, `SURE_MATE`, the summary's `playerAccuracy` and `classCounts`                                |
-| `rating/`     | The Game Rating: `model.json` (written by `tools/game-rating/fit.py`), Lichess's `divide`, `isTactical`, the odds, `rateGame`                                    |
-| `coach/`      | The coach's words: `remark`, `trajectory`, `fact`, `explanation`, seeded by `CoachContext`                                                                       |
-| `comment/`    | The comment's `[[…]]` tokens, `commentMarkup` (the typing's words at a given moment), `streamFor`, `verdictTitle`                                                |
-| `i18n/`       | `ReviewLanguage`: every string, sentence and grammar rule, in `en` and `fr`; `pageLanguage()` picks one                                                          |
+| Folder        | What it holds                                                                                                                                                               |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `chess/`      | `uciToSan`, `normalizeUci` (Lichess's king-takes-rook castling in the engine's terms), `lineMoves` (an engine line, move by move), piece values, `isHanging`, `isSacrifice` |
+| `evaluation/` | `PositionRecord` (a position's evaluation from White's view), `StoredRecordCodec` (the cache's format), win probability, move accuracy, `formatEval`, `barLabel`            |
+| `engine/`     | `Stockfish` (Lichess's own build, one search at a time), UCI output parsing, `toRecord`, the cloud's answers (`CloudEvalSchema`, `fromCloud`), search limits                |
+| `classes/`    | The move classes (`MoveClass`), their colors, sets (`GOOD`, `GRAPH_DOTS`…), ranks, coach moods and icons (`classSvg`, `classImage`, `classIcon`)                            |
+| `judge/`      | `judge` (one move, from its two positions' records), `mateVerdict`, `SURE_MATE`, the summary's `playerAccuracy` and `classCounts`                                           |
+| `rating/`     | The Game Rating: `model.json` (written by `tools/game-rating/fit.py`), Lichess's `divide`, `isTactical`, the odds, `rateGame`                                               |
+| `coach/`      | The coach's words: `remark`, `trajectory`, `fact`, `explanation`, seeded by `CoachContext`                                                                                  |
+| `comment/`    | The comment's `[[…]]` tokens, `commentMarkup` (the typing's words at a given moment), `streamFor`, `verdictTitle`                                                           |
+| `i18n/`       | `ReviewLanguage`: every string, sentence and grammar rule, in `en` and `fr`; `pageLanguage()` picks one                                                                     |
 
 ## The main types
 
@@ -56,11 +56,17 @@ moves played off it share (`engine-pool.ts`). Only `start.ts`, which builds the
 session, calls the render directly; every other module goes through
 `session.redraw` and `session.setMode`, which keeps the imports acyclic.
 
-| Folder  | What it holds                                                                                                                                                                                                               |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `game/` | The game's analysis: its export (opening, server analysis), the cache, the cloud, the engine's queue (`nextJob`), and `buildReview`, which judges the moves whose positions are in and drafts the rest                      |
-| `live/` | Moves played on the board (the free board's, and those off a game): `judgeAt`, `bookAt`, `openingAt`, and the queue of engine and masters lookups (`pump`)                                                                  |
-| `view/` | The DOM: the panel per mode (summary, moves, closed, live), the graph, the eval bar, the badge and arrows on the board, the move list's badges, the opening's name, the coach's avatar, the typing, the tooltip, the clicks |
+| Folder     | What it holds                                                                                                                                                                                                               |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `game/`    | The game's analysis: its export (opening, server analysis), the cache, the cloud, the engine's queue (`nextJob`), and `buildReview`, which judges the moves whose positions are in and drafts the rest                      |
+| `live/`    | Moves played on the board (the free board's, and those off a game): `judgeAt`, `bookAt`, `openingAt`, and the queue of engine and masters lookups (`pump`)                                                                  |
+| `explain/` | Explain's lines: the engine's best line from a move that wasn't best, and the one punishing an error, each searched from its first move when Explain asks (`pumpLines`, `explainLines`)                                     |
+| `view/`    | The DOM: the panel per mode (summary, moves, closed, live), the graph, the eval bar, the badge and arrows on the board, the move list's badges, the opening's name, the coach's avatar, the typing, the tooltip, the clicks |
+
+Explain swaps the coach's comment for a book move's opening, or for the
+engine's lines around a move that wasn't best (`view/explain-hint.ts`); its
+button plays the best line on the board as a variation, while the coach still
+speaks of the move it stands for (`lineShown`, `view/navigation.ts`).
 
 `render.ts` runs every 150 ms: it draws the panel again only when what it
 shows changes (`render-key.ts`), keeping the buttons and scroll positions a

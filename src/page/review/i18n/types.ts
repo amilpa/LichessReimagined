@@ -5,6 +5,16 @@ import type { Phase } from '#page/review/rating/phases.ts';
 // What the review says, per language. Moves, pieces and squares go into the
 // coach's sentences as [[…]] tokens (comment/tokens.ts), already built.
 
+/** Explain's engine lines, written out as numbered [[…]] moves. */
+export interface LineStrings {
+  /** The line from the move that was best. */
+  readonly best: (line: string) => string;
+  /** The line that punishes an error. */
+  readonly allows: (move: string, line: string) => string;
+  /** The bubble's button that plays the best line on the board. */
+  readonly show: string;
+}
+
 export interface InterfaceStrings {
   readonly review: string;
   readonly start: string;
@@ -30,6 +40,7 @@ export interface InterfaceStrings {
   readonly phases: Readonly<Record<Phase, string>>;
   /** Explain's hint for a move that wasn't best. */
   readonly bestWas: (move: string) => string;
+  readonly lines: LineStrings;
 }
 
 /** The situations with remarks of their own, besides each class's. */

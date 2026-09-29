@@ -1,4 +1,10 @@
-import { parseFen, parseSquare, ROLE_LETTERS, squareCoords } from '#shared/chess/index.ts';
+import {
+  type Board,
+  parseFen,
+  parseSquare,
+  ROLE_LETTERS,
+  squareCoords,
+} from '#shared/chess/index.ts';
 import { pieceOn } from './material.ts';
 
 // The review's comments and facts still import the letters from here.
@@ -15,8 +21,11 @@ function fileIndex(name: string): number {
  * promotion, without disambiguation or check marks.
  */
 export function uciToSan(fen: string, uci: string | null | undefined): string {
-  if (!uci) return '';
-  const { board } = parseFen(fen);
+  return uci ? sanOn(parseFen(fen).board, uci) : '';
+}
+
+/** `uciToSan` on a board already parsed. */
+export function sanOn(board: Board, uci: string): string {
   const from = uci.slice(0, 2);
   const to = uci.slice(2, 4);
   const piece = pieceOn(board, from);

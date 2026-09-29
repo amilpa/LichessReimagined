@@ -40,6 +40,11 @@ export const fr: ReviewLanguage = {
       endgame: 'Finale',
     },
     bestWas: move => `Le meilleur coup était ${move}.`,
+    lines: {
+      best: line => `La meilleure suite était ${line}.`,
+      allows: (move, line) => `${move} permet ${line}.`,
+      show: 'Voir la ligne',
+    },
   },
   classLabels: {
     brilliant: 'Brillant',

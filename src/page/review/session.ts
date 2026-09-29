@@ -42,6 +42,13 @@ export interface BestShown {
   readonly move: JudgedMove;
 }
 
+/** Explain's best line, played on the board from the position before `move` (the bubble's button). */
+export interface LineShown {
+  readonly path: string;
+  readonly move: JudgedMove;
+  readonly line: readonly string[];
+}
+
 export type GraphKind = 'summary' | 'moves';
 
 export interface ViewState {
@@ -59,6 +66,7 @@ export interface ViewState {
   /** The graphs that have drawn themselves in once. */
   readonly revealed: Set<GraphKind>;
   bestOf: BestShown | null;
+  lineOf: LineShown | null;
   /** The summary's chevron is open. */
   allRows: boolean;
   /** The ply the summary was opened on. Moving to another ply opens the move-by-move review. */
@@ -90,6 +98,12 @@ export interface LiveState {
   /** The masters database can't be reached (signed out): no move is book. */
   noBook: boolean;
   error: string | null;
+}
+
+/** Explain's engine lines, by position and first move (explain/lines.ts). */
+export interface LineLookups {
+  readonly found: Map<string, readonly string[]>;
+  busy: boolean;
 }
 
 /**
@@ -128,6 +142,7 @@ export interface Session {
   readonly view: ViewState;
   readonly live: LiveState;
   readonly work: GameWork;
+  readonly lines: LineLookups;
   readonly coach: AvatarState;
   readonly stream: Stream;
   /** The desktop layout, the only one with room for the review (review.css). */
@@ -165,6 +180,7 @@ export function createSession(options: SessionOptions): Session {
       playing: null,
       revealed: new Set(),
       bestOf: null,
+      lineOf: null,
       allRows: false,
       summaryPly: undefined,
       drawnMode: null,
@@ -182,6 +198,7 @@ export function createSession(options: SessionOptions): Session {
       error: null,
     },
     work: { nodes: [], deep: [], rough: [], moves: [], bookPly: 0, cloudAt: Infinity },
+    lines: { found: new Map(), busy: false },
     coach: { id: coach, reacted: '', avatar: null },
     stream: { state: { key: '', shown: 0, dropped: false }, timer: 0 },
     wide: matchMedia('(min-width: 1020px)'),

@@ -40,6 +40,11 @@ export const en: ReviewLanguage = {
     gameRatingTip: 'An estimate of a player’s rating based on a single game.',
     phases: { opening: 'Opening', tactics: 'Tactics', strategy: 'Strategy', endgame: 'Endgame' },
     bestWas: move => `${move} was best.`,
+    lines: {
+      best: line => `Best was ${line}.`,
+      allows: (move, line) => `${move} allows ${line}.`,
+      show: 'Show line',
+    },
   },
   classLabels: CLASS_LABELS,
   classSentences: {

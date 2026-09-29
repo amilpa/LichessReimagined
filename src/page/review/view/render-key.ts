@@ -35,6 +35,9 @@ export function renderKey(session: Session, analysis: Analysis): string {
     progressKey(session, analysis),
     view.error ?? '',
     view.explain,
+    // The lines Explain has in, and the one it played on the board.
+    session.lines.found.size,
+    view.lineOf?.path ?? '',
     view.playing !== null,
     liveDigest(reviewMove(session, analysis)),
     live.error ?? '',

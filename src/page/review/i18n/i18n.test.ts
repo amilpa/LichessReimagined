@@ -12,12 +12,21 @@ const LANGUAGES: readonly (readonly ['en' | 'fr', ReviewLanguage])[] = [
   ['fr', fr],
 ];
 
+const EXPLAINED = {
+  en: ['Best was 12. [[m:w:Nf3]] [[m:b:Qd7]].', '[[m:w:Bg5]] allows 12. [[m:w:Nf3]] [[m:b:Qd7]].'],
+  fr: [
+    'La meilleure suite était 12. [[m:w:Nf3]] [[m:b:Qd7]].',
+    '[[m:w:Bg5]] permet 12. [[m:w:Nf3]] [[m:b:Qd7]].',
+  ],
+};
+
 describe.each(LANGUAGES)('%s', (lang, language) => {
   const original = legacy[lang];
 
   it('has the original’s interface strings', () => {
     const { T } = original;
-    const { phases, bestWas, ...ui } = language.ui;
+    // Explain's lines are new: the original had none.
+    const { phases, bestWas, lines: _lines, ...ui } = language.ui;
     const { phases: originalPhases, bestWas: originalBestWas, ...originalUi } = T;
     expect(ui).toEqual(originalUi);
     expect([phases.opening, phases.tactics, phases.strategy, phases.endgame]).toEqual([
@@ -27,6 +36,12 @@ describe.each(LANGUAGES)('%s', (lang, language) => {
       originalPhases.e,
     ]);
     expect(bestWas('[[m:w:Nf3]]')).toBe(originalBestWas.replace('{m}', '[[m:w:Nf3]]'));
+  });
+
+  it('writes Explain’s lines around their moves', () => {
+    const line = '12. [[m:w:Nf3]] [[m:b:Qd7]]';
+    const written = language.ui.lines;
+    expect([written.best(line), written.allows('[[m:w:Bg5]]', line)]).toEqual(EXPLAINED[lang]);
   });
 
   it('has the original’s class labels and verdicts', () => {

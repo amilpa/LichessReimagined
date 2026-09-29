@@ -83,6 +83,32 @@
     overflow: hidden;
   }
 
+  /* Explain's button under its lines, which plays the best one on the board. */
+  .cdc-bubble__line {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding: 4px 10px 4px 6px;
+    border: none;
+    border-radius: 999px;
+    background: #ebeae8;
+    color: #312e2b;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .cdc-bubble__line:hover {
+    background: #dcdad7;
+  }
+
+  .cdc-bubble__line .cdc-i {
+    width: 16px;
+    height: 16px;
+  }
+
   /* Pieces are drawn as Neo pieces, moves as chips led by the moving piece. Negative
      margins keep the pieces from pushing the lines apart. */
   .cdc-pc {
@@ -93,11 +119,10 @@
     vertical-align: -0.35em;
   }
 
-  /* A chip's pieces are sized to its line, and its own negative margins keep the
-     lines together. */
+  /* A chip's pieces are sized to its line. Inline, its padding doesn't push the lines
+     apart, and a period after it can't wrap alone as it could after an inline-block. */
   .cdc-mv {
-    display: inline-block;
-    margin: -0.05em 0;
+    display: inline;
     padding: 0.05em 0.3em 0.05em 0.1em;
     border-radius: 6px;
     background: #ebeae8;
@@ -116,6 +141,10 @@
 
   .cdc-sq {
     font-weight: 700;
+  }
+
+  .cdc-num {
+    white-space: nowrap;
   }
 
   /* The review types the comment out word by word: hidden words keep their place,

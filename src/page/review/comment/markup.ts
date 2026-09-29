@@ -63,6 +63,11 @@ function moveChip(assets: string, value: string): SafeHtml {
 function tokenMarkup(assets: string, kind: string, value: string): SafeHtml {
   if (kind === 'p') return pieceImage(assets, value);
   if (kind === 's') return html`<b class="cdc-sq">${value}</b>`;
+  if (kind === 'n') {
+    // A line's numbered move: the number never ends a line without its move.
+    const [number = '', move = ''] = value.split(/:(.*)/);
+    return html`<span class="cdc-num">${number} ${moveChip(assets, move)}</span>`;
+  }
   return moveChip(assets, value);
 }
 

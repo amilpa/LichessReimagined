@@ -12,7 +12,7 @@ import {
   streamFor,
 } from './markup.ts';
 import { verdictTitle } from './title.ts';
-import { moveToken, pieceToken, squareToken } from './tokens.ts';
+import { moveToken, numberedMoveToken, pieceToken, squareToken } from './tokens.ts';
 // What the original script drew for these comments, tokens and verdicts.
 import legacyStreams from './fixtures/legacy-stream.json' with { type: 'json' };
 import legacy from './fixtures/legacy-units.json' with { type: 'json' };
@@ -61,6 +61,13 @@ describe('commentMarkup', () => {
     expect(pieceToken({ color: 'black', role: 'knight' })).toBe('[[p:bn]]');
     expect(moveToken('Qxf7#', 'white')).toBe('[[m:w:Qxf7#]]');
     expect(squareToken('e4')).toBe('[[s:e4]]');
+    expect(numberedMoveToken('12...', 'Qb6', 'black')).toBe('[[n:12...:b:Qb6]]');
+  });
+
+  it('keeps a numbered move’s number with its chip', () => {
+    expect(markup([say('[[n:12...:b:Qb6]]')])).toBe(
+      `<span class="cdc-say"><span class="cdc-w"><span class="cdc-num">12... <span class="cdc-mv"><img class="cdc-pc" alt="" src="${ASSETS}img/pieces/neo/bq.webp">b6</span></span></span> </span>`,
+    );
   });
 
   it('escapes the text around the tokens', () => {

@@ -1,5 +1,6 @@
 import { queryAll } from '#shared/dom.ts';
 import { analysis as pageAnalysis, type Analysis } from '#page/lichess/analysis.ts';
+import { pumpLines } from '#page/review/explain/lines.ts';
 import { pump } from '#page/review/live/queue.ts';
 import { type Mode, MODES, type Session } from '#page/review/session.ts';
 import { renderBoard } from './board.ts';
@@ -10,7 +11,7 @@ import { attach } from './elements.ts';
 import { movesGraph } from './graph.ts';
 import { renderLive } from './live-panel.ts';
 import { renderMoves } from './moves-panel.ts';
-import { closeTools, stopPlaying } from './navigation.ts';
+import { closeTools, spokenMove, stopPlaying } from './navigation.ts';
 import { renderKey } from './render-key.ts';
 import { startStream } from './stream.ts';
 import { renderSummary } from './summary-panel.ts';
@@ -78,6 +79,8 @@ export function render(session: Session, force = false): void {
   }
   // Off the game's moves, the review judges them like the free board.
   if (view.mode === 'live' || (view.mode === 'moves' && view.review)) pump(session, analysis);
+  const explained = view.mode === 'moves' && view.explain ? spokenMove(session, analysis) : null;
+  if (explained) pumpLines(session, analysis, explained);
   const key = renderKey(session, analysis);
   if (force || key !== view.lastKey) {
     view.lastKey = key;
