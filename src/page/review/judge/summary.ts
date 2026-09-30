@@ -28,3 +28,25 @@ export function classCounts(moves: readonly CountedMove[]): ClassCounts {
     counts[color][moveClass] = (counts[color][moveClass] ?? 0) + 1;
   return counts;
 }
+
+export interface ClassTarget {
+  readonly color: Color;
+  readonly moveClass: MoveClass;
+}
+
+export type FoundMove = Pick<MoveVerdict, 'ply' | 'color' | 'moveClass'>;
+
+/**
+ * The player's next move of that class after `ply`, starting over from the
+ * first past the last one; undefined when they made none.
+ */
+export function nextOfClass<T extends FoundMove>(
+  moves: readonly (T | undefined)[],
+  { color, moveClass }: ClassTarget,
+  ply: number,
+): T | undefined {
+  const matching = moves.filter(
+    (move): move is T => move?.color === color && move.moveClass === moveClass,
+  );
+  return matching.find(move => move.ply > ply) ?? matching[0];
+}

@@ -2,6 +2,7 @@ import { closestTo } from '#shared/dom.ts';
 import { analysis as pageAnalysis, type Analysis } from '#page/lichess/analysis.ts';
 import type { Session } from '#page/review/session.ts';
 import { type PanelAction, PanelActionSchema } from './actions.ts';
+import { jumpToClass } from './class-jump.ts';
 import { nextCoach } from './coach-avatar.ts';
 import {
   goTo,
@@ -24,7 +25,11 @@ function toggleExplain(session: Session, analysis: Analysis): void {
   if (!view.explain && line) goTo(analysis, line.path);
 }
 
-function act(session: Session, analysis: Analysis, action: Exclude<PanelAction, 'coach'>): void {
+function act(
+  session: Session,
+  analysis: Analysis,
+  action: Exclude<PanelAction, 'coach' | 'jump'>,
+): void {
   const { view } = session;
   if (action === 'play') togglePlay(session, analysis);
   else if (action === 'explain') toggleExplain(session, analysis);
@@ -58,7 +63,8 @@ function onClick(session: Session, event: MouseEvent): void {
   const analysis = pageAnalysis();
   if (!analysis) return;
   if (action !== 'play') stopPlaying(session);
-  act(session, analysis, action);
+  if (action === 'jump') jumpToClass(session, analysis, button);
+  else act(session, analysis, action);
   session.redraw(true);
 }
 

@@ -116,6 +116,29 @@
     font-weight: 800;
   }
 
+  /* A count goes to its moves: it lights up under the pointer, as the
+     chevron does. */
+  .cdc-t-jump {
+    min-width: 40px;
+    padding: 2px 8px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: background-color 0.15s !important;
+  }
+
+  .cdc-t-jump:hover {
+    background: #ffffff14;
+  }
+
+  .cdc-t-jump:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
+  }
+
   /* As much space under a separator line as above it. */
   .cdc-t-sep td {
     padding: 6px 0 0 !important;

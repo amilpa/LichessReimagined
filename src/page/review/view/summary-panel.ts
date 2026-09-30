@@ -40,18 +40,33 @@ export interface SummaryInput {
   readonly language: ReviewLanguage;
 }
 
-function countRows({ review, allRows, language }: SummaryInput): SafeHtml[] {
+// A count goes to its moves once they're all judged at full depth: until
+// then it's the draft's, which may not match the moves it would go to.
+function countCell(
+  { review, language }: SummaryInput,
+  color: Color,
+  moveClass: MoveClass,
+): SafeHtml {
+  const count = review?.counts[color][moveClass] ?? 0;
+  const tip = language.countTip(color, moveClass, count);
+  const shown =
+    review?.complete && count > 0
+      ? html`<button class="cdc-t-jump" data-cdc="jump" data-cdc-color="${color}" data-cdc-class="${moveClass}" aria-label="${tip}">${count}</button>`
+      : count;
+  return html`<td class="cdc-t-num" style="color:${CLASS_COLORS[moveClass]}">${shown}</td>`;
+}
+
+function countRows(input: SummaryInput): SafeHtml[] {
+  const { review, allRows, language } = input;
   const brilliant =
     (review?.counts.white.brilliant ?? 0) > 0 || (review?.counts.black.brilliant ?? 0) > 0;
-  const count = (color: Color, moveClass: MoveClass): number =>
-    review?.counts[color][moveClass] ?? 0;
   return MOVE_CLASSES.filter(
     moveClass => allRows || SUMMARY_ROWS.has(moveClass) || (moveClass === 'brilliant' && brilliant),
   ).map(
     moveClass => html`<tr><td class="cdc-t-label">${language.classLabels[moveClass]}</td>
-        <td class="cdc-t-num" style="color:${CLASS_COLORS[moveClass]}">${count('white', moveClass)}</td>
+        ${countCell(input, 'white', moveClass)}
         <td class="cdc-t-icon">${classIcon(moveClass)}</td>
-        <td class="cdc-t-num" style="color:${CLASS_COLORS[moveClass]}">${count('black', moveClass)}</td></tr>`,
+        ${countCell(input, 'black', moveClass)}</tr>`,
   );
 }
 

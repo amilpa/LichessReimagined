@@ -18,7 +18,7 @@ opening's name and the page's asset URL.
 | `evaluation/` | `PositionRecord` (a position's evaluation from White's view), `StoredRecordCodec` (the cache's format), win probability, move accuracy, `formatEval`, `barLabel`                   |
 | `engine/`     | `Stockfish` (Lichess's own build, one search at a time), UCI output parsing, `toRecord`, the cloud's answers (`CloudEvalSchema`, `fromCloud`), search limits (the game over's too) |
 | `classes/`    | The move classes (`MoveClass`), their colors, sets (`GOOD`, `GRAPH_DOTS`…), ranks, coach moods and icons (`classSvg`, `classImage`, `classIcon`)                                   |
-| `judge/`      | `judge` (one move, from its two positions' records), `mateVerdict`, `SURE_MATE`, the summary's `playerAccuracy` and `classCounts`                                                  |
+| `judge/`      | `judge` (one move, from its two positions' records), `mateVerdict`, `SURE_MATE`, the summary's `playerAccuracy`, `classCounts` and `nextOfClass`                                   |
 | `rating/`     | The Game Rating: `model.json` (written by `tools/game-rating/fit.py`), Lichess's `divide`, `isTactical`, the odds, `rateGame`                                                      |
 | `coach/`      | The coach's words: `remark`, `trajectory`, `fact`, `explanation`, seeded by `CoachContext`                                                                                         |
 | `comment/`    | The comment's `[[…]]` tokens, `commentMarkup` (the typing's words at a given moment), `streamFor`, `verdictTitle`                                                                  |
@@ -66,6 +66,10 @@ session, calls the render directly; every other module goes through
 | `live/`    | Moves played on the board (the free board's, and those off a game): `judgeAt`, `bookAt`, `openingAt`, and the queue of engine and masters lookups (`pump`)                                                                  |
 | `explain/` | Explain's lines: the engine's best line from a move that wasn't best, and the one punishing an error, each searched from its first move when Explain asks (`pumpLines`, `explainLines`)                                     |
 | `view/`    | The DOM: the panel per mode (summary, moves, closed, live), the graph, the eval bar, the badge and arrows on the board, the move list's badges, the opening's name, the coach's avatar, the typing, the tooltip, the clicks |
+
+Once every move is judged at full depth, the summary's counts are buttons:
+one goes to the player's next move of its class after the one on the board,
+round to the first again (`view/class-jump.ts`).
 
 Explain swaps the coach's comment for a book move's opening, or for the
 engine's lines around a move that wasn't best (`view/explain-hint.ts`); its

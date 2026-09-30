@@ -4,7 +4,13 @@ import type { PositionRecord } from '#page/review/evaluation/score.ts';
 import { nearlyObject } from '#shared/testing/numbers.ts';
 import { mateVerdict, SURE_MATE } from './mate.ts';
 import { judge } from './judge.ts';
-import { classCounts, playerAccuracy } from './summary.ts';
+import {
+  type ClassTarget,
+  classCounts,
+  type FoundMove,
+  nextOfClass,
+  playerAccuracy,
+} from './summary.ts';
 import { isPlayed } from './types.ts';
 // What the original script judged on the fixture games, and its mate verdicts.
 import legacy from './fixtures/legacy.json' with { type: 'json' };
@@ -129,5 +135,37 @@ describe('summary', () => {
     expect(playerAccuracy(moves, 'black')).toBe(80);
     expect(playerAccuracy([], 'white')).toBeNull();
     expect(classCounts(moves)).toEqual({ white: { best: 1, blunder: 1 }, black: { good: 1 } });
+  });
+});
+
+describe('nextOfClass', () => {
+  const moves: readonly (FoundMove | undefined)[] = [
+    { ply: 1, color: 'white', moveClass: 'best' },
+    { ply: 2, color: 'black', moveClass: 'blunder' },
+    undefined,
+    { ply: 4, color: 'black', moveClass: 'mistake' },
+    { ply: 5, color: 'white', moveClass: 'blunder' },
+    { ply: 6, color: 'black', moveClass: 'blunder' },
+  ];
+  const blackBlunders: ClassTarget = { color: 'black', moveClass: 'blunder' };
+
+  it('finds the player’s first move of the class from the start', () => {
+    expect(nextOfClass(moves, blackBlunders, 0)?.ply).toBe(2);
+  });
+
+  it('goes to the next one after any ply, skipping the other player’s', () => {
+    expect(nextOfClass(moves, blackBlunders, 2)?.ply).toBe(6);
+    expect(nextOfClass(moves, blackBlunders, 3)?.ply).toBe(6);
+    expect(nextOfClass(moves, blackBlunders, 4)?.ply).toBe(6);
+  });
+
+  it('starts over from the first past the last one', () => {
+    expect(nextOfClass(moves, blackBlunders, 6)?.ply).toBe(2);
+    expect(nextOfClass(moves, { color: 'white', moveClass: 'blunder' }, 5)?.ply).toBe(5);
+  });
+
+  it('finds nothing when the player made no such move', () => {
+    expect(nextOfClass(moves, { color: 'white', moveClass: 'mistake' }, 0)).toBeUndefined();
+    expect(nextOfClass([], blackBlunders, 0)).toBeUndefined();
   });
 });

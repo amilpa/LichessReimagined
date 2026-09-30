@@ -1,13 +1,26 @@
 import { factsFr, trajectoryFr } from './fr-comment.ts';
 import { typography } from './fr-grammar.ts';
 import { remarksFr } from './fr-remarks.ts';
-import type { CountedClass } from '#page/review/classes/classes.ts';
+import type { CountedClass, MoveClass } from '#page/review/classes/classes.ts';
 import type { ReviewLanguage } from './types.ts';
 
 const COUNT_LABELS: Readonly<Record<CountedClass, readonly [string, string]>> = {
   brilliant: ['coup brillant', 'coups brillants'],
   great: ['excellent coup', 'excellents coups'],
   best: ['meilleur coup', 'meilleurs coups'],
+};
+
+const CLASS_PLURALS: Readonly<Record<MoveClass, string>> = {
+  brilliant: 'Coups brillants',
+  great: 'Excellents coups',
+  book: 'Coups théoriques',
+  best: 'Meilleurs coups',
+  excellent: 'Très bons coups',
+  good: 'Bons coups',
+  inaccuracy: 'Imprécisions',
+  mistake: 'Erreurs',
+  miss: 'Coups manqués',
+  blunder: 'Gaffes',
 };
 
 export const fr: ReviewLanguage = {
@@ -74,6 +87,8 @@ export const fr: ReviewLanguage = {
     const [one, many] = COUNT_LABELS[moveClass];
     return `${count} ${count > 1 ? many : one}`;
   },
+  countTip: (color, moveClass, count) =>
+    `${CLASS_PLURALS[moveClass]} des ${color === 'white' ? 'Blancs' : 'Noirs'}\u00a0: ${count}`,
   typography,
   openingLine: name => `Ouverture: ${name}.`,
   remarks: remarksFr,

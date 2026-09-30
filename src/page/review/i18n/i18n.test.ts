@@ -20,6 +20,11 @@ const EXPLAINED = {
   ],
 };
 
+const COUNT_TIPS = {
+  en: ['Black’s blunders: 2', 'White’s inaccuracies: 1'],
+  fr: ['Gaffes des Noirs\u00a0: 2', 'Imprécisions des Blancs\u00a0: 1'],
+};
+
 describe.each(LANGUAGES)('%s', (lang, language) => {
   const original = legacy[lang];
 
@@ -42,6 +47,13 @@ describe.each(LANGUAGES)('%s', (lang, language) => {
     const line = '12. [[m:w:Nf3]] [[m:b:Qd7]]';
     const written = language.ui.lines;
     expect([written.best(line), written.allows('[[m:w:Bg5]]', line)]).toEqual(EXPLAINED[lang]);
+  });
+
+  it('names each player’s count of a class', () => {
+    expect([
+      language.countTip('black', 'blunder', 2),
+      language.countTip('white', 'inaccuracy', 1),
+    ]).toEqual(COUNT_TIPS[lang]);
   });
 
   it('has the original’s class labels and verdicts', () => {

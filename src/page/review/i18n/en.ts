@@ -1,5 +1,6 @@
 import { factsEn, trajectoryEn } from './en-comment.ts';
 import { remarksEn } from './en-remarks.ts';
+import type { MoveClass } from '#page/review/classes/classes.ts';
 import type { ReviewLanguage } from './types.ts';
 
 const CLASS_LABELS = {
@@ -13,6 +14,19 @@ const CLASS_LABELS = {
   mistake: 'Mistake',
   miss: 'Miss',
   blunder: 'Blunder',
+};
+
+const CLASS_PLURALS: Readonly<Record<MoveClass, string>> = {
+  brilliant: 'brilliant moves',
+  great: 'great moves',
+  book: 'book moves',
+  best: 'best moves',
+  excellent: 'excellent moves',
+  good: 'good moves',
+  inaccuracy: 'inaccuracies',
+  mistake: 'mistakes',
+  miss: 'misses',
+  blunder: 'blunders',
 };
 
 export const en: ReviewLanguage = {
@@ -60,6 +74,8 @@ export const en: ReviewLanguage = {
     blunder: '{m} is a blunder',
   },
   countLabel: (moveClass, count) => `${count} ${CLASS_LABELS[moveClass]}`,
+  countTip: (color, moveClass, count) =>
+    `${color === 'white' ? 'White' : 'Black'}’s ${CLASS_PLURALS[moveClass]}: ${count}`,
   typography: text => text,
   openingLine: name => `Opening: ${name}.`,
   remarks: remarksEn,

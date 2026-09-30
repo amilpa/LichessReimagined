@@ -119,6 +119,8 @@ export interface ReviewLanguage {
   readonly classSentences: Readonly<Record<MoveClass, string>>;
   /** "3 Best", "3 meilleurs coups": the counts over the Game Review button. */
   readonly countLabel: (moveClass: CountedClass, count: number) => string;
+  /** "Black’s blunders: 2": the summary's count, as its button's label. */
+  readonly countTip: (color: Color, moveClass: MoveClass, count: number) => string;
   /** The language's typographic rules, applied to the coach's text. */
   readonly typography: (text: string) => string;
   /** The line naming a book move's opening. */

@@ -83,6 +83,32 @@ test.describe('the Game Review of a finished game', () => {
     await expect(evalBar.locator('.cdc-evalbar__fill')).toHaveAttribute('style', /height: [\d.]+%/);
   });
 
+  test('a count goes to its moves, the next one on each click', async ({ page }) => {
+    const { panel } = reviewParts(page);
+    const counts = panel.locator('.cdc-t-jump');
+    await expect(counts.first()).toBeVisible();
+    const numbers = await counts.evaluateAll(buttons =>
+      buttons.map(button => Number(button.textContent)),
+    );
+    const index = numbers.findIndex(count => count > 1);
+    expect(index).toBeGreaterThanOrEqual(0);
+    const count = counts.nth(index);
+    const moveClass = (await count.getAttribute('data-cdc-class')) ?? '';
+    const parity = (await count.getAttribute('data-cdc-color')) === 'white' ? 1 : 0;
+    const plies: number[] = [];
+    // Back on the summary between clicks, as a user would come back to it.
+    for (let click = 0; click < 2; click++) {
+      await count.click();
+      await htmlClass(page, 'cdc-review-moves');
+      await expect(page.locator('html')).toHaveAttribute('data-cdc-cls', moveClass);
+      plies.push(await activePly(page));
+      await panel.locator('.cdc-review__back').click();
+      await htmlClass(page, 'cdc-review-summary');
+    }
+    expect(plies.map(ply => ply % 2)).toEqual([parity, parity]);
+    expect(plies[1]).toBeGreaterThan(plies[0] ?? Infinity);
+  });
+
   test('Next, Prev, First and Last move through the game', async ({ page }) => {
     const { next, controls, comment, badge } = reviewParts(page);
     const control = (action: string) => controls.locator(`[data-cdc="${action}"]`);

@@ -24,8 +24,13 @@ const RENAMED: readonly (readonly [string, string])[] = [
   ['data-cdc-mood=', 'data-mood='],
 ];
 
+// What the port added, which the original didn't have: the summary's counts
+// as buttons that go to their moves, where it wrote the bare number.
+const COUNT_BUTTON = /<button class="cdc-t-jump"[^>]*>(\d+)<\/button>/g;
+
 export function compact(markup: string): string {
   return RENAMED.reduce((text, [port, original]) => text.replaceAll(port, original), markup)
+    .replace(COUNT_BUTTON, '$1')
     .replace(
       ICON,
       icon => `[icon ${/fill="(#[0-9a-f]+)"/.exec(icon)?.[1] ?? ''} ${shortHash(icon)}]`,
