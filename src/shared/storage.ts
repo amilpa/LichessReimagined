@@ -11,6 +11,10 @@ export const StorageKey = {
   ratingChartRange: 'cdc-rchart:range',
   reviewCache: (gameId: string, positions: number, version: number): string =>
     `cdc-review:${gameId}:${positions}:v${version}`,
+  reviewProgress: (gameId: string, positions: number, version: number): string =>
+    `cdc-review-progress:${gameId}:${positions}:v${version}`,
+  // The review caches, least recently opened first.
+  reviewIndex: 'cdc-review-index',
 } satisfies Record<string, string | ((...args: never[]) => string)>;
 
 export const SessionKey = {
@@ -66,5 +70,17 @@ export function removeStored(key: string, from: Area = 'local'): void {
     area(from).removeItem(key);
   } catch {
     // Storage disabled.
+  }
+}
+
+/** The stored keys that start with `prefix`; none when the storage is blocked. */
+export function storedKeys(prefix: string, from: Area = 'local'): string[] {
+  try {
+    const storage = area(from);
+    return Array.from({ length: storage.length }, (_, i) => storage.key(i) ?? '').filter(key =>
+      key.startsWith(prefix),
+    );
+  } catch {
+    return [];
   }
 }

@@ -6,6 +6,7 @@ import {
   removeStored,
   SessionKey,
   StorageKey,
+  storedKeys,
   writeStored,
   writeStoredJson,
 } from './storage.ts';
@@ -86,8 +87,17 @@ describe('storage', () => {
     expect(() => writeStored(StorageKey.coach, 2)).not.toThrow();
     expect(() => writeStoredJson('cdc-test', { a: 1 }, 'session')).not.toThrow();
     expect(() => removeStored(StorageKey.coach)).not.toThrow();
+    expect(storedKeys('cdc-')).toEqual([]);
     // Read as missing, a once-per-game check would pass on every load.
     expect(() => readStored(StorageKey.coach, z.string())).toThrow('denied');
     expect(() => readStoredJson('cdc-test', z.unknown(), 'session')).toThrow('denied');
+  });
+
+  it('lists the keys with a prefix', () => {
+    localStorage.clear();
+    writeStored('cdc-review:a', 1);
+    writeStored('cdc-review:b', 2);
+    writeStored('cdc-coach', 3);
+    expect(storedKeys('cdc-review:').toSorted()).toEqual(['cdc-review:a', 'cdc-review:b']);
   });
 });

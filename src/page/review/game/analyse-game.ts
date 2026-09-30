@@ -5,7 +5,7 @@ import { FULL_SEARCH, QUICK_SEARCH } from '#page/review/engine/settings.ts';
 import type { Stockfish } from '#page/review/engine/stockfish.ts';
 import { engineFor } from '#page/review/engine-pool.ts';
 import type { GameWork, Mode, Session } from '#page/review/session.ts';
-import { cacheRecords, readCachedRecords } from './cache.ts';
+import { cacheProgress, cacheRecords, readCachedRecords } from './cache.ts';
 import { lookUpCloud } from './cloud-lookup.ts';
 import { fetchExport } from './export.ts';
 import { refresh, seedBooks, setDeep } from './work.ts';
@@ -23,6 +23,9 @@ interface JobInput {
   readonly mode: Mode;
   readonly analysis: Analysis;
 }
+
+// Deep searches between two saves of the analysis's progress.
+const PROGRESS_EVERY = 8;
 
 // The cloud looks up the opening one position at a time. The engine skips the
 // position it's looking up and the next few, which it will reach soon.
@@ -77,6 +80,7 @@ const whenVisible = (): Promise<void> =>
 
 async function runEngine(session: Session, analysis: Analysis, engine: Stockfish): Promise<void> {
   const { work, view } = session;
+  let searched = 0;
   for (;;) {
     const job = nextJob({ work, mode: view.mode, analysis });
     if (!job) {
@@ -92,8 +96,11 @@ async function runEngine(session: Session, analysis: Analysis, engine: Stockfish
       limits: job.deep ? FULL_SEARCH : QUICK_SEARCH,
     });
     const record = toRecord(fen, result);
-    if (job.deep) setDeep(session, job.index, record);
-    else work.rough[job.index] = record;
+    if (job.deep) {
+      setDeep(session, job.index, record);
+      if (++searched % PROGRESS_EVERY === 0)
+        cacheProgress(analysis.gameId, work.nodes.length, work.deep);
+    } else work.rough[job.index] = record;
     refresh(session, analysis);
   }
 }
@@ -125,7 +132,7 @@ export async function analyseGame(session: Session, analysis: Analysis): Promise
   await applyExport(session, analysis);
   seedBooks(session, analysis);
   for (const [i, record] of (readCachedRecords(gameId, positions) ?? []).entries())
-    setDeep(session, i, record);
+    if (record) setDeep(session, i, record);
   refresh(session, analysis);
   if (view.review?.complete) return;
   if (!analysis.chess960) void lookUpCloud(session, analysis);

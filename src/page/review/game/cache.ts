@@ -1,30 +1,95 @@
 import { z } from 'zod/mini';
-import { readStoredJson, StorageKey, writeStoredJson } from '#shared/storage.ts';
+import {
+  readStoredJson,
+  removeStored,
+  StorageKey,
+  storedKeys,
+  writeStoredJson,
+} from '#shared/storage.ts';
 import type { PositionRecord } from '#page/review/evaluation/score.ts';
 import { StoredRecordCodec } from '#page/review/evaluation/stored.ts';
 
-// Each game's records at full depth, kept once its analysis is complete:
-// opening the game again shows its review at once.
+// Each game's records at full depth: kept once its analysis is complete, so
+// opening the game again shows its review at once, and kept as they come in
+// under another key, so a reload doesn't start the analysis over. It's
+// Lichess's storage too: only the games opened last are kept.
 
 /** Bump to drop every cached review, when the records' meaning changes. */
 const CACHE_VERSION = 1;
+/** Cached games kept, finished or not. */
+const MAX_GAMES = 200;
 
 const CachedSchema = z.array(StoredRecordCodec);
-// A position without a record is written as null, which never reads back.
+// A position without a record is written as null.
 const WrittenSchema = z.array(z.optional(StoredRecordCodec));
+const ProgressSchema = z.array(z.nullable(StoredRecordCodec));
+const IndexSchema = z.array(z.string());
 
 const cacheKey = (gameId: string, positions: number): string =>
   StorageKey.reviewCache(gameId, positions, CACHE_VERSION);
+const progressKey = (gameId: string, positions: number): string =>
+  StorageKey.reviewProgress(gameId, positions, CACHE_VERSION);
 
-export function readCachedRecords(gameId: string, positions: number): PositionRecord[] | null {
-  const records = readStoredJson(cacheKey(gameId, positions), CachedSchema);
-  return records?.length === positions ? records : null;
+const isCurrent = (key: string): boolean => key.endsWith(`:v${CACHE_VERSION}`);
+
+/** The index as stored, or, the first time, built from the caches already there. */
+function readIndex(): string[] {
+  const index = readStoredJson(StorageKey.reviewIndex, IndexSchema);
+  if (index) return index;
+  const cached = [...storedKeys('cdc-review:'), ...storedKeys('cdc-review-progress:')];
+  for (const key of cached.filter(key => !isCurrent(key))) removeStored(key);
+  return cached.filter(isCurrent);
 }
 
+/** Marks `key` as opened last, dropping `dropped` and the games past the cap. */
+function remember(key: string, dropped?: string): void {
+  try {
+    const index = readIndex().filter(known => known !== key && known !== dropped);
+    index.push(key);
+    for (const old of index.splice(0, Math.max(0, index.length - MAX_GAMES))) removeStored(old);
+    writeStoredJson(StorageKey.reviewIndex, index);
+  } catch {
+    // A blocked storage: nothing is cached anyway.
+  }
+}
+
+/** The game's records: all of them once its analysis is complete, else those found so far. */
+export function readCachedRecords(
+  gameId: string,
+  positions: number,
+): (PositionRecord | undefined)[] | null {
+  const key = cacheKey(gameId, positions);
+  const records = readStoredJson(key, CachedSchema);
+  if (records?.length === positions) {
+    remember(key);
+    return records;
+  }
+  const progress = readStoredJson(progressKey(gameId, positions), ProgressSchema);
+  if (progress?.length !== positions) return null;
+  remember(progressKey(gameId, positions));
+  return progress.map(record => record ?? undefined);
+}
+
+/** Keeps the records found so far of a game whose analysis isn't complete. */
+export function cacheProgress(
+  gameId: string,
+  positions: number,
+  records: readonly (PositionRecord | undefined)[],
+): void {
+  const key = progressKey(gameId, positions);
+  const written = Array.from({ length: positions }, (_, i) => records[i]);
+  writeStoredJson(key, z.encode(WrittenSchema, written));
+  remember(key);
+}
+
+/** Keeps a game's records once its analysis is complete. */
 export function cacheRecords(
   gameId: string,
   positions: number,
   records: readonly (PositionRecord | undefined)[],
 ): void {
+  const progress = progressKey(gameId, positions);
+  removeStored(progress);
   writeStoredJson(cacheKey(gameId, positions), z.encode(WrittenSchema, [...records]));
+  remember(cacheKey(gameId, positions), progress);
 }
