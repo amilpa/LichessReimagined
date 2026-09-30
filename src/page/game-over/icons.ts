@@ -1,6 +1,6 @@
 import { trustedHtml, type SafeHtml } from '#shared/html.ts';
 
-// The game over's white glyphs, on the kings' badges and the card's head.
+// The game over's white glyphs, on the kings' badges and the card's close button.
 
 const svg = (body: string): SafeHtml =>
   trustedHtml(
@@ -24,9 +24,6 @@ export const ICONS = {
     '<text x="12" y="18" stroke="none" font-family="Arial, sans-serif" font-size="18" font-weight="800" text-anchor="middle">½</text>',
   ),
   cross: svg('<path fill="none" stroke-width="2.8" d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>'),
-  trophy: svg(
-    '<path fill="none" stroke-width="2" d="M7 5H3.5v2.5C3.5 10.5 5.5 12.5 8 13M17 5h3.5v2.5c0 3-2 5-4.5 5.5"/><path stroke-width="1" d="M6.5 3h11v6.5c0 3.6-2.4 6-5.5 7-3.1-1-5.5-3.4-5.5-7zM10.8 16.2h2.4v3h-2.4zM7.5 19.5h9V22h-9z"/>',
-  ),
 } satisfies Record<string, SafeHtml>;
 
 export type IconName = keyof typeof ICONS;

@@ -44,27 +44,9 @@
     display: flex;
     align-items: center;
     gap: 2cqh;
-    padding: 2cqh 5cqh 2cqh 2.6cqh;
+    /* As much room on the left as the close button takes on the right, so the title is centered. */
+    padding: 2cqh 5cqh;
     background: #1f1e1c;
-  }
-
-  main.round .cdc-end__badge {
-    display: grid;
-    flex: none;
-    place-items: center;
-    width: 7.6cqh;
-    height: 7.6cqh;
-    border-radius: 1.2cqh;
-    background: linear-gradient(160deg, #5d5b58, #3f3d3a);
-  }
-
-  main.round .cdc-end__card--win .cdc-end__badge {
-    background: linear-gradient(160deg, #ffd24d, #e8a317);
-  }
-
-  main.round .cdc-end__badge svg {
-    width: 62%;
-    height: 62%;
   }
 
   main.round .cdc-end__titles {

@@ -27,6 +27,9 @@ describe('cardMarkup', () => {
     );
     expect(root.querySelectorAll('.cdc-end__counts > .cdc-end__count')).toHaveLength(CHIP_COUNT);
     expect(root.querySelector('.cdc-end__reason')?.textContent).toBe('by checkmate');
+    // Only the words and the close button: no tile beside them.
+    const head = [...(root.querySelector('.cdc-end__head')?.children ?? [])];
+    expect(head.map(child => child.className)).toEqual(['cdc-end__titles', 'cdc-end__close']);
     const avatar = queryOne(root, '.cdc-coach__avatar', HTMLElement);
     expect(avatar?.dataset.cdcCoachId).toBe('3');
     expect(avatar?.querySelector('.cdc-coach__face')).not.toBeNull();

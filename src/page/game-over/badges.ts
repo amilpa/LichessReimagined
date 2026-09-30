@@ -17,8 +17,8 @@ export interface KingBadge {
   readonly label: string;
 }
 
-/** How the game was lost, on the loser's king and the card's head. */
-export const LOSS_ICONS: Readonly<Record<EndReason, IconName>> = {
+/** How the game was lost, on the loser's king. */
+const LOSS_ICONS: Readonly<Record<EndReason, IconName>> = {
   mate: 'mate',
   resign: 'flag',
   time: 'clock',

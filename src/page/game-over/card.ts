@@ -1,7 +1,6 @@
 import { html, trustedHtml, type SafeHtml } from '#shared/html.ts';
 import type { MoveClass } from '#page/review/classes/classes.ts';
-import { LOSS_ICONS } from './badges.ts';
-import { ICONS, type IconName } from './icons.ts';
+import { ICONS } from './icons.ts';
 import type { Outcome } from './outcome.ts';
 import type { GameOverTexts } from './texts.ts';
 
@@ -26,12 +25,6 @@ export function cardClasses(counts: Readonly<Partial<Record<MoveClass, number>>>
 /** How many count chips the card has. */
 export const CHIP_COUNT = 3;
 
-// The loser's card shows how they lost, as their king does.
-function headIcon({ result, reason }: Outcome): IconName {
-  if (result === 'win') return 'trophy';
-  return result === 'draw' ? 'half' : LOSS_ICONS[reason];
-}
-
 export interface CardInput {
   readonly outcome: Outcome;
   readonly texts: GameOverTexts;
@@ -45,10 +38,8 @@ const CHIP = trustedHtml(
 
 export function cardMarkup({ outcome, texts, coachId, opponent }: CardInput): SafeHtml {
   const reason = texts.reasons[outcome.reason];
-  const icon = headIcon(outcome);
   return html`<section class="cdc-end__card cdc-end__card--${outcome.result}" role="dialog" aria-labelledby="cdc-end-title">
     <header class="cdc-end__head">
-      <span class="cdc-end__badge">${ICONS[icon]}</span>
       <div class="cdc-end__titles">
         <h2 class="cdc-end__title" id="cdc-end-title">${texts.title(outcome.result, opponent)}</h2>
         ${reason === '' ? '' : html`<p class="cdc-end__reason">${reason}</p>`}
