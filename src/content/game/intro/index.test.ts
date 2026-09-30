@@ -23,21 +23,24 @@ const ROUND =
   '<div class="ruser-bottom ruser user-link"><name>Anonymous</name></div>' +
   '</div></main>';
 
-let decoded: () => void = () => {};
+const decoding: (() => void)[] = [];
+const decoded = (): void => {
+  for (const resolve of decoding.splice(0)) resolve();
+};
 
 beforeEach(() => {
   sessionStorage.clear();
   vi.stubGlobal('chrome', {
     runtime: { getURL: (path: string) => `chrome-extension://id/${path}` },
   });
-  // The board's image, decoded when the test says so.
+  // The board's and the swords' images, decoded when the test says so.
   vi.stubGlobal(
     'Image',
     class {
       src = '';
       decode = (): Promise<void> =>
         new Promise(resolve => {
-          decoded = resolve;
+          decoding.push(resolve);
         });
     },
   );
@@ -54,7 +57,7 @@ const main = (): HTMLElement | null => queryOne(document, 'main.round', HTMLElem
 const intro = (): Element | null => document.querySelector('main.round > .cdc-intro');
 
 describe('the game intro', () => {
-  it('drops once the board is decoded, faces the players, and leaves on time', async () => {
+  it('drops once its images are decoded, faces the players, and leaves on time', async () => {
     prepareIntro(initData(false));
     syncIntro();
     expect(intro()).toBeNull();
@@ -72,11 +75,15 @@ describe('the game intro', () => {
     expect(main()?.style.getPropertyValue('--cdc-intro-board')).toMatch(
       /^url\('chrome-extension:\/\/id\/img\/boards\/\w+\.webp'\)$/,
     );
+    expect(main()?.style.getPropertyValue('--cdc-intro-swords')).toMatch(
+      /^url\('https:\/\/lichess1\.org\/assets\/flair\/img\/objects\.crossed-swords\.webp'\)$/,
+    );
     expect(sessionStorage.getItem(SessionKey.gameIntro(GAME_ID))).toBe('1');
     vi.advanceTimersByTime(INTRO_MS);
     expect(intro()).toBeNull();
     expect(main()?.dataset.cdcIntro).toBeUndefined();
     expect(main()?.style.getPropertyValue('--cdc-intro-board')).toBe('');
+    expect(main()?.style.getPropertyValue('--cdc-intro-swords')).toBe('');
     // Once only.
     syncIntro();
     expect(intro()).toBeNull();

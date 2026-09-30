@@ -25,6 +25,9 @@ export const INTRO_MS = 1900;
 // Our layout's: below, the board isn't in the grid the intro is placed in.
 const DESKTOP = '(min-width: 1020px)';
 
+// Lichess's own 3D emoji, by the "VS".
+const SWORDS_URL = 'https://lichess1.org/assets/flair/img/objects.crossed-swords.webp';
+
 const ShownSchema = z.string().check(z.minLength(1));
 
 interface Pending {
@@ -44,18 +47,21 @@ export function prepareIntro(initData: string | null): void {
   const next: Pending = { gameId, boardUrl: extensionUrl(boardPath(board)), loaded: false };
   pending = next;
   // Decoded before it drops, or its first frames would show an empty board.
-  const image = new Image();
-  image.src = next.boardUrl;
-  const onLoad = (): void => {
+  const decoding = [next.boardUrl, SWORDS_URL].map(url => {
+    const image = new Image();
+    image.src = url;
+    return image.decode();
+  });
+  void Promise.allSettled(decoding).finally(() => {
     next.loaded = true;
-  };
-  image.decode().then(onLoad, onLoad);
+  });
 }
 
 function clear(main: HTMLElement, intro: HTMLElement): void {
   intro.remove();
   setData(main, 'cdcIntro', null);
   setStyleProperty(main, '--cdc-intro-board', null);
+  setStyleProperty(main, '--cdc-intro-swords', null);
   setStyleProperty(main, '--cdc-intro-ms', null);
 }
 
@@ -78,6 +84,7 @@ function play(next: Pending): boolean {
   );
   writeStored(SessionKey.gameIntro(next.gameId), '1', 'session');
   setStyleProperty(main, '--cdc-intro-board', `url('${next.boardUrl}')`);
+  setStyleProperty(main, '--cdc-intro-swords', `url('${SWORDS_URL}')`);
   setStyleProperty(main, '--cdc-intro-ms', `${INTRO_MS}ms`);
   setData(main, 'cdcIntro', '');
   main.append(intro);

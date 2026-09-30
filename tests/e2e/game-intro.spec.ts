@@ -15,6 +15,11 @@ test('a new game opens on the players’ intro', async ({ page }) => {
   expect(await computedStyle(board, 'background-image', '::after')).toMatch(
     /^url\("chrome-extension:\/\/.*\/img\/boards\/\w+\.webp"\)$/,
   );
+  expect(
+    await computedStyle(intro.locator('.cdc-intro__vs'), 'background-image', '::after'),
+  ).toMatch(
+    /^url\("https:\/\/lichess1\.org\/assets\/flair\/img\/objects\.crossed-swords\.webp"\)$/,
+  );
   // Clipped by the board itself, which stays in step with the drop.
   expect(await computedStyle(board, 'overflow')).toBe('hidden');
   await expect(intro).not.toBeAttached();
