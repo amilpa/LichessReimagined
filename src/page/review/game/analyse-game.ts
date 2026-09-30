@@ -3,7 +3,7 @@ import { uciPosition } from '#page/review/engine/position.ts';
 import { toRecord } from '#page/review/engine/record.ts';
 import { FULL_SEARCH, QUICK_SEARCH } from '#page/review/engine/settings.ts';
 import type { EnginePool } from '#page/review/engine/pool.ts';
-import { engineFor } from '#page/review/engine-pool.ts';
+import { engineCount, engineFor } from '#page/review/engine-pool.ts';
 import type { GameWork, Mode, Session } from '#page/review/session.ts';
 import { cacheProgress, cacheRecords, readCachedRecords } from './cache.ts';
 import { lookUpCloud } from './cloud-lookup.ts';
@@ -116,8 +116,12 @@ async function runWorker(session: Session, analysis: Analysis, pool: EnginePool)
   }
 }
 
+// One loop per engine the page will have: while some still boot, their
+// loops' searches wait in the pool for the engines already up.
 function runEngines(session: Session, analysis: Analysis, pool: EnginePool): Promise<void[]> {
-  return Promise.all(Array.from({ length: pool.size }, () => runWorker(session, analysis, pool)));
+  return Promise.all(
+    Array.from({ length: engineCount() }, () => runWorker(session, analysis, pool)),
+  );
 }
 
 async function applyExport(session: Session, analysis: Analysis): Promise<void> {

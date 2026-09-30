@@ -62,4 +62,15 @@ describe('EnginePool', () => {
     expect(pool.size).toBe(0);
     await expect(pool.analyse({ position: 'three' })).rejects.toThrow('No engine is running');
   });
+
+  it('takes an engine booted later, which picks up the waiting searches', async () => {
+    const [first, later] = [new HeldEngine(), new HeldEngine()];
+    const pool = new EnginePool([first]);
+    void pool.analyse({ position: 'one' });
+    void pool.analyse({ position: 'two' });
+    pool.add(later);
+    await settle();
+    expect(later.started).toEqual(['two']);
+    expect(pool.size).toBe(2);
+  });
 });

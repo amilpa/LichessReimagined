@@ -110,7 +110,9 @@ export class Stockfish {
     // One thread each: the review's short searches reach their depth several
     // times sooner on one thread than on four, so the page runs several engines.
     module.uci('setoption name Threads value 1');
-    module.uci('setoption name Hash value 32');
+    // The review's searches are short: a small table does as well, and weighs
+    // less with several engines on the page.
+    module.uci('setoption name Hash value 16');
     module.uci('setoption name MultiPV value 2');
     if (this.#chess960) module.uci('setoption name UCI_Chess960 value true');
     module.uci('ucinewgame');

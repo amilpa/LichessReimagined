@@ -31,6 +31,13 @@ export class EnginePool {
     return this.#size;
   }
 
+  /** Takes an engine booted after the others. */
+  add(engine: PoolEngine): void {
+    this.#idle.push(engine);
+    this.#size++;
+    this.#dispatch();
+  }
+
   analyse(search: EngineSearch, { urgent = false } = {}): Promise<EngineResult> {
     return new Promise((resolve, reject) => {
       if (this.#size === 0) {
