@@ -148,3 +148,62 @@ describe('Stockfish', () => {
     ]);
   });
 });
+
+/** An engine whose searches answer only once told to stop, or never. */
+async function bootSilent(answersStop: boolean): Promise<{ engine: Stockfish; sent: string[] }> {
+  const sent: string[] = [];
+  const module = {
+    listen: (_text: string): void => {},
+    uci: (command: string): void => {
+      sent.push(command);
+      if (command === 'stop' && answersStop) queueMicrotask(() => module.listen('bestmove e2e4'));
+    },
+    getRecommendedNnue: (): string => '',
+    setNnueBuffer: (): void => {},
+  };
+  Reflect.set(globalThis, 'cdcFakeStockfish', () => module);
+  window.site = {
+    asset: {
+      url: (path: string) =>
+        path.endsWith('.js') ? `data:text/javascript,${encodeURIComponent(FAKE_MODULE)}` : path,
+    },
+  };
+  const engine = new Stockfish({ chess960: false });
+  await engine.boot();
+  return { engine, sent };
+}
+
+describe('Stockfish that stops answering', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    Reflect.deleteProperty(window, 'site');
+    Reflect.deleteProperty(globalThis, 'cdcFakeStockfish');
+  });
+
+  it('stops a search that outlives its time', async () => {
+    const { engine, sent } = await bootSilent(true);
+    vi.useFakeTimers();
+    const search = engine.analyse({ position: 'fen one', limits: QUICK_SEARCH });
+    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
+    expect(sent.at(-1)).toBe('stop');
+    await expect(search).resolves.toEqual({ lines: [] });
+  });
+
+  it('gives up on an engine that ignores the stop, failing the searches queued behind', async () => {
+    const { engine } = await bootSilent(false);
+    vi.useFakeTimers();
+    const first = engine.analyse({ position: 'fen one', limits: QUICK_SEARCH });
+    const second = engine.analyse({ position: 'fen two', limits: QUICK_SEARCH });
+    const failures = [first, second].map(search =>
+      search.then(
+        () => null,
+        (error: unknown) => (error instanceof Error ? error.message : null),
+      ),
+    );
+    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 6000);
+    expect(await Promise.all(failures)).toEqual([
+      'Stockfish stopped answering',
+      'Stockfish is not running',
+    ]);
+  });
+});

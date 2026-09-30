@@ -60,6 +60,21 @@ const pause = (milliseconds: number): Promise<void> =>
     setTimeout(resolve, milliseconds);
   });
 
+// A hidden tab's analysis waits: it would take the processor from the tab in use.
+const whenVisible = (): Promise<void> =>
+  new Promise(resolve => {
+    if (!document.hidden) {
+      resolve();
+      return;
+    }
+    const shown = (): void => {
+      if (document.hidden) return;
+      document.removeEventListener('visibilitychange', shown);
+      resolve();
+    };
+    document.addEventListener('visibilitychange', shown);
+  });
+
 async function runEngine(session: Session, analysis: Analysis, engine: Stockfish): Promise<void> {
   const { work, view } = session;
   for (;;) {
@@ -70,6 +85,7 @@ async function runEngine(session: Session, analysis: Analysis, engine: Stockfish
       await pause(100);
       continue;
     }
+    await whenVisible();
     const fen = work.nodes[job.index]?.fen ?? '';
     const result = await engine.analyse({
       position: uciPosition(work.nodes.slice(0, job.index + 1), analysis.chess960),
@@ -95,6 +111,12 @@ async function applyExport(session: Session, analysis: Analysis): Promise<void> 
   }
 }
 
+function engineFailed(session: Session, what: string, error: unknown): void {
+  console.error(`[LichessDotCom] ${what}`, error);
+  session.view.error = session.language.ui.engineError;
+  session.redraw(true);
+}
+
 export async function analyseGame(session: Session, analysis: Analysis): Promise<void> {
   const { work, view } = session;
   const gameId = analysis.gameId;
@@ -111,11 +133,14 @@ export async function analyseGame(session: Session, analysis: Analysis): Promise
   try {
     engine = await engineFor(session, analysis);
   } catch (error) {
-    console.error('[LichessDotCom] engine boot failed', error);
-    view.error = session.language.ui.engineError;
-    session.redraw(true);
+    engineFailed(session, 'engine boot failed', error);
     return;
   }
-  await runEngine(session, analysis, engine);
+  try {
+    await runEngine(session, analysis, engine);
+  } catch (error) {
+    engineFailed(session, 'engine failed', error);
+    return;
+  }
   cacheRecords(gameId, positions, work.deep);
 }

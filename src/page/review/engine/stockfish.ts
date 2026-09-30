@@ -25,6 +25,11 @@ const isStockfishModule = createGuard(StockfishModuleSchema);
 
 const INITIAL_PAGES = 1536;
 
+// How long past its `movetime` a search may run before it's stopped, and then
+// how long the engine has to answer the stop.
+const STOP_GRACE_MS = 3000;
+const GIVE_UP_MS = 3000;
+
 // Some browsers refuse a large shared memory: ask for less until they agree.
 function sharedMemory(): WebAssembly.Memory {
   for (let maximum = 32767; ; maximum = Math.ceil(maximum * 0.75)) {
@@ -97,29 +102,40 @@ export class Stockfish {
   }
 
   /** The engine's two best lines for a position, from the side to move's view. */
-  analyse({
-    position,
-    limits = FULL_SEARCH,
-    searchMoves = [],
-  }: EngineSearch): Promise<EngineResult> {
-    const run = (): Promise<EngineResult> =>
-      new Promise(resolve => {
-        const module = this.#module;
-        if (!module) throw new Error('Stockfish is not booted');
-        const collector = new SearchCollector();
-        this.#onLine = text => {
-          const result = collector.read(text);
-          if (!result) return;
+  analyse(search: EngineSearch): Promise<EngineResult> {
+    const result = this.#queue.then(() => this.#run(search));
+    // A failed search doesn't hold up the ones queued behind it.
+    this.#queue = result.catch(() => undefined);
+    return result;
+  }
+
+  #run({ position, limits = FULL_SEARCH, searchMoves = [] }: EngineSearch): Promise<EngineResult> {
+    return new Promise((resolve, reject) => {
+      const module = this.#module;
+      if (!module) throw new Error('Stockfish is not running');
+      const collector = new SearchCollector();
+      let giveUp = 0;
+      // A search outliving its time is told to stop; one that won't means the engine is gone.
+      const stop = setTimeout(() => {
+        module.uci('stop');
+        giveUp = setTimeout(() => {
           this.#onLine = null;
-          resolve(result);
-        };
-        module.uci(`position ${position}`);
-        // `searchmoves` takes the rest of the command: it goes last.
-        const only = searchMoves.length > 0 ? ` searchmoves ${searchMoves.join(' ')}` : '';
-        module.uci(`go depth ${limits.depth} movetime ${limits.movetime}${only}`);
-      });
-    const search = this.#queue.then(run);
-    this.#queue = search;
-    return search;
+          this.#module = null;
+          reject(new Error('Stockfish stopped answering'));
+        }, GIVE_UP_MS);
+      }, limits.movetime + STOP_GRACE_MS);
+      this.#onLine = text => {
+        const result = collector.read(text);
+        if (!result) return;
+        clearTimeout(stop);
+        clearTimeout(giveUp);
+        this.#onLine = null;
+        resolve(result);
+      };
+      module.uci(`position ${position}`);
+      // `searchmoves` takes the rest of the command: it goes last.
+      const only = searchMoves.length > 0 ? ` searchmoves ${searchMoves.join(' ')}` : '';
+      module.uci(`go depth ${limits.depth} movetime ${limits.movetime}${only}`);
+    });
   }
 }

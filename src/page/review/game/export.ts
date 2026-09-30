@@ -20,6 +20,8 @@ export interface GameExport {
   readonly rough: readonly (PositionRecord | undefined)[];
 }
 
+const EXPORT_TIMEOUT_MS = 8000;
+
 const exportUrl = (gameId: string): string =>
   `/game/export/${gameId}?opening=true&moves=false&clocks=false&evals=true`;
 
@@ -53,6 +55,10 @@ export function readExport(text: string, positions: number): GameExport | null {
 }
 
 export async function fetchExport(gameId: string, positions: number): Promise<GameExport | null> {
-  const response = await fetch(exportUrl(gameId), { headers: { Accept: 'application/json' } });
+  const response = await fetch(exportUrl(gameId), {
+    headers: { Accept: 'application/json' },
+    // The analysis waits for it: a request that hangs mustn't hold it up.
+    signal: AbortSignal.timeout(EXPORT_TIMEOUT_MS),
+  });
   return readExport(await response.text(), positions);
 }
