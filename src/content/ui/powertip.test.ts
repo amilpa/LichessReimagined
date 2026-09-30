@@ -57,6 +57,22 @@ describe('hover card fit', () => {
     expect(card.style.left).toBe(scenario.left);
   });
 
+  it('writes nothing when a card taller than the window is already at the top', () => {
+    vi.stubGlobal('innerWidth', 1000);
+    vi.stubGlobal('innerHeight', 800);
+    vi.stubGlobal('getComputedStyle', () => ({ visibility: 'visible' }));
+    const card = document.createElement('div');
+    document.body.append(card);
+    card.style.top = '8px';
+    card.style.left = '100px';
+    card.getBoundingClientRect = () => rectAt({ top: 8, left: 100, width: 300, height: 900 });
+    const observer = new MutationObserver(() => {});
+    observer.observe(card, { attributes: true });
+    fitPowertip(card);
+    expect(observer.takeRecords()).toEqual([]);
+    observer.disconnect();
+  });
+
   it('prefers below the name, then above', () => {
     const viewport = { width: 1000, height: 800 };
     const card = rectAt({ top: 700, left: 100, width: 300, height: 200 });

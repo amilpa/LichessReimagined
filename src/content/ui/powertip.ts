@@ -1,4 +1,4 @@
-import { closestTo, queryAll, setData } from '#shared/dom.ts';
+import { closestTo, queryAll, setData, setStyleProperty } from '#shared/dom.ts';
 import type { Feature } from '#shared/features.ts';
 import { onEveryTick } from '#content/sync-loop.ts';
 import { fitCard } from './card-fit.ts';
@@ -32,8 +32,11 @@ export function fitPowertip(card: HTMLElement): void {
   const name = anchor?.isConnected ? anchor.getBoundingClientRect() : null;
   const target = fitCard(box, name, { width: innerWidth, height: innerHeight });
   if (!target) return;
-  card.style.top = `${(parseFloat(card.style.top) || 0) + target.top - box.top}px`;
-  card.style.left = `${(parseFloat(card.style.left) || 0) + target.left - box.left}px`;
+  const top = (parseFloat(card.style.top) || 0) + target.top - box.top;
+  const left = (parseFloat(card.style.left) || 0) + target.left - box.left;
+  // Only what changes: the observer below calls this again on any write.
+  setStyleProperty(card, 'top', `${top}px`);
+  setStyleProperty(card, 'left', `${left}px`);
 }
 
 function watch(card: HTMLElement): void {
