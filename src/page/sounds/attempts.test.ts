@@ -124,6 +124,24 @@ describe('move attempts', () => {
     expect(JSON.parse(JSON.stringify(calls))).toEqual(attempt.calls);
   });
 
+  it('stays silent in the board editor, where a piece goes anywhere', async () => {
+    const { sound, calls } = fakeSoundPlayer();
+    const session = createSession();
+    hookSoundPlayer(sound, new Map(SOUND_NAMES.map(name => [name, `blob:${name}`])), session);
+    stop = watchMoveAttempts(session);
+    const board = placeBoard(
+      renderBoard({ placement: '4k3/8/8/8/8/8/4P3/4K3', orientation: 'white' }),
+    );
+    board.closest('.main-board')?.parentElement?.classList.add('board-editor');
+    press('pointerdown', pointAt('e2', 'white'), board, 0);
+    board.append(
+      Object.assign(document.createElement('piece'), { className: 'white pawn dragging' }),
+    );
+    press('pointerup', pointAt('e5', 'white'), board, 0);
+    await vi.advanceTimersByTimeAsync(150);
+    expect(calls).toEqual([]);
+  });
+
   it('keeps the pressed position, even before our sounds are in', async () => {
     const session = createSession();
     stop = watchMoveAttempts(session);

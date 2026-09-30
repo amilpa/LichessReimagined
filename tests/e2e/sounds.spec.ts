@@ -58,3 +58,23 @@ test('stepping back through a game sounds like stepping forward', async ({ page 
   // A step forward still gets its sound once.
   expect(await step('ArrowRight', 1)).toEqual([`${OUR_SOUND_PREFIX}move-opponent`]);
 });
+
+test('the board editor stays silent as pieces are moved around', async ({ page }) => {
+  await openLichess(page, '/editor');
+  await expect.poll(async () => (await ourSounds(page)).size).toBe(SOUND_NAMES.length);
+  await recordSounds(page);
+  const board = page.locator('main#board-editor cg-board');
+  const box = await board.boundingBox();
+  if (box === null) throw new Error('no board');
+  const square = box.width / 8;
+  // e2 to e5: anywhere goes in the editor, and nothing sounds.
+  await page.mouse.move(box.x + square * 4.5, box.y + square * 6.5);
+  await page.mouse.down();
+  await page.mouse.move(box.x + square * 4.5, box.y + square * 3.5, { steps: 8 });
+  await page.mouse.up();
+  await expect(board.locator('piece.white.pawn')).toHaveCount(8);
+  // A refused move sounds 80ms after the drop (SETTLE_MS, page/sounds/attempts.ts): a longer
+  // timer set later in the page runs after it, so this waits on order, not on luck.
+  await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 200)));
+  expect(await heardSounds(page)).toEqual([]);
+});

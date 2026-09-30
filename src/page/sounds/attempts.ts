@@ -55,7 +55,8 @@ function isClickToMove(board: Element, pieces: Board, square: Square): boolean {
 function onPress(session: SoundSession, event: PointerEvent): Press | null {
   const board = mainCgBoard();
   const onBoard = event.target instanceof Node && board?.contains(event.target);
-  if (event.button !== 0 || !board || !onBoard) return null;
+  // The board editor places pieces without rules or sounds: nothing there is refused.
+  if (event.button !== 0 || !board || !onBoard || board.closest('.board-editor')) return null;
   const state = readBoard(mainBoardWrap());
   const square = squareUnderPointer(board, event);
   if (!state || !square) return null;
