@@ -1,12 +1,11 @@
 import { z } from 'zod/mini';
 import { createGuard } from '#shared/guards.ts';
-import { clamp } from '#shared/math.ts';
 import { FULL_SEARCH, type SearchLimits, STOCKFISH_BUILD } from './settings.ts';
 import { assetUrl } from '#page/lichess/assets.ts';
 import { type EngineResult, SearchCollector } from './uci.ts';
 
 // Lichess's Stockfish build (stockfish-web), loaded from its own assets in the
-// page world. One search runs at a time: the others queue behind it.
+// page world. An engine runs one search at a time: the others queue behind it.
 
 const FactorySchema = z.object({
   default: z.function({ input: [z.unknown()], output: z.unknown() }),
@@ -41,12 +40,27 @@ function sharedMemory(): WebAssembly.Memory {
   }
 }
 
+// Every engine of the page takes the same networks: each is fetched once.
+const networks = new Map<string, Promise<Uint8Array<ArrayBuffer>>>();
+
+async function network(name: string): Promise<Uint8Array<ArrayBuffer>> {
+  let buffer = networks.get(name);
+  if (!buffer) {
+    buffer = fetch(assetUrl(`lifat/nnue/${name}`)).then(
+      async response => new Uint8Array(await response.arrayBuffer()),
+    );
+    networks.set(name, buffer);
+    // A failed download is tried again by the next engine.
+    buffer.catch(() => networks.delete(name));
+  }
+  return buffer;
+}
+
 async function loadNetworks(module: StockfishModule): Promise<void> {
   for (let i = 0; ; i++) {
     const name = module.getRecommendedNnue(i);
     if (typeof name !== 'string' || name === '') return;
-    const response = await fetch(assetUrl(`lifat/nnue/${name}`));
-    module.setNnueBuffer(new Uint8Array(await response.arrayBuffer()), i);
+    module.setNnueBuffer(await network(name), i);
   }
 }
 
@@ -92,13 +106,19 @@ export class Stockfish {
     await loadNetworks(module);
     Object.assign(module, { listen: (text: string) => this.#onLine?.(text) });
     this.#module = module;
-    const threads = clamp((navigator.hardwareConcurrency || 2) - 1, 1, 4);
     module.uci('uci');
-    module.uci(`setoption name Threads value ${threads}`);
-    module.uci('setoption name Hash value 64');
+    // One thread each: the review's short searches reach their depth several
+    // times sooner on one thread than on four, so the page runs several engines.
+    module.uci('setoption name Threads value 1');
+    module.uci('setoption name Hash value 32');
     module.uci('setoption name MultiPV value 2');
     if (this.#chess960) module.uci('setoption name UCI_Chess960 value true');
     module.uci('ucinewgame');
+  }
+
+  /** Booted, and still answering. */
+  get running(): boolean {
+    return this.#module !== null;
   }
 
   /** The engine's two best lines for a position, from the side to move's view. */

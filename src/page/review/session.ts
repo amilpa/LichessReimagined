@@ -2,7 +2,7 @@ import { z } from 'zod/mini';
 import type { Color } from '#shared/chess/types.ts';
 import type { TreeNode } from '#page/lichess/tree.ts';
 import type { StreamState } from './comment/markup.ts';
-import type { Stockfish } from './engine/stockfish.ts';
+import type { EnginePool } from './engine/pool.ts';
 import type { PositionRecord } from './evaluation/score.ts';
 import type { ReviewLanguage } from './i18n/types.ts';
 import type { ClassCounts } from './judge/summary.ts';
@@ -119,6 +119,10 @@ export interface GameWork {
   bookPly: number;
   /** The position the cloud is looking up, Infinity once it's done. */
   cloudAt: number;
+  /** The positions the engines are searching. */
+  readonly pending: Set<number>;
+  /** Full-depth searches done, for saving the progress now and then. */
+  searched: number;
 }
 
 export interface AvatarState {
@@ -149,8 +153,8 @@ export interface Session {
   readonly wide: MediaQueryList;
   /** The element the tooltip points at. */
   tipFor: Element | null;
-  /** The page's one engine, once asked for (engine-pool.ts). */
-  engine: Promise<Stockfish> | null;
+  /** The page's engines, once asked for (engine-pool.ts). */
+  engine: Promise<EnginePool> | null;
   /** Draws the panel again; forced, even when nothing it shows changed. */
   readonly redraw: (force?: boolean) => void;
   readonly setMode: (mode: Mode) => void;
@@ -197,7 +201,16 @@ export function createSession(options: SessionOptions): Session {
       noBook: false,
       error: null,
     },
-    work: { nodes: [], deep: [], rough: [], moves: [], bookPly: 0, cloudAt: Infinity },
+    work: {
+      nodes: [],
+      deep: [],
+      rough: [],
+      moves: [],
+      bookPly: 0,
+      cloudAt: Infinity,
+      pending: new Set(),
+      searched: 0,
+    },
     lines: { found: new Map(), busy: false },
     coach: { id: coach, reacted: '', avatar: null },
     stream: { state: { key: '', shown: 0, dropped: false }, timer: 0 },

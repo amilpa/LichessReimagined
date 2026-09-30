@@ -62,10 +62,10 @@ async function lookUp(session: Session, analysis: Analysis, request: LineRequest
   let line: readonly string[] = [request.first];
   try {
     const engine = await engineFor(session, analysis);
-    const result = await engine.analyse({
-      position: `fen ${request.fen}`,
-      searchMoves: [request.first],
-    });
+    const result = await engine.analyse(
+      { position: `fen ${request.fen}`, searchMoves: [request.first] },
+      { urgent: true },
+    );
     const pv = result.lines[0]?.pv ?? [];
     if (pv[0] === request.first) line = pv;
   } catch (error) {

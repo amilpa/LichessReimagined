@@ -24,7 +24,10 @@ export async function analyseLive(
   live.busy = true;
   try {
     const engine = await engineFor(session, analysis);
-    live.evals.set(fen, toRecord(fen, await engine.analyse({ position: `fen ${fen}` })));
+    live.evals.set(
+      fen,
+      toRecord(fen, await engine.analyse({ position: `fen ${fen}` }, { urgent: true })),
+    );
   } catch (error) {
     console.error('[LichessDotCom] engine failed', error);
     live.error = session.language.ui.engineError;

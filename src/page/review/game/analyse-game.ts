@@ -2,7 +2,7 @@ import type { Analysis } from '#page/lichess/analysis.ts';
 import { uciPosition } from '#page/review/engine/position.ts';
 import { toRecord } from '#page/review/engine/record.ts';
 import { FULL_SEARCH, QUICK_SEARCH } from '#page/review/engine/settings.ts';
-import type { Stockfish } from '#page/review/engine/stockfish.ts';
+import type { EnginePool } from '#page/review/engine/pool.ts';
 import { engineFor } from '#page/review/engine-pool.ts';
 import type { GameWork, Mode, Session } from '#page/review/session.ts';
 import { cacheProgress, cacheRecords, readCachedRecords } from './cache.ts';
@@ -38,7 +38,7 @@ const CLOUD_AHEAD = 3;
  * then the rest at full depth, from the start.
  */
 export function nextJob({ work, mode, analysis }: JobInput): Job | null {
-  const { nodes, deep, rough, cloudAt } = work;
+  const { nodes, deep, rough, cloudAt, pending } = work;
   if (mode === 'moves') {
     const urgent = analysis.nodeList
       .slice(-3)
@@ -47,14 +47,15 @@ export function nextJob({ work, mode, analysis }: JobInput): Job | null {
       .map(node => node.ply)
       .toReversed();
     if (analysis.onMainline) urgent.push(analysis.node.ply + 1);
-    const index = urgent.find(i => i >= 0 && i < nodes.length && !deep[i]);
+    const index = urgent.find(i => i >= 0 && i < nodes.length && !deep[i] && !pending.has(i));
     if (index !== undefined) return { index, deep: true };
   }
-  const cloudSoon = (i: number): boolean => i >= cloudAt && i <= cloudAt + CLOUD_AHEAD;
+  // Another engine's position, or one the cloud will answer soon.
+  const taken = (i: number): boolean =>
+    pending.has(i) || (i >= cloudAt && i <= cloudAt + CLOUD_AHEAD);
   for (let i = 0; i < nodes.length; i++)
-    if (!deep[i] && !rough[i] && !cloudSoon(i)) return { index: i, deep: false };
-  for (let i = 0; i < nodes.length; i++)
-    if (!deep[i] && !cloudSoon(i)) return { index: i, deep: true };
+    if (!deep[i] && !rough[i] && !taken(i)) return { index: i, deep: false };
+  for (let i = 0; i < nodes.length; i++) if (!deep[i] && !taken(i)) return { index: i, deep: true };
   return null;
 }
 
@@ -78,31 +79,45 @@ const whenVisible = (): Promise<void> =>
     document.addEventListener('visibilitychange', shown);
   });
 
-async function runEngine(session: Session, analysis: Analysis, engine: Stockfish): Promise<void> {
-  const { work, view } = session;
-  let searched = 0;
-  for (;;) {
-    const job = nextJob({ work, mode: view.mode, analysis });
-    if (!job) {
-      if (view.review?.complete) return;
-      // Nothing left for the engine: the cloud is still looking up the rest.
-      await pause(100);
-      continue;
-    }
-    await whenVisible();
+async function search(session: Session, analysis: Analysis, pool: EnginePool, job: Job) {
+  const { work } = session;
+  work.pending.add(job.index);
+  try {
     const fen = work.nodes[job.index]?.fen ?? '';
-    const result = await engine.analyse({
+    const result = await pool.analyse({
       position: uciPosition(work.nodes.slice(0, job.index + 1), analysis.chess960),
       limits: job.deep ? FULL_SEARCH : QUICK_SEARCH,
     });
-    const record = toRecord(fen, result);
+    return toRecord(fen, result);
+  } finally {
+    work.pending.delete(job.index);
+  }
+}
+
+/** One of the engines' loops: as many run as the pool has engines. */
+async function runWorker(session: Session, analysis: Analysis, pool: EnginePool): Promise<void> {
+  const { work, view } = session;
+  for (;;) {
+    await whenVisible();
+    const job = nextJob({ work, mode: view.mode, analysis });
+    if (!job) {
+      if (view.review?.complete) return;
+      // Nothing left for this engine: the cloud or the other engines have the rest.
+      await pause(100);
+      continue;
+    }
+    const record = await search(session, analysis, pool, job);
     if (job.deep) {
       setDeep(session, job.index, record);
-      if (++searched % PROGRESS_EVERY === 0)
+      if (++work.searched % PROGRESS_EVERY === 0)
         cacheProgress(analysis.gameId, work.nodes.length, work.deep);
     } else work.rough[job.index] = record;
     refresh(session, analysis);
   }
+}
+
+function runEngines(session: Session, analysis: Analysis, pool: EnginePool): Promise<void[]> {
+  return Promise.all(Array.from({ length: pool.size }, () => runWorker(session, analysis, pool)));
 }
 
 async function applyExport(session: Session, analysis: Analysis): Promise<void> {
@@ -136,7 +151,7 @@ export async function analyseGame(session: Session, analysis: Analysis): Promise
   refresh(session, analysis);
   if (view.review?.complete) return;
   if (!analysis.chess960) void lookUpCloud(session, analysis);
-  let engine: Stockfish;
+  let engine: EnginePool;
   try {
     engine = await engineFor(session, analysis);
   } catch (error) {
@@ -144,7 +159,7 @@ export async function analyseGame(session: Session, analysis: Analysis): Promise
     return;
   }
   try {
-    await runEngine(session, analysis, engine);
+    await runEngines(session, analysis, engine);
   } catch (error) {
     engineFailed(session, 'engine failed', error);
     return;

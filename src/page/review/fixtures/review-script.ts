@@ -135,6 +135,8 @@ function installEngine(ctrl: FakeController): void {
     depth => (depth >= 16 ? 150 : 30),
     (fen, moves) => fenAfter(ctrl.tree.root, fen, moves),
   );
+  // Two cores: one engine, as the original had, so the recordings still match.
+  vi.spyOn(navigator, 'hardwareConcurrency', 'get').mockReturnValue(2);
   // A small memory is all the fake engine needs.
   const RealMemory = WebAssembly.Memory;
   vi.spyOn(WebAssembly, 'Memory').mockImplementation(function smallMemory() {

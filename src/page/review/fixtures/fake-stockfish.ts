@@ -51,9 +51,9 @@ interface FakeModule {
 /** The FEN that `moves` (in the engine's notation) reach from `fen`. */
 export type ResolvePosition = (fen: string, moves: readonly string[]) => string;
 
-/** Installs the fake: each search answers after `delay(depth)` ms of the (fake) clock. */
+/** Installs the fake: each search answers after `delay(depth, fen)` ms of the (fake) clock. */
 export function installFakeStockfish(
-  delay: (depth: number) => number,
+  delay: (depth: number, fen: string) => number,
   resolve: ResolvePosition = fen => fen,
 ): void {
   const factory = (): FakeModule => {
@@ -73,7 +73,7 @@ export function installFakeStockfish(
           () => {
             for (const line of lines) module.listen(line);
           },
-          delay(Number(depth)),
+          delay(Number(depth), fen),
         );
       },
       getRecommendedNnue: () => '',

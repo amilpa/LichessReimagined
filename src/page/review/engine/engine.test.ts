@@ -72,11 +72,13 @@ describe('fromCloud', () => {
 });
 
 describe('settings', () => {
-  it('search as deep as the original', () => {
+  it('search as deep as the original, with more time to get there', () => {
     const { engine, quick } = legacy.settings;
     expect(STOCKFISH_BUILD).toEqual({ root: engine.root, script: engine.js });
-    expect(FULL_SEARCH).toEqual({ depth: engine.depth, movetime: engine.movetime });
-    expect(QUICK_SEARCH).toEqual(quick);
+    expect(FULL_SEARCH.depth).toBe(engine.depth);
+    expect(QUICK_SEARCH.depth).toBe(quick.depth);
+    expect(FULL_SEARCH.movetime).toBeGreaterThan(engine.movetime);
+    expect(QUICK_SEARCH.movetime).toBeGreaterThan(quick.movetime);
   });
 });
 
@@ -140,11 +142,11 @@ describe('Stockfish', () => {
     expect(second?.lines[0]?.pv.at(-1)).toBe('two');
     expect(sent.slice(-6)).toEqual([
       'position fen one',
-      'go depth 16 movetime 1500',
+      'go depth 16 movetime 5000',
       'position fen two',
-      'go depth 12 movetime 500',
+      'go depth 12 movetime 1000',
       'position fen three',
-      'go depth 12 movetime 500 searchmoves g1f3 e1h1',
+      'go depth 12 movetime 1000 searchmoves g1f3 e1h1',
     ]);
   });
 });
