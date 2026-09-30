@@ -67,7 +67,6 @@
   }
 
   main.round .round__app__table,
-  main.round #voice-bar,
   main.round .col1-rmoves-preload,
   main.round .round__underchat {
     display: none !important;

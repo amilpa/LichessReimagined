@@ -10,6 +10,7 @@ import { aiPlayers } from './game/ai-players.ts';
 import { boardZoom } from './layout/board-zoom.ts';
 import { sounds } from './sounds/index.ts';
 import { controlsHeight } from './layout/controls-height.ts';
+import { movesExtrasHeight } from './layout/moves-extras-height.ts';
 import { analysisPlayers } from './analysis/players.ts';
 import { underboard } from './analysis/underboard.ts';
 import { capturedPieces } from './game/captured.ts';
@@ -55,6 +56,7 @@ function main(): void {
     boardZoom,
     sounds,
     controlsHeight,
+    movesExtrasHeight,
     analysisPlayers,
     underboard,
     capturedPieces,

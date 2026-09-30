@@ -1,0 +1,59 @@
+import { afterEach, describe, expect, it } from 'vitest';
+import { rectBetween } from '#shared/testing/layout.ts';
+import { syncMovesExtrasHeight } from './moves-extras-height.ts';
+
+const GAME =
+  '<main class="round"><div class="round__app"><div id="voice-bar"></div></div><div class="round__underboard"><div class="crosstable"></div></div></main>';
+
+function measureAs(selector: string, height: number): void {
+  const element = document.querySelector(selector);
+  if (element)
+    element.getBoundingClientRect = () =>
+      rectBetween({ top: 0, left: 0, right: 10, bottom: height });
+}
+
+const main = (): HTMLElement | null => document.querySelector('main');
+
+afterEach(() => {
+  document.body.innerHTML = '';
+});
+
+describe('syncMovesExtrasHeight', () => {
+  it('measures the voice bar and the crosstable, to the pixel above', () => {
+    document.body.innerHTML = GAME;
+    measureAs('#voice-bar', 38.4);
+    measureAs('.crosstable', 61);
+    syncMovesExtrasHeight();
+    expect(main()?.style.getPropertyValue('--cdc-voice-h')).toBe('39px');
+    expect(main()?.style.getPropertyValue('--cdc-crosstable-h')).toBe('61px');
+  });
+
+  it('follows a crosstable that grows, and drops what Lichess removed', () => {
+    document.body.innerHTML = GAME;
+    measureAs('.crosstable', 58);
+    syncMovesExtrasHeight();
+    measureAs('.crosstable', 80);
+    document.querySelector('#voice-bar')?.remove();
+    syncMovesExtrasHeight();
+    expect(main()?.style.getPropertyValue('--cdc-crosstable-h')).toBe('80px');
+    expect(main()?.style.getPropertyValue('--cdc-voice-h')).toBe('');
+  });
+
+  it('writes nothing while the heights stay', () => {
+    document.body.innerHTML = GAME;
+    measureAs('#voice-bar', 39);
+    measureAs('.crosstable', 58);
+    syncMovesExtrasHeight();
+    const observer = new MutationObserver(() => {});
+    observer.observe(document.body, { attributes: true, subtree: true });
+    syncMovesExtrasHeight();
+    expect(observer.takeRecords()).toEqual([]);
+    observer.disconnect();
+  });
+
+  it('leaves other pages alone', () => {
+    document.body.innerHTML = '<main class="analyse"><div class="crosstable"></div></main>';
+    syncMovesExtrasHeight();
+    expect(main()?.getAttribute('style')).toBeNull();
+  });
+});

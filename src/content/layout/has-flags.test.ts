@@ -17,6 +17,14 @@ describe('presentFlags', () => {
 describe('presentFlags, for flags the original lacked', () => {
   it.each([
     [
+      'round-voice',
+      '<main class="round"><div class="round__app"><div id="voice-bar"></div></div></main>',
+    ],
+    [
+      'round-crosstable',
+      '<main class="round"><div class="round__underboard"><div class="crosstable"></div></div></main>',
+    ],
+    [
       'analyse-training',
       '<main class="analyse"><div class="analyse__round-training"><div class="analyse__acpl"></div></div></main>',
     ],

@@ -1,0 +1,203 @@
+/* ---- Voice bar and crosstable --- */
+
+/* Lichess's voice input (#voice-bar, with the "voice move" preference) and the players'
+ * crosstable (in .round__underboard, under the board) join the moves' panel: the bar on top, as
+ * in Lichess's own column, the crosstable under the move buttons. The moves make room for them,
+ * keyed on `data-cdc-has` (content/layout/has-flags.ts), by their measured heights
+ * (content/layout/moves-extras-height.ts). */
+
+@media (min-width: 1020px) {
+  main.round #voice-bar {
+    grid-area: moves !important;
+    align-self: start;
+    z-index: 3;
+    margin: 0 !important;
+    border-bottom: 1px solid var(--cdc-border);
+    border-radius: 6px 6px 0 0;
+    background: var(--cdc-bg-panel-dark);
+  }
+
+  main.round #voice-status-row {
+    border-radius: 6px 6px 0 0;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--cdc-text);
+    font-family: var(--cdc-font);
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+
+  html[data-cdc-has~='round-voice'] main.round :is(i5d, rm6) {
+    padding-top: var(--cdc-voice-h, 0px) !important;
+  }
+
+  /* Only the crosstable: a signed-in player's other games stay on Lichess's phone layout. */
+  main.round .round__underboard {
+    display: contents !important;
+  }
+
+  main.round .round__underboard > :not(.crosstable) {
+    display: none !important;
+  }
+
+  /* Lichess's strip of columns, one per game, cut the names short in a narrow panel. Ours reads
+   * as two rows, one per player: the name, the last games as squares (green for the winner), the
+   * current match's score, then the lifetime score. As many games show as the width allows. */
+  main.round .round__underboard > .crosstable {
+    grid-area: moves !important;
+    align-self: end;
+    z-index: 2;
+    display: flex !important;
+    gap: 3px;
+    box-sizing: border-box;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 8px 10px;
+    overflow: hidden;
+    border: 0 !important;
+    border-top: 1px solid var(--cdc-border) !important;
+    border-radius: 0 0 6px 6px !important;
+    background: var(--cdc-bg-panel) !important;
+    box-shadow: none !important;
+    container-type: inline-size;
+    font-family: var(--cdc-font);
+    line-height: 20px;
+  }
+
+  main.round .crosstable :is(povs, .crosstable__users, .crosstable__matchup, .crosstable__score) {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: none;
+    padding: 0;
+    background: none !important;
+    box-shadow: none !important;
+  }
+
+  main.round .crosstable > fill {
+    display: none !important;
+  }
+
+  main.round .crosstable__users {
+    order: -1;
+    flex: 1 1 0;
+    min-width: 0;
+    margin-inline-end: 4px;
+  }
+
+  main.round .crosstable__users a {
+    overflow: hidden;
+    padding: 0 !important;
+    color: var(--cdc-text) !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  main.round .crosstable__users a:hover {
+    color: var(--cdc-text-strong) !important;
+  }
+
+  main.round .crosstable__users .uflair {
+    height: 14px;
+    vertical-align: -2px;
+  }
+
+  /* The names come first: three games in the narrowest panel, more as it widens. */
+  main.round .crosstable povs {
+    display: none !important;
+    flex: 0 0 20px;
+  }
+
+  main.round .crosstable povs:nth-last-of-type(-n + 3) {
+    display: flex !important;
+  }
+
+  @container (min-width: 300px) {
+    main.round .crosstable povs:nth-last-of-type(-n + 5) {
+      display: flex !important;
+    }
+  }
+
+  @container (min-width: 360px) {
+    main.round .crosstable povs:nth-last-of-type(-n + 7) {
+      display: flex !important;
+    }
+  }
+
+  @container (min-width: 440px) {
+    main.round .crosstable povs:nth-last-of-type(-n + 10) {
+      display: flex !important;
+    }
+  }
+
+  main.round .crosstable povs.sep {
+    margin-inline-start: 4px;
+    padding-inline-start: 4px;
+    border-inline-start: 1px solid var(--cdc-border);
+    border-radius: 0;
+  }
+
+  main.round .crosstable povs a {
+    flex: 0 0 20px;
+    border-radius: 3px;
+    background: var(--cdc-bg-raised);
+    color: var(--cdc-text-dim) !important;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    opacity: 1 !important;
+    transition: filter 0.15s;
+  }
+
+  main.round .crosstable povs a.win {
+    background: var(--cdc-green);
+    color: #fff !important;
+  }
+
+  main.round .crosstable povs a:hover {
+    filter: brightness(1.2);
+  }
+
+  main.round .crosstable povs.current a {
+    box-shadow: inset 0 0 0 2px var(--cdc-green);
+  }
+
+  main.round .crosstable :is(.crosstable__matchup, .crosstable__score) {
+    flex: 0 0 auto;
+    margin-inline-start: 4px;
+    font-weight: 700;
+    text-align: end;
+  }
+
+  main.round .crosstable__matchup {
+    padding: 0 6px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--cdc-green) 16%, transparent) !important;
+    font-size: 12px;
+  }
+
+  main.round .crosstable__score {
+    min-width: 2.5ch;
+    font-size: 14px;
+  }
+
+  main.round .crosstable :is(.crosstable__matchup, .crosstable__score) span {
+    padding: 0 !important;
+    color: var(--cdc-text-dim);
+  }
+
+  main.round .crosstable :is(.crosstable__matchup, .crosstable__score) .win {
+    color: var(--cdc-green);
+  }
+
+  html[data-cdc-has~='round-crosstable'] main.round :is(i5d, rm6) {
+    padding-bottom: var(--cdc-crosstable-h, 0px) !important;
+  }
+
+  body.zenable.zen main.round .round__underboard > .crosstable {
+    display: none !important;
+  }
+}

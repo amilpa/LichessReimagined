@@ -14,6 +14,8 @@ const FLAGS: Readonly<Record<string, string>> = {
   'round-chat': 'main.round .mchat',
   'tv-channels': 'main.round.tv-single > .round__side > .subnav',
   pocket: 'main.round .pocket',
+  'round-voice': 'main.round #voice-bar',
+  'round-crosstable': 'main.round .round__underboard > .crosstable',
   'clock-extras-top': `main.round .rclock-top > ${CLOCK_EXTRAS}`,
   'clock-extras-bottom': `main.round .rclock-bottom > ${CLOCK_EXTRAS}`,
   analyse: 'main.analyse',

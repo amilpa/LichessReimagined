@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test';
 import { expect, test } from './fixtures.ts';
 import { boardWrap, orientationOf } from './support/board.ts';
 import { EXTENSION_ORIGIN } from './support/extension.ts';
+import { boxOf, expectInView } from './support/layout.ts';
 import { computedStyle, openLichess } from './support/lichess.ts';
 import { onOneTvGame, waitForRoundKeys } from './support/tv.ts';
 
@@ -115,6 +116,15 @@ test.describe('a game on Lichess TV', () => {
         // A provisional rating keeps its "?"; the brackets go.
         await expect(player.locator('.rating')).toHaveText(/^\d+\??$/);
       }
+    });
+  });
+
+  test('shows the players’ crosstable under the move buttons', async ({ page }) => {
+    const crosstable = page.locator('main.round .round__underboard > .crosstable');
+    await onOneTvGame(page, async () => {
+      await expectInView(page, crosstable);
+      const buttons = await boxOf(page.locator('main.round :is(i5d, rm6) bo3'));
+      expect((await boxOf(crosstable)).top).toBeGreaterThanOrEqual(buttons.bottom - 1);
     });
   });
 });

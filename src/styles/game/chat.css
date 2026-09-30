@@ -84,8 +84,9 @@
 
   /* ---- No scrolling --- */
 
-  /* The page never scrolls: what Lichess puts under the board (crosstable, game info) is
-   * hidden, and the keyboard-move input sits over the chat. */
+  /* The page never scrolls: what Lichess puts beside the board (game info) is hidden, the
+   * crosstable joins the moves (moves-extras.css), and the keyboard-move input sits over the
+   * chat. */
   html[data-cdc-has~='round'],
   html[data-cdc-has~='round'] body {
     overflow: hidden !important;
@@ -97,7 +98,6 @@
     padding: 0 !important;
   }
 
-  main.round .round__underboard,
   main.round .round__side > :not(.mchat) {
     display: none !important;
   }

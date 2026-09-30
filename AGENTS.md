@@ -249,8 +249,10 @@ Learned the hard way. Check here before touching the area concerned.
   `content/layout/board-inset.ts` measures it into `--cdc-inset-{t,r,b,l}`.
   Align anything with the squares through those.
 - **Definite grid rows.** The right panel's rows need known heights: the
-  controls' is measured into `--cdc-controls-h`. Lichess sets an inline
-  `height` on the analysis chat: override it.
+  controls' is measured into `--cdc-controls-h`, and on the game page the
+  voice bar's and crosstable's, over the moves, into `--cdc-voice-h` and
+  `--cdc-crosstable-h`. Lichess sets an inline `height` on the analysis
+  chat: override it.
 - **CSP.** Images load from anywhere; audio and `fetch` only from Lichess's
   domains, `blob:` and `data:`, not even the extension's files. So
   `content/sounds` reads the sounds and `page/sounds` plays them as `blob:`
