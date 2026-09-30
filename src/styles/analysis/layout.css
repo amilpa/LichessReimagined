@@ -153,6 +153,16 @@
       'gauge board side' !important;
   }
 
+  /* A gamebook study: the coach takes what its comment needs (a long one scrolls), the
+   * chapter list the rest, rather than a tall empty cell over the bubble. */
+  html[data-cdc-has~='study-side']:not([data-cdc-has~='practice']) main.analyse.gamebook-play {
+    height: var(--cdc-stage);
+    grid-template-rows:
+      fit-content(calc(var(--cdc-stage) - var(--cdc-ctrl-h) - var(--cdc-side-h)))
+      var(--cdc-ctrl-h)
+      minmax(var(--cdc-side-h), 1fr) !important;
+  }
+
   main.analyse > .analyse__side:has(> .study__side),
   main.analyse.is-relay:not(.has-relay-tour) > .relay-tour__side {
     grid-area: side !important;
@@ -226,7 +236,7 @@
     top: calc(100% + var(--cdc-coords-off)) !important;
   }
 
-  main.analyse > :is(.analyse__tools, .analyse__controls, .mchat) {
+  main.analyse > :is(.analyse__tools, .analyse__controls, .mchat, .gamebook) {
     margin-left: var(--cdc-gap) !important;
   }
 

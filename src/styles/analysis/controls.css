@@ -80,14 +80,17 @@
     text-transform: uppercase;
   }
 
-  /* No chat (the free analysis board): the tools take the whole panel. */
-  html:not([data-cdc-has~='analyse-chat']) main.analyse {
+  /* No chat (the free analysis board): the tools take the whole panel. A study keeps its
+   * chapter list's row, even without a chat (a gamebook has none). */
+  html:not([data-cdc-has~='analyse-chat'], [data-cdc-has~='study-side']) main.analyse {
     grid-template-rows:
       max(0px, calc(var(--cdc-stage) - var(--cdc-ctrl-h)))
       var(--cdc-ctrl-h) !important;
   }
 
-  html:not([data-cdc-has~='analyse-chat']) main.analyse .analyse__controls {
+  html:not([data-cdc-has~='analyse-chat'], [data-cdc-has~='study-side'])
+    main.analyse
+    .analyse__controls {
     border-radius: 0 0 6px 6px;
   }
 
