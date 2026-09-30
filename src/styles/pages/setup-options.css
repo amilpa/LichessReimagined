@@ -40,8 +40,8 @@
   outline-offset: -2px;
 }
 
-/* Each Stockfish level shows an approximate Elo, keyed on its radio id: a Lichess dev's
- * figures (forum, "How strong are the stockfish levels?"), for OTB play, hence the "~". */
+/* Each Stockfish level shows its estimated rating, keyed on its radio id. The figures are
+ * content/game/ai-players.ts's, set on <html>, so the player bar shows the same. */
 /* Equal cells: sized by content, a "~400" cell was narrower than a "~1100" one. */
 .game-setup
   group.radio
@@ -70,7 +70,7 @@
 }
 
 .game-setup group.radio label[for^='sf_level_']::after {
-  content: var(--cdc-level-elo);
+  content: var(--cdc-level-elo, none);
   color: var(--cdc-text-dim);
   font-size: 11px;
   font-weight: 600;
@@ -83,35 +83,35 @@
 }
 
 .game-setup label[for='sf_level_1'] {
-  --cdc-level-elo: '~400';
+  --cdc-level-elo: var(--cdc-ai-level-1);
 }
 
 .game-setup label[for='sf_level_2'] {
-  --cdc-level-elo: '~500';
+  --cdc-level-elo: var(--cdc-ai-level-2);
 }
 
 .game-setup label[for='sf_level_3'] {
-  --cdc-level-elo: '~800';
+  --cdc-level-elo: var(--cdc-ai-level-3);
 }
 
 .game-setup label[for='sf_level_4'] {
-  --cdc-level-elo: '~1100';
+  --cdc-level-elo: var(--cdc-ai-level-4);
 }
 
 .game-setup label[for='sf_level_5'] {
-  --cdc-level-elo: '~1500';
+  --cdc-level-elo: var(--cdc-ai-level-5);
 }
 
 .game-setup label[for='sf_level_6'] {
-  --cdc-level-elo: '~1900';
+  --cdc-level-elo: var(--cdc-ai-level-6);
 }
 
 .game-setup label[for='sf_level_7'] {
-  --cdc-level-elo: '~2300';
+  --cdc-level-elo: var(--cdc-ai-level-7);
 }
 
 .game-setup label[for='sf_level_8'] {
-  --cdc-level-elo: '2800+';
+  --cdc-level-elo: var(--cdc-ai-level-8);
 }
 
 /* Phones: four levels a row (eight left a lone eighth), and time tabs sized by their

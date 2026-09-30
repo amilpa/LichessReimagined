@@ -1,6 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { restoreReadyState, setReadyState } from '#shared/testing/ready-state.ts';
-import { markComputerPlayers, readComputerPlayers } from './ai-players.ts';
+import {
+  AI_RATINGS,
+  markComputerPlayers,
+  markLevelRatings,
+  readComputerPlayers,
+} from './ai-players.ts';
 // What the original script set on <html> for each page's init data.
 import legacy from './fixtures/legacy-ai-players.json' with { type: 'json' };
 
@@ -30,8 +35,8 @@ describe('computer players', () => {
     const fresh = await import('./ai-players.ts');
     fresh.markComputerPlayers(fresh.readComputerPlayers(legacy[1]?.text ?? null));
     expect([...fresh.computerRatings()]).toEqual([
-      ['white', '3000'],
-      ['black', '800'],
+      ['white', '2800+'],
+      ['black', '~400'],
     ]);
   });
 
@@ -52,6 +57,17 @@ describe('computer players', () => {
     document.dispatchEvent(new Event('DOMContentLoaded'));
     expect(root.dataset.cdcAi).toBe(legacy[0]?.ai);
     expect(root.style.getPropertyValue('--cdc-ai-black')).toBe(legacy[0]?.black);
+  });
+
+  it('gives the game setup every level’s rating, the one the player bar shows', () => {
+    markLevelRatings();
+    expect(root.style.getPropertyValue('--cdc-ai-level-1')).toBe('"~400"');
+    expect(root.style.getPropertyValue('--cdc-ai-level-8')).toBe('"2800+"');
+    markComputerPlayers(readComputerPlayers(legacy[0]?.text ?? null));
+    expect(root.style.getPropertyValue('--cdc-ai-black')).toBe(
+      root.style.getPropertyValue('--cdc-ai-level-3'),
+    );
+    expect(AI_RATINGS).toHaveLength(8);
   });
 
   it('reads nothing without init data', () => {

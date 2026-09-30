@@ -9,11 +9,22 @@ import { readPageInitData } from '#shared/page-init-data.ts';
 // bar gets the "Play the computer" monitor as its avatar (styles/playerbar.css).
 // Lichess draws that bar like an anonymous player's, and only the game's data
 // tells them apart. The estimated rating of its level goes in `--cdc-ai-<color>`
-// for the bar, and into the game info (game-meta.ts).
+// for the bar, and into the game info (game-meta.ts). Every level's is in
+// `--cdc-ai-level-<level>` for the game setup (styles/pages/setup-options.css).
 
-// Lichess gives its levels no rating: these are the usual estimates of what
-// each one plays at.
-const AI_RATINGS: readonly number[] = [800, 1100, 1400, 1700, 2000, 2300, 2700, 3000];
+// Lichess shows no rating for its levels since 2022. These are the over-the-board
+// estimates a Lichess developer gave for the current engine settings (forum,
+// "How strong are the stockfish levels?", 2024); the first three are rough.
+export const AI_RATINGS: readonly string[] = [
+  '~400',
+  '~500',
+  '~800',
+  '~1100',
+  '~1500',
+  '~1900',
+  '~2300',
+  '2800+',
+];
 
 // A seat is the computer's when it has a level (`ai`).
 const ComputerSchema = z.object({ color: z.enum(COLORS), ai: z.number() });
@@ -26,7 +37,7 @@ const PageInitSchema = z.union([
 
 export interface ComputerPlayer {
   readonly color: Color;
-  readonly rating: number | undefined;
+  readonly rating: string | undefined;
 }
 
 /** The computer's seats in a game page's init data, with their level's rating. */
@@ -53,14 +64,23 @@ export function markComputerPlayers(players: readonly ComputerPlayer[]): void {
   setData(root, 'cdcAi', players.map(({ color }) => color).join(' '));
   for (const { color, rating } of players) {
     if (rating === undefined) continue;
-    ratings.set(color, String(rating));
+    ratings.set(color, rating);
     setStyleProperty(root, `--cdc-ai-${color}`, `"${rating}"`);
   }
+}
+
+/** Every level's rating, for the game setup's level picker. */
+export function markLevelRatings(): void {
+  const root = document.documentElement;
+  AI_RATINGS.forEach((rating, index) => {
+    setStyleProperty(root, `--cdc-ai-level-${index + 1}`, `"${rating}"`);
+  });
 }
 
 export const aiPlayers: Feature = {
   name: 'computer players',
   start: () => {
+    markLevelRatings();
     // Lichess removes its init data once read, so only a script running while
     // the page parses sees it.
     if (!isParsing()) return;

@@ -4,20 +4,20 @@
     "text": "{\"data\":{\"player\":{\"color\":\"white\",\"user\":{\"id\":\"alice\"}},\"opponent\":{\"color\":\"black\",\"ai\":3}}}",
     "ai": "black",
     "white": null,
-    "black": "\"1400\"",
+    "black": "\"~800\"",
     "ratings": {
-      "black": "1400"
+      "black": "~800"
     }
   },
   {
     "name": "an analysis board, two computers",
     "text": "{\"cfg\":{\"data\":{\"player\":{\"color\":\"white\",\"ai\":8},\"opponent\":{\"color\":\"black\",\"ai\":1}}}}",
     "ai": "white black",
-    "white": "\"3000\"",
-    "black": "\"800\"",
+    "white": "\"2800+\"",
+    "black": "\"~400\"",
     "ratings": {
-      "white": "3000",
-      "black": "800"
+      "white": "2800+",
+      "black": "~400"
     }
   },
   {
