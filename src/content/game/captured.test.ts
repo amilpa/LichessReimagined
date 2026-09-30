@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { flush } from '#shared/testing/timers.ts';
 import { createCapturedSync } from './captured.ts';
 import { capturedMarkup, type MaterialPiece } from './material.ts';
 // What the original script drew for each board.
@@ -29,6 +30,21 @@ describe('captured pieces', () => {
     sync();
     expect(document.querySelector('.cdc-captured--top > .cdc-captured__group')).toBe(group);
     expect(document.querySelectorAll('.cdc-captured')).toHaveLength(2);
+  });
+
+  it('reads the board again only once it changes', async () => {
+    const sync = createCapturedSync(legacy.piecesUrl);
+    const scenario = legacy.scenarios.find(each => each.html.includes('piece'));
+    document.body.innerHTML = scenario?.html ?? '';
+    sync();
+    const reads = vi.spyOn(Element.prototype, 'querySelectorAll');
+    sync();
+    expect(reads).not.toHaveBeenCalled();
+    const before = inner('.cdc-captured--top') ?? '';
+    for (const piece of document.querySelectorAll('cg-board piece')) piece.remove();
+    await flush();
+    sync();
+    expect(inner('.cdc-captured--top')).not.toBe(before);
   });
 
   it('draws again into new bars when Lichess replaces <main>', () => {

@@ -35,6 +35,32 @@ function readVariant(main: HTMLElement): string | undefined {
   return /\bvariant-(\w+)/.exec(classes)?.[1];
 }
 
+/** Tells whether the pieces on `board` may have changed since last asked. */
+function createPiecesWatch(): (board: Element) => boolean {
+  let watched: Element | null = null;
+  let changed = true;
+  // Chessground adds and removes pieces, and swaps a piece's class to change it.
+  const observer = new MutationObserver(() => {
+    changed = true;
+  });
+  return board => {
+    if (board !== watched) {
+      observer.disconnect();
+      observer.observe(board, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+      watched = board;
+      changed = true;
+    }
+    const result = changed;
+    changed = false;
+    return result;
+  };
+}
+
 /** A sync task drawing the captured pieces, with the Neo pieces at `piecesUrl`. */
 export function createCapturedSync(piecesUrl: string): () => void {
   const ownTopRow = createOwnedElement(() =>
@@ -43,7 +69,9 @@ export function createCapturedSync(piecesUrl: string): () => void {
   const ownBottomRow = createOwnedElement(() =>
     createElement('div', { className: 'cdc-captured cdc-captured--bottom' }),
   );
+  const piecesChanged = createPiecesWatch();
   let lastKey = '';
+  let lastInputs = '';
   return () => {
     const main = queryOne(document, 'main.round, main.analyse', HTMLElement);
     const wrap =
@@ -55,6 +83,13 @@ export function createCapturedSync(piecesUrl: string): () => void {
     const variant = readVariant(main);
     const bottomColor = wrapOrientation(wrap);
     const checks = variant === 'threeCheck' ? readChecks(main) : { top: 0, bottom: 0 };
+    const topRow = ownTopRow(main);
+    const bottomRow = ownBottomRow(main);
+    const rowsNew = topRow.isNew || bottomRow.isNew;
+    // Reading the pieces is the costly part: skip it while nothing it depends on moved.
+    const inputs = `${variant}|${bottomColor}|${checks.top}|${checks.bottom}`;
+    if (!piecesChanged(board) && !rowsNew && inputs === lastInputs) return;
+    lastInputs = inputs;
     const markup = capturedMarkup({
       pieces: readPieces(board),
       bottom: bottomColor,
@@ -62,9 +97,7 @@ export function createCapturedSync(piecesUrl: string): () => void {
       checks,
       piecesUrl,
     });
-    const topRow = ownTopRow(main);
-    const bottomRow = ownBottomRow(main);
-    if (topRow.isNew || bottomRow.isNew) lastKey = '';
+    if (rowsNew) lastKey = '';
     const key = `${markup.top.value}|${markup.bottom.value}`;
     if (key === lastKey) return;
     lastKey = key;

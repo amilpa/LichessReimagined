@@ -108,4 +108,51 @@ describe('move times', () => {
     // The original kept 1.000 here: it only rewrote a bar whose label changed.
     expect(readMoves()[3]).toEqual({ time: '12.0s', share: '0.444' });
   });
+
+  it('redraws nothing while the moves and the times stay', async () => {
+    const [scenario] = legacy.scenarios;
+    if (!scenario) throw new Error('no scenario');
+    serveExports(new Map([[scenario.game.id, scenario.game]]));
+    const tracker = createMoveTimes();
+    history.replaceState(null, '', scenario.path);
+    document.body.innerHTML = scenario.html;
+    tracker.sync();
+    await flush();
+    await flush();
+    tracker.sync();
+    expect(readMoves()).toEqual(scenario.moves);
+    // Drawing the times starts from the longest think.
+    const scaled = vi.spyOn(Math, 'max');
+    tracker.sync();
+    expect(scaled).not.toHaveBeenCalled();
+    // snabbdom drew the last move anew: its time goes back on.
+    const moves = queryAll(document, 'kwdb:not(.empty)', HTMLElement);
+    const last = moves.at(-1);
+    last?.replaceWith(last.cloneNode(false));
+    tracker.sync();
+    expect(readMoves().at(-1)).toEqual(scenario.moves.at(-1));
+  });
+
+  it('loads each game on its own, even while another one loads', async () => {
+    const [first, second] = legacy.scenarios;
+    if (!first || !second) throw new Error('no scenarios');
+    const urls: string[] = [];
+    // The first game's export never comes back.
+    vi.stubGlobal('fetch', (url: string) => {
+      urls.push(url);
+      if (url.includes(first.game.id)) return new Promise(() => {});
+      return Promise.resolve(new Response(JSON.stringify(second.game)));
+    });
+    const tracker = createMoveTimes();
+    history.replaceState(null, '', first.path);
+    document.body.innerHTML = first.html;
+    tracker.sync();
+    history.replaceState(null, '', second.path);
+    document.body.innerHTML = second.html;
+    tracker.sync();
+    await flush();
+    tracker.sync();
+    expect(urls).toHaveLength(2);
+    expect(readMoves()).toEqual(second.moves);
+  });
 });

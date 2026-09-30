@@ -78,26 +78,62 @@ interface GameTimes {
   spent: number[] | null;
   clock: Clock | null;
   tries: number;
+  loading: boolean;
   /** When the last request ended. */
   at: number;
 }
 
-const newGameTimes = (id: string): GameTimes => ({ id, spent: null, clock: null, tries: 0, at: 0 });
+const newGameTimes = (id: string): GameTimes => ({
+  id,
+  spent: null,
+  clock: null,
+  tries: 0,
+  loading: false,
+  at: 0,
+});
+
+// What the times were last drawn on: while it holds, there's nothing to redo.
+interface Drawn {
+  readonly list: HTMLElement;
+  readonly count: number;
+  readonly lastMove: HTMLElement | null;
+  readonly spent: readonly number[] | null;
+}
+
+const sameDrawn = (drawn: Drawn, previous: Drawn | null): boolean =>
+  previous !== null &&
+  drawn.list === previous.list &&
+  drawn.count === previous.count &&
+  drawn.lastMove === previous.lastMove &&
+  drawn.spent === previous.spent &&
+  // snabbdom may have put back a move without our attributes.
+  drawn.lastMove?.dataset.cdcTime !== undefined;
+
+// Into the game it was asked for, which may no longer be the one shown.
+async function loadTimes(times: GameTimes): Promise<void> {
+  times.loading = true;
+  const data = await fetchExport(times.id);
+  if (data) {
+    times.clock = data.clock ?? null;
+    times.spent = spentTimes(data);
+  }
+  times.loading = false;
+  times.at = Date.now();
+}
+
+// A game without a clock has no times: nothing to wait for.
+const lacksTimes = (times: GameTimes, moveCount: number): boolean =>
+  !times.spent || (times.clock !== null && times.spent.length < moveCount);
+
+function retryWhenDue(times: GameTimes): void {
+  if (times.loading || times.tries >= MAX_TRIES || Date.now() - times.at <= RETRY_MS) return;
+  times.tries++;
+  void loadTimes(times);
+}
 
 export function createMoveTimes(): MoveTimes {
   let game = newGameTimes('');
-  let loading = false;
-
-  async function load(id: string): Promise<void> {
-    loading = true;
-    const data = await fetchExport(id);
-    if (data && game.id === id) {
-      game.clock = data.clock ?? null;
-      game.spent = spentTimes(data);
-    }
-    loading = false;
-    game.at = Date.now();
-  }
+  let drawn: Drawn | null = null;
 
   function sync(): void {
     const result = queryOne(document, 'main.round .result-wrap', HTMLElement);
@@ -106,15 +142,16 @@ export function createMoveTimes(): MoveTimes {
     if (!result || !list || id === null) return;
     if (game.id !== id) game = newGameTimes(id);
     const moves = moveElements(list, result);
-    // A game without a clock has no times: nothing to wait for.
-    const missing = !game.spent || (game.clock !== null && game.spent.length < moves.length);
-    if (missing && !loading && game.tries < MAX_TRIES && Date.now() - game.at > RETRY_MS) {
-      game.tries++;
-      void load(id);
-    }
+    const lastMove = moves.at(-1) ?? null;
+    const shape: Drawn = { list, count: moves.length, lastMove, spent: game.spent };
+    if (sameDrawn(shape, drawn)) return;
+    const missing = lacksTimes(game, moves.length);
+    if (missing) retryWhenDue(game);
     if (!game.spent || game.spent.length === 0) return;
     showTimes(moves, game.spent);
     setData(list, 'cdcTimes', '');
+    // Lagging times are drawn again as each retry comes back.
+    drawn = missing && game.tries < MAX_TRIES ? null : shape;
   }
 
   const finishedGame = (): FinishedGame | null =>
