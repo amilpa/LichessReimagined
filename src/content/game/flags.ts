@@ -19,14 +19,24 @@ const UsersSchema = z.array(
   }),
 );
 
-async function fetchUsers(names: readonly string[]): Promise<z.infer<typeof UsersSchema>> {
+type Users = z.infer<typeof UsersSchema>;
+
+// A failed request (offline, or a 429 when Lichess rate-limits) is tried again
+// later, waiting twice as long after each failure in a row.
+const FIRST_RETRY_MS = 10_000;
+const MAX_RETRY_MS = 300_000;
+
+/** The users, or null when the request failed and is worth trying again. */
+async function fetchUsers(names: readonly string[]): Promise<Users | null> {
   try {
     const response = await fetch('/api/users', { method: 'POST', body: names.join(',') });
+    if (!response.ok) return null;
     const body: unknown = await response.json();
     const result = UsersSchema.safeParse(body);
+    // An answer we can't read won't read better next time.
     return result.success ? result.data : [];
   } catch {
-    return [];
+    return null;
   }
 }
 
@@ -41,10 +51,19 @@ function userName(bar: HTMLElement): string | undefined {
 export function createFlagsSync(): () => void {
   // A name maps to null while its flag loads, then to its emoji or ''.
   const flags = new Map<string, string | null>();
+  let retryMs = FIRST_RETRY_MS;
+  let retryAt = 0;
 
   async function load(names: readonly string[]): Promise<void> {
     for (const name of names) flags.set(name, null);
     const users = await fetchUsers(names);
+    if (users === null) {
+      for (const name of names) flags.delete(name);
+      retryAt = Date.now() + retryMs;
+      retryMs = Math.min(retryMs * 2, MAX_RETRY_MS);
+      return;
+    }
+    retryMs = FIRST_RETRY_MS;
     for (const name of names) flags.set(name, '');
     for (const user of users) flags.set(user.id, flagEmoji(user.profile?.flag));
   }
@@ -55,7 +74,7 @@ export function createFlagsSync(): () => void {
     const missing = names.filter(
       (name): name is string => name !== undefined && name !== '' && !flags.has(name),
     );
-    if (missing.length > 0) void load(missing);
+    if (missing.length > 0 && Date.now() >= retryAt) void load(missing);
     for (const [i, bar] of bars.entries()) {
       const name = names[i];
       const flag = name === undefined ? undefined : flags.get(name);

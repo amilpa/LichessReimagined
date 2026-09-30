@@ -11,6 +11,7 @@ const readFlags = (): (string | null)[] =>
 
 afterEach(() => {
   document.body.innerHTML = '';
+  vi.useRealTimers();
 });
 
 describe('flagEmoji', () => {
@@ -50,13 +51,39 @@ describe('country flags', () => {
     expect(requests).toHaveLength(1);
   });
 
-  it('gives up on a name quietly when the API fails', async () => {
-    vi.stubGlobal('fetch', () => Promise.reject(new Error('offline')));
+  it('shows no flag while the API fails, and asks again later, less and less often', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    let api: 'offline' | 'rate-limited' | 'up' = 'offline';
+    let requests = 0;
+    vi.stubGlobal('fetch', async () => {
+      requests++;
+      if (api === 'offline') throw new Error('offline');
+      if (api === 'rate-limited') return new Response('Too many requests', { status: 429 });
+      return new Response(JSON.stringify(users));
+    });
     const sync = createFlagsSync();
     document.body.innerHTML = legacy.html;
-    sync();
-    await flush();
-    sync();
+    // Ticks until `ms` have passed, one a second.
+    async function tickFor(ms: number): Promise<void> {
+      for (let waited = 0; waited < ms; waited += 1000) {
+        sync();
+        await flush();
+        vi.advanceTimersByTime(1000);
+      }
+    }
+    await tickFor(1000);
     expect(readFlags().every(flag => flag === null)).toBe(true);
+    expect(requests).toBe(1);
+    api = 'rate-limited';
+    await tickFor(10_000);
+    expect(requests).toBe(2);
+    // Twice as long after a second failure.
+    await tickFor(19_000);
+    expect(requests).toBe(2);
+    api = 'up';
+    await tickFor(2000);
+    expect(requests).toBe(3);
+    sync();
+    expect(readFlags()).toEqual(legacy.after);
   });
 });
