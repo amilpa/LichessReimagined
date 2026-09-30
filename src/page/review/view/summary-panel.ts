@@ -13,6 +13,7 @@ import type { ReviewLanguage } from '#page/review/i18n/types.ts';
 import { PHASES, type Phase } from '#page/review/rating/phases.ts';
 import type { Review, Session } from '#page/review/session.ts';
 import { mountGraph } from './graph.ts';
+import { learnLabel } from './learn.ts';
 import { CHEVRON_ICON, header } from './markup.ts';
 
 // The summary: the graph, each side's accuracy and counts, and the game
@@ -38,6 +39,8 @@ export interface SummaryInput {
   readonly allRows: boolean;
   readonly players: Readonly<Record<Color, Player | undefined>>;
   readonly language: ReviewLanguage;
+  /** "Learn from your mistakes", when the exercise can start. */
+  readonly learn: string | null;
 }
 
 // A count goes to its moves once they're all judged at full depth: until
@@ -123,7 +126,7 @@ function topMarkup(input: SummaryInput): SafeHtml {
 }
 
 function summaryMarkup(input: SummaryInput): SafeHtml {
-  const { review, error, language } = input;
+  const { review, error, language, learn } = input;
   const loading = !review?.complete && !error;
   const canStart = review !== null && !error;
   return html`${header(language.ui.review, 'normal', language)}
@@ -131,7 +134,7 @@ function summaryMarkup(input: SummaryInput): SafeHtml {
       <div class="cdc-review__body">
         <table class="cdc-review__table${loading ? ' cdc-review__table--loading' : ''}">${COLUMNS}${countRows(input)}${moreToggle(input)}${ratingRows(input)}</table>
       </div>
-      <div class="cdc-review__foot"><button class="cdc-btn cdc-btn--green" data-cdc="moves" ${canStart ? '' : 'disabled'}>${language.ui.start}</button></div>`;
+      <div class="cdc-review__foot"><button class="cdc-btn cdc-btn--green" data-cdc="moves" ${canStart ? '' : 'disabled'}>${language.ui.start}</button>${learn === null ? '' : html`<button class="cdc-btn cdc-review__learn" data-cdc="learn">${learn}</button>`}</div>`;
 }
 
 export function renderSummary(session: Session, analysis: Analysis): void {
@@ -139,7 +142,14 @@ export function renderSummary(session: Session, analysis: Analysis): void {
   const { review, error } = view;
   setHtml(
     elements.panel,
-    summaryMarkup({ review, error, allRows: view.allRows, players: analysis.players(), language }),
+    summaryMarkup({
+      review,
+      error,
+      allRows: view.allRows,
+      players: analysis.players(),
+      language,
+      learn: learnLabel(analysis),
+    }),
   );
   const graph = queryOne(elements.panel, '.cdc-summary-graph', HTMLElement);
   if (!graph) return;

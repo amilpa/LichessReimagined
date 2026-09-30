@@ -234,6 +234,14 @@
     font-size: 20px;
   }
 
+  /* Lichess's "Learn from your mistakes", under Start Review. */
+  .cdc-review__foot .cdc-btn.cdc-review__learn {
+    height: 40px;
+    margin-top: 8px;
+    color: var(--cdc-text);
+    font-size: 15px;
+  }
+
   /* ---- Controls --- */
 
   #cdc-review-controls {

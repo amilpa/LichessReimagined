@@ -90,6 +90,18 @@ describe('analysis', () => {
     expect(ctrl.practice).toBeUndefined();
   });
 
+  it('turns "Learn from your mistakes" on and off, once each', () => {
+    const { ctrl, facade } = page({ serverAnalysis: true });
+    expect(facade.hasServerAnalysis).toBe(true);
+    facade.setRetro(true);
+    facade.setRetro(true);
+    expect(facade.retroOn).toBe(true);
+    expect(ctrl.retro).toBeDefined();
+    facade.setRetro(false);
+    expect(facade.retroOn).toBe(false);
+    expect(page().facade.hasServerAnalysis).toBe(false);
+  });
+
   it('plays a move where the page can', () => {
     const { ctrl, facade } = page();
     expect(facade.canPlayUci).toBe(true);

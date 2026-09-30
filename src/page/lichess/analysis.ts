@@ -22,8 +22,9 @@ import { isTreeNode, type TreeNode } from './tree.ts';
 export type { GameData, MasterOpening, Player } from './controller.ts';
 
 const isToggle = createGuard(method<[value?: boolean]>());
-const isRedraw = createGuard(method<[]>());
 const isPlayUci = createGuard(method<[uci: string]>());
+// A method called without arguments.
+const isAction = createGuard(method<[]>());
 
 function narrowNode(value: unknown): TreeNode {
   if (!isTreeNode(value)) throw new Error('Lichess’s analysis tree has an unexpected node');
@@ -129,7 +130,7 @@ export class Analysis {
 
   redraw(): void {
     const { redraw } = this.#controller;
-    if (isRedraw(redraw)) redraw.call(this.#controller);
+    if (isAction(redraw)) redraw.call(this.#controller);
   }
 
   orientation(): Color {
@@ -151,6 +152,18 @@ export class Analysis {
   stopPractice(): void {
     const { practice, togglePractice } = this.#controller;
     if (Boolean(practice) && isToggle(togglePractice)) togglePractice.call(this.#controller, false);
+  }
+
+  /** The game has Lichess's server analysis, which "Learn from your mistakes" needs. */
+  get hasServerAnalysis(): boolean {
+    const { hasFullComputerAnalysis: check } = this.#controller;
+    return isAction(check) && Boolean(check.call(this.#controller));
+  }
+
+  /** Turns "Learn from your mistakes" on or off, as Lichess's own button does. */
+  setRetro(on: boolean): void {
+    const { toggleRetro } = this.#controller;
+    if (this.retroOn !== on && isAction(toggleRetro)) toggleRetro.call(this.#controller);
   }
 
   /** The masters database answers only a signed-in user. */

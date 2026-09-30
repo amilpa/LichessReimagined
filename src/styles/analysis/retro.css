@@ -1,0 +1,151 @@
+/* ---- Learn from your mistakes --- */
+
+/* Lichess's exercise box (.retro-box), at the bottom of the tools while it runs: a dark title
+ * bar instead of its green strip, the practice drill's look for the rest (practice-run/). */
+
+main.analyse .retro-box {
+  border: none !important;
+  border-top: 1px solid var(--cdc-border) !important;
+  background: var(--cdc-bg-panel) !important;
+  color: var(--cdc-text);
+  font-family: var(--cdc-font) !important;
+}
+
+main.analyse .retro-box > .title {
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 6px 0 14px !important;
+  border-bottom: 1px solid var(--cdc-border);
+  background: var(--cdc-bg-panel-dark) !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 800;
+  text-transform: none !important;
+}
+
+/* The count, before the close button. */
+main.analyse .retro-box > .title > span + span {
+  margin-left: auto;
+  color: var(--cdc-text-dim);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+main.analyse .retro-box > .title > .fbt {
+  width: 32px;
+  height: 32px;
+  padding: 0 !important;
+  border-radius: 6px;
+  background: transparent !important;
+  color: var(--cdc-text-dim) !important;
+}
+
+main.analyse .retro-box > .title > .fbt:hover {
+  background: #ffffff12 !important;
+  color: #fff !important;
+}
+
+main.analyse .retro-box .feedback {
+  padding: 12px 14px !important;
+  background: transparent !important;
+}
+
+main.analyse .retro-box .player {
+  gap: 12px;
+  margin: 0 !important;
+}
+
+main.analyse .retro-box :is(.no-square, .icon) {
+  box-sizing: border-box;
+  flex: 0 0 48px;
+  width: 48px !important;
+  height: 48px !important;
+  margin: 0 !important;
+  padding: 4px;
+  border-radius: 12px;
+  background: #ffffff14;
+  font-size: 28px !important;
+  line-height: 40px !important;
+}
+
+main.analyse .retro-box .no-square > piece.black {
+  border-radius: 8px;
+  background-color: #ffffffd9;
+  box-shadow: 0 0 0 4px #ffffffd9;
+}
+
+main.analyse .retro-box .win .icon:not(.off) {
+  color: var(--cdc-green) !important;
+}
+
+main.analyse .retro-box .instruction > strong {
+  color: #fff;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  line-height: 1.25;
+}
+
+main.analyse .retro-box .instruction > em {
+  color: var(--cdc-text-dim);
+  font-size: 13.5px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Lichess's bare links become pills, as in a practice drill. */
+main.analyse .retro-box .choices {
+  justify-content: flex-start !important;
+  gap: 6px;
+  margin: 8px 0 0 !important;
+}
+
+main.analyse .retro-box .choices a {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #81b64c2e;
+  color: var(--cdc-green-hover) !important;
+  font-size: 12.5px;
+  font-weight: 800;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+main.analyse .retro-box .choices a:hover {
+  background: #81b64c47;
+  color: #fff !important;
+}
+
+/* "Next": Lichess's blue slab becomes our green button. */
+main.analyse .retro-box .continue {
+  margin: 0 14px 12px;
+  min-height: 44px;
+  border-radius: 6px;
+  background: var(--cdc-btn-green) !important;
+  box-shadow: var(--cdc-btn-green-shadow);
+  font-size: 16px !important;
+  font-weight: 800;
+  text-shadow: 0 1px 1px #00000033;
+  text-transform: none !important;
+  cursor: pointer;
+}
+
+main.analyse .retro-box .continue:hover {
+  background: var(--cdc-btn-green-hover) !important;
+}
+
+main.analyse .retro-box .continue icon::before {
+  font-size: 1.4em !important;
+  margin-inline-end: 8px !important;
+}
+
+main.analyse .retro-box .progress {
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+main.analyse .retro-box .progress div {
+  background: var(--cdc-green) !important;
+}

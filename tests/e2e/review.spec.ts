@@ -192,6 +192,13 @@ test.describe('the Game Review of a finished game', () => {
     await expect(reviewParts(page).start).toBeVisible();
   });
 
+  test('leaves "Learn from your mistakes" to Lichess’s sign-in, signed out', async ({ page }) => {
+    // The game has no server analysis, which only a signed-in user may request.
+    await reviewParts(page).panel.locator('[data-cdc="learn"]').click();
+    await expect(page.locator('dialog')).toBeVisible();
+    await htmlClass(page, 'cdc-review-summary');
+  });
+
   test('changes coach on a click on the coach, for the next reviews too', async ({ page }) => {
     const { avatar } = reviewParts(page);
     await startReview(page);
@@ -207,4 +214,23 @@ test.describe('the Game Review of a finished game', () => {
     await startReview(page);
     await expect(reviewParts(page).avatar).toHaveAttribute('data-cdc-coach-id', String(nextCoach));
   });
+});
+
+test('"Learn from your mistakes" closes the review for Lichess’s exercise', async ({ page }) => {
+  // A game with Lichess's server analysis, which the exercise needs.
+  await openLichess(page, '/kAdOQKeh/black');
+  await htmlClass(page, 'cdc-review-summary');
+  await reviewParts(page).panel.locator('[data-cdc="learn"]').click();
+  await htmlClass(page, 'cdc-review-normal');
+  await expect(page.locator('main.analyse .analyse__tools > .retro-box')).toBeVisible();
+});
+
+test('offers no "Learn from your mistakes" on a game too short for Lichess to analyse', async ({
+  page,
+}) => {
+  // Fool's mate, imported: Lichess analyses only games of more than 4 moves.
+  await openLichess(page, '/60X0LpG9');
+  await htmlClass(page, 'cdc-review-summary');
+  await expect(reviewParts(page).start).toBeEnabled();
+  await expect(reviewParts(page).panel.locator('[data-cdc="learn"]')).toHaveCount(0);
 });

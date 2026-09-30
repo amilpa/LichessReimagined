@@ -28,6 +28,8 @@ const ControllerSchema = z.object({
   practice: z.optional(z.unknown()),
   togglePractice: z.optional(z.unknown()),
   retro: z.optional(z.unknown()),
+  toggleRetro: z.optional(z.unknown()),
+  hasFullComputerAnalysis: z.optional(z.unknown()),
   explorer: z.optional(z.unknown()),
 });
 

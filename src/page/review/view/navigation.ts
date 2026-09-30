@@ -150,11 +150,13 @@ export function togglePlay(session: Session, analysis: Analysis): void {
 
 /**
  * Closes Lichess's tools for the move-by-move review, which hides their
- * buttons. Left open, their menu would take the review's move list, and
- * "practice with computer" would play moves on its own.
+ * buttons. Left open, their menu would take the review's move list,
+ * "practice with computer" would play moves on its own, and "learn from your
+ * mistakes" would hide the engine's moves.
  */
 export function closeTools(analysis: Analysis): void {
   analysis.closeActionMenu();
   analysis.stopPractice();
+  analysis.setRetro(false);
   analysis.redraw();
 }

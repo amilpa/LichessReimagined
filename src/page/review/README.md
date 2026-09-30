@@ -92,6 +92,14 @@ come in (`cdc-review-progress:*`), then under the finished game's key
 (`cdc-review:*`); an index (`cdc-review-index`) keeps the 200 games opened
 last and drops the others (`game/cache.ts`).
 
+The summary's "Learn from your mistakes" hands over to Lichess's own
+exercise (`view/learn.ts`): it asks for the server analysis the exercise needs
+through Lichess's hidden form, turns the exercise on and closes the review, as
+it runs in Lichess's tools. Starting the move-by-move review turns it off
+(`closeTools`). The button shows only when the exercise can start (the game
+has a server analysis, or Lichess offers to make one: not for a game of 4
+moves or fewer), with Lichess's own label.
+
 `render.ts` runs every 150 ms: it draws the panel again only when what it
 shows changes (`render-key.ts`), keeping the buttons and scroll positions a
 redraw leaves as they were, then the board's marks.

@@ -16,6 +16,7 @@ const CommandSchema = z.enum([
   'line',
   'coach',
   'jump',
+  'learn',
 ]);
 
 export const PanelActionSchema = z.union([ModeSchema, CommandSchema]);

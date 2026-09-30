@@ -32,6 +32,8 @@ export interface FakeOptions {
   /** The masters database's answer for a position; throw to fail. */
   readonly masters?: (fen: string) => unknown;
   readonly signedIn?: boolean;
+  /** The game has Lichess's server analysis. */
+  readonly serverAnalysis?: boolean;
 }
 
 export interface FakeController {
@@ -57,6 +59,8 @@ export interface FakeController {
   getOrientation: () => 'white' | 'black';
   actionMenu: (open?: boolean) => boolean;
   togglePractice: (on?: boolean) => void;
+  toggleRetro: () => void;
+  hasFullComputerAnalysis: () => boolean;
   explorer: { fetchMasterOpening: (fen: string) => Promise<unknown>; isAuth: () => boolean };
 }
 
@@ -188,6 +192,10 @@ export function fakeController(options: FakeOptions): FakeController {
     togglePractice: on => {
       ctrl.practice = on ? {} : undefined;
     },
+    toggleRetro: () => {
+      ctrl.retro = ctrl.retro ? undefined : {};
+    },
+    hasFullComputerAnalysis: () => options.serverAnalysis ?? false,
     explorer: {
       fetchMasterOpening: async fen => (options.masters ?? (() => ({})))(fen),
       isAuth: () => options.signedIn ?? true,
