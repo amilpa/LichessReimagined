@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { queryAll } from '#shared/dom.ts';
-import { rectAt } from '#shared/testing/layout.ts';
+import { fakeLayout, rectAt } from '#shared/testing/layout.ts';
 import { leavesPage, tabOffset } from './tab-bars.ts';
 import { createTabBars } from './tabs.ts';
 // Where the original put a chat bar's highlight, step by step.
@@ -40,12 +40,20 @@ function readBar(bar: HTMLElement, step: string): Record<string, string | null> 
 
 const elements = (selector: string): HTMLElement[] => queryAll(document, selector, HTMLElement);
 
+/** Lets the observers' callbacks run, then the frame they queue a placement for. */
+async function nextFrame(): Promise<void> {
+  await Promise.resolve();
+  await new Promise(resolve => requestAnimationFrame(resolve));
+}
+
 afterEach(() => {
   document.body.innerHTML = '';
 });
 
 describe('sliding tabs', () => {
-  it('places the highlight as the original did, step by step', () => {
+  it('places the highlight as the original did, step by step', async () => {
+    // The sizes come from layOut; this only lets a test call the ResizeObservers.
+    const layout = fakeLayout(() => 0);
     document.body.innerHTML =
       '<div class="mchat"><div class="mchat__tabs"><div class="mchat__tab">Chat</div><div class="mchat__tab mchat__tab-active">Notes</div><span class="other">x</span></div></div>';
     const [bar] = elements('.mchat__tabs');
@@ -67,12 +75,17 @@ describe('sliding tabs', () => {
     const pick = (tab: HTMLElement | null): void => {
       for (const other of [chat, notes]) other.classList.toggle('mchat__tab-active', other === tab);
     };
+    // Each change, then what the browser tells the bar about it.
     const changes: Record<string, () => void> = {
       'first placement': () => {},
       'another tab picked': () => pick(chat),
-      'the same tab resized': () => boxes.set(chat, { top: 55, left: 105, width: 90, height: 30 }),
+      'the same tab resized': () => {
+        boxes.set(chat, { top: 55, left: 105, width: 90, height: 30 });
+        layout.resize();
+      },
       'the bar scrolled': () => {
         frame = { clientLeft: 2, clientTop: 0, scrollLeft: 40, scrollTop: 3 };
+        bar.dispatchEvent(new Event('scroll'));
       },
       'nothing moved': () => {},
       'the picked tab is hidden': () => {
@@ -82,15 +95,17 @@ describe('sliding tabs', () => {
       'no active tab': () => pick(null),
     };
     const bars = createTabBars();
-    const steps = legacy.steps.map(({ step }) => {
+    const steps = [];
+    for (const { step } of legacy.steps) {
       changes[step]?.();
       bars.sync();
-      return readBar(bar, step);
-    });
+      await nextFrame();
+      steps.push(readBar(bar, step));
+    }
     expect(steps).toEqual(legacy.steps);
   });
 
-  it('keeps a followed link picked until the next page, unless it comes back from the cache', () => {
+  it('keeps a followed link picked until the next page, unless it comes back from the cache', async () => {
     document.body.innerHTML =
       '<div class="auth"><div class="auth-tabs"><a class="active" href="#in">Sign in</a><a href="#up">Sign up</a></div></div>';
     const [bar] = elements('.auth-tabs');
@@ -105,13 +120,13 @@ describe('sliding tabs', () => {
     const click = new MouseEvent('click', { bubbles: true, cancelable: true });
     Object.defineProperty(click, 'target', { value: signUp });
     bars.onClick(click);
-    bars.sync();
+    await nextFrame();
     expect(bar.style.getPropertyValue('--cdc-tab-x')).toBe('100px');
     expect(bar.dataset.cdcTabsStill).toBeUndefined();
     const back = new PageTransitionEvent('pageshow');
     Object.defineProperty(back, 'persisted', { value: true });
     bars.onPageShow(back);
-    bars.sync();
+    await nextFrame();
     expect(bar.style.getPropertyValue('--cdc-tab-x')).toBe('0px');
   });
 

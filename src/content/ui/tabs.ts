@@ -17,14 +17,17 @@ export function createTabBars(): TabBars {
   const bars = new Map<Element, TabBar>();
 
   function sync(): void {
+    // A bar places itself as it changes (see TabBar): the tick only finds the
+    // new ones and lets go of those Lichess removed, without reading the layout.
+    for (const bar of bars.values()) bar.dropIfDetached();
     for (const kind of TAB_BARS) {
       for (const element of queryAll(document, kind.bar, HTMLElement)) {
         if (bars.has(element)) continue;
-        bars.set(element, new TabBar(element, kind, () => bars.delete(element)));
+        const bar = new TabBar(element, kind, () => bars.delete(element));
+        bars.set(element, bar);
+        bar.place();
       }
     }
-    // Catches what moves a tab without resizing it or the bar.
-    for (const bar of bars.values()) bar.place();
   }
 
   function clickedTab(target: EventTarget | null): { tab: Element; bar: TabBar } | null {

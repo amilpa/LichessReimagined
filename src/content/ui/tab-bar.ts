@@ -4,7 +4,8 @@ import { sameOffset, tabOffset, type TabBarKind, type TabOffset } from './tab-ba
 
 // One tab bar. Its active tab's highlight is the bar's ::before, placed in
 // `--cdc-tab-{x,y,w,h}`; the bar is only marked once it's placed, so until
-// then (and with no active tab) the tab keeps its own highlight.
+// then (and with no active tab) the tab keeps its own highlight. It's placed
+// again when the bar or a child resizes, scrolls, or changes a tab.
 
 export class TabBar {
   readonly element: HTMLElement;
@@ -26,6 +27,7 @@ export class TabBar {
     this.queue = oncePerFrame(() => this.place());
     this.#sizes = new ResizeObserver(this.queue);
     this.#sizes.observe(element);
+    element.addEventListener('scroll', this.queue, { passive: true });
     this.#changes = new MutationObserver(this.queue);
     this.#changes.observe(element, {
       subtree: true,
@@ -35,15 +37,22 @@ export class TabBar {
     });
   }
 
+  /** Stops following a bar Lichess removed; true if it did. */
+  dropIfDetached(): boolean {
+    if (this.element.isConnected) return false;
+    this.#sizes.disconnect();
+    this.#changes.disconnect();
+    this.element.removeEventListener('scroll', this.queue);
+    this.#onDetach();
+    return true;
+  }
+
   place(): void {
-    if (!this.element.isConnected) {
-      this.#sizes.disconnect();
-      this.#changes.disconnect();
-      this.#onDetach();
-      return;
-    }
-    const tabs = [...this.element.children].filter(child => child.matches(this.kind.tab));
-    for (const tab of tabs) this.#sizes.observe(tab);
+    if (this.dropIfDetached()) return;
+    const children = [...this.element.children];
+    // Any child: one that isn't a tab can still push the tabs along.
+    for (const child of children) this.#sizes.observe(child);
+    const tabs = children.filter(child => child.matches(this.kind.tab));
     const item = this.leaving?.isConnected
       ? this.leaving
       : tabs.find(tab => tab.matches(this.kind.active));
