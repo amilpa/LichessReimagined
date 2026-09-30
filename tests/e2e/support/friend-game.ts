@@ -2,6 +2,7 @@ import { expect, type BrowserContext, type Page } from '@playwright/test';
 import { clickMove, orientationOf } from './board.ts';
 import { watchExtensionErrors, type ExtensionError } from './errors.ts';
 import { launchWithExtension } from './extension.ts';
+import { noteFleeting } from './fleeting.ts';
 import { openLichess } from './lichess.ts';
 
 // A real-time game between two visitors of lichess.org, each in their own
@@ -16,12 +17,16 @@ export interface FriendGame {
   readonly guestErrors: ExtensionError[];
 }
 
+/** Starts a game between `host` and a second browser; both note the fleeting moments. */
 export async function startFriendGame(host: Page): Promise<FriendGame> {
+  await noteFleeting(host);
   await openLichess(host, '/?any#friend');
   // Real time rather than unlimited: the game gets a clock, and the follow-up its new game.
   await host.locator('.game-setup button[role=tab]').nth(1).click();
   await host.locator('.game-setup .lobby__start__button--friend').click();
-  await host.waitForURL(/lichess\.org\/[A-Za-z0-9]{8}$/);
+  // Lichess holds the button when one network asks for too many challenges: fail
+  // soon rather than at the test's end.
+  await host.waitForURL(/lichess\.org\/[A-Za-z0-9]{8}$/, { timeout: 30_000 });
   const guest = await launchWithExtension({
     baseURL: 'https://lichess.org',
     viewport: host.viewportSize(),
@@ -30,6 +35,7 @@ export async function startFriendGame(host: Page): Promise<FriendGame> {
   });
   const guestErrors: ExtensionError[] = [];
   const joiner = guest.pages()[0] ?? (await guest.newPage());
+  await noteFleeting(joiner);
   watchExtensionErrors(joiner, guestErrors);
   await openLichess(joiner, host.url());
   await joiner.locator('form.accept button[type=submit]').click();
