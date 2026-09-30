@@ -121,6 +121,8 @@ const files = (): Record<string, string> => ({
 
 async function startWorker(options: FakeOptions): Promise<Fake> {
   const fake = fakeChrome(options);
+  // The original told a store install by its update_url; a release build now.
+  vi.stubGlobal('CDC_DEV_BUILD', !('update_url' in options.manifest));
   vi.resetModules();
   await import('./index.ts');
   return fake;
@@ -139,6 +141,14 @@ describe('the background worker', () => {
     const answer = await ask(fake, { type: 'cdc:dev-check' });
     const expected = legacy.scenarios.find(scenario => scenario.name === name);
     expect({ name, listeners: count(fake), answer, log: fake.log }).toEqual(expected);
+  });
+
+  it('release build: only drops the old cache, even loaded unpacked', async () => {
+    const fake = fakeChrome({ manifest: CHROME_MANIFEST, files: files() });
+    vi.resetModules();
+    await import('./index.ts');
+    expect(count(fake)).toEqual({ installed: 1, startup: 0, message: 0 });
+    expect(await ask(fake, { type: 'cdc:dev-check' })).toEqual({ responses: [] });
   });
 
   it('unpacked: reloads once the files change, as the original', async () => {

@@ -9,6 +9,7 @@ interface OddScenario {
   readonly name: string;
   readonly manifest: object;
   readonly answer: unknown;
+  readonly release?: boolean;
 }
 
 function setVisibility(state: string): void {
@@ -44,6 +45,9 @@ async function play(scenario: Scenario | OddScenario): Promise<Entry[]> {
     },
   };
   vi.stubGlobal('chrome', { runtime });
+  // The original told a store install by its update_url; a release build now.
+  const release = 'update_url' in scenario.manifest || ('release' in scenario && scenario.release);
+  vi.stubGlobal('CDC_DEV_BUILD', !release);
   vi.stubGlobal('location', { reload: () => log.push({ at: Date.now(), event: 'reload' }) });
   setVisibility('hidden' in scenario ? 'hidden' : 'visible');
 
@@ -71,5 +75,33 @@ describe('devReload', () => {
     const log = await play({ name: 'odd answer', manifest: {}, answer: { reload: 'yes' } });
     expect(log.filter(entry => entry.event === 'reload')).toEqual([]);
     expect(log.filter(entry => entry.event === 'send')).toHaveLength(3);
+  });
+
+  it('checks once when focus and visibilitychange come together', async () => {
+    let sends = 0;
+    // The worker takes a while to hash the files.
+    const sendMessage = async (): Promise<unknown> => {
+      sends += 1;
+      await new Promise(resolve => setTimeout(resolve, 50));
+      return { reload: false };
+    };
+    vi.stubGlobal('chrome', { runtime: { id: 'abc', getManifest: () => ({}), sendMessage } });
+    vi.stubGlobal('CDC_DEV_BUILD', true);
+    devReload.start();
+    await vi.advanceTimersByTimeAsync(100);
+    window.dispatchEvent(new Event('focus'));
+    document.dispatchEvent(new Event('visibilitychange'));
+    await vi.advanceTimersByTimeAsync(100);
+    expect(sends).toBe(2);
+  });
+
+  it('never checks in a release build', async () => {
+    const log = await play({
+      name: 'release',
+      manifest: {},
+      answer: { reload: true },
+      release: true,
+    });
+    expect(log).toEqual([]);
   });
 });

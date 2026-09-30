@@ -101,7 +101,8 @@ pnpm dev    # builds dist/chrome, then again on every change
 ```
 
 Load `dist/chrome` with **Load unpacked** in `chrome://extensions`. It reloads
-itself when you go back to a Lichess tab after a rebuild.
+itself when you go back to a Lichess tab after a rebuild (a `--release` build
+doesn't).
 
 `pnpm check` runs the type checks, the linter, the formatting check and the
 unit tests, and `pnpm test:e2e` the end-to-end tests on lichess.org (after

@@ -1,10 +1,11 @@
 import { DevCheckResponseSchema, type DevCheckRequest } from '#shared/dev-check.ts';
+import { isDevBuild } from '#shared/build-mode.ts';
 import type { Feature } from '#shared/features.ts';
-import { isConnected, isUnpacked } from '#content/platform/runtime.ts';
+import { isConnected } from '#content/platform/runtime.ts';
 
-// Unpacked installs only: when the tab gets focus, ask the background worker
-// whether the files on disk changed (a new build). If so it reloads the
-// extension, and the tab reloads once the new version is in.
+// Dev builds only (#shared/build-mode.ts): when the tab gets focus, ask the
+// background worker whether the files on disk changed (a new build). If so it
+// reloads the extension, and the tab reloads once the new version is in.
 
 const ORPHAN_POLL_MS = 100;
 // Leaves the new version time to load before the tab reloads.
@@ -39,12 +40,22 @@ async function checkForUpdate(): Promise<void> {
   if (await isStale()) reloadWhenOrphaned();
 }
 
-const onFocus = (): void => void checkForUpdate();
+// Coming back to a tab fires both focus and visibilitychange: one check is
+// enough, and each makes the worker hash every bundle.
+let checking = false;
+
+function onFocus(): void {
+  if (checking) return;
+  checking = true;
+  void checkForUpdate().finally(() => {
+    checking = false;
+  });
+}
 
 export const devReload: Feature = {
   name: 'dev reload',
   start: () => {
-    if (!isUnpacked()) return;
+    if (!isDevBuild()) return;
     document.addEventListener('visibilitychange', onFocus);
     window.addEventListener('focus', onFocus);
     onFocus();

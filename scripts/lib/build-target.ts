@@ -48,6 +48,8 @@ async function bundleScripts({ out, release }: BuildOptions): Promise<string[]> 
         platform: 'browser',
         logLevel: 'warn',
         resolve: { alias: ALIASES },
+        // Read by #shared/build-mode.ts: only a dev build reloads itself.
+        transform: { define: { CDC_DEV_BUILD: String(!release) } },
         output: {
           file: path.join(out, output),
           format: 'iife',

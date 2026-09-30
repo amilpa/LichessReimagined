@@ -68,9 +68,9 @@ export function createManifest(target: Target, version: string): Manifest {
     description: '__MSG_extDescription__',
     default_locale: 'en',
     icons: { '16': 'icons/icon16.png', '48': 'icons/icon48.png', '128': 'icons/icon128.png' },
-    // Only an unpacked install uses storage (its auto-reload, see the background
-    // worker), and the Chrome Web Store turns down a permission its installs
-    // don't need.
+    // Storage serves a dev build's auto-reload and drops an old version's sound
+    // cache (see the background worker). The Chrome Web Store's installs never
+    // had that cache, and it turns down a permission they don't need.
     ...(target === 'chrome-store' ? {} : { permissions: ['storage'] }),
     // Firefox runs no extension service worker, only background scripts.
     background:
