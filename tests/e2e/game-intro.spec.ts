@@ -15,6 +15,9 @@ test('a new game opens on the players’ intro', async ({ page }) => {
   expect(await computedStyle(board, 'background-image', '::after')).toMatch(
     /^url\("chrome-extension:\/\/.*\/img\/boards\/\w+\.webp"\)$/,
   );
+  // Clipped by the board itself, which stays in step with the drop.
+  expect(await computedStyle(board, 'overflow')).toBe('hidden');
   await expect(intro).not.toBeAttached();
   expect(await computedStyle(board, 'content', '::after')).toBe('none');
+  expect(await computedStyle(board, 'overflow')).toBe('visible');
 });
