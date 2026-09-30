@@ -1,12 +1,19 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { queryOne } from '#shared/dom.ts';
 import { setReadyState } from '#shared/testing/ready-state.ts';
+import { flush } from '#shared/testing/timers.ts';
 import { marks, syncMarks } from './marks.ts';
 // What the original script marked on the same pages.
 import legacy from './fixtures/legacy.json' with { type: 'json' };
 
 const navOf = (): string | undefined =>
   queryOne(document, '.subnav', HTMLElement)?.dataset['cdcNav'];
+
+/** Lets the observer's callback run, then the frame it asks for. */
+async function nextFrame(): Promise<void> {
+  await Promise.resolve();
+  await new Promise(resolve => requestAnimationFrame(resolve));
+}
 
 afterEach(() => {
   setReadyState('complete');
@@ -35,12 +42,33 @@ describe('marks', () => {
     setReadyState('loading');
     marks.start();
     document.body.innerHTML = '<nav class="subnav"><a href="/player/bots">Bots</a></nav>';
-    await Promise.resolve();
+    await nextFrame();
     expect(navOf()).toBe('bots');
     document.dispatchEvent(new Event('DOMContentLoaded'));
     document.body.innerHTML = '<nav class="subnav"><a href="/thanks">Thanks</a></nav>';
-    await Promise.resolve();
+    await nextFrame();
     expect(navOf()).toBeUndefined();
+  });
+
+  it('marks once a frame while the page parses, however many chunks come in', async () => {
+    const frames: FrameRequestCallback[] = [];
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) =>
+      frames.push(callback),
+    );
+    const lookups = vi.spyOn(document, 'querySelectorAll');
+    syncMarks();
+    const perSync = lookups.mock.calls.length;
+    expect(perSync).toBeGreaterThan(0);
+    lookups.mockClear();
+    setReadyState('loading');
+    marks.start();
+    for (const name of ['a', 'b', 'c']) {
+      document.body.append(document.createElement(name));
+      await flush();
+    }
+    for (const frame of frames.splice(0)) frame(0);
+    expect(lookups).toHaveBeenCalledTimes(perSync);
+    document.dispatchEvent(new Event('DOMContentLoaded'));
   });
 
   it('marks a parsed page at once', () => {
