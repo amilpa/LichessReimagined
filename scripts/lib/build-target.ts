@@ -3,6 +3,7 @@ import path from 'node:path';
 import { build } from 'rolldown';
 import { createManifest, ManifestSchema, OUTPUT, type Target } from '#manifest';
 import { bundleCss } from './css-bundle.ts';
+import { stripCss } from './css-strip.ts';
 import { assertNoChromeUrls, toFirefoxCss } from './firefox.ts';
 import { assertLicensed, LICENSES } from './licenses.ts';
 import { fromRoot } from './paths.ts';
@@ -27,7 +28,7 @@ export interface BuildOptions {
   readonly target: Target;
   readonly out: string;
   readonly version: string;
-  /** Minified, without source maps: what the stores get. */
+  /** Minified, without source maps or CSS comments: what the stores get. */
   readonly release: boolean;
 }
 
@@ -64,8 +65,9 @@ async function bundleScripts({ out, release }: BuildOptions): Promise<string[]> 
   );
 }
 
-async function bundleStyles({ target, out }: BuildOptions): Promise<void> {
-  const css = await bundleCss(fromRoot('src/styles/index.css'));
+async function bundleStyles({ target, out, release }: BuildOptions): Promise<void> {
+  const bundled = await bundleCss(fromRoot('src/styles/index.css'));
+  const css = release ? stripCss(bundled) : bundled;
   await writeFile(path.join(out, OUTPUT.styles), target === 'firefox' ? toFirefoxCss(css) : css);
 }
 
