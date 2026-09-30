@@ -12,17 +12,17 @@ here is pure but the engine wrapper (`engine/stockfish.ts`), and none of it
 reads the page: the UI passes in the game id, the coach, the language, the
 opening's name and the page's asset URL.
 
-| Folder        | What it holds                                                                                                                                                               |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `chess/`      | `uciToSan`, `normalizeUci` (Lichess's king-takes-rook castling in the engine's terms), `lineMoves` (an engine line, move by move), piece values, `isHanging`, `isSacrifice` |
-| `evaluation/` | `PositionRecord` (a position's evaluation from White's view), `StoredRecordCodec` (the cache's format), win probability, move accuracy, `formatEval`, `barLabel`            |
-| `engine/`     | `Stockfish` (Lichess's own build, one search at a time), UCI output parsing, `toRecord`, the cloud's answers (`CloudEvalSchema`, `fromCloud`), search limits                |
-| `classes/`    | The move classes (`MoveClass`), their colors, sets (`GOOD`, `GRAPH_DOTS`…), ranks, coach moods and icons (`classSvg`, `classImage`, `classIcon`)                            |
-| `judge/`      | `judge` (one move, from its two positions' records), `mateVerdict`, `SURE_MATE`, the summary's `playerAccuracy` and `classCounts`                                           |
-| `rating/`     | The Game Rating: `model.json` (written by `tools/game-rating/fit.py`), Lichess's `divide`, `isTactical`, the odds, `rateGame`                                               |
-| `coach/`      | The coach's words: `remark`, `trajectory`, `fact`, `explanation`, seeded by `CoachContext`                                                                                  |
-| `comment/`    | The comment's `[[…]]` tokens, `commentMarkup` (the typing's words at a given moment), `streamFor`, `verdictTitle`                                                           |
-| `i18n/`       | `ReviewLanguage`: every string, sentence and grammar rule, in `en` and `fr`; `pageLanguage()` picks one                                                                     |
+| Folder        | What it holds                                                                                                                                                                      |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `chess/`      | `uciToSan`, `normalizeUci` (Lichess's king-takes-rook castling in the engine's terms), `lineMoves` (an engine line, move by move), piece values, `isHanging`, `isSacrifice`        |
+| `evaluation/` | `PositionRecord` (a position's evaluation from White's view), `StoredRecordCodec` (the cache's format), win probability, move accuracy, `formatEval`, `barLabel`                   |
+| `engine/`     | `Stockfish` (Lichess's own build, one search at a time), UCI output parsing, `toRecord`, the cloud's answers (`CloudEvalSchema`, `fromCloud`), search limits (the game over's too) |
+| `classes/`    | The move classes (`MoveClass`), their colors, sets (`GOOD`, `GRAPH_DOTS`…), ranks, coach moods and icons (`classSvg`, `classImage`, `classIcon`)                                   |
+| `judge/`      | `judge` (one move, from its two positions' records), `mateVerdict`, `SURE_MATE`, the summary's `playerAccuracy` and `classCounts`                                                  |
+| `rating/`     | The Game Rating: `model.json` (written by `tools/game-rating/fit.py`), Lichess's `divide`, `isTactical`, the odds, `rateGame`                                                      |
+| `coach/`      | The coach's words: `remark`, `trajectory`, `fact`, `explanation`, seeded by `CoachContext`                                                                                         |
+| `comment/`    | The comment's `[[…]]` tokens, `commentMarkup` (the typing's words at a given moment), `streamFor`, `verdictTitle`                                                                  |
+| `i18n/`       | `ReviewLanguage`: every string, sentence and grammar rule, in `en` and `fr`; `pageLanguage()` picks one                                                                            |
 
 ## The main types
 
@@ -45,6 +45,10 @@ opening)` → `CommentPart[]`: sentences, the droppable one going when the
 - `StreamState` (`key`, `shown`, `dropped`): the typing's progress, kept by
   the UI. `streamFor(state, parts)` starts it over for a new comment;
   `commentMarkup(parts, { stream, assets, language })` draws the words.
+
+`variants.ts` names the variants the review judges. The game page's
+game over (`src/page/game-over`) reuses the engine and `buildReview` for a
+quick, uncached look at the player's moves.
 
 ## The UI
 

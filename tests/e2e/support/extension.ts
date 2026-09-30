@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
+import { chromium, type BrowserContext, type BrowserContextOptions } from '@playwright/test';
 
 // Where the build under test is, and how Chromium must be launched to load it.
 
@@ -31,3 +32,35 @@ export const LAUNCH_ARGS: readonly string[] = [
 
 /** What the extension's own files are served from. */
 export const EXTENSION_ORIGIN = 'chrome-extension://';
+
+type Option<K extends keyof BrowserContextOptions> = NonNullable<BrowserContextOptions[K]>;
+
+export interface LaunchOptions {
+  readonly baseURL?: string | undefined;
+  readonly viewport: Option<'viewport'> | null;
+  readonly locale?: string | undefined;
+  readonly colorScheme: Option<'colorScheme'> | null;
+  readonly reducedMotion: Option<'reducedMotion'> | null;
+}
+
+/** A fresh Chromium profile with the built extension loaded, as a user would have it. */
+export async function launchWithExtension(options: LaunchOptions): Promise<BrowserContext> {
+  assertBuilt();
+  const { baseURL, viewport, locale, colorScheme, reducedMotion } = options;
+  // `channel: 'chromium'` is what loads extensions: Playwright's default
+  // headless shell drops them without a word.
+  return chromium.launchPersistentContext('', {
+    channel: 'chromium',
+    headless: true,
+    args: [...LAUNCH_ARGS],
+    // Headless, Playwright hides the scrollbars: a layout that only fits
+    // without them would pass here and overflow in a real Chrome.
+    ignoreDefaultArgs: ['--hide-scrollbars'],
+    userAgent: DESKTOP_CHROME,
+    ...(baseURL === undefined ? {} : { baseURL }),
+    viewport,
+    colorScheme,
+    reducedMotion,
+    ...(locale === undefined ? {} : { locale }),
+  });
+}

@@ -1,15 +1,14 @@
-import type { TreeNode } from '#page/lichess/tree.ts';
 import type { PositionRecord } from '#page/review/evaluation/score.ts';
 import { judge } from '#page/review/judge/judge.ts';
 import { classCounts, playerAccuracy } from '#page/review/judge/summary.ts';
-import { isPlayed } from '#page/review/judge/types.ts';
+import { type GamePosition, isPlayed } from '#page/review/judge/types.ts';
 import type { GameRating } from '#page/review/rating/rate-game.ts';
 import type { Review, JudgedMove } from '#page/review/session.ts';
 
 // The game's review, rebuilt from what's known of its positions.
 
 export interface BuildInput {
-  readonly nodes: readonly TreeNode[];
+  readonly nodes: readonly GamePosition[];
   readonly deep: readonly (PositionRecord | undefined)[];
   readonly rough: readonly (PositionRecord | undefined)[];
   /** The moves judged so far at full depth, filled in as their positions arrive. */

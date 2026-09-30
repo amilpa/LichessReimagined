@@ -140,7 +140,7 @@ A change is done when all of these hold:
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/manifest.ts` | the manifest of each target, and `BASE_VERSION`                                                                                                                                                                                                                                                                                                   |
 | `src/content/`    | the isolated-world script: `boards` (board and piece picker), `bootstrap`, `layout` (`MARKS`, `HAS`, inset, zoom, controls height), `game`, `analysis`, `pages`, `ui` (tooltips, hover card, tab bars), `sounds`, `charts`, `coach` (the coach's face), `dev` (auto-reload), `platform` (the extension APIs it uses), `sidebar` (the Donate item) |
-| `src/page/`       | the page-world script: `motion`, `sounds`, `board` (shapes, checkmate), `review`, `charts`, and `lichess/`, typed facades over Lichess's globals                                                                                                                                                                                                  |
+| `src/page/`       | the page-world script: `motion`, `sounds`, `board` (shapes, checkmate), `review`, `charts`, `game-over` (kings' badges, confetti, the coach's card), and `lichess/`, typed facades over Lichess's globals                                                                                                                                         |
 | `src/shared/`     | helpers for both worlds (DOM, markup, messages, storage, chess, charts), `testing/` for tests                                                                                                                                                                                                                                                     |
 | `src/background/` | the service worker: auto-reload, old cache cleanup                                                                                                                                                                                                                                                                                                |
 | `src/styles/`     | one stylesheet per page or part, a folder of partials past 400 lines, joined in `index.css`'s order                                                                                                                                                                                                                                               |
@@ -184,9 +184,10 @@ match it. Lichess keeps its features: free analysis, open data, no ads.
 - **The layout:** board on the left, one right-hand panel (moves, controls,
   chat), and a page that never scrolls: everything fits the viewport, like a
   native app. Add nothing below the board.
-- **The feel:** its move sounds, and a Game Review ("Bilan") with an eval
-  graph, accuracy, move classes, a coach bubble, board badges and an eval
-  bar.
+- **The feel:** its move sounds, the players' intro at the start, the
+  kings' badges, the winner's confetti and the coach's card at the end, and a
+  Game Review ("Bilan") with an eval graph, accuracy, move classes, a coach
+  bubble, board badges and an eval bar.
 - **CSS first**, JS only for what CSS can't do (sounds, measuring, captured
   pieces, the review).
 - **Every asset is bundled**: no host permission, nothing loaded from
@@ -276,7 +277,12 @@ Learned the hard way. Check here before touching the area concerned.
   "New opponent" exists only for lobby and pool games; otherwise
   `content/game/new-game.ts` prepends its own `/?hook_like=<id>` button. The
   round data has no clock history: move times come from
-  `/game/export/<id>?clocks=true`. In a scrolling grid, a track like
+  `/game/export/<id>?clocks=true`, and every position of a game just over
+  from its finished page (`/<id>`, `cfg.data.treeParts`), with its status and
+  winner, which `page/game-over` reads rather than the page's words. Game
+  pages are cross-origin isolated like analysis pages, so Lichess's Stockfish
+  runs there too. Lichess marks the kings with its own badges
+  (`.cg-custom-svgs`), which ours replace. In a scrolling grid, a track like
   `minmax(30px, auto)` never grows past its minimum: put the minimum on the
   items.
 - **Two worlds.** `src/content` can't see page objects (`site`,

@@ -1,6 +1,6 @@
-import { chromium, expect, test as base, type BrowserContext, type Page } from '@playwright/test';
+import { expect, test as base, type BrowserContext, type Page } from '@playwright/test';
 import { watchExtensionErrors, type ExtensionError } from './support/errors.ts';
-import { assertBuilt, DESKTOP_CHROME, LAUNCH_ARGS } from './support/extension.ts';
+import { launchWithExtension } from './support/extension.ts';
 
 // Every test runs in a fresh Chromium profile with the built extension loaded,
 // as a user would have it, and fails if the extension's scripts throw or log
@@ -20,22 +20,12 @@ export const test = base.extend<ExtensionFixtures>({
   viewport: { width: 1366, height: 768 },
   colorScheme: 'dark',
   context: async ({ baseURL, viewport, locale, colorScheme, reducedMotion }, use) => {
-    assertBuilt();
-    // `channel: 'chromium'` is what loads extensions: Playwright's default
-    // headless shell drops them without a word.
-    const context = await chromium.launchPersistentContext('', {
-      channel: 'chromium',
-      headless: true,
-      args: [...LAUNCH_ARGS],
-      // Headless, Playwright hides the scrollbars: a layout that only fits
-      // without them would pass here and overflow in a real Chrome.
-      ignoreDefaultArgs: ['--hide-scrollbars'],
-      userAgent: DESKTOP_CHROME,
-      ...(baseURL === undefined ? {} : { baseURL }),
+    const context = await launchWithExtension({
+      baseURL,
       viewport,
+      locale,
       colorScheme,
       reducedMotion,
-      ...(locale === undefined ? {} : { locale }),
     });
     const errors: ExtensionError[] = [];
     errorsByContext.set(context, errors);

@@ -8,6 +8,7 @@ import { createElements } from './view/elements.ts';
 import { render, setMode } from './view/render.ts';
 import { refitStream } from './view/stream.ts';
 import { watchTips } from './view/tooltip.ts';
+import { REVIEWED_VARIANTS } from './variants.ts';
 
 // Starts the review once Lichess's analysis controller is up: on a game's
 // analysis, the review of its moves; on the free analysis board, the coach.
@@ -15,7 +16,6 @@ import { watchTips } from './view/tooltip.ts';
 const RENDER_MS = 150;
 // A resize under this (a scrollbar coming and going) keeps the comment as it is.
 const RESIZE_SLACK = 4;
-const REVIEWED_VARIANTS: ReadonlySet<string> = new Set(['standard', 'fromPosition', 'chess960']);
 
 export function createReview(): Session {
   const session: Session = createSession({

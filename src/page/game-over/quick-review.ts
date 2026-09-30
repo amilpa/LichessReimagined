@@ -1,0 +1,64 @@
+import type { Color } from '#shared/chess/types.ts';
+import type { MoveClass } from '#page/review/classes/classes.ts';
+import { toRecord } from '#page/review/engine/record.ts';
+import { GAME_OVER_SEARCH } from '#page/review/engine/settings.ts';
+import { Stockfish } from '#page/review/engine/stockfish.ts';
+import type { EngineResult } from '#page/review/engine/uci.ts';
+import type { PositionRecord } from '#page/review/evaluation/score.ts';
+import { buildReview } from '#page/review/game/build.ts';
+import type { GamePosition } from '#page/review/judge/types.ts';
+import type { GameRating } from '#page/review/rating/rate-game.ts';
+
+// The coach's quick look at a game that just ended: every position at a low
+// depth, judged as the review judges them, for the player's accuracy and
+// counts. Game Review searches deeper, so its figures may differ a little;
+// nothing here goes in its cache.
+
+export type Analyse = (fen: string) => Promise<EngineResult>;
+
+export interface QuickReviewInput {
+  readonly positions: readonly GamePosition[];
+  readonly color: Color;
+  /** The last book move's ply, 0 for none. */
+  readonly bookPly: number;
+  readonly chess960: boolean;
+  readonly analyse: Analyse;
+  /** The share of the positions searched so far, 0 to 1. */
+  readonly onProgress?: (share: number) => void;
+}
+
+export interface PlayerSummary {
+  /** Null when the player made no move. */
+  readonly accuracy: number | null;
+  readonly counts: Readonly<Partial<Record<MoveClass, number>>>;
+}
+
+// The review rates a game from full-depth verdicts only.
+const NO_RATING: GameRating = { white: null, black: null };
+
+export async function quickReview(input: QuickReviewInput): Promise<PlayerSummary> {
+  const { positions, color, bookPly, chess960, analyse, onProgress } = input;
+  const records: PositionRecord[] = [];
+  for (const [i, position] of positions.entries()) {
+    records.push(toRecord(position.fen, await analyse(position.fen)));
+    onProgress?.((i + 1) / positions.length);
+  }
+  const review = buildReview({
+    nodes: positions,
+    deep: records,
+    rough: [],
+    moves: [],
+    bookPly,
+    chess960,
+    previous: null,
+    rate: () => NO_RATING,
+  });
+  return { accuracy: review.accuracy[color], counts: review.counts[color] };
+}
+
+/** Lichess's Stockfish, booted for the quick look's searches. */
+export async function bootQuickEngine(chess960: boolean): Promise<Analyse> {
+  const engine = new Stockfish({ chess960 });
+  await engine.boot();
+  return fen => engine.analyse(fen, GAME_OVER_SEARCH);
+}
