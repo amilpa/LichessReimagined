@@ -184,10 +184,13 @@ export function mountChart(host: HTMLElement, series: readonly Series[]): void {
   const root = createElement('div', { className: 'cdc-rchart' });
   setHtml(root, chartShell());
   host.append(root);
+  const parts = findParts(root);
+  if (!parts) {
+    root.remove();
+    return;
+  }
   // Lichess's own chart is hidden from here on (styles/ratingchart.css).
   host.classList.toggle('cdc-rchart-on', true);
-  const parts = findParts(root);
-  if (!parts) return;
   const chart = new RatingChart({ series, parts, span, range, formats });
   root.addEventListener('click', event => chart.click(event));
   parts.svg.addEventListener('pointermove', event => chart.hover(event));
