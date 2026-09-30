@@ -34,7 +34,9 @@ describe('introMarkup', () => {
     expect(bottom?.querySelector('.cdc-intro__title')?.textContent).toBe('IM');
     expect(bottom?.querySelector('.cdc-intro__username')?.textContent).toBe('alice');
     expect(bottom?.querySelector('.cdc-intro__details')?.textContent).toBe('2400 🇫🇷');
-    expect(root.querySelector('.cdc-intro__vs')?.textContent).toBe('VS');
+    expect(
+      root.querySelector('.cdc-intro__vs > .cdc-intro__swords + .cdc-intro__versus')?.textContent,
+    ).toBe('VS');
   });
 
   it('leaves out what a player lacks, and escapes names', () => {

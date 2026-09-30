@@ -11,13 +11,15 @@ test('a new game opens on the players’ intro', async ({ page }) => {
   await expect(intro).toBeAttached();
   await expect(intro.locator('.cdc-intro__card--top.cdc-intro__card--computer')).toBeAttached();
   await expect(intro.locator('.cdc-intro__card--bottom .cdc-intro__username')).not.toBeEmpty();
+  const widths = await intro
+    .locator('.cdc-intro__card')
+    .evaluateAll(cards => cards.map(card => card.getBoundingClientRect().width));
+  expect(new Set(widths).size, 'both cards the same width').toBe(1);
   const board = page.locator('main.round .round__app__board cg-board');
   expect(await computedStyle(board, 'background-image', '::after')).toMatch(
     /^url\("chrome-extension:\/\/.*\/img\/boards\/\w+\.webp"\)$/,
   );
-  expect(
-    await computedStyle(intro.locator('.cdc-intro__vs'), 'background-image', '::after'),
-  ).toMatch(
+  expect(await computedStyle(intro.locator('.cdc-intro__swords'), 'background-image')).toMatch(
     /^url\("https:\/\/lichess1\.org\/assets\/flair\/img\/objects\.crossed-swords\.webp"\)$/,
   );
   // Clipped by the board itself, which stays in step with the drop.

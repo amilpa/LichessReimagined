@@ -29,7 +29,7 @@ export interface IntroPlayers {
 export const introMarkup = ({ top, bottom }: IntroPlayers): SafeHtml =>
   html`<div class="cdc-intro__drop">${card(top, 'top')}</div>
     <div class="cdc-intro__stay">${card(bottom, 'bottom')}</div>
-    <span class="cdc-intro__vs">VS</span>`;
+    <span class="cdc-intro__vs"><span class="cdc-intro__swords"></span><span class="cdc-intro__versus">VS</span></span>`;
 
 /** A board other than the one shown (`current`, the stored pick), picked with `random` in [0, 1). */
 export function pickIntroBoard(current: string | undefined, random: () => number): string {
