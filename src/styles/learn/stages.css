@@ -49,7 +49,8 @@ html[dir='rtl'] .learn-stages .stage {
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
-/* Lichess's grey drawing, white on the tile (the tile shows a done stage, not Lichess's tint). */
+/* Lichess's grey drawing, white on the tile (the tile shows a done stage, not Lichess's tint).
+ * Lichess paints its own tile on the img: the whitening filter would turn it into a white square. */
 .learn-stages .stage img {
   position: absolute;
   top: 50%;
@@ -57,6 +58,9 @@ html[dir='rtl'] .learn-stages .stage {
   width: 52px !important;
   height: 52px !important;
   margin: -26px 0 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
   opacity: 1 !important;
   filter: brightness(0) invert(1) drop-shadow(0 1px 1px #0000004d) !important;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;

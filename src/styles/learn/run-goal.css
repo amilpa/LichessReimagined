@@ -168,6 +168,13 @@
   color: #312e2b !important;
 }
 
+/* Three stars don't fit a narrow pill (up to nine levels share the row): they wrap, one over two. */
+.learn__table .progress .stars {
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  line-height: 1.1;
+}
+
 .learn__table .progress .stars icon {
   font-size: 10px;
 }
