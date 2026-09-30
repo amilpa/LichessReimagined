@@ -1,7 +1,7 @@
 // Most of what the content script adds follows the page as Lichess redraws
 // it. Rather than one observer per feature, each registers a task on one
 // interval; tasks run in registration order and must be cheap when there's
-// nothing to do.
+// nothing to do. A hidden tab skips them, and catches up as it shows again.
 
 const INTERVAL_MS = 250;
 
@@ -31,5 +31,10 @@ function tick(): void {
 }
 
 export function startSyncLoop(): void {
-  setInterval(tick, INTERVAL_MS);
+  setInterval(() => {
+    if (!document.hidden) tick();
+  }, INTERVAL_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) tick();
+  });
 }

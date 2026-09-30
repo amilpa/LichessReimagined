@@ -8,7 +8,13 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.useRealTimers();
+  setHidden(false);
 });
+
+function setHidden(hidden: boolean): void {
+  Object.defineProperty(document, 'hidden', { value: hidden, configurable: true });
+  document.dispatchEvent(new Event('visibilitychange'));
+}
 
 const fail = (): void => {
   throw new Error('no');
@@ -50,5 +56,21 @@ describe('sync loop', () => {
     expect(error).toHaveBeenCalledTimes(2);
     expect(error).toHaveBeenNthCalledWith(1, '[LichessDotCom] one failed', expect.any(Error));
     expect(error).toHaveBeenNthCalledWith(2, '[LichessDotCom] two failed', expect.any(Error));
+  });
+
+  it('rests while the tab is hidden, and catches up as it shows', async () => {
+    const { onEveryTick, startSyncLoop } = await import('./sync-loop.ts');
+    let runs = 0;
+    onEveryTick('count', () => {
+      runs++;
+    });
+    startSyncLoop();
+    setHidden(true);
+    vi.advanceTimersByTime(1000);
+    expect(runs).toBe(0);
+    setHidden(false);
+    expect(runs).toBe(1);
+    vi.advanceTimersByTime(250);
+    expect(runs).toBe(2);
   });
 });

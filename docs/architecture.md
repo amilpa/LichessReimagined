@@ -46,8 +46,8 @@ is a module exporting a `Feature` (`src/shared/features.ts`): a name and a
 
 Content features that follow the page as Lichess redraws it register a task
 with `onEveryTick` (`src/content/sync-loop.ts`): one 250 ms interval runs them
-all, in registration order. A task must cost next to nothing when there's
-nothing to do.
+all, in registration order, while the tab shows (a hidden tab catches up as
+it shows again). A task must cost next to nothing when there's nothing to do.
 
 A feature's folder splits what it does into small modules: pure logic
 (parsing, geometry, text, classification) apart from what touches the DOM,
