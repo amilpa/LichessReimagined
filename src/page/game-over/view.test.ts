@@ -1,9 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { queryAll, queryOne } from '#shared/dom.ts';
-import { en } from '#page/review/i18n/en.ts';
 import type { Outcome } from './outcome.ts';
 import { gameOverTexts } from './texts.ts';
-import { mountGameOver, type GameOverInput } from './view.ts';
+import { MIN_SPIN_MS, mountGameOver, SETTLE_MS, type GameOverInput } from './view.ts';
 
 // The game page once the game is over, seen from White, and the follow-up.
 const ROUND =
@@ -24,8 +23,8 @@ function mount(outcome: Outcome): ReturnType<typeof mountGameOver> {
     main,
     outcome,
     texts: gameOverTexts(),
-    language: en,
     coachId: 2,
+    opponent: 'bob',
     reviewHref: '/abcd1234/white',
   };
   return mountGameOver(input);
@@ -76,26 +75,47 @@ describe('the game over', () => {
     expect(document.querySelector('.cdc-confetti')).toBeNull();
   });
 
-  it('has the coach look at the moves, then give the counts and a word', () => {
+  it('shows the large badges a moment, then the card as they shrink to pips', async () => {
+    mount(WIN);
+    const layer = document.querySelector('main.round > .cdc-end');
+    expect(layer?.classList.contains('cdc-end--settled')).toBe(false);
+    await vi.advanceTimersByTimeAsync(SETTLE_MS);
+    expect(layer?.classList.contains('cdc-end--settled')).toBe(true);
+    expect(document.querySelector('.cdc-end__title')?.textContent).toBe('You beat bob!');
+  });
+
+  it('has the coach spin the counts, then count the moves and speak', async () => {
     const posted = vi.spyOn(window, 'postMessage');
     const view = mount(WIN);
     view.analysing();
+    view.verdict({ accuracy: 91.24, counts: { best: 12, excellent: 3, mistake: 1 } });
     const bubble = document.querySelector('.cdc-end__bubble');
-    expect(bubble?.textContent).toBe('Going through your moves…');
-    view.verdict({ accuracy: 91.24, counts: { best: 12, mistake: 1 } });
-    expect(bubble?.textContent).toBe('Well played! You played with 91.2% accuracy.');
-    const counts = queryAll(document, '.cdc-end__count b', HTMLElement).map(
-      count => count.textContent,
+    const counts = document.querySelector('.cdc-end__counts');
+    expect(bubble?.textContent).toBe('');
+    await vi.advanceTimersByTimeAsync(SETTLE_MS);
+    expect(bubble?.textContent).toBe('One moment while your Game Review loads…');
+    expect(counts?.classList.contains('cdc-end__counts--spinning')).toBe(true);
+    // The moves were counted at once, yet the counts spin a moment.
+    await vi.advanceTimersByTimeAsync(MIN_SPIN_MS);
+    expect(counts?.classList.contains('cdc-end__counts--revealed')).toBe(true);
+    await vi.advanceTimersByTimeAsync(3000);
+    const numbers = queryAll(document, '.cdc-end__count b', HTMLElement).map(
+      number => number.textContent,
     );
-    expect(counts).toEqual(['12', '1', '0']);
-    expect(posted.mock.calls.at(-1)?.[0]).toMatchObject({ coach: 2, mood: 'happy', talking: true });
-    vi.advanceTimersByTime(1800);
-    expect(posted.mock.calls.at(-1)?.[0]).toMatchObject({ mood: 'happy', talking: false });
+    expect(numbers).toEqual(['12', '3', '1']);
+    expect(bubble?.textContent).toBe('Well played! You played with 91.2% accuracy.');
+    expect(posted.mock.calls.at(-1)?.[0]).toMatchObject({
+      coach: 2,
+      mood: 'happy',
+      talking: false,
+    });
   });
 
-  it('drops the counts when it couldn’t look', () => {
+  it('drops the counts when it couldn’t look', async () => {
     const view = mount(WIN);
+    view.analysing();
     view.failed();
+    await vi.advanceTimersByTimeAsync(SETTLE_MS + MIN_SPIN_MS);
     expect(document.querySelector('.cdc-end__counts')).toBeNull();
     expect(document.querySelector('.cdc-end__bubble')?.textContent).toBe(gameOverTexts().failed);
   });

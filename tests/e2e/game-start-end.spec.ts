@@ -34,13 +34,15 @@ async function expectIntro(page: Page): Promise<void> {
 
 async function expectGameOver(winner: Page, loser: Page): Promise<void> {
   const won = winner.locator('main.round > .cdc-end .cdc-end__card');
-  await expect(won.locator('.cdc-end__title')).toHaveText('You won!');
+  await expect(won.locator('.cdc-end__title')).toHaveText('You beat Anonymous!');
   await expect(won.locator('.cdc-end__reason')).toHaveText('by checkmate');
   await expect(winner.locator('.cdc-end__king--win .cdc-end__king-label')).toHaveText('Winner');
   await expect(winner.locator('.cdc-end__king--loss .cdc-end__king-label')).toHaveText('Checkmate');
   // Lichess's own badges give way to ours.
   expect(await computedStyle(winner.locator('main.round .cg-custom-svgs'), 'display')).toBe('none');
   expect((await readFleeting(winner)).confetti, 'confetti for the winner').toBe(true);
+  // The badges shrink to pips as the card comes in.
+  await expect(winner.locator('main.round > .cdc-end')).toHaveClass(/\bcdc-end--settled\b/);
 
   const lost = loser.locator('main.round > .cdc-end .cdc-end__card');
   await expect(lost.locator('.cdc-end__title')).toHaveText('You lost');
@@ -49,8 +51,8 @@ async function expectGameOver(winner: Page, loser: Page): Promise<void> {
   // The coach's quick look, from Lichess's engine on the game page: b6 let the mate in.
   for (const card of [won, lost])
     await expect(card.locator('.cdc-end__bubble')).toHaveText(/accuracy/, { timeout: 60_000 });
-  const blunders = lost.locator('.cdc-end__count[aria-label="Blunder"] b');
-  expect(Number(await blunders.textContent())).toBeGreaterThanOrEqual(1);
+  const blunders = lost.locator('.cdc-end__count', { hasText: /blunder/ }).locator('b');
+  await expect.poll(async () => Number(await blunders.textContent())).toBeGreaterThanOrEqual(1);
   await expect(lost.locator('.cdc-end__review')).toHaveAttribute('href', /^\/\w{8}\/black/);
   await expect(lost.locator('.cdc-end__btn[data-cdc-end="rematch"]')).toBeVisible();
 

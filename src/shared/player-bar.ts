@@ -1,10 +1,11 @@
-import { queryOne } from '#shared/dom.ts';
-import { nonEmpty } from '#shared/text.ts';
+import { queryOne } from './dom.ts';
+import { nonEmpty } from './text.ts';
 
-// What a player's card shows, read off their bar as Lichess drew it, so the
-// names are the page's own ("Anonymous", "Stockfish level 3" in its language).
+// A player as their bar on the game page shows them, for the players' intro
+// (content/game/intro) and the game over (page/game-over): the names are the
+// page's own ("Anonymous", "Stockfish level 3" in its language).
 
-export interface IntroPlayer {
+export interface BarPlayer {
   readonly name: string;
   readonly title: string | undefined;
   readonly rating: string | undefined;
@@ -25,7 +26,7 @@ function barName(bar: HTMLElement): string {
 }
 
 /** The player of a bar; the computer has no rating there, so it comes from its level. */
-export function readPlayer(bar: HTMLElement, computerRating: string | undefined): IntroPlayer {
+export function readPlayer(bar: HTMLElement, computerRating: string | undefined): BarPlayer {
   return {
     name: barName(bar),
     title: nonEmpty(bar.querySelector('.utitle')?.textContent.trim()),

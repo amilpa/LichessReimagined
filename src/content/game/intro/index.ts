@@ -12,7 +12,7 @@ import { extensionUrl } from '#content/platform/runtime.ts';
 import { onEveryTick } from '#content/sync-loop.ts';
 import { computerRatings } from '#content/game/ai-players.ts';
 import { introMarkup, pickIntroBoard } from './markup.ts';
-import { readPlayer } from './players.ts';
+import { readPlayer } from '#shared/player-bar.ts';
 
 // The players' intro, once per game, when a player opens a game that has just
 // begun: a board in another skin drops over the opponent's half with their

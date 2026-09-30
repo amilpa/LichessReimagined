@@ -1,11 +1,8 @@
-import { html, type SafeHtml } from '#shared/html.ts';
+import { html, trustedHtml, type SafeHtml } from '#shared/html.ts';
 import type { MoveClass } from '#page/review/classes/classes.ts';
-import { classIcon } from '#page/review/classes/icon-svg.ts';
-import type { ReviewLanguage } from '#page/review/i18n/types.ts';
 import { LOSS_ICONS } from './badges.ts';
 import { ICONS, type IconName } from './icons.ts';
 import type { Outcome } from './outcome.ts';
-import type { PlayerSummary } from './quick-review.ts';
 import type { GameOverTexts } from './texts.ts';
 
 // The game over's card over the board: the result, the coach's word on the
@@ -13,8 +10,21 @@ import type { GameOverTexts } from './texts.ts';
 // counts and the buttons are filled in apart, so the coach's face, which the
 // content script animates, stays the same element.
 
-/** The player's classes counted on the card, from best to worst. */
-export const CARD_CLASSES: readonly MoveClass[] = ['best', 'mistake', 'blunder'];
+// The card counts two good classes, then the worst error the player made; with
+// none, their finest moves.
+const GOOD: readonly MoveClass[] = ['best', 'excellent'];
+const ERRORS: readonly MoveClass[] = ['blunder', 'miss', 'mistake', 'inaccuracy'];
+const FINEST: readonly MoveClass[] = ['brilliant', 'great'];
+
+/** The three classes the card counts for the player. */
+export function cardClasses(counts: Readonly<Partial<Record<MoveClass, number>>>): MoveClass[] {
+  const made = (moveClass: MoveClass): boolean => (counts[moveClass] ?? 0) > 0;
+  const third = ERRORS.find(made) ?? FINEST.find(made) ?? 'good';
+  return [...GOOD, third];
+}
+
+/** How many count chips the card has. */
+export const CHIP_COUNT = 3;
 
 // The loser's card shows how they lost, as their king does.
 function headIcon({ result, reason }: Outcome): IconName {
@@ -26,16 +36,21 @@ export interface CardInput {
   readonly outcome: Outcome;
   readonly texts: GameOverTexts;
   readonly coachId: number;
+  readonly opponent: string;
 }
 
-export function cardMarkup({ outcome, texts, coachId }: CardInput): SafeHtml {
+const CHIP = trustedHtml(
+  '<span class="cdc-end__count"><span class="cdc-end__count-top"><span class="cdc-end__count-icon"></span><b></b></span><span class="cdc-end__count-label"></span></span>',
+);
+
+export function cardMarkup({ outcome, texts, coachId, opponent }: CardInput): SafeHtml {
   const reason = texts.reasons[outcome.reason];
   const icon = headIcon(outcome);
   return html`<section class="cdc-end__card cdc-end__card--${outcome.result}" role="dialog" aria-labelledby="cdc-end-title">
     <header class="cdc-end__head">
       <span class="cdc-end__badge">${ICONS[icon]}</span>
       <div class="cdc-end__titles">
-        <h2 class="cdc-end__title" id="cdc-end-title">${texts.titles[outcome.result]}</h2>
+        <h2 class="cdc-end__title" id="cdc-end-title">${texts.title(outcome.result, opponent)}</h2>
         ${reason === '' ? '' : html`<p class="cdc-end__reason">${reason}</p>`}
       </div>
       <button class="cdc-end__close" type="button" aria-label="${texts.close}" data-cdc-tip="${texts.close}">${ICONS.cross}</button>
@@ -44,19 +59,9 @@ export function cardMarkup({ outcome, texts, coachId }: CardInput): SafeHtml {
       <span class="cdc-coach__avatar" data-cdc-coach-id="${coachId}" data-cdc-mood="neutral"><span class="cdc-coach__face"></span></span>
       <p class="cdc-end__bubble"></p>
     </div>
-    <div class="cdc-end__counts"></div>
+    <div class="cdc-end__counts">${Array.from({ length: CHIP_COUNT }, () => CHIP)}</div>
     <div class="cdc-end__actions"></div>
   </section>`;
-}
-
-/** The player's counts; blank while the moves are being looked at. */
-export function countsMarkup(summary: PlayerSummary | null, language: ReviewLanguage): SafeHtml {
-  const chips = CARD_CLASSES.map(moveClass => {
-    const label = language.classLabels[moveClass];
-    const count = summary ? String(summary.counts[moveClass] ?? 0) : '';
-    return html`<span class="cdc-end__count" data-cdc-tip="${label}" aria-label="${label}">${classIcon(moveClass)}<b>${count}</b></span>`;
-  });
-  return html`${chips}`;
 }
 
 /** What the game's follow-up offers, read off Lichess's buttons. */

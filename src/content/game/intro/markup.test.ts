@@ -3,9 +3,9 @@ import { queryAll, queryOne } from '#shared/dom.ts';
 import { setHtml } from '#shared/html.ts';
 import { BOARDS } from '#content/boards/catalog.ts';
 import { introMarkup, pickIntroBoard } from './markup.ts';
-import type { IntroPlayer } from './players.ts';
+import type { BarPlayer } from '#shared/player-bar.ts';
 
-const player = (name: string, extra: Partial<IntroPlayer> = {}): IntroPlayer => ({
+const player = (name: string, extra: Partial<BarPlayer> = {}): BarPlayer => ({
   name,
   title: undefined,
   rating: undefined,
@@ -14,7 +14,7 @@ const player = (name: string, extra: Partial<IntroPlayer> = {}): IntroPlayer => 
   ...extra,
 });
 
-function render(top: IntroPlayer, bottom: IntroPlayer): HTMLElement {
+function render(top: BarPlayer, bottom: BarPlayer): HTMLElement {
   const root = document.createElement('div');
   setHtml(root, introMarkup({ top, bottom }));
   return root;

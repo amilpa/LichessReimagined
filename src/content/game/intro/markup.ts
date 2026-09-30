@@ -1,13 +1,13 @@
 import { html, type SafeHtml } from '#shared/html.ts';
 import { BOARDS } from '#content/boards/catalog.ts';
-import type { IntroPlayer } from './players.ts';
+import type { BarPlayer } from '#shared/player-bar.ts';
 
 // The intro's cards over the board (styles/game/intro.css): the opponent's
 // rides down on the other board, the player's waits on their own half.
 
 type Side = 'top' | 'bottom';
 
-function card(player: IntroPlayer, side: Side): SafeHtml {
+function card(player: BarPlayer, side: Side): SafeHtml {
   const kind = player.computer ? ' cdc-intro__card--computer' : '';
   const title =
     player.title === undefined ? '' : html`<span class="cdc-intro__title">${player.title}</span>`;
@@ -21,12 +21,12 @@ function card(player: IntroPlayer, side: Side): SafeHtml {
   </div>`;
 }
 
-export interface IntroPlayers {
-  readonly top: IntroPlayer;
-  readonly bottom: IntroPlayer;
+export interface BarPlayers {
+  readonly top: BarPlayer;
+  readonly bottom: BarPlayer;
 }
 
-export const introMarkup = ({ top, bottom }: IntroPlayers): SafeHtml =>
+export const introMarkup = ({ top, bottom }: BarPlayers): SafeHtml =>
   html`<div class="cdc-intro__drop">${card(top, 'top')}</div>
     <div class="cdc-intro__stay">${card(bottom, 'bottom')}</div>
     <span class="cdc-intro__vs"><span class="cdc-intro__swords"></span><span class="cdc-intro__versus">VS</span></span>`;

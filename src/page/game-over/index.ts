@@ -4,8 +4,8 @@ import type { Feature } from '#shared/features.ts';
 import { readPageInitData } from '#shared/page-init-data.ts';
 import { playedGame, type PlayedGame } from '#shared/round-init.ts';
 import { fetchExport } from '#page/review/game/export.ts';
-import { pageLanguage } from '#page/review/i18n/language.ts';
 import { REVIEWED_VARIANTS } from '#page/review/variants.ts';
+import { opponentName } from './board.ts';
 import { fetchFinishedGame, type FinishedGame } from './game-data.ts';
 import { readOutcome } from './outcome.ts';
 import { bootQuickEngine, quickReview } from './quick-review.ts';
@@ -66,12 +66,13 @@ async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
   const finished = await fetchFinishedGame(game.gameId, data => outcomeOf(data) !== null);
   const outcome = finished && outcomeOf(finished);
   if (!finished || !outcome || !main.isConnected) return;
+  const texts = gameOverTexts();
   const view = mountGameOver({
     main,
     outcome,
-    texts: gameOverTexts(),
-    language: pageLanguage(),
+    texts,
     coachId: pickCoach(),
+    opponent: opponentName(main, game.color, texts.anonymous),
     reviewHref: `/${game.gameId}/${game.color}`,
   });
   await countMoves(view, game, finished);

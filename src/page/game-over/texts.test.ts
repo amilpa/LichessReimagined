@@ -16,9 +16,27 @@ describe('the game over’s words', () => {
 
   it('speaks French on a French page, English elsewhere', () => {
     document.documentElement.lang = 'fr';
-    expect(gameOverTexts().titles.win).toBe('Vous avez gagné !');
+    expect(gameOverTexts().title('win', 'bob')).toBe('Vous avez battu bob !');
+    expect(gameOverTexts().title('loss', 'bob')).toBe('Vous avez perdu');
     document.documentElement.lang = 'de';
-    expect(gameOverTexts().titles.win).toBe('You won!');
+    expect(gameOverTexts().title('win', 'bob')).toBe('You beat bob!');
+  });
+
+  it('names a count in the singular or the plural, as each language counts', () => {
+    document.documentElement.lang = 'fr';
+    const fr = gameOverTexts();
+    expect([0, 1, 2].map(count => fr.countLabel('miss', count))).toEqual([
+      'coup manqué',
+      'coup manqué',
+      'coups manqués',
+    ]);
+    document.documentElement.lang = 'en';
+    const en = gameOverTexts();
+    expect([0, 1, 2].map(count => en.countLabel('best', count))).toEqual([
+      'best moves',
+      'best move',
+      'best moves',
+    ]);
   });
 
   it('has the coach look for the turn only after a loss', () => {

@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { queryAll, queryOne } from '#shared/dom.ts';
 import { setHtml, type SafeHtml } from '#shared/html.ts';
-import { en } from '#page/review/i18n/en.ts';
-import { actionsMarkup, cardMarkup, countsMarkup } from './card.ts';
+import { actionsMarkup, cardClasses, cardMarkup, CHIP_COUNT } from './card.ts';
 import { gameOverTexts } from './texts.ts';
 
 const texts = gameOverTexts();
@@ -20,9 +19,13 @@ describe('cardMarkup', () => {
         outcome: { result: 'win', reason: 'mate', winner: 'white' },
         texts,
         coachId: 3,
+        opponent: '<i>bob</i>',
       }),
     );
-    expect(root.querySelector('.cdc-end__card--win .cdc-end__title')?.textContent).toBe('You won!');
+    expect(root.querySelector('.cdc-end__card--win .cdc-end__title')?.textContent).toBe(
+      'You beat <i>bob</i>!',
+    );
+    expect(root.querySelectorAll('.cdc-end__counts > .cdc-end__count')).toHaveLength(CHIP_COUNT);
     expect(root.querySelector('.cdc-end__reason')?.textContent).toBe('by checkmate');
     const avatar = queryOne(root, '.cdc-coach__avatar', HTMLElement);
     expect(avatar?.dataset.cdcCoachId).toBe('3');
@@ -31,24 +34,31 @@ describe('cardMarkup', () => {
 
   it('leaves the reason out when the status doesn’t say', () => {
     const root = render(
-      cardMarkup({ outcome: { result: 'draw', reason: 'draw', winner: null }, texts, coachId: 1 }),
+      cardMarkup({
+        outcome: { result: 'draw', reason: 'draw', winner: null },
+        texts,
+        coachId: 1,
+        opponent: 'bob',
+      }),
     );
     expect(root.querySelector('.cdc-end__title')?.textContent).toBe('Draw');
     expect(root.querySelector('.cdc-end__reason')).toBeNull();
   });
 });
 
-describe('countsMarkup', () => {
-  it('shows the player’s best moves, mistakes and blunders, blank until counted', () => {
-    const blank = render(countsMarkup(null, en));
-    expect(
-      queryAll(blank, '.cdc-end__count', HTMLElement).map(chip => chip.dataset.cdcTip),
-    ).toEqual(['Best', 'Mistake', 'Blunder']);
-    expect(blank.textContent.trim()).toBe('');
-    const counted = render(countsMarkup({ accuracy: 80, counts: { best: 7, blunder: 1 } }, en));
-    expect(
-      queryAll(counted, '.cdc-end__count b', HTMLElement).map(count => count.textContent),
-    ).toEqual(['7', '0', '1']);
+describe('cardClasses', () => {
+  it('counts the best and excellent moves, then the worst error made', () => {
+    expect(cardClasses({ best: 26, excellent: 12, miss: 1, inaccuracy: 3 })).toEqual([
+      'best',
+      'excellent',
+      'miss',
+    ]);
+    expect(cardClasses({ mistake: 1, blunder: 2 })).toEqual(['best', 'excellent', 'blunder']);
+  });
+
+  it('shows the finest moves of a game without errors', () => {
+    expect(cardClasses({ best: 4, great: 1 })).toEqual(['best', 'excellent', 'great']);
+    expect(cardClasses({})).toEqual(['best', 'excellent', 'good']);
   });
 });
 

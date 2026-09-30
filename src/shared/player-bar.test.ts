@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { queryOne } from '#shared/dom.ts';
-import { readPlayer } from './players.ts';
+import { queryOne } from './dom.ts';
+import { readPlayer } from './player-bar.ts';
 
 // Bars as Lichess draws them: a titled user, and the computer.
 const USER_BAR =

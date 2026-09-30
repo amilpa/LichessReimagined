@@ -1,11 +1,15 @@
 import { isFrench, pageLocale } from '#shared/lang.ts';
+import type { MoveClass } from '#page/review/classes/classes.ts';
 import type { EndReason, Result } from './outcome.ts';
 
 // The game over's words, in French on a French page and English otherwise, as
 // the review's. The buttons below the review's take Lichess's own labels.
 
+type Forms = readonly [one: string, many: string];
+
 export interface GameOverTexts {
-  readonly titles: Readonly<Record<Result, string>>;
+  /** The card's title, naming the opponent the player beat. */
+  readonly title: (result: Result, opponent: string) => string;
   /** Under the title: how it ended, '' when the status doesn't say. */
   readonly reasons: Readonly<Record<EndReason, string>>;
   readonly winner: string;
@@ -18,10 +22,42 @@ export interface GameOverTexts {
   readonly failed: string;
   readonly review: string;
   readonly close: string;
+  readonly anonymous: string;
+  /** Under a count on the card, the number apart: "meilleurs coups", "coup manqué". */
+  readonly countLabel: (moveClass: MoveClass, count: number) => string;
 }
 
+const FR_COUNTS: Readonly<Record<MoveClass, Forms>> = {
+  brilliant: ['coup brillant', 'coups brillants'],
+  great: ['excellent coup', 'excellents coups'],
+  book: ['coup théorique', 'coups théoriques'],
+  best: ['meilleur coup', 'meilleurs coups'],
+  excellent: ['très bon coup', 'très bons coups'],
+  good: ['bon coup', 'bons coups'],
+  inaccuracy: ['imprécision', 'imprécisions'],
+  mistake: ['erreur', 'erreurs'],
+  miss: ['coup manqué', 'coups manqués'],
+  blunder: ['gaffe', 'gaffes'],
+};
+
+const EN_COUNTS: Readonly<Record<MoveClass, Forms>> = {
+  brilliant: ['brilliant move', 'brilliant moves'],
+  great: ['great move', 'great moves'],
+  book: ['book move', 'book moves'],
+  best: ['best move', 'best moves'],
+  excellent: ['excellent move', 'excellent moves'],
+  good: ['good move', 'good moves'],
+  inaccuracy: ['inaccuracy', 'inaccuracies'],
+  mistake: ['mistake', 'mistakes'],
+  miss: ['miss', 'misses'],
+  blunder: ['blunder', 'blunders'],
+};
+
 const fr: GameOverTexts = {
-  titles: { win: 'Vous avez gagné !', loss: 'Vous avez perdu', draw: 'Partie nulle' },
+  title: (result, opponent) =>
+    ({ win: `Vous avez battu ${opponent} !`, loss: 'Vous avez perdu', draw: 'Partie nulle' })[
+      result
+    ],
   reasons: {
     mate: 'par échec et mat',
     resign: 'par abandon',
@@ -42,7 +78,7 @@ const fr: GameOverTexts = {
     other: 'Défaite',
   },
   drawLabel: 'Nulle',
-  analysing: 'Je passe en revue vos coups…',
+  analysing: 'Un instant, le temps que votre Bilan se prépare…',
   verdict: (result, accuracy) => {
     const opening = { win: 'Belle victoire !', loss: 'Pas cette fois !', draw: 'Partie serrée !' };
     if (accuracy === null) return `${opening[result]} Voyons la partie ensemble.`;
@@ -52,10 +88,14 @@ const fr: GameOverTexts = {
   failed: 'Je n’ai pas pu analyser la partie ici : le Bilan vous montrera tout.',
   review: 'Bilan de la partie',
   close: 'Fermer',
+  anonymous: 'Anonyme',
+  // French counts 0 and 1 as singular.
+  countLabel: (moveClass, count) => FR_COUNTS[moveClass][count > 1 ? 1 : 0],
 };
 
 const en: GameOverTexts = {
-  titles: { win: 'You won!', loss: 'You lost', draw: 'Draw' },
+  title: (result, opponent) =>
+    ({ win: `You beat ${opponent}!`, loss: 'You lost', draw: 'Draw' })[result],
   reasons: {
     mate: 'by checkmate',
     resign: 'by resignation',
@@ -76,7 +116,7 @@ const en: GameOverTexts = {
     other: 'Lost',
   },
   drawLabel: 'Draw',
-  analysing: 'Going through your moves…',
+  analysing: 'One moment while your Game Review loads…',
   verdict: (result, accuracy) => {
     const opening = { win: 'Well played!', loss: 'Not this time!', draw: 'A close game!' };
     if (accuracy === null) return `${opening[result]} Let’s look at the game together.`;
@@ -86,6 +126,8 @@ const en: GameOverTexts = {
   failed: 'I couldn’t analyse the game here: Game Review will show you everything.',
   review: 'Game Review',
   close: 'Close',
+  anonymous: 'Anonymous',
+  countLabel: (moveClass, count) => EN_COUNTS[moveClass][count === 1 ? 0 : 1],
 };
 
 export const gameOverTexts = (): GameOverTexts => (isFrench() ? fr : en);
