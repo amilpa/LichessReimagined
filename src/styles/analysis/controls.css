@@ -96,9 +96,9 @@
 
   /* ---- No scrolling --- */
 
-  /* The page never scrolls: the underboard, game info and "learn from your mistakes" go, and the
-   * keyboard-move input sits at the bottom of the tools. The underboard's FEN and PGN open in
-   * the panel instead (fen-pgn.css). */
+  /* The page never scrolls: the underboard, game info and the advice summary go, and the
+   * keyboard-move input sits at the bottom of the tools. The underboard and the advice summary
+   * open in the panel instead (underboard.css). */
   html[data-cdc-has~='analyse'],
   html[data-cdc-has~='analyse'] body {
     overflow: hidden !important;

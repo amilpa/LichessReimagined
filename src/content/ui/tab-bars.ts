@@ -30,6 +30,7 @@ export const TAB_BARS: readonly TabBarKind[] = [
   kind('main.forum-topic .markdown-editor .header', '.header-tab', '.active', 'pill'),
   kind('.tabs-horiz:not(.lobby__app > .tabs-horiz)', '*', '.active', 'line'),
   kind('.mchat__tabs', '.mchat__tab', '.mchat__tab-active', 'line'),
+  kind('.analyse__underboard__menu', 'button', '.active', 'line'),
   kind('.auth .auth-tabs', 'a', '.active', 'line'),
   kind('.relay-tour__tabs', 'button', '.active', 'pill'),
   kind('#dasher_app .cdc-src-tabs', 'button', '.active', 'pill'),

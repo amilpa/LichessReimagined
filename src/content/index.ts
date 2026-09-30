@@ -11,7 +11,7 @@ import { boardZoom } from './layout/board-zoom.ts';
 import { sounds } from './sounds/index.ts';
 import { controlsHeight } from './layout/controls-height.ts';
 import { analysisPlayers } from './analysis/players.ts';
-import { fenPgn } from './analysis/fen-pgn.ts';
+import { underboard } from './analysis/underboard.ts';
 import { capturedPieces } from './game/captured.ts';
 import { boardTools } from './game/board-tools.ts';
 import { moveTimes } from './game/move-times.ts';
@@ -56,7 +56,7 @@ function main(): void {
     sounds,
     controlsHeight,
     analysisPlayers,
-    fenPgn,
+    underboard,
     capturedPieces,
     boardTools,
     moveTimes,

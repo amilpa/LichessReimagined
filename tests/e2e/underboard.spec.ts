@@ -1,0 +1,59 @@
+import { expect, test } from './fixtures.ts';
+import { expectInView, wheelScroll } from './support/layout.ts';
+import { FINISHED_GAME, openLichess } from './support/lichess.ts';
+
+// What Lichess shows under the board, which our layout keeps in the panel,
+// behind a button of the controls: the page itself never scrolls.
+
+/** A finished game with Lichess's server analysis, and so its advice summary. */
+const ANALYSED_GAME = '/kAdOQKeh/black';
+const STUDY = '/study/2Zl6MgFH';
+
+const BUTTON = '.analyse__controls > .cdc-underboard';
+const UNDERBOARD = 'main.analyse > .analyse__underboard';
+
+test('the free board takes a pasted PGN, and shows the position’s FEN', async ({ page }) => {
+  await openLichess(page, '/analysis');
+  const fields = page.locator(UNDERBOARD);
+  await expect(fields).toBeHidden();
+  await page.locator(BUTTON).click();
+  await expect(fields).toBeVisible();
+  await fields.locator('.pgn textarea').fill('1. e4 e5 2. Nf3 Nc6 3. Bb5 a6');
+  await fields.locator('.pgn button').click();
+  await expect(fields.locator('.copyables input')).toHaveValue(
+    'r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4',
+  );
+  await page.locator(BUTTON).click();
+  await expect(fields).toBeHidden();
+});
+
+test('a game without server analysis offers to request one', async ({ page }) => {
+  await openLichess(page, FINISHED_GAME.path);
+  await page.locator('.cdc-review__close').click();
+  await page.locator(BUTTON).click();
+  const underboard = page.locator(UNDERBOARD);
+  await underboard.locator('.analyse__underboard__menu > .computer-analysis').click();
+  await expectInView(page, underboard.locator('form.future-game-analysis button'));
+  expect(await wheelScroll(page)).toBe(0);
+});
+
+test('an analysed game shows its charts and "Learn from your mistakes"', async ({ page }) => {
+  await openLichess(page, ANALYSED_GAME);
+  await page.locator('.cdc-review__close').click();
+  await page.locator(BUTTON).click();
+  await expectInView(page, page.locator(`${UNDERBOARD} .analyse__underboard__menu`));
+  const learn = page.locator('main.analyse > .analyse__round-training .advice-summary a.button');
+  await expectInView(page, learn);
+  expect(await wheelScroll(page)).toBe(0);
+  // The exercise runs in the tools, which the underboard would cover.
+  await learn.click();
+  await expect(page.locator('.analyse__tools > .retro-box')).toBeVisible();
+  await expect(page.locator(UNDERBOARD)).toBeHidden();
+});
+
+test('a study shows its toolbar', async ({ page }) => {
+  await openLichess(page, STUDY);
+  await page.locator(BUTTON).click();
+  await expectInView(page, page.locator(`${UNDERBOARD} .study__buttons`));
+  expect(await wheelScroll(page)).toBe(0);
+});

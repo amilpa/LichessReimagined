@@ -28,6 +28,7 @@ const FLAGS: Readonly<Record<string, string>> = {
   practice: 'main.analyse .practice__side',
   'practice-box': 'main.analyse .practice-box',
   'keyboard-move': 'main.analyse .keyboard-move',
+  'analyse-training': 'main.analyse > .analyse__round-training > *',
   puzzle: 'main.puzzle',
   'puzzle-keyboard': 'main.puzzle > .keyboard-move',
   storm: 'main > .storm',

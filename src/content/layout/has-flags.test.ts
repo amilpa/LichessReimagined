@@ -14,6 +14,24 @@ describe('presentFlags', () => {
   });
 });
 
+describe('presentFlags, for flags the original lacked', () => {
+  it.each([
+    [
+      'analyse-training',
+      '<main class="analyse"><div class="analyse__round-training"><div class="analyse__acpl"></div></div></main>',
+    ],
+  ])('reads %s', (flag, page) => {
+    document.body.innerHTML = page;
+    expect(presentFlags(document).split(' ')).toContain(flag);
+  });
+
+  it('leaves out an empty advice summary', () => {
+    document.body.innerHTML =
+      '<main class="analyse"><div class="analyse__round-training"></div></main>';
+    expect(presentFlags(document)).toBe('analyse');
+  });
+});
+
 describe('hasFlags', () => {
   it('follows the page before the next frame, but not the board or the clock', async () => {
     const frames: FrameRequestCallback[] = [];

@@ -1,0 +1,109 @@
+/* ---- Underboard --- */
+
+/* What Lichess shows under the board, which our layout drops (content/analysis/underboard.ts):
+ * its button opens it over the engine and the moves, scrolling in the panel. The advice summary
+ * ("Learn from your mistakes") takes the chat's row, or a study's chapter list's. */
+
+/* Lichess's mobile layout keeps its underboard. */
+main.analyse .analyse__controls > .cdc-underboard {
+  display: none;
+}
+
+@media (min-width: 1020px) {
+  /* With Lichess's toggles, before its menu. */
+  main.analyse .analyse__controls > .cdc-underboard {
+    order: 1;
+    display: block;
+  }
+
+  /* The review's summary and move-by-move panels have no controls to close it with. The advice
+   * summary is flagged (content/layout/has-flags.ts): Lichess leaves an empty one. */
+  html.cdc-underboard-open:where(:not(.cdc-review-summary, .cdc-review-moves))
+    main.analyse
+    > .analyse__underboard,
+  html.cdc-underboard-open[data-cdc-has~='analyse-training']:where(
+      :not(.cdc-review-summary, .cdc-review-moves)
+    )
+    main.analyse
+    > .analyse__round-training {
+    grid-area: tools !important;
+    z-index: 3;
+    display: block !important;
+    box-sizing: border-box;
+    min-height: 0;
+    margin: 0 0 0 var(--cdc-gap) !important;
+    padding: 12px;
+    overflow-y: auto;
+    background: var(--cdc-bg-panel);
+  }
+
+  html.cdc-underboard-open[data-cdc-has~='analyse-chat'] main.analyse > .analyse__round-training {
+    grid-area: chat !important;
+    border-top: 1px solid var(--cdc-border);
+  }
+
+  html.cdc-underboard-open[data-cdc-has~='study-side'] main.analyse > .analyse__round-training {
+    grid-area: side !important;
+    border-top: 1px solid var(--cdc-border);
+  }
+
+  /* No chat, nor chapters: the summary shares the tools' row, under the rest. */
+  html.cdc-underboard-open[data-cdc-has~='analyse-training']:not(
+      [data-cdc-has~='analyse-chat'],
+      [data-cdc-has~='study-side']
+    )
+    main.analyse
+    > :is(.analyse__underboard, .analyse__round-training) {
+    max-height: 50%;
+  }
+
+  html.cdc-underboard-open:not([data-cdc-has~='analyse-chat'], [data-cdc-has~='study-side'])
+    main.analyse
+    > .analyse__round-training {
+    align-self: end;
+  }
+
+  /* Lichess's panels are 240px tall and scroll, which cut the PGN: ours scrolls instead. */
+  html.cdc-underboard-open main.analyse .analyse__underboard__panels {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* A game's tabs (charts, crosstable, export) stay at the top as it scrolls, in the chat's
+   * look; the underline slides (content/ui/tab-bars.ts). */
+  main.analyse .analyse__underboard__menu {
+    position: sticky !important;
+    top: -12px;
+    z-index: 1;
+    margin: -12px -12px 12px !important;
+    border-bottom: 1px solid var(--cdc-border);
+    background: var(--cdc-bg-panel-dark);
+  }
+
+  main.analyse .analyse__underboard__menu > button {
+    border-color: transparent !important;
+    color: var(--cdc-text-dim) !important;
+    font-family: var(--cdc-font) !important;
+    font-weight: 700;
+  }
+
+  main.analyse .analyse__underboard__menu > button:hover,
+  main.analyse .analyse__underboard__menu > button.active {
+    color: #fff !important;
+  }
+
+  main.analyse .analyse__underboard__menu:not([data-cdc-tabs]) > button.active {
+    border-bottom-color: #fff !important;
+  }
+
+  /* A fourth toggle in the bar: in a narrow panel they give the jump buttons room. */
+  main.analyse .analyse__controls {
+    container: cdc-controls / inline-size;
+  }
+
+  @container cdc-controls (max-width: 360px) {
+    main.analyse .analyse__controls > .fbt {
+      width: 28px;
+    }
+  }
+}
