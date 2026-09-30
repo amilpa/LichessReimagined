@@ -10,9 +10,10 @@ const TS = '@ts-';
 const DISABLE = 'disable';
 
 describe('isChecked', () => {
-  it('reads TypeScript and CSS only', () => {
+  it('reads TypeScript, CSS and the lockfile only', () => {
     expect(isChecked('vitest.config.ts')).toBe(true);
     expect(isChecked('src/styles/game/index.css')).toBe(true);
+    expect(isChecked('pnpm-lock.yaml')).toBe(true);
     expect(isChecked('src/content/boards/catalog.json')).toBe(false);
     expect(isChecked('README.md')).toBe(false);
   });
@@ -125,5 +126,32 @@ describe('the remote assets rule', () => {
     '.a { background: url(img/x.png); }',
   ])('passes %s', css => {
     expect(findProblems('a.css', css)).toEqual([]);
+  });
+});
+
+// A lockfile's packageManagerDependencies, as pnpm writes them.
+const pin = (name: string, version: string): string =>
+  `      ${name}:\n        specifier: ${version}\n        version: ${version}\n`;
+const lockfile = (...pins: string[]): string =>
+  `importers:\n\n  .:\n    packageManagerDependencies:\n${pins.join('')}\npackages:\n`;
+
+describe('the lockfile rule', () => {
+  it('accepts pnpm and @pnpm/exe pinned at the same version', () => {
+    expect(
+      findProblems('pnpm-lock.yaml', lockfile(pin("'@pnpm/exe'", '12.6.0'), pin('pnpm', '12.6.0'))),
+    ).toEqual([]);
+  });
+
+  it('refuses a lockfile without @pnpm/exe, or with another version of it', () => {
+    expect(findProblems('pnpm-lock.yaml', lockfile(pin('pnpm', '12.6.0')))).toHaveLength(1);
+    expect(
+      findProblems('pnpm-lock.yaml', lockfile(pin("'@pnpm/exe'", '12.5.0'), pin('pnpm', '12.6.0'))),
+    ).toHaveLength(1);
+  });
+
+  it('holds for the repository’s lockfile', async () => {
+    expect(
+      findProblems('pnpm-lock.yaml', await readFile(fromRoot('pnpm-lock.yaml'), 'utf8')),
+    ).toEqual([]);
   });
 });
