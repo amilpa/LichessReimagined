@@ -17,6 +17,7 @@ import { boardTools } from './game/board-tools.ts';
 import { moveTimes } from './game/move-times.ts';
 import { newGame } from './game/new-game.ts';
 import { countryFlags } from './game/flags.ts';
+import { gameIntro } from './game/intro/index.ts';
 import { boardInset } from './layout/board-inset.ts';
 import { evalGauge } from './analysis/eval-gauge.ts';
 import { puzzleSession } from './pages/puzzle.ts';
@@ -61,6 +62,7 @@ function main(): void {
     moveTimes,
     newGame,
     countryFlags,
+    gameIntro,
     boardInset,
     evalGauge,
     puzzleSession,

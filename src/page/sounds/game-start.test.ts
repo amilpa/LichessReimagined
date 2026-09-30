@@ -3,7 +3,7 @@ import { z } from 'zod/mini';
 import { createElement } from '#shared/dom.ts';
 import type { SoundName } from '#shared/sounds.ts';
 import { setReadyState } from '#shared/testing/ready-state.ts';
-import { freshGameId, watchGameStart } from './game-start.ts';
+import { watchGameStart } from './game-start.ts';
 import { createSession, type SoundSession } from './session.ts';
 // Whether the original played the game start for each page, in this order.
 import legacy from './fixtures/legacy-game-start.json' with { type: 'json' };
@@ -30,13 +30,6 @@ function listen(session: SoundSession, played: SoundName[]): void {
 afterEach(() => {
   document.body.replaceChildren();
   setReadyState('complete');
-});
-
-describe('freshGameId', () => {
-  it('reads the round data', () => {
-    expect(freshGameId(cases[0]?.text ?? null)).toBe('abcd1234');
-    expect(freshGameId(null)).toBeNull();
-  });
 });
 
 describe('watchGameStart', () => {

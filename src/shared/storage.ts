@@ -16,6 +16,7 @@ export const StorageKey = {
 export const SessionKey = {
   lateReload: 'cdc-late-reload',
   gameStarted: (gameId: string): string => `cdc-started:${gameId}`,
+  gameIntro: (gameId: string): string => `cdc-intro:${gameId}`,
 } satisfies Record<string, string | ((...args: never[]) => string)>;
 
 type Area = 'local' | 'session';
