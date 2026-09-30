@@ -38,15 +38,15 @@ function startDrag(event: Event): void {
   const observer = new MutationObserver(followDrag);
   observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
   drag = observer;
-  const end = event.type === 'touchstart' ? 'touchend' : 'mouseup';
-  document.addEventListener(
-    end,
-    () => {
-      observer.disconnect();
-      drag = null;
-    },
-    { once: true },
-  );
+  // A touch the browser takes over (a scroll, a gesture) ends in touchcancel.
+  const ends = event.type === 'touchstart' ? ['touchend', 'touchcancel'] : ['mouseup'];
+  const listeners = new AbortController();
+  const stop = (): void => {
+    observer.disconnect();
+    drag = null;
+    listeners.abort();
+  };
+  for (const end of ends) document.addEventListener(end, stop, { signal: listeners.signal });
 }
 
 export const boardZoom: Feature = {

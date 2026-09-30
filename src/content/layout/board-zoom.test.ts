@@ -104,4 +104,18 @@ describe('boardZoom', () => {
 
     expect(steps).toEqual(legacy.steps);
   });
+
+  it('ends a touch drag the browser cancels', async () => {
+    document.body.innerHTML = '<cg-resize></cg-resize>';
+    boardZoom.start();
+    await press('cg-resize', 'touchstart');
+    await release('touchcancel');
+    await setBodyZoom('40');
+    expect(zoomState().zoom).toBe('');
+    // The next drag starts afresh.
+    await press('cg-resize', 'touchstart');
+    await setBodyZoom('45');
+    expect(zoomState().zoom).toBe('45');
+    await release('touchend');
+  });
 });
