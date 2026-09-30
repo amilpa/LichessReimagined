@@ -8,6 +8,7 @@ import type { GameWork, Mode, Session } from '#page/review/session.ts';
 import { cacheProgress, cacheRecords, readCachedRecords } from './cache.ts';
 import { lookUpCloud } from './cloud-lookup.ts';
 import { fetchExport } from './export.ts';
+import { pause, whenFree } from './wait.ts';
 import { refresh, seedBooks, setDeep } from './work.ts';
 
 // The game's analysis: the cache or the cloud where they can, the engine for
@@ -59,26 +60,6 @@ export function nextJob({ work, mode, analysis }: JobInput): Job | null {
   return null;
 }
 
-const pause = (milliseconds: number): Promise<void> =>
-  new Promise(resolve => {
-    setTimeout(resolve, milliseconds);
-  });
-
-// A hidden tab's analysis waits: it would take the processor from the tab in use.
-const whenVisible = (): Promise<void> =>
-  new Promise(resolve => {
-    if (!document.hidden) {
-      resolve();
-      return;
-    }
-    const shown = (): void => {
-      if (document.hidden) return;
-      document.removeEventListener('visibilitychange', shown);
-      resolve();
-    };
-    document.addEventListener('visibilitychange', shown);
-  });
-
 async function search(session: Session, analysis: Analysis, pool: EnginePool, job: Job) {
   const { work } = session;
   work.pending.add(job.index);
@@ -98,7 +79,7 @@ async function search(session: Session, analysis: Analysis, pool: EnginePool, jo
 async function runWorker(session: Session, analysis: Analysis, pool: EnginePool): Promise<void> {
   const { work, view } = session;
   for (;;) {
-    await whenVisible();
+    await whenFree(analysis);
     const job = nextJob({ work, mode: view.mode, analysis });
     if (!job) {
       if (view.review?.complete) return;

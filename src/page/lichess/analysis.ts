@@ -142,6 +142,11 @@ export class Analysis {
       actionMenu.call(this.#controller, false);
   }
 
+  /** "Learn from your mistakes" is on. */
+  get retroOn(): boolean {
+    return Boolean(this.#controller.retro);
+  }
+
   /** Ends "practice with computer", which plays moves on its own. */
   stopPractice(): void {
     const { practice, togglePractice } = this.#controller;

@@ -27,6 +27,7 @@ const ControllerSchema = z.object({
   actionMenu: z.optional(z.unknown()),
   practice: z.optional(z.unknown()),
   togglePractice: z.optional(z.unknown()),
+  retro: z.optional(z.unknown()),
   explorer: z.optional(z.unknown()),
 });
 

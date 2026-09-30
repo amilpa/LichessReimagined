@@ -45,6 +45,8 @@ export interface FakeController {
   synthetic: boolean;
   orientation: 'white' | 'black';
   practice: unknown;
+  /** "Learn from your mistakes", when on. */
+  retro: unknown;
   menuOpen: boolean;
   treeVersion: number;
   drawnVersion: number;
@@ -163,6 +165,7 @@ export function fakeController(options: FakeOptions): FakeController {
     synthetic: options.synthetic ?? false,
     orientation: 'white',
     practice: undefined,
+    retro: undefined,
     menuOpen: false,
     treeVersion: 0,
     drawnVersion: -1,
