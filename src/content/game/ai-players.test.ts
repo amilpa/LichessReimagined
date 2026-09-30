@@ -23,9 +23,7 @@ describe('computer players', () => {
     expect(root.style.getPropertyValue('--cdc-ai-white') || null).toBe(scenario.white);
     expect(root.style.getPropertyValue('--cdc-ai-black') || null).toBe(scenario.black);
     const rated = Object.fromEntries(
-      players.flatMap(({ color, rating }) =>
-        rating === undefined ? [] : [[color, String(rating)]],
-      ),
+      players.flatMap(({ color, rating }) => (rating === undefined ? [] : [[color, rating]])),
     );
     expect(rated).toEqual(scenario.ratings);
   });

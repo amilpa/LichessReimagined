@@ -72,9 +72,8 @@ export function markComputerPlayers(players: readonly ComputerPlayer[]): void {
 /** Every level's rating, for the game setup's level picker. */
 export function markLevelRatings(): void {
   const root = document.documentElement;
-  AI_RATINGS.forEach((rating, index) => {
+  for (const [index, rating] of AI_RATINGS.entries())
     setStyleProperty(root, `--cdc-ai-level-${index + 1}`, `"${rating}"`);
-  });
 }
 
 export const aiPlayers: Feature = {
