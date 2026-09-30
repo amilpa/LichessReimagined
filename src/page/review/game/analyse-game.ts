@@ -1,4 +1,5 @@
 import type { Analysis } from '#page/lichess/analysis.ts';
+import { uciPosition } from '#page/review/engine/position.ts';
 import { toRecord } from '#page/review/engine/record.ts';
 import { FULL_SEARCH, QUICK_SEARCH } from '#page/review/engine/settings.ts';
 import type { Stockfish } from '#page/review/engine/stockfish.ts';
@@ -70,7 +71,10 @@ async function runEngine(session: Session, analysis: Analysis, engine: Stockfish
       continue;
     }
     const fen = work.nodes[job.index]?.fen ?? '';
-    const result = await engine.analyse(fen, job.deep ? FULL_SEARCH : QUICK_SEARCH);
+    const result = await engine.analyse({
+      position: uciPosition(work.nodes.slice(0, job.index + 1), analysis.chess960),
+      limits: job.deep ? FULL_SEARCH : QUICK_SEARCH,
+    });
     const record = toRecord(fen, result);
     if (job.deep) setDeep(session, job.index, record);
     else work.rough[job.index] = record;

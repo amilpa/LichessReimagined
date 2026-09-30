@@ -1,6 +1,5 @@
 import type { Analysis } from '#page/lichess/analysis.ts';
 import { GOOD, isError } from '#page/review/classes/classes.ts';
-import { FULL_SEARCH } from '#page/review/engine/settings.ts';
 import { engineFor } from '#page/review/engine-pool.ts';
 import type { JudgedMove, Session } from '#page/review/session.ts';
 
@@ -63,7 +62,10 @@ async function lookUp(session: Session, analysis: Analysis, request: LineRequest
   let line: readonly string[] = [request.first];
   try {
     const engine = await engineFor(session, analysis);
-    const result = await engine.analyse(request.fen, FULL_SEARCH, [request.first]);
+    const result = await engine.analyse({
+      position: `fen ${request.fen}`,
+      searchMoves: [request.first],
+    });
     const pv = result.lines[0]?.pv ?? [];
     if (pv[0] === request.first) line = pv;
   } catch (error) {

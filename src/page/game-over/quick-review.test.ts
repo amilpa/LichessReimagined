@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { EngineResult } from '#page/review/engine/uci.ts';
+import { uciPosition } from '#page/review/engine/position.ts';
 import { quickReview } from './quick-review.ts';
 
 // The fool's mate: 1. f3 e5 2. g4 Qh4#.
@@ -60,11 +61,14 @@ const RESULTS: readonly EngineResult[] = [
   { lines: [{ mate: 0, pv: [] }] },
 ];
 
-function fakeEngine(): { analyse: (fen: string) => Promise<EngineResult>; asked: string[] } {
+/** What the engine is sent for each position: its FEN, and the moves since the last irreversible one. */
+const SENT = POSITIONS.map((_, i) => uciPosition(POSITIONS.slice(0, i + 1), false));
+
+function fakeEngine(): { analyse: (position: string) => Promise<EngineResult>; asked: string[] } {
   const asked: string[] = [];
-  const analyse = (fen: string): Promise<EngineResult> => {
-    asked.push(fen);
-    const index = POSITIONS.findIndex(position => position.fen === fen);
+  const analyse = (position: string): Promise<EngineResult> => {
+    asked.push(position);
+    const index = SENT.indexOf(position);
     return Promise.resolve(RESULTS[index] ?? { lines: [] });
   };
   return { analyse, asked };
@@ -82,7 +86,9 @@ describe('quickReview', () => {
       analyse,
       onProgress: share => progress.push(share),
     });
-    expect(asked).toEqual(POSITIONS.map(position => position.fen));
+    expect(asked).toEqual(SENT);
+    // The queen's move comes after a reversible one: the engine gets it with its move.
+    expect(asked.at(-1)).toBe(`fen ${POSITIONS[3]?.fen} moves d8h4`);
     expect(progress).toEqual([0.2, 0.4, 0.6, 0.8, 1]);
   });
 

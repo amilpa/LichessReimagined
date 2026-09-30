@@ -2,7 +2,7 @@ import { vi } from 'vitest';
 import { z } from 'zod/mini';
 import { StoredRecordCodec } from '#page/review/evaluation/stored.ts';
 import { someMove } from './fake-chess.ts';
-import { type FakeController, fakeController } from './fake-lichess.ts';
+import { type FakeController, fakeController, fenAfter } from './fake-lichess.ts';
 import { mountFakePage } from './fake-page.ts';
 import { FAKE_STOCKFISH_URL, installFakeStockfish } from './fake-stockfish.ts';
 import { fakeReviewLayout } from './fake-review-layout.ts';
@@ -129,6 +129,19 @@ function refuse(): never {
   throw new Error('401');
 }
 
+/** The fake engine, which finds the positions it's sent in the fake game's tree. */
+function installEngine(ctrl: FakeController): void {
+  installFakeStockfish(
+    depth => (depth >= 16 ? 150 : 30),
+    (fen, moves) => fenAfter(ctrl.tree.root, fen, moves),
+  );
+  // A small memory is all the fake engine needs.
+  const RealMemory = WebAssembly.Memory;
+  vi.spyOn(WebAssembly, 'Memory').mockImplementation(function smallMemory() {
+    return new RealMemory({ initial: 1 });
+  });
+}
+
 /** Sets the page up for `scenario`; `boot` then starts the review under test. */
 export function setUp(scenario: Scenario): Driver {
   vi.useFakeTimers({
@@ -177,12 +190,7 @@ export function setUp(scenario: Scenario): Driver {
       },
     },
   });
-  installFakeStockfish(depth => (depth >= 16 ? 150 : 30));
-  // A small memory is all the fake engine needs.
-  const RealMemory = WebAssembly.Memory;
-  vi.spyOn(WebAssembly, 'Memory').mockImplementation(function smallMemory() {
-    return new RealMemory({ initial: 1 });
-  });
+  installEngine(ctrl);
   stubNetwork(game, scenario);
   fakeReviewLayout();
   return {

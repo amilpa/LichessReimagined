@@ -48,14 +48,23 @@ interface FakeModule {
   setNnueBuffer: () => void;
 }
 
+/** The FEN that `moves` (in the engine's notation) reach from `fen`. */
+export type ResolvePosition = (fen: string, moves: readonly string[]) => string;
+
 /** Installs the fake: each search answers after `delay(depth)` ms of the (fake) clock. */
-export function installFakeStockfish(delay: (depth: number) => number): void {
+export function installFakeStockfish(
+  delay: (depth: number) => number,
+  resolve: ResolvePosition = fen => fen,
+): void {
   const factory = (): FakeModule => {
     let fen = '';
     const module: FakeModule = {
       listen: () => {},
       uci: command => {
-        if (command.startsWith('position fen ')) fen = command.slice('position fen '.length);
+        if (command.startsWith('position fen ')) {
+          const [from = '', moves] = command.slice('position fen '.length).split(' moves ');
+          fen = resolve(from, moves?.split(' ') ?? []);
+        }
         const depth = /^go depth (\d+)/.exec(command)?.[1];
         if (depth === undefined) return;
         const only = / searchmoves (\S+)/.exec(command)?.[1];

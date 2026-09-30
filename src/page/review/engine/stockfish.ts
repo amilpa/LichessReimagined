@@ -60,6 +60,14 @@ async function loadModule(): Promise<StockfishModule> {
   return module;
 }
 
+export interface EngineSearch {
+  /** What follows `position`: `fen …`, and the moves leading to it (`uciPosition`). */
+  readonly position: string;
+  readonly limits?: SearchLimits;
+  /** Only the lines that start with these moves. */
+  readonly searchMoves?: readonly string[];
+}
+
 export interface StockfishOptions {
   readonly chess960: boolean;
 }
@@ -88,15 +96,12 @@ export class Stockfish {
     module.uci('ucinewgame');
   }
 
-  /**
-   * The engine's two best lines for a position, from the side to move's view;
-   * with `searchMoves`, the lines that start with those moves only.
-   */
-  analyse(
-    fen: string,
-    limits: SearchLimits = FULL_SEARCH,
-    searchMoves: readonly string[] = [],
-  ): Promise<EngineResult> {
+  /** The engine's two best lines for a position, from the side to move's view. */
+  analyse({
+    position,
+    limits = FULL_SEARCH,
+    searchMoves = [],
+  }: EngineSearch): Promise<EngineResult> {
     const run = (): Promise<EngineResult> =>
       new Promise(resolve => {
         const module = this.#module;
@@ -108,7 +113,7 @@ export class Stockfish {
           this.#onLine = null;
           resolve(result);
         };
-        module.uci(`position fen ${fen}`);
+        module.uci(`position ${position}`);
         // `searchmoves` takes the rest of the command: it goes last.
         const only = searchMoves.length > 0 ? ` searchmoves ${searchMoves.join(' ')}` : '';
         module.uci(`go depth ${limits.depth} movetime ${limits.movetime}${only}`);

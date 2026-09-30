@@ -1,3 +1,4 @@
+import { normalizeUci } from '#page/review/chess/notation.ts';
 import { nodeId, playUci } from './fake-chess.ts';
 
 // Test support: a stand-in for Lichess's analysis page, its controller and
@@ -86,6 +87,27 @@ export function nodesAlong(root: FakeNode, path: string): FakeNode[] {
     node = child;
   }
   return list;
+}
+
+function findFen(node: FakeNode, fen: string): FakeNode | undefined {
+  if (node.fen === fen) return node;
+  for (const child of node.children) {
+    const found = findFen(child, fen);
+    if (found) return found;
+  }
+  return undefined;
+}
+
+/** The FEN `moves` (in the engine's notation) reach from the tree's position `fen`, for the fake engine. */
+export function fenAfter(root: FakeNode, fen: string, moves: readonly string[]): string {
+  let node = findFen(root, fen);
+  for (const uci of moves)
+    // Chess960 keeps Lichess's king-takes-rook castling: either notation matches.
+    node = node?.children.find(
+      child => child.uci === uci || normalizeUci(child.uci, false) === uci,
+    );
+  if (!node) throw new Error(`No such line in the fake tree: ${fen} moves ${moves.join(' ')}`);
+  return node.fen;
 }
 
 function mainlineOf(root: FakeNode): FakeNode[] {

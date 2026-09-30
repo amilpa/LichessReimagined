@@ -1,5 +1,6 @@
 import type { Color } from '#shared/chess/types.ts';
 import type { MoveClass } from '#page/review/classes/classes.ts';
+import { uciPosition } from '#page/review/engine/position.ts';
 import { toRecord } from '#page/review/engine/record.ts';
 import { GAME_OVER_SEARCH } from '#page/review/engine/settings.ts';
 import { Stockfish } from '#page/review/engine/stockfish.ts';
@@ -14,7 +15,8 @@ import type { GameRating } from '#page/review/rating/rate-game.ts';
 // counts. Game Review searches deeper, so its figures may differ a little;
 // nothing here goes in its cache.
 
-export type Analyse = (fen: string) => Promise<EngineResult>;
+/** A search of the position `uciPosition` gives. */
+export type Analyse = (position: string) => Promise<EngineResult>;
 
 export interface QuickReviewInput {
   readonly positions: readonly GamePosition[];
@@ -40,7 +42,8 @@ export async function quickReview(input: QuickReviewInput): Promise<PlayerSummar
   const { positions, color, bookPly, chess960, analyse, onProgress } = input;
   const records: PositionRecord[] = [];
   for (const [i, position] of positions.entries()) {
-    records.push(toRecord(position.fen, await analyse(position.fen)));
+    const result = await analyse(uciPosition(positions.slice(0, i + 1), chess960));
+    records.push(toRecord(position.fen, result));
     onProgress?.((i + 1) / positions.length);
   }
   const review = buildReview({
@@ -60,5 +63,5 @@ export async function quickReview(input: QuickReviewInput): Promise<PlayerSummar
 export async function bootQuickEngine(chess960: boolean): Promise<Analyse> {
   const engine = new Stockfish({ chess960 });
   await engine.boot();
-  return fen => engine.analyse(fen, GAME_OVER_SEARCH);
+  return position => engine.analyse({ position, limits: GAME_OVER_SEARCH });
 }

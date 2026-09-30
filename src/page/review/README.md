@@ -16,7 +16,7 @@ opening's name and the page's asset URL.
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `chess/`      | `uciToSan`, `normalizeUci` (Lichess's king-takes-rook castling in the engine's terms), `lineMoves` (an engine line, move by move), piece values, `isHanging`, `isSacrifice`        |
 | `evaluation/` | `PositionRecord` (a position's evaluation from White's view), `StoredRecordCodec` (the cache's format), win probability, move accuracy, `formatEval`, `barLabel`                   |
-| `engine/`     | `Stockfish` (Lichess's own build, one search at a time), UCI output parsing, `toRecord`, the cloud's answers (`CloudEvalSchema`, `fromCloud`), search limits (the game over's too) |
+| `engine/`     | `Stockfish` (Lichess's build, one search at a time), `uciPosition`, UCI parsing, `toRecord`, the cloud's answers (`CloudEvalSchema`, `fromCloud`), search limits (game over's too) |
 | `classes/`    | The move classes (`MoveClass`), their colors, sets (`GOOD`, `GRAPH_DOTS`…), ranks, coach moods and icons (`classSvg`, `classImage`, `classIcon`)                                   |
 | `judge/`      | `judge` (one move, from its two positions' records), `mateVerdict`, `SURE_MATE`, the summary's `playerAccuracy`, `classCounts` and `nextOfClass`                                   |
 | `rating/`     | The Game Rating: `model.json` (written by `tools/game-rating/fit.py`), Lichess's `divide`, `isTactical`, the odds, `rateGame`                                                      |
