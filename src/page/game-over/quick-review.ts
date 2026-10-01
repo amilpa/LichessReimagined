@@ -3,7 +3,7 @@ import type { MoveClass } from '#page/review/classes/classes.ts';
 import { uciPosition } from '#page/review/engine/position.ts';
 import { toRecord } from '#page/review/engine/record.ts';
 import { GAME_OVER_SEARCH } from '#page/review/engine/settings.ts';
-import { Stockfish } from '#page/review/engine/stockfish.ts';
+import type { Stockfish } from '#page/review/engine/stockfish.ts';
 import type { EngineResult } from '#page/review/engine/uci.ts';
 import type { PositionRecord } from '#page/review/evaluation/score.ts';
 import { buildReview } from '#page/review/game/build.ts';
@@ -59,9 +59,8 @@ export async function quickReview(input: QuickReviewInput): Promise<PlayerSummar
   return { accuracy: review.accuracy[color], counts: review.counts[color] };
 }
 
-/** Lichess's Stockfish, booted for the quick look's searches. */
-export async function bootQuickEngine(chess960: boolean): Promise<Analyse> {
-  const engine = new Stockfish({ chess960 });
-  await engine.boot();
-  return position => engine.analyse({ position, limits: GAME_OVER_SEARCH });
-}
+/** The quick look's searches, on an engine booted for the game. */
+export const quickSearch =
+  (engine: Stockfish): Analyse =>
+  position =>
+    engine.analyse({ position, limits: GAME_OVER_SEARCH });

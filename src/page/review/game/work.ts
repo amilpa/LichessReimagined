@@ -7,14 +7,19 @@ import { buildReview } from './build.ts';
 // The game's analysis as it fills in. A deep record is never replaced, so a
 // move, once judged, stays as it is.
 
-/** Takes a full-depth record; the moves played off the game are judged from it too. */
-export function setDeep(session: Session, index: number, record: PositionRecord): void {
+/** A full-depth record just taken: the moves played off the game are judged from it too. */
+export function seeDeep(session: Session, index: number, record: PositionRecord): void {
   const { work, live } = session;
-  if (work.deep[index]) return;
-  work.deep[index] = record;
   const node = work.nodes[index];
   if (node) live.evals.set(node.fen, record);
   live.judged.clear();
+}
+
+/** Takes a full-depth record, unless the position has one. */
+export function setDeep(session: Session, index: number, record: PositionRecord): void {
+  if (session.work.deep[index]) return;
+  session.work.deep[index] = record;
+  seeDeep(session, index, record);
 }
 
 /**

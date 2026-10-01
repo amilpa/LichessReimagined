@@ -1,7 +1,8 @@
 import type { Analysis } from '#page/lichess/analysis.ts';
 
-// When the game's analysis may use the processor: not in a hidden tab, and
-// not while "Learn from your mistakes" runs Lichess's own engine.
+// When the game's analysis may use the processor: not in a hidden tab, and,
+// on the analysis page, not while "Learn from your mistakes" runs Lichess's
+// own engine.
 
 // How often a paused analysis checks whether Lichess's exercise has ended.
 const EXERCISE_CHECK_MS = 500;
@@ -11,7 +12,7 @@ export const pause = (milliseconds: number): Promise<void> =>
     setTimeout(resolve, milliseconds);
   });
 
-const whenVisible = (): Promise<void> =>
+export const whenVisible = (): Promise<void> =>
   new Promise(resolve => {
     if (!document.hidden) {
       resolve();

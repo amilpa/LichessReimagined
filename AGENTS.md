@@ -279,12 +279,14 @@ Learned the hard way. Check here before touching the area concerned.
   round data has no clock history: move times come from
   `/game/export/<id>?clocks=true`, and every position of a game just over
   from its finished page (`/<id>`, `cfg.data.treeParts`), with its status and
-  winner, which `page/game-over` reads rather than the page's words. Game
-  pages are cross-origin isolated like analysis pages, so Lichess's Stockfish
-  runs there too. Lichess marks the kings with its own badges
-  (`.cg-custom-svgs`), which ours replace. In a scrolling grid, a track like
-  `minmax(30px, auto)` never grows past its minimum: put the minimum on the
-  items.
+  winner, which `page/game-over` reads rather than the page's words; its
+  `treeParts` are the analysis page's mainline, start included, so the game
+  page fills the review's cache under the key that page reads. Game pages
+  are cross-origin isolated like analysis pages, so Lichess's Stockfish runs
+  there too, but never before the game is over (Lichess's fair play rules).
+  Lichess marks the kings with its own badges (`.cg-custom-svgs`), which ours
+  replace. In a scrolling grid, a track like `minmax(30px, auto)` never grows
+  past its minimum: put the minimum on the items.
 - **Two worlds.** `src/content` can't see page objects (`site`,
   chessground's `cgKey` expandos); `src/page` can, but can't call
   `chrome.runtime.getURL`. They talk through the messages of

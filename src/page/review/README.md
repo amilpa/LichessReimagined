@@ -48,7 +48,8 @@ opening)` → `CommentPart[]`: sentences, the droppable one going when the
 
 `variants.ts` names the variants the review judges. The game page's
 game over (`src/page/game-over`) reuses the engine and `buildReview` for a
-quick, uncached look at the player's moves.
+quick, uncached look at the player's moves, then runs the review's own
+analysis there (`game-over/precompute.ts`), so the review opens complete.
 
 ## The UI
 
@@ -81,10 +82,13 @@ three, on one thread each, as the device's cores and memory allow, each on a
 position of its own (`nextJob`), on Lichess's relaxed SIMD build where the
 browser runs it (`engine/relaxed-simd.ts`), a quarter faster. A position whose
 engine stops answering goes to another, and once the analysis is complete all
-engines but one are ended.
-It waits in a hidden tab and while "Learn from your mistakes" runs
-(`game/wait.ts`). Its records are saved as they come in
-(`cdc-review-progress:*`), then under the finished game's key
+engines but one are ended. It waits in a hidden tab and while "Learn from your
+mistakes" runs (`game/wait.ts`). Its core (`game/analyse-records.ts`) needs
+only the game's id, positions and variant (`RecordsRun`, `game/records.ts`):
+the analysis page adds the export, the draft and the move on the board first
+(`game/analyse-game.ts`); the game page, once the game is over, runs it at
+full depth only and ends its engines when done. Its records are saved as they
+come in (`cdc-review-progress:*`), then under the finished game's key
 (`cdc-review:*`); an index (`cdc-review-index`) keeps the 200 games opened
 last and drops the others (`game/cache.ts`).
 

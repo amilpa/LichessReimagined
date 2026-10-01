@@ -108,6 +108,32 @@ describe('EnginePool', () => {
     expect(pool.size).toBe(1);
   });
 
+  it('ends every engine, a busy one once its search is done, and fails the waiting searches', async () => {
+    const [first, second] = [new HeldEngine(), new HeldEngine()];
+    const pool = new EnginePool([first, second]);
+    const running = ['one', 'two'].map(position => pool.analyse({ position }));
+    const waiting = pool.analyse({ position: 'three' });
+    pool.end();
+    await expect(waiting).rejects.toThrow('No engine is running');
+    expect(first.quits + second.quits).toBe(0);
+    first.end();
+    second.end();
+    await expect(Promise.all(running)).resolves.toHaveLength(2);
+    expect([first.quits, second.quits]).toEqual([1, 1]);
+    expect(pool.size).toBe(0);
+    const late = new HeldEngine();
+    pool.add(late);
+    expect(late.quits).toBe(1);
+  });
+
+  it('ends an idle engine at once', () => {
+    const idle = new HeldEngine();
+    const pool = new EnginePool([idle]);
+    pool.end();
+    expect(idle.quits).toBe(1);
+    expect(pool.size).toBe(0);
+  });
+
   it('takes an engine booted later, which picks up the waiting searches', async () => {
     const [first, later] = [new HeldEngine(), new HeldEngine()];
     const pool = new EnginePool([first]);

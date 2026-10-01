@@ -53,6 +53,13 @@ export class EnginePool {
     this.#trim();
   }
 
+  /** Ends every engine, each once its search is done; the searches still waiting fail. */
+  end(): void {
+    this.#limit = 0;
+    for (const request of this.#waiting.splice(0)) request.reject(noEngine());
+    this.#trim();
+  }
+
   analyse(search: EngineSearch, { urgent = false } = {}): Promise<EngineResult> {
     return new Promise((resolve, reject) => {
       if (this.#size === 0) {

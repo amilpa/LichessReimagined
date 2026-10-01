@@ -1,13 +1,16 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod/mini';
 import { StoredRecordCodec } from '#page/review/evaluation/stored.ts';
+import { fixtureGame } from '#page/review/fixtures/review-script.ts';
 import { UNIT_CASES } from '#page/review/fixtures/unit-cases.ts';
 import { builtSession, fakeGame, newSession } from '#page/review/fixtures/unit-review.ts';
 import type { JudgedMove } from '#page/review/session.ts';
 import { nearly } from '#shared/testing/numbers.ts';
-import { nextJob } from './analyse-game.ts';
+import { urgentPositions } from './analyse-game.ts';
+import { nextJob } from './analyse-records.ts';
 import { cacheRecords, readCachedRecords } from './cache.ts';
 import { lookUpCloud } from './cloud-lookup.ts';
+import { newRecordsWork, type RecordsRun, type RecordsWork } from './records.ts';
 import { readExport } from './export.ts';
 import { seedBooks } from './work.ts';
 // What the original script built from the same records.
@@ -91,10 +94,22 @@ describe('nextJob', () => {
       for (const i of job.deep) session.work.deep[i] = fixture.records[i];
       for (const i of job.rough) session.work.rough[i] = fixture.records[i];
       session.work.cloudAt = job.cloudAt ?? Infinity;
-      const found = nextJob({ work: session.work, mode: job.mode, analysis: facade });
+      const { work } = session;
+      const urgent = urgentPositions(work, job.mode, facade);
+      const found = nextJob({ work, urgent, draft: true });
       expect(found && [found.index, found.deep]).toEqual(expected);
     },
   );
+});
+
+describe('nextJob without a draft', () => {
+  it('searches at full depth only, from the start, around the cloud', () => {
+    const work = newRecordsWork(fixtureGame('opera').nodes);
+    expect(nextJob({ work, urgent: [], draft: true })).toEqual({ index: 0, deep: false });
+    expect(nextJob({ work, urgent: [], draft: false })).toEqual({ index: 0, deep: true });
+    work.cloudAt = 0;
+    expect(nextJob({ work, urgent: [], draft: false })).toEqual({ index: 4, deep: true });
+  });
 });
 
 describe('the game’s export', () => {
@@ -157,6 +172,17 @@ describe('the cache', () => {
   });
 });
 
+/** A run of the analysis over `work`, its engines never asked for. */
+const cloudRun = (work: RecordsWork): RecordsRun => ({
+  gameId: 'operaaaa',
+  chess960: false,
+  work,
+  engines: () => Promise.reject(new Error('no engine')),
+  whenFree: () => Promise.resolve(),
+  draft: true,
+  onFailure: () => {},
+});
+
 describe('the cloud', () => {
   it('takes the opening’s positions it knows, and stops after three misses', async () => {
     const { fixture, facade } = fakeGame('opera');
@@ -174,7 +200,7 @@ describe('the cloud', () => {
           : new Response('', { status: 404 });
       }),
     );
-    await lookUpCloud(session, facade);
+    await lookUpCloud(cloudRun(session.work));
     expect(asked).toHaveLength(7);
     expect(session.work.deep.flatMap((record, i) => (record ? [i] : []))).toEqual([0, 1, 3]);
     // White's view, castling in the engine's notation.
@@ -188,7 +214,7 @@ describe('the cloud', () => {
     session.work.nodes = facade.mainline;
     const fetch = vi.fn<() => Promise<Response>>(async () => new Response('', { status: 429 }));
     vi.stubGlobal('fetch', fetch);
-    await lookUpCloud(session, facade);
+    await lookUpCloud(cloudRun(session.work));
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 });

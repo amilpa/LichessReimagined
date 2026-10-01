@@ -26,17 +26,18 @@ export function engineCount(): number {
   return clamp(Math.min(byCores, byMemory), 1, MAX_ENGINES);
 }
 
-async function bootEngine(analysis: Analysis): Promise<Stockfish> {
-  const engine = new Stockfish({ chess960: analysis.chess960 });
+/** Lichess's Stockfish, booted for a game. */
+export async function bootEngine(chess960: boolean): Promise<Stockfish> {
+  const engine = new Stockfish({ chess960 });
   await engine.boot();
   return engine;
 }
 
 /** The engines past the first, booted one after another; one that fails ends it. */
-async function bootMore(pool: EnginePool, analysis: Analysis): Promise<void> {
+async function bootMore(pool: EnginePool, chess960: boolean): Promise<void> {
   for (let count = 1; count < engineCount(); count++) {
     try {
-      pool.add(await bootEngine(analysis));
+      pool.add(await bootEngine(chess960));
     } catch (error) {
       // The browser short of memory, say: the engines already up carry on.
       console.warn('[LichessDotCom] an extra engine failed to boot', error);
@@ -45,17 +46,27 @@ async function bootMore(pool: EnginePool, analysis: Analysis): Promise<void> {
   }
 }
 
+export interface EnginesOptions {
+  readonly chess960: boolean;
+  /** An engine already booted for the game, taken as the first. */
+  readonly first?: Stockfish;
+}
+
+/**
+ * A pool of engines: it comes with the first, and takes the others as they
+ * boot, one at a time. If the first fails to boot, the pool fails.
+ */
+export async function startEngines({ chess960, first }: EnginesOptions): Promise<EnginePool> {
+  const pool = new EnginePool([first ?? (await bootEngine(chess960))]);
+  void bootMore(pool, chess960);
+  return pool;
+}
+
 /**
  * The page's engines, booted once: the game's analysis and the moves played
- * off it share them. The pool comes with the first engine, and takes the
- * others as they boot, one at a time. If the first fails, the pool fails,
- * and stays failed.
+ * off it share them. A pool that failed stays failed.
  */
 export function engineFor(session: Session, analysis: Analysis): Promise<EnginePool> {
-  session.engine ??= (async () => {
-    const pool = new EnginePool([await bootEngine(analysis)]);
-    void bootMore(pool, analysis);
-    return pool;
-  })();
+  session.engine ??= startEngines({ chess960: analysis.chess960 });
   return session.engine;
 }

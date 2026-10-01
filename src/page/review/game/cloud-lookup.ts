@@ -1,8 +1,6 @@
-import type { Analysis } from '#page/lichess/analysis.ts';
 import { CloudEvalSchema, fromCloud } from '#page/review/engine/cloud.ts';
 import { toRecord } from '#page/review/engine/record.ts';
-import type { Session } from '#page/review/session.ts';
-import { refresh, setDeep } from './work.ts';
+import { type RecordsRun, takeDeep } from './records.ts';
 
 // Lichess's cloud: positions someone already analyzed deep, which for a game
 // means its opening. It asks for one position at a time, one request at a
@@ -17,8 +15,8 @@ const cloudUrl = (fen: string): string =>
 
 type Answer = 'found' | 'miss' | 'stop';
 
-async function lookUp(session: Session, analysis: Analysis, index: number): Promise<Answer> {
-  const fen = session.work.nodes[index]?.fen ?? '';
+async function lookUp(run: RecordsRun, index: number): Promise<Answer> {
+  const fen = run.work.nodes[index]?.fen ?? '';
   const response = await fetch(cloudUrl(fen), {
     headers: { Accept: 'application/json' },
     signal: AbortSignal.timeout(TIMEOUT_MS),
@@ -30,20 +28,20 @@ async function lookUp(session: Session, analysis: Analysis, index: number): Prom
   if (!cloud.success) return 'stop';
   const result = fromCloud(fen, cloud.data);
   if (!result) return 'miss';
-  setDeep(session, index, toRecord(fen, result));
-  refresh(session, analysis);
+  takeDeep(run, index, toRecord(fen, result));
+  run.onChange?.();
   return 'found';
 }
 
-export async function lookUpCloud(session: Session, analysis: Analysis): Promise<void> {
-  const { work } = session;
+export async function lookUpCloud(run: RecordsRun): Promise<void> {
+  const { work } = run;
   let misses = 0;
   for (let i = 0; i < work.nodes.length && misses < MISSES; i++) {
     work.cloudAt = i;
     if (work.deep[i]) continue;
     let answer: Answer;
     try {
-      answer = await lookUp(session, analysis, i);
+      answer = await lookUp(run, i);
     } catch {
       answer = 'stop';
     }

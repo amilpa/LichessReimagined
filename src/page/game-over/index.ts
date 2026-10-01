@@ -3,19 +3,22 @@ import { isParsing, queryOne } from '#shared/dom.ts';
 import type { Feature } from '#shared/features.ts';
 import { readPageInitData } from '#shared/page-init-data.ts';
 import { playedGame, type PlayedGame } from '#shared/round-init.ts';
+import type { Stockfish } from '#page/review/engine/stockfish.ts';
+import { bootEngine } from '#page/review/engine-pool.ts';
 import { fetchExport } from '#page/review/game/export.ts';
-import { REVIEWED_VARIANTS } from '#page/review/variants.ts';
 import { opponentName } from './board.ts';
 import { fetchFinishedGame, type FinishedGame } from './game-data.ts';
 import { readOutcome } from './outcome.ts';
-import { bootQuickEngine, quickReview } from './quick-review.ts';
+import { precomputeReview, worthReviewing } from './precompute.ts';
+import { quickReview, quickSearch } from './quick-review.ts';
 import { gameOverTexts } from './texts.ts';
 import { mountGameOver, type GameOverView } from './view.ts';
 
 // The end of a game the player watches end: the kings' badges, confetti for
 // the winner, and a card where the coach counts the player's best moves and
-// errors before sending them to Game Review. Only for a game that ends while
-// the page is open: a finished game's page opens on its review instead.
+// errors before sending them to Game Review, whose analysis then runs here,
+// so the review is ready when opened. Only for a game that ends while the
+// page is open: a finished game's page opens on its review instead.
 
 const WATCH_MS = 250;
 // Our layout's: below, the board isn't in the grid the game over is placed in.
@@ -29,32 +32,42 @@ async function bookPly(gameId: string, positions: number): Promise<number> {
   }
 }
 
+/** The coach's count; the engine it ran on, or null when none ran or it failed. */
 async function countMoves(
   view: GameOverView,
   game: PlayedGame,
   finished: FinishedGame,
-): Promise<void> {
+): Promise<Stockfish | null> {
   const positions = finished.treeParts;
   const variant = finished.game.variant.key;
-  if (!REVIEWED_VARIANTS.has(variant) || positions.length < 2) {
+  if (!worthReviewing(variant, positions.length)) {
     view.verdict(null);
-    return;
+    return null;
   }
   view.analysing();
   const chess960 = variant === 'chess960';
   try {
-    const [analyse, book] = await Promise.all([
-      bootQuickEngine(chess960),
+    const [engine, book] = await Promise.all([
+      bootEngine(chess960),
       bookPly(game.gameId, positions.length),
     ]);
+    const analyse = quickSearch(engine);
     view.verdict(
       await quickReview({ positions, color: game.color, bookPly: book, chess960, analyse }),
     );
+    return engine;
   } catch (error) {
     console.warn('[LichessDotCom] game over analysis', error);
     view.failed();
+    return null;
   }
 }
+
+/** The game's page still shows it over: not another game, nor the same page gone. */
+const showsOver = (main: HTMLElement, gameId: string): boolean =>
+  main.isConnected &&
+  main.querySelector('.result-wrap') !== null &&
+  location.pathname.startsWith(`/${gameId}`);
 
 async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
   const outcomeOf = (finished: FinishedGame): ReturnType<typeof readOutcome> =>
@@ -75,7 +88,16 @@ async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
     opponent: opponentName(main, game.color, texts.anonymous),
     reviewHref: `/${game.gameId}/${game.color}`,
   });
-  await countMoves(view, game, finished);
+  const engine = await countMoves(view, game, finished);
+  // Then Game Review's own analysis, for when the player opens it.
+  if (engine)
+    await precomputeReview({
+      gameId: game.gameId,
+      positions: finished.treeParts,
+      variant: finished.game.variant.key,
+      engine,
+      stillOver: () => showsOver(main, game.gameId),
+    });
 }
 
 /** Waits for the game's result to show, then plays its end once. */

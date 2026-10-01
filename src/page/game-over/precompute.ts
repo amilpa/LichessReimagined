@@ -1,0 +1,52 @@
+import type { EnginePool } from '#page/review/engine/pool.ts';
+import type { Stockfish } from '#page/review/engine/stockfish.ts';
+import { startEngines } from '#page/review/engine-pool.ts';
+import { analyseRecords } from '#page/review/game/analyse-records.ts';
+import { newRecordsWork } from '#page/review/game/records.ts';
+import { whenVisible } from '#page/review/game/wait.ts';
+import type { GamePosition } from '#page/review/judge/types.ts';
+import { REVIEWED_VARIANTS } from '#page/review/variants.ts';
+
+// Game Review's analysis, run on the game page once the coach's quick look
+// is done: the same searches, cached under the key the review reads, so
+// opening it shows the review at once. Only once the game is over: Lichess's
+// fair play rules allow no engine during a game.
+
+export interface PrecomputeInput {
+  readonly gameId: string;
+  /** The game's start, then one position per move: the analysis page's mainline. */
+  readonly positions: readonly GamePosition[];
+  readonly variant: string;
+  /** The quick look's engine, which the analysis takes over. */
+  readonly engine: Stockfish;
+  /** False once the page has moved on from the game (to another one). */
+  readonly stillOver: () => boolean;
+}
+
+/** Whether the review would analyse the game: one it judges, with a move at least. */
+export const worthReviewing = (variant: string, positions: number): boolean =>
+  REVIEWED_VARIANTS.has(variant) && positions >= 2;
+
+export async function precomputeReview(input: PrecomputeInput): Promise<void> {
+  const { gameId, positions, variant, engine, stillOver } = input;
+  const chess960 = variant === 'chess960';
+  const booted: { pool?: Promise<EnginePool> } = {};
+  try {
+    if (!worthReviewing(variant, positions.length) || !stillOver()) return;
+    await analyseRecords({
+      gameId,
+      chess960,
+      work: newRecordsWork(positions),
+      engines: () => (booted.pool ??= startEngines({ chess960, first: engine })),
+      whenFree: whenVisible,
+      // Nobody sees the graph here: the full depth only.
+      draft: false,
+      stopped: () => !stillOver(),
+      onFailure: (what, error) => console.warn(`[LichessDotCom] game over review: ${what}`, error),
+    });
+  } finally {
+    // Nothing else on the game page needs an engine: they weigh on it.
+    if (booted.pool) void booted.pool.then(pool => pool.end());
+    else engine.quit();
+  }
+}

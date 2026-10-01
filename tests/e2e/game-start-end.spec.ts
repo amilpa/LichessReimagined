@@ -2,12 +2,14 @@ import type { Page } from '@playwright/test';
 import { expect, test } from './fixtures.ts';
 import { readFleeting } from './support/fleeting.ts';
 import { playMoves, startFriendGame } from './support/friend-game.ts';
-import { computedStyle } from './support/lichess.ts';
+import { computedStyle, openLichess } from './support/lichess.ts';
+import { reviewParts, storedReview } from './support/review.ts';
 
 // One game, start to end, between two visitors in their own browsers: the
 // players' intro as it opens, then the scholar's mate, whose Na6 and b6 leave
-// theory, so the coach has errors to count. One live game serves both, and no
-// engine plays either side.
+// theory, so the coach has errors to count, then Game Review, its analysis
+// done on the game page while the card showed. One live game serves all, and
+// no engine plays either side.
 
 const SCHOLARS_MATE = ['e2e4', 'e7e5', 'd1h5', 'b8a6', 'f1c4', 'b7b6', 'h5f7'];
 
@@ -61,6 +63,18 @@ async function expectGameOver(winner: Page, loser: Page): Promise<void> {
   await expect(loser.locator('.cdc-end__king')).toHaveCount(2);
 }
 
+/** The review was analysed on the game page: its analysis page opens on it whole. */
+async function expectReviewReady(page: Page): Promise<void> {
+  const gameId = /lichess\.org\/(\w{8})/.exec(page.url())?.[1] ?? '';
+  await expect.poll(() => storedReview(page, gameId), { timeout: 60_000 }).not.toBeNull();
+  // Seven moves: the start, then a position per move, as the analysis page counts them.
+  expect((await storedReview(page, gameId))?.storageKey).toBe(`cdc-review:${gameId}:8:v1`);
+  await openLichess(page, `/${gameId}/white`);
+  const { panel } = reviewParts(page);
+  await expect(panel.locator('.cdc-review__top .cdc-acc--w')).toHaveText(/^\d{1,3}\.\d$/);
+  await expect(panel.locator('.cdc-summary-pct'), 'no analysis left to do').toHaveCount(0);
+}
+
 test('a game opens on the players’ intro and ends on its result', async ({ page }) => {
   // Two browsers, a live game and the engine on both sides.
   test.slow();
@@ -71,6 +85,7 @@ test('a game opens on the players’ intro and ends on its result', async ({ pag
     });
     await playMoves(game, SCHOLARS_MATE);
     await test.step('the game over', () => expectGameOver(game.white, game.black));
+    await test.step('the review, ready', () => expectReviewReady(game.white));
     expect(game.guestErrors, 'errors from the extension on the guest’s pages').toEqual([]);
   } finally {
     await game.guest.close();

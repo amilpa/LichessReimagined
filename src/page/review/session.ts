@@ -3,6 +3,7 @@ import type { Color } from '#shared/chess/types.ts';
 import type { TreeNode } from '#page/lichess/tree.ts';
 import type { StreamState } from './comment/markup.ts';
 import type { EnginePool } from './engine/pool.ts';
+import type { RecordsWork } from './game/records.ts';
 import type { PositionRecord } from './evaluation/score.ts';
 import type { ReviewLanguage } from './i18n/types.ts';
 import type { ClassCounts } from './judge/summary.ts';
@@ -106,23 +107,11 @@ export interface LineLookups {
   busy: boolean;
 }
 
-/**
- * The game's analysis as it comes in. `deep` is what verdicts are made from
- * (the engine at full depth, or the cloud); `rough` stands in on the graph
- * until then (the quick pass, or the game's server analysis).
- */
-export interface GameWork {
+/** The game's analysis as it comes in (`RecordsWork`), and the review's own part of it. */
+export interface GameWork extends RecordsWork {
   nodes: readonly TreeNode[];
-  readonly deep: (PositionRecord | undefined)[];
-  readonly rough: (PositionRecord | undefined)[];
   readonly moves: (JudgedMove | undefined)[];
   bookPly: number;
-  /** The position the cloud is looking up, Infinity once it's done. */
-  cloudAt: number;
-  /** The positions the engines are searching. */
-  readonly pending: Set<number>;
-  /** Full-depth searches done, for saving the progress now and then. */
-  searched: number;
 }
 
 export interface AvatarState {
