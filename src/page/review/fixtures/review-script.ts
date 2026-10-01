@@ -4,7 +4,7 @@ import { StoredRecordCodec } from '#page/review/evaluation/stored.ts';
 import { someMove } from './fake-chess.ts';
 import { type FakeController, fakeController, fenAfter } from './fake-lichess.ts';
 import { mountFakePage } from './fake-page.ts';
-import { FAKE_STOCKFISH_URL, installFakeStockfish } from './fake-stockfish.ts';
+import { FAKE_STOCKFISH_URL, installFakeStockfish, type SearchDelay } from './fake-stockfish.ts';
 import { fakeReviewLayout } from './fake-review-layout.ts';
 import { fixtureGames, type FixtureGame } from './replay.ts';
 import { hashOf, type ReviewSnapshot, snapshotReview } from './review-snapshot.ts';
@@ -129,12 +129,16 @@ function refuse(): never {
   throw new Error('401');
 }
 
+/** The original's timing: a full-depth search takes 150 ms, a quick one 30 ms. */
+export const SCRIPT_DELAY: SearchDelay = ({ depth }) => (depth >= 16 ? 150 : 30);
+
 /** The fake engine, which finds the positions it's sent in the fake game's tree. */
+export function useFakeEngine(ctrl: FakeController, delay: SearchDelay = SCRIPT_DELAY): void {
+  installFakeStockfish(delay, (fen, moves) => fenAfter(ctrl.tree.root, fen, moves));
+}
+
 function installEngine(ctrl: FakeController): void {
-  installFakeStockfish(
-    depth => (depth >= 16 ? 150 : 30),
-    (fen, moves) => fenAfter(ctrl.tree.root, fen, moves),
-  );
+  useFakeEngine(ctrl);
   // Two cores: one engine, as the original had, so the recordings still match.
   vi.spyOn(navigator, 'hardwareConcurrency', 'get').mockReturnValue(2);
   // A small memory is all the fake engine needs.

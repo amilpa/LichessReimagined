@@ -1,7 +1,5 @@
 import { afterEach, expect, it, vi } from 'vitest';
-import { fenAfter } from '#page/review/fixtures/fake-lichess.ts';
-import { installFakeStockfish } from '#page/review/fixtures/fake-stockfish.ts';
-import { setUp } from '#page/review/fixtures/review-script.ts';
+import { setUp, useFakeEngine } from '#page/review/fixtures/review-script.ts';
 import { review } from '#page/review/index.ts';
 
 // A started review can't be stopped: this file has its window to itself.
@@ -18,13 +16,10 @@ function setHidden(hidden: boolean): void {
 it('waits while the tab is hidden, and carries on once it shows', async () => {
   const { ctrl, advance } = setUp({ game: 'passant', lang: 'en', cached: false, steps: [] });
   let searches = 0;
-  installFakeStockfish(
-    () => {
-      searches++;
-      return 30;
-    },
-    (fen, moves) => fenAfter(ctrl.tree.root, fen, moves),
-  );
+  useFakeEngine(ctrl, () => {
+    searches++;
+    return 30;
+  });
   setHidden(true);
   review.start();
   await advance(5000);

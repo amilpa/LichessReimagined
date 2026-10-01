@@ -24,10 +24,8 @@ const isStockfishModule = createGuard(StockfishModuleSchema);
 
 const INITIAL_PAGES = 1536;
 
-// How long past its `movetime` a search may run before it's stopped, and then
-// how long the engine has to answer the stop.
+// How long past its `movetime` a search may run before the engine is given up.
 const STOP_GRACE_MS = 3000;
-const GIVE_UP_MS = 3000;
 
 // Some browsers refuse a large shared memory: ask for less until they agree.
 function sharedMemory(): WebAssembly.Memory {
@@ -131,26 +129,30 @@ export class Stockfish {
     return result;
   }
 
+  /** Ends the engine: its worker stops, and its searches fail from now on. */
+  quit(): void {
+    this.#module?.uci('quit');
+    this.#module = null;
+    this.#onLine = null;
+  }
+
   #run({ position, limits = FULL_SEARCH, searchMoves = [] }: EngineSearch): Promise<EngineResult> {
     return new Promise((resolve, reject) => {
       const module = this.#module;
       if (!module) throw new Error('Stockfish is not running');
       const collector = new SearchCollector();
-      let giveUp = 0;
-      // A search outliving its time is told to stop; one that won't means the engine is gone.
-      const stop = setTimeout(() => {
+      // Stockfish keeps to `movetime`: a search outliving it means the engine is
+      // in trouble. Its result would be cut short, so the search fails, to be
+      // done again, and the engine is ended.
+      const timer = setTimeout(() => {
         module.uci('stop');
-        giveUp = setTimeout(() => {
-          this.#onLine = null;
-          this.#module = null;
-          reject(new Error('Stockfish stopped answering'));
-        }, GIVE_UP_MS);
+        this.quit();
+        reject(new Error('Stockfish stopped answering'));
       }, limits.movetime + STOP_GRACE_MS);
       this.#onLine = text => {
         const result = collector.read(text);
         if (!result) return;
-        clearTimeout(stop);
-        clearTimeout(giveUp);
+        clearTimeout(timer);
         this.#onLine = null;
         resolve(result);
       };

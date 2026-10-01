@@ -151,14 +151,14 @@ describe('Stockfish', () => {
   });
 });
 
-/** An engine whose searches answer only once told to stop, or never. */
-async function bootSilent(answersStop: boolean): Promise<{ engine: Stockfish; sent: string[] }> {
+/** An engine whose searches answer only once told to stop. */
+async function bootSilent(): Promise<{ engine: Stockfish; sent: string[] }> {
   const sent: string[] = [];
   const module = {
     listen: (_text: string): void => {},
     uci: (command: string): void => {
       sent.push(command);
-      if (command === 'stop' && answersStop) queueMicrotask(() => module.listen('bestmove e2e4'));
+      if (command === 'stop') queueMicrotask(() => module.listen('bestmove e2e4'));
     },
     getRecommendedNnue: (): string => '',
     setNnueBuffer: (): void => {},
@@ -182,17 +182,8 @@ describe('Stockfish that stops answering', () => {
     Reflect.deleteProperty(globalThis, 'cdcFakeStockfish');
   });
 
-  it('stops a search that outlives its time', async () => {
-    const { engine, sent } = await bootSilent(true);
-    vi.useFakeTimers();
-    const search = engine.analyse({ position: 'fen one', limits: QUICK_SEARCH });
-    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
-    expect(sent.at(-1)).toBe('stop');
-    await expect(search).resolves.toEqual({ lines: [] });
-  });
-
-  it('gives up on an engine that ignores the stop, failing the searches queued behind', async () => {
-    const { engine } = await bootSilent(false);
+  it('ends an engine whose search outlives its time, failing the searches queued behind', async () => {
+    const { engine, sent } = await bootSilent();
     vi.useFakeTimers();
     const first = engine.analyse({ position: 'fen one', limits: QUICK_SEARCH });
     const second = engine.analyse({ position: 'fen two', limits: QUICK_SEARCH });
@@ -202,10 +193,13 @@ describe('Stockfish that stops answering', () => {
         (error: unknown) => (error instanceof Error ? error.message : null),
       ),
     );
-    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 6000);
+    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
+    // Its answer to the stop would be cut short: it isn't kept.
     expect(await Promise.all(failures)).toEqual([
       'Stockfish stopped answering',
       'Stockfish is not running',
     ]);
+    expect(sent.slice(-2)).toEqual(['stop', 'quit']);
+    expect(engine.running).toBe(false);
   });
 });

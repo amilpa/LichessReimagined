@@ -150,4 +150,6 @@ export async function analyseGame(session: Session, analysis: Analysis): Promise
     return;
   }
   cacheRecords(gameId, positions, work.deep);
+  // Only the moves played on the board and Explain need an engine from now on.
+  engine.keep(1);
 }

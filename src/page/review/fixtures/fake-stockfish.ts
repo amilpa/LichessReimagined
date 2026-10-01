@@ -51,30 +51,43 @@ interface FakeModule {
 /** The FEN that `moves` (in the engine's notation) reach from `fen`. */
 export type ResolvePosition = (fen: string, moves: readonly string[]) => string;
 
-/** Installs the fake: each search answers after `delay(depth, fen)` ms of the (fake) clock. */
+/** How long a search takes, in ms of the (fake) clock; null for one that never answers. */
+export type SearchDelay = (search: {
+  readonly depth: number;
+  readonly fen: string;
+  /** The moves sent after the FEN it was given (`position fen … moves …`). */
+  readonly moves: readonly string[];
+  /** Which engine of the page searches it, in boot order from 0. */
+  readonly engine: number;
+}) => number | null;
+
+/** Installs the fake: each search answers after `delay` ms of the (fake) clock. */
 export function installFakeStockfish(
-  delay: (depth: number, fen: string) => number,
+  delay: SearchDelay,
   resolve: ResolvePosition = fen => fen,
 ): void {
+  let booted = 0;
   const factory = (): FakeModule => {
+    const engine = booted++;
     let fen = '';
+    let moves: readonly string[] = [];
     const module: FakeModule = {
       listen: () => {},
       uci: command => {
         if (command.startsWith('position fen ')) {
-          const [from = '', moves] = command.slice('position fen '.length).split(' moves ');
-          fen = resolve(from, moves?.split(' ') ?? []);
+          const [from = '', after] = command.slice('position fen '.length).split(' moves ');
+          moves = after?.split(' ') ?? [];
+          fen = resolve(from, moves);
         }
         const depth = /^go depth (\d+)/.exec(command)?.[1];
         if (depth === undefined) return;
         const only = / searchmoves (\S+)/.exec(command)?.[1];
         const lines = fakeSearch(fen, Number(depth), only);
-        setTimeout(
-          () => {
-            for (const line of lines) module.listen(line);
-          },
-          delay(Number(depth), fen),
-        );
+        const wait = delay({ depth: Number(depth), fen, moves, engine });
+        if (wait === null) return;
+        setTimeout(() => {
+          for (const line of lines) module.listen(line);
+        }, wait);
       },
       getRecommendedNnue: () => '',
       setNnueBuffer: () => {},
