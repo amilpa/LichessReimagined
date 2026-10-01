@@ -14,6 +14,7 @@ import { precomputeReview, type PrecomputeInput } from './precompute.ts';
 
 afterEach(() => {
   vi.useRealTimers();
+  setHidden(false);
 });
 
 const GAME = fixtureGame('passant');
@@ -111,15 +112,32 @@ describe('precomputeReview', () => {
     expect(quits).toHaveBeenCalledTimes(1);
   });
 
-  it('waits while the tab is hidden', async () => {
-    const { advance, searches } = gamePage();
-    setHidden(true);
+  it('ends its engines once the tab is hidden, its progress saved', async () => {
+    const { advance, searches, quits } = gamePage();
     const done = precomputeReview(await input());
-    await advance(5000);
-    expect(searches.deep).toBe(0);
+    await advance(1000);
+    setHidden(true);
+    await advance(1000);
+    expect(await done).toBeNull();
+    const searched = searches.deep;
+    expect(searched).toBeGreaterThan(0);
+    expect(searched).toBeLessThan(GAME.nodes.length - 2);
+    expect(localStorage.getItem(PROGRESS_KEY)).not.toBeNull();
+    expect(quits).toHaveBeenCalledTimes(1);
     setHidden(false);
     await advance(10_000);
-    await done;
-    expect(localStorage.getItem(CACHE_KEY)).not.toBeNull();
+    expect(searches.deep).toBe(searched);
+  });
+
+  it('boots nothing more in a tab already hidden', async () => {
+    const { advance, searches, quits } = gamePage();
+    vi.spyOn(navigator, 'hardwareConcurrency', 'get').mockReturnValue(8);
+    setHidden(true);
+    const done = precomputeReview(await input());
+    await advance(1000);
+    expect(await done).toBeNull();
+    expect(searches.deep).toBe(0);
+    // The quick look's engine only.
+    expect(quits).toHaveBeenCalledTimes(1);
   });
 });

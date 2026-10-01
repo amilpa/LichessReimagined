@@ -4,7 +4,6 @@ import type { PositionRecord } from '#page/review/evaluation/score.ts';
 import { startEngines } from '#page/review/engine-pool.ts';
 import { analyseRecords } from '#page/review/game/analyse-records.ts';
 import { isComplete, newRecordsWork } from '#page/review/game/records.ts';
-import { whenVisible } from '#page/review/game/wait.ts';
 import type { GamePosition } from '#page/review/judge/types.ts';
 import { REVIEWED_VARIANTS } from '#page/review/variants.ts';
 
@@ -43,10 +42,11 @@ export async function precomputeReview(
       chess960,
       work,
       engines: () => (booted.pool ??= startEngines({ chess960, first: engine })),
-      whenFree: whenVisible,
+      whenFree: () => Promise.resolve(),
       // Nobody sees the graph here: the full depth only.
       draft: false,
-      stopped: () => !stillOver(),
+      // A hidden tab keeps no engine: the review takes up the progress saved.
+      stopped: () => document.hidden || !stillOver(),
       onFailure: (what, error) => console.warn(`[LichessDotCom] game over review: ${what}`, error),
     });
     return isComplete(work) ? work.deep : null;

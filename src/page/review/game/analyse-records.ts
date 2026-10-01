@@ -106,7 +106,7 @@ export async function analyseRecords(run: RecordsRun): Promise<EnginePool | null
   for (const [i, record] of (readCachedRecords(gameId, positions) ?? []).entries())
     if (record) takeDeep(run, i, record);
   run.onChange?.();
-  if (isComplete(work)) return null;
+  if (isComplete(work) || run.stopped?.()) return null;
   if (!run.chess960) void lookUpCloud(run);
   let pool: EnginePool;
   try {
