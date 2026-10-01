@@ -51,6 +51,22 @@ describe('packs', () => {
     expect(document.getElementById('cdc-packs')?.textContent).toContain('---white-king:url(');
   });
 
+  it('shows Lichess’s if the packs take too long to read, and the pack once they’re in', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    localStorage.setItem('cdc-board', WOOD.id);
+    const read = Promise.withResolvers<Pack[]>();
+    vi.mocked(readPacks).mockReturnValueOnce(read.promise);
+    packs.start();
+    vi.advanceTimersByTime(1999);
+    expect(root.dataset.cdcLoading).toBe('board');
+    vi.advanceTimersByTime(1);
+    expect(root.dataset.cdcLoading).toBeUndefined();
+    vi.useRealTimers();
+    read.resolve([WOOD]);
+    await flush();
+    expect(root.dataset.cdcBoard).toBe('pack');
+  });
+
   it('hides nothing while Lichess’s own are picked', async () => {
     vi.mocked(readPacks).mockResolvedValueOnce([WOOD]);
     packs.start();

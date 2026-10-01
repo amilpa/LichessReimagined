@@ -76,6 +76,8 @@ export function createLibrary({ packs, save, erase, show }: LibraryOptions): Lib
     remove: async id => {
       await erase(id);
       list = list.filter(pack => pack.id !== id);
+      // Else every page would hide the part a moment, waiting for a pack that's gone.
+      for (const kind of PART_KINDS) if (storedPick(kind) === id) pick(kind, LICHESS);
       update();
     },
     onChange: listener => {

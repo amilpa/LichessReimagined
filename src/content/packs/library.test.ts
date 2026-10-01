@@ -100,6 +100,8 @@ describe('createLibrary', () => {
     expect(erase).toHaveBeenCalledWith(WOOD.id);
     expect(packs.packs()).toEqual([]);
     expect(ids(shown.at(-1)).board).toBeNull();
+    expect(storedPick('board')).toBe(LICHESS);
+    expect(localStorage.getItem('cdc-board')).toBe(LICHESS);
   });
 
   it('changes nothing when the store fails', async () => {

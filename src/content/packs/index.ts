@@ -35,11 +35,16 @@ function createSoundSender(): (shown: Shown) => void {
   };
 }
 
+// IndexedDB answers in milliseconds, but nothing bounds it: past this, the
+// page shows Lichess's, and the pack once it's read.
+const LOADING_MAX_MS = 2000;
+
 async function start(): Promise<Library> {
   setLoading([
     ...(storedPick('board') === LICHESS ? [] : ['board']),
     ...(storedPick('piece') === LICHESS ? [] : ['pieces']),
   ]);
+  const timer = window.setTimeout(() => setLoading([]), LOADING_MAX_MS);
   const sendSounds = createSoundSender();
   try {
     return createLibrary({
@@ -52,6 +57,7 @@ async function start(): Promise<Library> {
       },
     });
   } finally {
+    window.clearTimeout(timer);
     setLoading([]);
   }
 }

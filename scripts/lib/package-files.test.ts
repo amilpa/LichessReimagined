@@ -50,16 +50,16 @@ describe('listPackageFiles', () => {
       'manifest.json',
       'content.js',
       'content.js.map',
-      'img/pieces/neo/wp.webp',
-      'img/boards/green.webp',
+      'img/icons/trophy.svg',
+      'img/coaches/coach-1.webp',
       'img/.DS_Store',
       '_locales/en/messages.json',
     ]);
     expect(await listPackageFiles(dir)).toEqual([
       '_locales/en/messages.json',
       'content.js',
-      'img/boards/green.webp',
-      'img/pieces/neo/wp.webp',
+      'img/coaches/coach-1.webp',
+      'img/icons/trophy.svg',
       'manifest.json',
     ]);
   });
