@@ -263,8 +263,8 @@ Learned the hard way. Check here before touching the area concerned.
   `content/bootstrap/fonts.ts` appends `@font-face` rules pointing them (and
   `CDC Sans`) at the system font; they must come after Lichess's, hence not
   in the manifest CSS.
-- **Icons.** The sidebar's icons are Chess.com's, named after its nav data
-  (`"icon":{"name":…}`). Time-control icons are Lichess font glyphs in
+- **Icons.** The colored icons are Microsoft's Fluent Emoji (MIT), each
+  named in `EMOJI` (`tools/assets/fetch.py`). Time-control icons are Lichess font glyphs in
   `[data-icon]::before` (`\e059` ultrabullet, `\e032` bullet, `\e008` blitz,
   `\e002` rapid, `\e00a` classical, `\e019` correspondence), masked with our
   icons in `styles/theme/game-modes.css`: set `--cdc-mode-color` on the

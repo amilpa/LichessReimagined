@@ -34,7 +34,7 @@
   content: '';
   width: 24px;
   height: 24px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/time-clock.svg') center /
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/stopwatch.svg') center /
     contain no-repeat;
 }
 
@@ -219,8 +219,8 @@
   content: '';
   width: 22px;
   height: 22px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center /
-    contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophy.svg') center / contain
+    no-repeat;
 }
 
 .racer .racer__post__next {

@@ -111,22 +111,22 @@
   /* Icons from public/img/icons. Sections are matched by position and links by how their
    * href ends: Lichess localizes the labels and some paths (/fr/training). */
   #topnav section:nth-of-type(1) > a {
-    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/play-white.svg');
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/play-button.svg');
   }
   #topnav section:nth-of-type(2) > a {
     --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
   }
   #topnav section:nth-of-type(3) > a {
-    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg');
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/graduation-cap.svg');
   }
   #topnav section:nth-of-type(4) > a {
-    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/binoculars.svg');
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/eyes.svg');
   }
   #topnav section:nth-of-type(5) > a {
-    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/friends.svg');
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/people-hugging.svg');
   }
   #topnav section:nth-of-type(6) > a {
-    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/time-clock.svg');
+    --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/hammer-and-wrench.svg');
   }
 
   #topnav section > div a {
@@ -144,93 +144,93 @@
   }
 
   #topnav div a[href*='#hook'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/play-white.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/play-button.svg');
   }
   #topnav div a[href$='/tournament'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/tournament-gold.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophy.svg');
   }
   #topnav div a[href$='/swiss'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/clipboard-vote.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/ballot-box.svg');
   }
   #topnav div a[href$='/simul'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-stack-green.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/circus-tent.svg');
   }
   #topnav div a[href$='/training'] {
     --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
   }
   #topnav div a[href$='/training/themes'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-open-knight.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/bookmark-tabs.svg');
   }
   #topnav div a[href*='/training/dashboard'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/rating-stats.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/chart-increasing.svg');
   }
   #topnav div a[href$='/streak'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/calendar-dailypuzzle.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/spiral-calendar.svg');
   }
   #topnav div a[href$='/storm'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-rush.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/high-voltage.svg');
   }
   #topnav div a[href$='/racer'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/battle.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/crossed-swords.svg');
   }
   #topnav div a[href$='/learn'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/chess-rules.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/light-bulb.svg');
   }
   #topnav div a[href$='/practice'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/game-practice.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/bullseye.svg');
   }
   #topnav div a[href$='/training/coordinate'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-vision-coordinate.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/round-pushpin.svg');
   }
   #topnav div a[href$='/study'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-open-aqua.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/open-book.svg');
   }
   #topnav div a[href$='/coach'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/coaches.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/teacher.svg');
   }
   #topnav div a[href$='/broadcast'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophy.svg');
   }
   #topnav div a[href$='/tv'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/device-chess-tv.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/television.svg');
   }
   #topnav div a[href$='/games'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/playing.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/hourglass.svg');
   }
   #topnav div a[href$='/streamer'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/stream.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/video-camera.svg');
   }
   #topnav div a[href$='/video'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/today.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/satellite-antenna.svg');
   }
   #topnav div a[href$='/player'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/masters.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/sports-medal.svg');
   }
   #topnav div a[href$='/following'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/friends.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/people-hugging.svg');
   }
   #topnav div a[href$='/team'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/clubs.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/handshake.svg');
   }
   #topnav div a[href$='/forum'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/communication-bubbles.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/speech-balloon.svg');
   }
   #topnav div a[href*='/blog'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/page-blog.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/newspaper.svg');
   }
   #topnav div a[href$='/analysis'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/magnifier-analysis.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/microscope.svg');
   }
   #topnav div a[href$='/opening'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-stack-pawn.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/books.svg');
   }
   #topnav div a[href$='/editor'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-2x2-calculated.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/pencil.svg');
   }
   #topnav div a[href$='/paste'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-archive.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/clipboard.svg');
   }
   #topnav div a[href$='/games/search'] {
-    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/board-4x4-brown.svg');
+    --cdc-sub-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/magnifying-glass.svg');
   }
 }

@@ -61,7 +61,7 @@
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/coaches.svg') center /
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/teacher.svg') center /
     contain no-repeat;
 }
 

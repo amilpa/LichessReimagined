@@ -1,5 +1,6 @@
 // Third-party code bundled into the scripts ships with its license: the
-// build fails on a bundled package that isn't listed here.
+// build fails on a bundled package that isn't listed here. Bundled files keep
+// theirs in public/licenses.
 
 interface License {
   /** The package, as it's named under node_modules. */

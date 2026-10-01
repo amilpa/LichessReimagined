@@ -5,47 +5,47 @@
 /* Side menu icons and tile colors (tiles in pages/; the FIDE pages share this menu).
    "My broadcasts" and another user's end with their name; the last two lists are admin-only. */
 .subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/today.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/satellite-antenna.svg');
   --cdc-nav-color: #81b64c;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href*='/broadcast/by/'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/stream.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/video-camera.svg');
   --cdc-nav-color: #8a6fd8;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/subscribed'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/heart-red.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/red-heart.svg');
   --cdc-nav-color: #e25555;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/calendar'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/calendar-dailypuzzle.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/spiral-calendar.svg');
   --cdc-nav-color: #1baaf0;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/help'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-open-aqua.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/open-book.svg');
   --cdc-nav-color: #26c2a3;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/app'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/device-mobile.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/mobile-phone.svg');
   --cdc-nav-color: #1baaf0;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/all-private'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/lock-closed.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/locked.svg');
   --cdc-nav-color: #f7c631;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href$='/broadcast/non-official'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/binoculars.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/eyes.svg');
   --cdc-nav-color: #9aa3ad;
 }
 
 .subnav[data-cdc-nav~='broadcast'] a[href$='/fide'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/masters.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/sports-medal.svg');
   --cdc-nav-color: #f7c631;
 }
 

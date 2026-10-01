@@ -38,8 +38,8 @@ main.page-menu .page-menu__content.puzzle-dashboard {
   grid-row: 1 / span 2;
   width: 40px;
   height: 40px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/rating-stats.svg') center /
-    contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/chart-increasing.svg') center
+    / contain no-repeat;
 }
 
 .puzzle-dashboard .box__top h1 strong {

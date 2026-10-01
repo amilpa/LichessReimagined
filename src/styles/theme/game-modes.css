@@ -99,15 +99,15 @@
 
 /* Atomic, Antichess and Horde only have full-color pictures: images, not masks. */
 [data-icon='\e01c']::before {
-  --cdc-mode-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/variant-atomic.svg');
+  --cdc-mode-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/collision.svg');
 }
 
 [data-icon='\e01e']::before {
-  --cdc-mode-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/variant-giveaway.svg');
+  --cdc-mode-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/upside-down-face.svg');
 }
 
 [data-icon='\e03d']::before {
-  --cdc-mode-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/variant-horde.svg');
+  --cdc-mode-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/zombie.svg');
 }
 
 :is([data-icon='\e01c'], [data-icon='\e01e'], [data-icon='\e03d'])::before {

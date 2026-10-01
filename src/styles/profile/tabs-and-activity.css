@@ -210,13 +210,13 @@
   --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
 }
 .user-show .activity .entry > icon[data-icon='\e05a'] {
-  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-rush.svg');
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/high-voltage.svg');
 }
 .user-show .activity .entry > icon[data-icon='\e00b'] {
-  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/battle.svg');
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/crossed-swords.svg');
 }
 .user-show .activity .entry > icon[data-icon='\e06f'] {
-  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/calendar-dailypuzzle.svg');
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/spiral-calendar.svg');
 }
 
 /* Take the rest of the row: sized to content, a long line wrapped under the icon. */

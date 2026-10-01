@@ -23,8 +23,8 @@ main.swiss .swiss__main__header > icon.img {
   width: 48px;
   height: 48px;
   margin: 0 !important;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg') center /
-    contain no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophy.svg') center / contain
+    no-repeat;
 }
 
 main.swiss .swiss__main__header > icon.img::before {

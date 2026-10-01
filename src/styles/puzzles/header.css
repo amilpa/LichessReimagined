@@ -17,7 +17,7 @@ main.page-menu:has(.puzzle-themes) {
 }
 
 main.page-menu:has(.puzzle-openings) {
-  --cdc-title-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/book-stack-pawn.svg');
+  --cdc-title-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/books.svg');
 }
 
 /* The themes page's h1 is the box top; the openings page's sits in one, by the sort picker. */

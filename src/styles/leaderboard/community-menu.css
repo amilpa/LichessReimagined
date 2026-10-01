@@ -3,17 +3,17 @@
 /* The side menu these pages share with the rating stats, bots and FIDE players: each link's
  * icon and color (the tiles are in pages/). */
 .subnav a[href$='/player'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/leaderboard.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/bar-chart.svg');
   --cdc-nav-color: #f7c631;
 }
 
 .subnav a[href*='/stat/rating/distribution'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/rating-stats.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/chart-increasing.svg');
   --cdc-nav-color: #1baaf0;
 }
 
 .subnav a[href$='/tournament/leaderboard'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophies.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/trophy.svg');
   --cdc-nav-color: #fa742c;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .subnav a[href$='/player/bots'] {
-  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/device-bot.svg');
+  --cdc-nav-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/robot.svg');
   --cdc-nav-color: #8a6fd8;
 }
 

@@ -231,11 +231,11 @@
   --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg');
 }
 .side.sub-ratings a[href*='/storm/dashboard/'] {
-  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-rush.svg');
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/high-voltage.svg');
 }
 .side.sub-ratings a[href$='/racer'] {
-  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/battle.svg');
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/crossed-swords.svg');
 }
 .side.sub-ratings a[href$='/streak'] {
-  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/calendar-dailypuzzle.svg');
+  --cdc-puzzle-icon: url('chrome-extension://__MSG_@@extension_id__/img/icons/spiral-calendar.svg');
 }

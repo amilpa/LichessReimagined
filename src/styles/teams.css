@@ -31,8 +31,8 @@ main.team-list h1.box__top::before {
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/clubs.svg') center / contain
-    no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/handshake.svg') center /
+    contain no-repeat;
 }
 
 main.team-list .box__top .search input {

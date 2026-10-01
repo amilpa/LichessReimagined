@@ -31,7 +31,7 @@ main.swiss-home h1.box__top::before {
   flex: none;
   width: 36px;
   height: 36px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/clipboard-vote.svg') center /
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/ballot-box.svg') center /
     contain no-repeat;
 }
 

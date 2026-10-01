@@ -32,8 +32,8 @@ main.racer-home > h1.box__top::before {
   flex: none;
   width: 40px;
   height: 40px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/battle.svg') center / contain
-    no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/crossed-swords.svg') center /
+    contain no-repeat;
 }
 
 /* "About Puzzle Racer", as a pill beside the title. */
@@ -61,7 +61,7 @@ main.racer-home > h1.box__top::before {
   content: '';
   width: 18px;
   height: 18px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/lessons.svg') center /
+  background: url('chrome-extension://__MSG_@@extension_id__/img/icons/graduation-cap.svg') center /
     contain no-repeat;
 }
 

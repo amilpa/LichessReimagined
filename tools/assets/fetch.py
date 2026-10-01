@@ -1,15 +1,13 @@
-"""Chess.com's icons and sounds, bundled in public/img/icons and public/sounds
-so that the extension loads nothing from its hosts while it runs.
+"""Microsoft's Fluent Emoji (MIT), bundled in public/img/icons so that the
+extension loads nothing from another site while it runs.
 
-Downloads what the code names and the folders lack:
+Downloads what the code names and the folder lacks:
 
-  public/img/icons/<name>.svg   every img/icons/<name>.svg of the CSS in src/styles: a
-                                color icon from Chess.com's design system, or one of
-                                the few images of its web bundle (BUNDLE)
-  public/sounds/<name>.mp3      every sound of SoundNameSchema in src/shared/sounds.ts
+  public/img/icons/<name>.svg   every img/icons/<name>.svg of the CSS in src/styles,
+                                the "Color" style of the emoji EMOJI names
 
-Run it again when a rule names a new icon or a sound is added. Existing files
-are kept unless --force. Needs only Python.
+Run it again when a rule names a new icon (add it to EMOJI first). Existing
+files are kept unless --force. Needs only Python.
 
   python3 tools/assets/fetch.py [--force]
 """
@@ -17,36 +15,87 @@ are kept unless --force. Needs only Python.
 import re
 import sys
 import time
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 STYLES_DIR = ROOT / 'src/styles'
-SOUNDS_SOURCE = ROOT / 'src/shared/sounds.ts'
-COLOR_ICONS = 'https://assets-ds.chess.com/color-icons'
-SOUNDS = 'https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default'
-# The icons that aren't color icons, and where each one is in the web bundle.
-BUNDLE = {
-    'user-image': 'https://www.chess.com/bundles/web/images/user-image.007dad08.svg',
-    'variant-atomic': 'https://www.chess.com/bundles/web/images/variants/variant-atomic.svg',
-    'variant-giveaway': 'https://www.chess.com/bundles/web/images/variants/giveaway.svg',
-    'variant-horde': 'https://www.chess.com/bundles/web/images/variants/horde.svg',
+ICONS_DIR = ROOT / 'public/img/icons'
+ASSETS = 'https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets'
+# Each icon's emoji, as its folder is named in the repository's assets.
+EMOJI = {
+    'ballot-box': 'Ballot box with ballot',
+    'bar-chart': 'Bar chart',
+    'bookmark-tabs': 'Bookmark tabs',
+    'books': 'Books',
+    'brain': 'Brain',
+    'bullseye': 'Bullseye',
+    'chart-increasing': 'Chart increasing',
+    'circus-tent': 'Circus tent',
+    'clipboard': 'Clipboard',
+    'collision': 'Collision',
+    'crossed-swords': 'Crossed swords',
+    'crown': 'Crown',
+    'eyes': 'Eyes',
+    'globe': 'Globe with meridians',
+    'graduation-cap': 'Graduation cap',
+    'hammer-and-wrench': 'Hammer and wrench',
+    'handshake': 'Handshake',
+    'high-voltage': 'High voltage',
+    'hourglass': 'Hourglass not done',
+    'light-bulb': 'Light bulb',
+    'locked': 'Locked',
+    'magnifying-glass': 'Magnifying glass tilted right',
+    'microscope': 'Microscope',
+    'mobile-phone': 'Mobile phone',
+    'newspaper': 'Newspaper',
+    'open-book': 'Open book',
+    'pencil': 'Pencil',
+    'people-hugging': 'People hugging',
+    'play-button': 'Play button',
+    'puzzle-piece': 'Puzzle piece',
+    'red-heart': 'Red heart',
+    'robot': 'Robot',
+    'round-pushpin': 'Round pushpin',
+    'satellite-antenna': 'Satellite antenna',
+    'shield': 'Shield',
+    'speech-balloon': 'Speech balloon',
+    'spiral-calendar': 'Spiral calendar',
+    'sports-medal': 'Sports medal',
+    'stopwatch': 'Stopwatch',
+    'teacher': 'Teacher',
+    'television': 'Television',
+    'trophy': 'Trophy',
+    'upside-down-face': 'Upside-down face',
+    'video-camera': 'Video camera',
+    'zombie': 'Person zombie',
 }
-# The CDN turns away unknown user agents.
-HEADERS = {'User-Agent': 'Mozilla/5.0 Chrome/140'}
 ATTEMPTS = 3
 
 
 def download(url):
-    request = urllib.request.Request(url, headers=HEADERS)
     for attempt in range(1, ATTEMPTS + 1):
         try:
-            with urllib.request.urlopen(request, timeout=30) as response:
+            with urllib.request.urlopen(url, timeout=30) as response:
                 return response.read()
+        except urllib.error.HTTPError as error:
+            if error.code == 404:
+                return None
+            if attempt == ATTEMPTS:
+                raise
         except Exception:
             if attempt == ATTEMPTS:
                 raise
-            time.sleep(1)
+        time.sleep(1)
+
+
+def emoji_urls(folder):
+    """The emoji's Color SVG, where it has no skin tones, then where it has."""
+    stem = folder.lower().replace(' ', '_')
+    quoted = urllib.parse.quote(folder)
+    yield f'{ASSETS}/{quoted}/Color/{stem}_color.svg'
+    yield f'{ASSETS}/{quoted}/Default/Color/{stem}_color_default.svg'
 
 
 def icon_names():
@@ -59,26 +108,26 @@ def icon_names():
     )
 
 
-def sound_names():
-    source = SOUNDS_SOURCE.read_text()
-    names = re.search(r'SoundNameSchema = z\.enum\(\[(.*?)\]\)', source, re.DOTALL).group(1)
-    return re.findall(r"'([^']*)'", names)
-
-
-def fetch(url, path, force):
+def fetch(name, force):
+    path = ICONS_DIR / f'{name}.svg'
     if path.exists() and not force:
         return
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(download(url))
-    print(path.relative_to(ROOT))
+    folder = EMOJI.get(name)
+    if folder is None:
+        sys.exit(f'{name}: no emoji in EMOJI')
+    for url in emoji_urls(folder):
+        svg = download(url)
+        if svg is not None:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(svg)
+            print(path.relative_to(ROOT))
+            return
+    sys.exit(f'{name}: {folder} not found')
 
 
 def main(force):
     for name in icon_names():
-        url = BUNDLE.get(name, f'{COLOR_ICONS}/{name}.svg')
-        fetch(url, ROOT / f'public/img/icons/{name}.svg', force)
-    for name in sound_names():
-        fetch(f'{SOUNDS}/{name}.mp3', ROOT / f'public/sounds/{name}.mp3', force)
+        fetch(name, force)
 
 
 if __name__ == '__main__':
