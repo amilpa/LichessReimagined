@@ -207,4 +207,18 @@ describe('Stockfish that stops answering', () => {
     expect(sent.slice(-2)).toEqual(['stop', 'quit']);
     expect(engine.running).toBe(false);
   });
+
+  it('gives a search its time again after the machine slept', async () => {
+    const { engine, sent } = await bootSilent();
+    vi.useFakeTimers();
+    void engine.analyse({ position: 'fen one', limits: QUICK_SEARCH }).catch(() => null);
+    await vi.advanceTimersByTimeAsync(0);
+    // Asleep: the clock jumps an hour, the timers wake late.
+    vi.setSystemTime(Date.now() + 3_600_000);
+    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
+    expect(engine.running).toBe(true);
+    expect(sent).not.toContain('stop');
+    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
+    expect(engine.running).toBe(false);
+  });
 });

@@ -145,11 +145,21 @@ export class Stockfish {
       // Stockfish keeps to `movetime`: a search outliving it means the engine is
       // in trouble. Its result would be cut short, so the search fails, to be
       // done again, and the engine is ended.
-      const timer = setTimeout(() => {
+      const allowed = limits.movetime + STOP_GRACE_MS;
+      let armedAt = Date.now();
+      const giveUp = (): void => {
+        // Far later by the clock: the machine slept, the search with it. It
+        // gets its time again.
+        if (Date.now() - armedAt > allowed * 2) {
+          armedAt = Date.now();
+          timer = setTimeout(giveUp, allowed);
+          return;
+        }
         module.uci('stop');
         this.quit();
         reject(new Error('Stockfish stopped answering'));
-      }, limits.movetime + STOP_GRACE_MS);
+      };
+      let timer = setTimeout(giveUp, allowed);
       this.#onLine = text => {
         const result = collector.read(text);
         if (!result) return;
