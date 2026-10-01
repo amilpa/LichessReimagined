@@ -223,7 +223,8 @@ scale(1.08)` on menu links, both
   scrolling content area).
 - **Every chart is modern:** Lichess's Chart.js canvases are redrawn in SVG
   from the page's data (`content/charts/rating-chart`,
-  `page/charts/distribution`, `content/charts/radar`): smooth curves or
+  `page/charts/distribution`, `content/charts/radar`, `page/charts/game`
+  for a game's advantage and move times): smooth curves or
   rounded columns over a gradient in the series' color (the same color for
   the same rating everywhere), a faint dashed grid, chips as the legend, a
   frosted tooltip, an entrance animation, labels from `i18n.site`, numbers
@@ -340,6 +341,11 @@ Learned the hard way. Check here before touching the area concerned.
   it (in a game: out of the opening). Scores are White's view, castling is
   king-takes-rook. The export's `evals=true` gives the server analysis when
   there is one: one line per position, no second best.
+- **A game's charts.** Lichess fills `#acpl-chart-container` and
+  `#movetimes-chart-container`, in the underboard's panels, when their tab is
+  first picked. Their data: each mainline node's `eval` (the server
+  analysis, White's view, filled in as it runs) and `clock` (centiseconds),
+  and `data.game.moveCentis` and `division` (the phases' plies).
 - **Mate distances.** Win probability can't grade a move between two mates,
   so the review reads mate distances, and our engine only gets short ones
   right (at depth 16, mate in 5 or fewer is exact; longer comes out longer).

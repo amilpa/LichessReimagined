@@ -51,6 +51,27 @@ test('an analysed game shows its charts and "Learn from your mistakes"', async (
   await expect(page.locator(UNDERBOARD)).toBeHidden();
 });
 
+test('a game’s charts are ours, and a click on one goes to its move', async ({ page }) => {
+  await openLichess(page, ANALYSED_GAME);
+  await page.locator('.cdc-review__close').click();
+  await page.locator(BUTTON).click();
+  const menu = page.locator(`${UNDERBOARD} .analyse__underboard__menu`);
+  await menu.locator('[data-panel="computer-analysis"]').click();
+  const advantage = page.locator('#acpl-chart-container');
+  await expect(advantage.locator('.cdc-gchart .cdc-gchart__line')).toHaveAttribute('d', /^M/);
+  await expect(advantage.locator('canvas')).toBeHidden();
+  await menu.locator('[data-panel="move-times"]').click();
+  const times = page.locator('#movetimes-chart-container');
+  await expect(times.locator('.cdc-gchart__bar--white').first()).toBeVisible();
+  await expect(times.locator('canvas')).toBeHidden();
+  const plot = await times.locator('.cdc-gchart svg').boundingBox();
+  if (!plot) throw new Error('no move times chart');
+  await page.mouse.click(plot.x + plot.width / 2, plot.y + plot.height / 2);
+  await expect(times.locator('.cdc-gchart__ply')).toHaveClass(/\bcdc-gchart__ply--on\b/);
+  await expect(times.locator('.cdc-rchart__tip')).toContainText(/\d+\.{1,3} \S+/);
+  expect(await wheelScroll(page)).toBe(0);
+});
+
 test('the exercise’s spinner stays in its tile', async ({ page }) => {
   await openLichess(page, ANALYSED_GAME);
   await page.locator('.cdc-review__close').click();

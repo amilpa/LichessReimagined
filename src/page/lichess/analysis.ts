@@ -3,6 +3,8 @@ import type { Color } from '#shared/chess/types.ts';
 import { createGuard } from '#shared/guards.ts';
 import {
   type Controller,
+  type GameCourse,
+  GameCourseSchema,
   type GameData,
   GameDataSchema,
   isController,
@@ -19,7 +21,7 @@ import { isTreeNode, type TreeNode } from './tree.ts';
 // a typed facade. Members Lichess reassigns as the user moves are narrowed
 // on every read; a node of another shape means Lichess changed, and throws.
 
-export type { GameData, MasterOpening, Player } from './controller.ts';
+export type { GameCourse, GameData, MasterOpening, Player } from './controller.ts';
 
 const isToggle = createGuard(method<[value?: boolean]>());
 const isPlayUci = createGuard(method<[uci: string]>());
@@ -53,6 +55,12 @@ export class Analysis {
       this.#data = result.success ? result.data : null;
     }
     return this.#data;
+  }
+
+  /** The game's move times and phases, or null for data of another shape. */
+  get course(): GameCourse | null {
+    const result = GameCourseSchema.safeParse(this.#controller.data);
+    return result.success ? result.data : null;
   }
 
   get gameId(): string {

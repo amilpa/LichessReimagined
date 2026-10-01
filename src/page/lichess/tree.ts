@@ -10,6 +10,11 @@ const TreeNodeSchema = z.object({
   san: z.optional(z.string()),
   // Set on the engine's lines in the move list ("computer" variations).
   comp: z.optional(z.boolean()),
+  // The server analysis' score and the mover's clock, on a game's mainline:
+  // read with their own schemas (charts/game), so that no other shape of
+  // theirs makes the node unreadable.
+  eval: z.optional(z.unknown()),
+  clock: z.optional(z.unknown()),
   children: z.array(z.unknown()),
 });
 

@@ -62,6 +62,17 @@ export const GameDataSchema = z.object({
 
 export type GameData = z.infer<typeof GameDataSchema>;
 
+/** What `ctrl.data` tells of a game's course: its move times and its phases, by ply. */
+export const GameCourseSchema = z.object({
+  game: z.object({
+    // Each move's time, in centiseconds; none for an imported game.
+    moveCentis: lenient(z.array(z.number())),
+    division: lenient(z.object({ middle: lenient(z.number()), end: lenient(z.number()) })),
+  }),
+});
+
+export type GameCourse = z.infer<typeof GameCourseSchema>;
+
 /** What the opening explorer's masters database says of a position. */
 export const MasterOpeningSchema = z.object({
   white: z.number(),
