@@ -61,7 +61,9 @@ describe('precomputeReview', () => {
     vi.spyOn(navigator, 'hardwareConcurrency', 'get').mockReturnValue(8);
     const done = precomputeReview(await input());
     await advance(10_000);
-    await done;
+    const records = await done;
+    expect(records).toHaveLength(GAME.nodes.length);
+    expect(records?.every(record => record !== undefined)).toBe(true);
     expect(localStorage.getItem(CACHE_KEY)).not.toBeNull();
     expect(localStorage.getItem(PROGRESS_KEY)).toBeNull();
     // The cloud had two; no quick pass, as nobody sees the graph.
@@ -76,7 +78,7 @@ describe('precomputeReview', () => {
     await advance(1000);
     over = false;
     await advance(1000);
-    await done;
+    expect(await done).toBeNull();
     const searched = searches.deep;
     await advance(10_000);
     expect(searches.deep).toBe(searched);
@@ -90,7 +92,7 @@ describe('precomputeReview', () => {
     const { advance, searches, quits } = gamePage(true);
     const done = precomputeReview(await input());
     await advance(1000);
-    await done;
+    expect(await done).toEqual(GAME.records);
     expect(searches).toEqual({ deep: 0, quick: 0 });
     expect(quits).toHaveBeenCalledTimes(1);
   });

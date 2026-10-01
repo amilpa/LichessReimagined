@@ -36,6 +36,8 @@ export interface GameOverView {
   readonly analysing: () => void;
   /** The coach's verdict; without a summary, the counts go. */
   readonly verdict: (summary: PlayerSummary | null) => void;
+  /** The review's own figures once its analysis is done: the card changes where they differ. */
+  readonly refine: (summary: PlayerSummary) => void;
   readonly failed: () => void;
 }
 
@@ -111,28 +113,29 @@ function listen(layer: Layer): void {
   });
 }
 
-export function mountGameOver(input: GameOverInput): GameOverView {
-  const { main, outcome, texts } = input;
-  const layer = buildLayer(input);
+/** The figures a card shows: two summaries that read the same change nothing. */
+const shownAs = (summary: PlayerSummary): string =>
+  JSON.stringify([
+    summary.accuracy === null ? null : formatAccuracy(summary.accuracy),
+    summary.counts,
+  ]);
+
+/** What the card shows and the coach says, once the card has come in. */
+function cardView(layer: Layer, input: GameOverInput, settled: Promise<void>): GameOverView {
   const { card, counts, voice, chips } = layer;
-  setData(main, 'cdcEnd', '');
-  main.append(layer.root);
-  followBoard(layer, input);
-  listen(layer);
-  // What the card shows waits for it to come in.
-  const settled = new Promise<void>(resolve => {
-    setTimeout(() => {
-      layer.root.classList.toggle('cdc-end--settled', true);
-      resolve();
-    }, SETTLE_MS);
-  });
+  const { outcome, texts } = input;
   const later = (show: () => void): void => {
     void settled.finally(() => {
       if (card?.isConnected) show();
     });
   };
   const mood = outcome.result === 'win' ? 'happy' : 'neutral';
+  const words = (summary: PlayerSummary | null): string => {
+    const accuracy = summary?.accuracy ?? null;
+    return texts.verdict(outcome.result, accuracy === null ? null : formatAccuracy(accuracy));
+  };
   let spunAt: number | null = null;
+  let shown: PlayerSummary | null = null;
   const afterSpin = (show: () => void): void =>
     later(() => {
       const left = spunAt === null ? 0 : spunAt + MIN_SPIN_MS - Date.now();
@@ -148,15 +151,18 @@ export function mountGameOver(input: GameOverInput): GameOverView {
       }),
     verdict: summary =>
       afterSpin(() => {
+        shown = summary;
         if (summary) chips?.reveal(summary, texts);
         else counts?.remove();
-        const accuracy = summary?.accuracy ?? null;
-        const words = texts.verdict(
-          outcome.result,
-          accuracy === null ? null : formatAccuracy(accuracy),
-        );
         // The counts come in first, then the coach speaks.
-        voice?.typeOut(words, mood, summary ? CHIP_STAGGER_MS * 3 : 0);
+        voice?.typeOut(words(summary), mood, summary ? CHIP_STAGGER_MS * 3 : 0);
+      }),
+    refine: summary =>
+      afterSpin(() => {
+        if (!shown || shownAs(shown) === shownAs(summary)) return;
+        shown = summary;
+        chips?.update(summary, texts);
+        voice?.say(words(summary), mood);
       }),
     failed: () =>
       afterSpin(() => {
@@ -165,4 +171,20 @@ export function mountGameOver(input: GameOverInput): GameOverView {
         voice?.say(texts.failed, 'neutral');
       }),
   };
+}
+
+export function mountGameOver(input: GameOverInput): GameOverView {
+  const layer = buildLayer(input);
+  setData(input.main, 'cdcEnd', '');
+  input.main.append(layer.root);
+  followBoard(layer, input);
+  listen(layer);
+  // What the card shows waits for it to come in.
+  const settled = new Promise<void>(resolve => {
+    setTimeout(() => {
+      layer.root.classList.toggle('cdc-end--settled', true);
+      resolve();
+    }, SETTLE_MS);
+  });
+  return cardView(layer, input, settled);
 }

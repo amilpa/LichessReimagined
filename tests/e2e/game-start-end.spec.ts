@@ -63,16 +63,23 @@ async function expectGameOver(winner: Page, loser: Page): Promise<void> {
   await expect(loser.locator('.cdc-end__king')).toHaveCount(2);
 }
 
-/** The review was analysed on the game page: its analysis page opens on it whole. */
+/**
+ * The review was analysed on the game page: its analysis page opens on it
+ * whole, and the card, still open, gives the review's accuracy.
+ */
 async function expectReviewReady(page: Page): Promise<void> {
   const gameId = /lichess\.org\/(\w{8})/.exec(page.url())?.[1] ?? '';
   await expect.poll(() => storedReview(page, gameId), { timeout: 60_000 }).not.toBeNull();
   // Seven moves: the start, then a position per move, as the analysis page counts them.
   expect((await storedReview(page, gameId))?.storageKey).toBe(`cdc-review:${gameId}:8:v1`);
-  await openLichess(page, `/${gameId}/white`);
-  const { panel } = reviewParts(page);
-  await expect(panel.locator('.cdc-review__top .cdc-acc--w')).toHaveText(/^\d{1,3}\.\d$/);
+  const analysis = await page.context().newPage();
+  await openLichess(analysis, `/${gameId}/white`);
+  const { panel } = reviewParts(analysis);
+  const accuracy = panel.locator('.cdc-review__top .cdc-acc--w');
+  await expect(accuracy).toHaveText(/^\d{1,3}\.\d$/);
   await expect(panel.locator('.cdc-summary-pct'), 'no analysis left to do').toHaveCount(0);
+  const card = page.locator('main.round > .cdc-end .cdc-end__bubble');
+  await expect(card).toContainText(`${await accuracy.textContent()}%`);
 }
 
 test('a game opens on the players’ intro and ends on its result', async ({ page }) => {

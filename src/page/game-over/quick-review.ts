@@ -12,8 +12,8 @@ import type { GameRating } from '#page/review/rating/rate-game.ts';
 
 // The coach's quick look at a game that just ended: every position at a low
 // depth, judged as the review judges them, for the player's accuracy and
-// counts. Game Review searches deeper, so its figures may differ a little;
-// nothing here goes in its cache.
+// counts. Nothing here goes in Game Review's cache: it searches deeper, and
+// the card takes its figures once its analysis is done (precompute.ts).
 
 /** A search of the position `uciPosition` gives. */
 export type Analyse = (position: string) => Promise<EngineResult>;
@@ -38,14 +38,23 @@ export interface PlayerSummary {
 // The review rates a game from full-depth verdicts only.
 const NO_RATING: GameRating = { white: null, black: null };
 
-export async function quickReview(input: QuickReviewInput): Promise<PlayerSummary> {
-  const { positions, color, bookPly, chess960, analyse, onProgress } = input;
-  const records: PositionRecord[] = [];
-  for (const [i, position] of positions.entries()) {
-    const result = await analyse(uciPosition(positions.slice(0, i + 1), chess960));
-    records.push(toRecord(position.fen, result));
-    onProgress?.((i + 1) / positions.length);
-  }
+export interface SummaryInput {
+  readonly positions: readonly GamePosition[];
+  /** A record per position, as the engine left them. */
+  readonly records: readonly (PositionRecord | undefined)[];
+  readonly color: Color;
+  readonly bookPly: number;
+  readonly chess960: boolean;
+}
+
+/** The player's accuracy and counts, judged from the records as the review judges them. */
+export function summarize({
+  positions,
+  records,
+  color,
+  bookPly,
+  chess960,
+}: SummaryInput): PlayerSummary {
   const review = buildReview({
     nodes: positions,
     deep: records,
@@ -57,6 +66,17 @@ export async function quickReview(input: QuickReviewInput): Promise<PlayerSummar
     rate: () => NO_RATING,
   });
   return { accuracy: review.accuracy[color], counts: review.counts[color] };
+}
+
+export async function quickReview(input: QuickReviewInput): Promise<PlayerSummary> {
+  const { positions, chess960, analyse, onProgress } = input;
+  const records: PositionRecord[] = [];
+  for (const [i, position] of positions.entries()) {
+    const result = await analyse(uciPosition(positions.slice(0, i + 1), chess960));
+    records.push(toRecord(position.fen, result));
+    onProgress?.((i + 1) / positions.length);
+  }
+  return summarize({ ...input, records });
 }
 
 /** The quick look's searches, on an engine booted for the game. */

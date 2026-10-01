@@ -10,15 +10,16 @@ import { opponentName } from './board.ts';
 import { fetchFinishedGame, type FinishedGame } from './game-data.ts';
 import { readOutcome } from './outcome.ts';
 import { precomputeReview, worthReviewing } from './precompute.ts';
-import { quickReview, quickSearch } from './quick-review.ts';
+import { quickReview, quickSearch, summarize } from './quick-review.ts';
 import { gameOverTexts } from './texts.ts';
 import { mountGameOver, type GameOverView } from './view.ts';
 
 // The end of a game the player watches end: the kings' badges, confetti for
 // the winner, and a card where the coach counts the player's best moves and
 // errors before sending them to Game Review, whose analysis then runs here,
-// so the review is ready when opened. Only for a game that ends while the
-// page is open: a finished game's page opens on its review instead.
+// so the review is ready when opened, and its figures replace the count's.
+// Only for a game that ends while the page is open: a finished game's page
+// opens on its review instead.
 
 const WATCH_MS = 250;
 // Our layout's: below, the board isn't in the grid the game over is placed in.
@@ -32,12 +33,18 @@ async function bookPly(gameId: string, positions: number): Promise<number> {
   }
 }
 
-/** The coach's count; the engine it ran on, or null when none ran or it failed. */
+interface Counted {
+  /** The engine the count ran on, for the review's analysis to take over. */
+  readonly engine: Stockfish;
+  readonly bookPly: number;
+}
+
+/** The coach's count; null when none ran or it failed. */
 async function countMoves(
   view: GameOverView,
   game: PlayedGame,
   finished: FinishedGame,
-): Promise<Stockfish | null> {
+): Promise<Counted | null> {
   const positions = finished.treeParts;
   const variant = finished.game.variant.key;
   if (!worthReviewing(variant, positions.length)) {
@@ -55,7 +62,7 @@ async function countMoves(
     view.verdict(
       await quickReview({ positions, color: game.color, bookPly: book, chess960, analyse }),
     );
-    return engine;
+    return { engine, bookPly: book };
   } catch (error) {
     console.warn('[LichessDotCom] game over analysis', error);
     view.failed();
@@ -88,16 +95,29 @@ async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
     opponent: opponentName(main, game.color, texts.anonymous),
     reviewHref: `/${game.gameId}/${game.color}`,
   });
-  const engine = await countMoves(view, game, finished);
-  // Then Game Review's own analysis, for when the player opens it.
-  if (engine)
-    await precomputeReview({
-      gameId: game.gameId,
-      positions: finished.treeParts,
-      variant: finished.game.variant.key,
-      engine,
-      stillOver: () => showsOver(main, game.gameId),
-    });
+  const counted = await countMoves(view, game, finished);
+  if (!counted) return;
+  // Then Game Review's own analysis, for when the player opens it; the card
+  // takes its figures, so both say the same.
+  const positions = finished.treeParts;
+  const variant = finished.game.variant.key;
+  const records = await precomputeReview({
+    gameId: game.gameId,
+    positions,
+    variant,
+    engine: counted.engine,
+    stillOver: () => showsOver(main, game.gameId),
+  });
+  if (records)
+    view.refine(
+      summarize({
+        positions,
+        records,
+        color: game.color,
+        bookPly: counted.bookPly,
+        chess960: variant === 'chess960',
+      }),
+    );
 }
 
 /** Waits for the game's result to show, then plays its end once. */

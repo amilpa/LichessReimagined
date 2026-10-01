@@ -21,6 +21,8 @@ const SPUN: readonly MoveClass[] = MOVE_CLASSES.filter(moveClass => moveClass !=
 export interface Chips {
   readonly spin: () => void;
   readonly reveal: (summary: PlayerSummary, texts: GameOverTexts) => void;
+  /** Shows other counts in place, without the roll: the review's, once its analysis is done. */
+  readonly update: (summary: PlayerSummary, texts: GameOverTexts) => void;
   readonly stop: () => void;
 }
 
@@ -30,6 +32,30 @@ export const rolled = (target: number, elapsed: number): number =>
 
 const part = (chip: HTMLElement, name: string): HTMLElement | null =>
   queryOne(chip, `.cdc-end__count-${name}`, HTMLElement);
+
+/** Gives each chip its class, icon, label and count; their numbers, for the roll. */
+function show(
+  chips: readonly HTMLElement[],
+  summary: PlayerSummary,
+  texts: GameOverTexts,
+): (HTMLElement | null)[] {
+  const classes = cardClasses(summary.counts);
+  const numbers: (HTMLElement | null)[] = [];
+  for (const [i, chip] of chips.entries()) {
+    const moveClass = classes[i];
+    if (!moveClass) continue;
+    const count = summary.counts[moveClass] ?? 0;
+    setStyleProperty(chip, '--cdc-count-c', CLASS_COLORS[moveClass]);
+    setStyleProperty(chip, '--cdc-count-i', String(i));
+    const icon = part(chip, 'icon');
+    if (icon) setHtml(icon, classSvg(moveClass));
+    const label = part(chip, 'label');
+    if (label) label.textContent = texts.countLabel(moveClass, count);
+    chip.dataset.cdcCount = String(count);
+    numbers.push(chip.querySelector('b'));
+  }
+  return numbers;
+}
 
 export function createChips(root: HTMLElement): Chips {
   const chips = queryAll(root, '.cdc-end__count', HTMLElement);
@@ -56,21 +82,7 @@ export function createChips(root: HTMLElement): Chips {
     },
     reveal: (summary, texts) => {
       stop();
-      const classes = cardClasses(summary.counts);
-      const numbers: (HTMLElement | null)[] = [];
-      for (const [i, chip] of chips.entries()) {
-        const moveClass = classes[i];
-        if (!moveClass) continue;
-        const count = summary.counts[moveClass] ?? 0;
-        setStyleProperty(chip, '--cdc-count-c', CLASS_COLORS[moveClass]);
-        setStyleProperty(chip, '--cdc-count-i', String(i));
-        const icon = part(chip, 'icon');
-        if (icon) setHtml(icon, classSvg(moveClass));
-        const label = part(chip, 'label');
-        if (label) label.textContent = texts.countLabel(moveClass, count);
-        chip.dataset.cdcCount = String(count);
-        numbers.push(chip.querySelector('b'));
-      }
+      const numbers = show(chips, summary, texts);
       root.classList.toggle('cdc-end__counts--revealed', true);
       const started = Date.now();
       const roll = (): void => {
@@ -83,6 +95,11 @@ export function createChips(root: HTMLElement): Chips {
       };
       roll();
       rolling = window.setInterval(roll, ROLL_STEP_MS);
+    },
+    update: (summary, texts) => {
+      stop();
+      for (const [i, number] of show(chips, summary, texts).entries())
+        if (number) number.textContent = chips[i]?.dataset.cdcCount ?? '0';
     },
     stop,
   };

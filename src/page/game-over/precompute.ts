@@ -1,8 +1,9 @@
 import type { EnginePool } from '#page/review/engine/pool.ts';
 import type { Stockfish } from '#page/review/engine/stockfish.ts';
+import type { PositionRecord } from '#page/review/evaluation/score.ts';
 import { startEngines } from '#page/review/engine-pool.ts';
 import { analyseRecords } from '#page/review/game/analyse-records.ts';
-import { newRecordsWork } from '#page/review/game/records.ts';
+import { isComplete, newRecordsWork } from '#page/review/game/records.ts';
 import { whenVisible } from '#page/review/game/wait.ts';
 import type { GamePosition } from '#page/review/judge/types.ts';
 import { REVIEWED_VARIANTS } from '#page/review/variants.ts';
@@ -27,16 +28,20 @@ export interface PrecomputeInput {
 export const worthReviewing = (variant: string, positions: number): boolean =>
   REVIEWED_VARIANTS.has(variant) && positions >= 2;
 
-export async function precomputeReview(input: PrecomputeInput): Promise<void> {
+/** Records the review's analysis of the game; its records once they're all in, else null. */
+export async function precomputeReview(
+  input: PrecomputeInput,
+): Promise<readonly (PositionRecord | undefined)[] | null> {
   const { gameId, positions, variant, engine, stillOver } = input;
   const chess960 = variant === 'chess960';
   const booted: { pool?: Promise<EnginePool> } = {};
   try {
-    if (!worthReviewing(variant, positions.length) || !stillOver()) return;
+    if (!worthReviewing(variant, positions.length) || !stillOver()) return null;
+    const work = newRecordsWork(positions);
     await analyseRecords({
       gameId,
       chess960,
-      work: newRecordsWork(positions),
+      work,
       engines: () => (booted.pool ??= startEngines({ chess960, first: engine })),
       whenFree: whenVisible,
       // Nobody sees the graph here: the full depth only.
@@ -44,6 +49,7 @@ export async function precomputeReview(input: PrecomputeInput): Promise<void> {
       stopped: () => !stillOver(),
       onFailure: (what, error) => console.warn(`[LichessDotCom] game over review: ${what}`, error),
     });
+    return isComplete(work) ? work.deep : null;
   } finally {
     // Nothing else on the game page needs an engine: they weigh on it.
     if (booted.pool) void booted.pool.then(pool => pool.end());

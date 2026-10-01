@@ -70,4 +70,19 @@ describe('the counts', () => {
     const [best] = queryAll(root, '.cdc-end__count', HTMLElement);
     expect(best?.style.getPropertyValue('--cdc-count-c')).toBe('#81b64c');
   });
+
+  it('change in place to other counts, even mid-roll', () => {
+    const root = counts();
+    const chips = createChips(root);
+    chips.reveal({ accuracy: 90, counts: { best: 26, excellent: 12, miss: 1 } }, texts);
+    vi.advanceTimersByTime(200);
+    chips.update({ accuracy: 88, counts: { best: 24, excellent: 13, mistake: 2 } }, texts);
+    expect(numbers(root)).toEqual(['24', '13', '2']);
+    vi.advanceTimersByTime(2000);
+    expect(numbers(root)).toEqual(['24', '13', '2']);
+    const labels = queryAll(root, '.cdc-end__count-label', HTMLElement).map(
+      label => label.textContent,
+    );
+    expect(labels).toEqual(['best moves', 'excellent moves', 'mistakes']);
+  });
 });

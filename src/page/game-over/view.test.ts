@@ -16,6 +16,9 @@ const ROUND =
 
 const WIN: Outcome = { result: 'win', reason: 'resign', winner: 'white' };
 
+const shownCounts = (): string[] =>
+  queryAll(document, '.cdc-end__count b', HTMLElement).map(number => number.textContent);
+
 function mount(outcome: Outcome): ReturnType<typeof mountGameOver> {
   const main = queryOne(document, 'main.round', HTMLElement);
   if (!main) throw new Error('no game page');
@@ -109,6 +112,24 @@ describe('the game over', () => {
       mood: 'happy',
       talking: false,
     });
+  });
+
+  it('takes the review’s figures once its analysis is done, where they differ', async () => {
+    const posted = vi.spyOn(window, 'postMessage');
+    const view = mount(WIN);
+    view.analysing();
+    view.verdict({ accuracy: 91.24, counts: { best: 12, excellent: 3, mistake: 1 } });
+    await vi.advanceTimersByTimeAsync(SETTLE_MS + MIN_SPIN_MS + 3000);
+    const bubble = document.querySelector('.cdc-end__bubble');
+    // Figures that read the same leave the card, and the coach, alone.
+    const said = posted.mock.calls.length;
+    view.refine({ accuracy: 91.2, counts: { best: 12, excellent: 3, mistake: 1 } });
+    await vi.advanceTimersByTimeAsync(0);
+    expect(posted.mock.calls).toHaveLength(said);
+    view.refine({ accuracy: 89.6, counts: { best: 11, excellent: 3, mistake: 2 } });
+    await vi.advanceTimersByTimeAsync(0);
+    expect(shownCounts()).toEqual(['11', '3', '2']);
+    expect(bubble?.textContent).toBe('Well played! You played with 89.6% accuracy.');
   });
 
   it('drops the counts when it couldn’t look', async () => {
