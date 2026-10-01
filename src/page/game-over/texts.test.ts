@@ -14,6 +14,13 @@ describe('the game over’s words', () => {
     expect(formatAccuracy(100)).toBe('100%');
   });
 
+  it('rounds an accuracy to the tenth the review shows', () => {
+    document.documentElement.lang = 'en-US';
+    // 88.85 is a hair under in binary: the review shows 88.8.
+    expect(formatAccuracy(88.85)).toBe('88.8%');
+    expect(formatAccuracy(82.65)).toBe('82.7%');
+  });
+
   it('speaks French on a French page, English elsewhere', () => {
     document.documentElement.lang = 'fr';
     expect(gameOverTexts().title('win', 'bob')).toBe('Vous avez battu bob !');
