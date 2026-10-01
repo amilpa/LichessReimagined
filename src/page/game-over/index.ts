@@ -10,9 +10,9 @@ import { opponentName } from './board.ts';
 import { fetchFinishedGame, type FinishedGame } from './game-data.ts';
 import { readOutcome } from './outcome.ts';
 import { precomputeReview, worthReviewing } from './precompute.ts';
-import { quickReview, quickSearch, summarize } from './quick-review.ts';
+import { type PlayerSummary, quickReview, quickSearch, summarize } from './quick-review.ts';
 import { gameOverTexts } from './texts.ts';
-import { mountGameOver, type GameOverView } from './view.ts';
+import { mountGameOver } from './view.ts';
 
 // The end of a game the player watches end: the kings' badges, confetti for
 // the winner, and a card where the coach counts the player's best moves and
@@ -33,33 +33,35 @@ async function bookPly(gameId: string, positions: number): Promise<number> {
   }
 }
 
-/** The coach's count; the engine it ran on, or null when none ran or it failed. */
-async function countMoves(
-  view: GameOverView,
-  game: PlayedGame,
-  finished: FinishedGame,
-): Promise<Stockfish | null> {
+interface QuickLook {
+  readonly summary: PlayerSummary;
+  /** The engine it ran on, for the review's analysis to take over. */
+  readonly engine: Stockfish;
+}
+
+/** The coach's count, at a low depth; null when it failed. */
+async function quickLook(game: PlayedGame, finished: FinishedGame): Promise<QuickLook | null> {
   const positions = finished.treeParts;
-  const variant = finished.game.variant.key;
-  if (!worthReviewing(variant, positions.length)) {
-    view.verdict(null);
-    return null;
-  }
-  view.analysing();
-  const chess960 = variant === 'chess960';
+  const chess960 = finished.game.variant.key === 'chess960';
+  let engine: Stockfish | null = null;
   try {
-    const [engine, book] = await Promise.all([
+    const [booted, book] = await Promise.all([
       bootEngine(chess960),
       bookPly(game.gameId, positions.length),
     ]);
-    const analyse = quickSearch(engine);
-    view.verdict(
-      await quickReview({ positions, color: game.color, bookPly: book, chess960, analyse }),
-    );
-    return engine;
+    engine = booted;
+    const analyse = quickSearch(booted);
+    const summary = await quickReview({
+      positions,
+      color: game.color,
+      bookPly: book,
+      chess960,
+      analyse,
+    });
+    return { summary, engine: booted };
   } catch (error) {
     console.warn('[LichessDotCom] game over analysis', error);
-    view.failed();
+    engine?.quit();
     return null;
   }
 }
@@ -70,7 +72,7 @@ const showsOver = (main: HTMLElement, gameId: string): boolean =>
   main.querySelector('.result-wrap') !== null &&
   location.pathname.startsWith(`/${gameId}`);
 
-async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
+export async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
   const outcomeOf = (finished: FinishedGame): ReturnType<typeof readOutcome> =>
     readOutcome({
       status: finished.game.status.name,
@@ -89,10 +91,40 @@ async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
     opponent: opponentName(main, game.color, texts.anonymous),
     reviewHref: `/${game.gameId}/${game.color}`,
   });
-  const engine = await countMoves(view, game, finished);
-  if (!engine) return;
+  const positions = finished.treeParts;
+  if (!worthReviewing(finished.game.variant.key, positions.length)) {
+    view.verdict(null);
+    return;
+  }
+  view.analysing();
+  const look = await quickLook(game, finished);
+  if (look) view.verdict(look.summary);
   // Then Game Review's own analysis, for when the player opens it; the card
-  // takes its figures, so both say the same.
+  // takes its figures, so both say the same. Without the quick look (the
+  // engine too slow on a busy machine), the card waits for them.
+  const summary = await reviewSummary(game, finished, {
+    engine: look?.engine,
+    stillOver: () => showsOver(main, game.gameId),
+  });
+  if (look && summary) view.refine(summary);
+  else if (!look) {
+    if (summary) view.verdict(summary);
+    else view.failed();
+  }
+}
+
+interface ReviewRun {
+  /** The quick look's engine, if it ran. */
+  readonly engine: Stockfish | undefined;
+  readonly stillOver: () => boolean;
+}
+
+/** The player's figures from Game Review's analysis, run here; null if it didn't finish. */
+async function reviewSummary(
+  game: PlayedGame,
+  finished: FinishedGame,
+  { engine, stillOver }: ReviewRun,
+): Promise<PlayerSummary | null> {
   const positions = finished.treeParts;
   const variant = finished.game.variant.key;
   const records = await precomputeReview({
@@ -100,20 +132,13 @@ async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
     positions,
     variant,
     engine,
-    stillOver: () => showsOver(main, game.gameId),
+    stillOver,
   });
-  if (!records) return;
+  if (!records) return null;
   // Asked again: right after the game, the export may not know its opening yet.
   const book = await bookPly(game.gameId, positions.length);
-  view.refine(
-    summarize({
-      positions,
-      records,
-      color: game.color,
-      bookPly: book,
-      chess960: variant === 'chess960',
-    }),
-  );
+  const chess960 = variant === 'chess960';
+  return summarize({ positions, records, color: game.color, bookPly: book, chess960 });
 }
 
 /** Waits for the game's result to show, then plays its end once. */

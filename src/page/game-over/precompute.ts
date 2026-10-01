@@ -17,8 +17,8 @@ export interface PrecomputeInput {
   /** The game's start, then one position per move: the analysis page's mainline. */
   readonly positions: readonly GamePosition[];
   readonly variant: string;
-  /** The quick look's engine, which the analysis takes over. */
-  readonly engine: Stockfish;
+  /** The quick look's engine, which the analysis takes over; booted here without one. */
+  readonly engine: Stockfish | undefined;
   /** False once the page has moved on from the game (to another one). */
   readonly stillOver: () => boolean;
 }
@@ -53,6 +53,6 @@ export async function precomputeReview(
   } finally {
     // Nothing else on the game page needs an engine: they weigh on it.
     if (booted.pool) void booted.pool.then(pool => pool.end());
-    else engine.quit();
+    else engine?.quit();
   }
 }

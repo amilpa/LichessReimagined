@@ -53,7 +53,7 @@ export interface EnginesOptions {
   /** How many engines, the first included: `engineCount()` unless given. */
   readonly count?: number;
   /** An engine already booted for the game, taken as the first. */
-  readonly first?: Stockfish;
+  readonly first?: Stockfish | undefined;
 }
 
 /**
