@@ -51,6 +51,35 @@ test('an analysed game shows its charts and "Learn from your mistakes"', async (
   await expect(page.locator(UNDERBOARD)).toBeHidden();
 });
 
+test('the exercise’s spinner stays in its tile', async ({ page }) => {
+  await openLichess(page, ANALYSED_GAME);
+  await page.locator('.cdc-review__close').click();
+  await page.locator(BUTTON).click();
+  await page.locator('main.analyse > .analyse__round-training .advice-summary a.button').click();
+  const player = page.locator('.analyse__tools > .retro-box .player').first();
+  await player.waitFor();
+  // While it waits for an evaluation, Lichess shows its spinner (lila's spinnerVdom) as the icon.
+  const [tile, spinner] = await player.evaluate(element => {
+    const icon = document.createElement('div');
+    icon.className = 'icon';
+    icon.innerHTML = '<div class="spinner"><svg viewBox="-2 -2 54 54"></svg></div>';
+    element.prepend(icon);
+    return [icon, icon.firstElementChild].map(part => {
+      const rect = part?.getBoundingClientRect();
+      return rect ? [rect.left, rect.top, rect.right, rect.bottom] : [];
+    });
+  });
+  const [left = 0, top = 0, right = 0, bottom = 0] = tile ?? [];
+  const [ownLeft = 0, ownTop = 0, ownRight = 0, ownBottom = 0] = spinner ?? [];
+  expect(spinner).toHaveLength(4);
+  expect([ownLeft >= left, ownTop >= top, ownRight <= right, ownBottom <= bottom]).toEqual([
+    true,
+    true,
+    true,
+    true,
+  ]);
+});
+
 test('a game’s tabs keep their whole names, and its crosstable spans the panel', async ({
   page,
 }) => {

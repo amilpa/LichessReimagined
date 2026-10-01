@@ -70,6 +70,14 @@ main.analyse .retro-box :is(.no-square, .icon) {
   line-height: 40px !important;
 }
 
+/* Lichess's spinner, while it waits for an evaluation or the analysis: 70px with a negative
+ * margin of its own, it spilled out of the tile. */
+main.analyse .retro-box .icon > .spinner {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
 main.analyse .retro-box .no-square > piece.black {
   border-radius: 8px;
   background-color: #ffffffd9;
