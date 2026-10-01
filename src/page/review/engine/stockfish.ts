@@ -25,8 +25,10 @@ const isStockfishModule = createGuard(StockfishModuleSchema);
 
 const INITIAL_PAGES = 1536;
 
-// How long past its `movetime` a search may run before the engine is given up.
-const STOP_GRACE_MS = 3000;
+// How long an engine may say nothing in a search before it's given up. A
+// search keeps sending lines, late on a busy machine: there a 250 ms one took
+// 9 s, its first line 5 s in.
+const SILENCE_MS = 10_000;
 
 // Some browsers refuse a large shared memory: ask for less until they agree.
 function sharedMemory(): WebAssembly.Memory {
@@ -142,25 +144,28 @@ export class Stockfish {
       const module = this.#module;
       if (!module) throw new Error('Stockfish is not running');
       const collector = new SearchCollector();
-      // Stockfish keeps to `movetime`: a search outliving it means the engine is
-      // in trouble. Its result would be cut short, so the search fails, to be
-      // done again, and the engine is ended.
-      const allowed = limits.movetime + STOP_GRACE_MS;
-      let armedAt = Date.now();
+      // An engine silent that long is in trouble: its result would be cut
+      // short, so the search fails, to be done again, and the engine is ended.
+      let timer = 0;
+      let heardAt = 0;
+      const listen = (): void => {
+        clearTimeout(timer);
+        heardAt = Date.now();
+        timer = window.setTimeout(giveUp, SILENCE_MS);
+      };
       const giveUp = (): void => {
-        // Far later by the clock: the machine slept, the search with it. It
-        // gets its time again.
-        if (Date.now() - armedAt > allowed * 2) {
-          armedAt = Date.now();
-          timer = setTimeout(giveUp, allowed);
+        // Far later by the clock: the machine slept, the search with it.
+        if (Date.now() - heardAt > SILENCE_MS * 2) {
+          listen();
           return;
         }
         module.uci('stop');
         this.quit();
         reject(new Error('Stockfish stopped answering'));
       };
-      let timer = setTimeout(giveUp, allowed);
+      listen();
       this.#onLine = text => {
+        listen();
         const result = collector.read(text);
         if (!result) return;
         clearTimeout(timer);

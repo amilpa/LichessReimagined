@@ -156,8 +156,15 @@ describe('Stockfish', () => {
   });
 });
 
-/** An engine whose searches answer only once told to stop. */
-async function bootSilent(): Promise<{ engine: Stockfish; sent: string[] }> {
+interface Silent {
+  readonly engine: Stockfish;
+  readonly sent: string[];
+  /** Says a line as the engine. */
+  readonly say: (line: string) => void;
+}
+
+/** An engine whose searches answer only once told to stop, or made to talk. */
+async function bootSilent(): Promise<Silent> {
   const sent: string[] = [];
   const module = {
     listen: (_text: string): void => {},
@@ -177,8 +184,11 @@ async function bootSilent(): Promise<{ engine: Stockfish; sent: string[] }> {
   };
   const engine = new Stockfish({ chess960: false });
   await engine.boot();
-  return { engine, sent };
+  return { engine, sent, say: line => module.listen(line) };
 }
+
+// How long an engine may say nothing in a search (stockfish.ts).
+const SILENCE_MS = 10_000;
 
 describe('Stockfish that stops answering', () => {
   afterEach(() => {
@@ -187,7 +197,7 @@ describe('Stockfish that stops answering', () => {
     Reflect.deleteProperty(globalThis, 'cdcFakeStockfish');
   });
 
-  it('ends an engine whose search outlives its time, failing the searches queued behind', async () => {
+  it('ends an engine that says nothing for a while, failing the searches queued behind', async () => {
     const { engine, sent } = await bootSilent();
     vi.useFakeTimers();
     const first = engine.analyse({ position: 'fen one', limits: QUICK_SEARCH });
@@ -198,7 +208,7 @@ describe('Stockfish that stops answering', () => {
         (error: unknown) => (error instanceof Error ? error.message : null),
       ),
     );
-    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
+    await vi.advanceTimersByTimeAsync(SILENCE_MS);
     // Its answer to the stop would be cut short: it isn't kept.
     expect(await Promise.all(failures)).toEqual([
       'Stockfish stopped answering',
@@ -215,10 +225,25 @@ describe('Stockfish that stops answering', () => {
     await vi.advanceTimersByTimeAsync(0);
     // Asleep: the clock jumps an hour, the timers wake late.
     vi.setSystemTime(Date.now() + 3_600_000);
-    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
+    await vi.advanceTimersByTimeAsync(SILENCE_MS);
     expect(engine.running).toBe(true);
     expect(sent).not.toContain('stop');
-    await vi.advanceTimersByTimeAsync(QUICK_SEARCH.movetime + 3000);
+    await vi.advanceTimersByTimeAsync(SILENCE_MS);
     expect(engine.running).toBe(false);
+  });
+
+  // On a busy machine, a 250 ms search took 9 s, its first line after 5 s.
+  it('waits for an engine that searches slowly but still talks', async () => {
+    const { engine, sent, say } = await bootSilent();
+    vi.useFakeTimers();
+    const search = engine.analyse({ position: 'fen one', limits: QUICK_SEARCH });
+    for (let depth = 1; depth <= 4; depth++) {
+      await vi.advanceTimersByTimeAsync(SILENCE_MS - 1000);
+      say(`info depth ${depth} multipv 1 score cp 20 pv e2e4`);
+    }
+    say('bestmove e2e4');
+    expect((await search).lines[0]).toEqual({ cp: 20, pv: ['e2e4'] });
+    expect(sent).not.toContain('stop');
+    expect(engine.running).toBe(true);
   });
 });
