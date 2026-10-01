@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { withPieceGlyphs } from '#shared/testing/piece-glyphs.ts';
 import { flush } from '#shared/testing/timers.ts';
 import { createCapturedSync } from './captured.ts';
 import { capturedMarkup, type MaterialPiece } from './material.ts';
@@ -14,15 +15,15 @@ afterEach(() => {
 
 describe('captured pieces', () => {
   it.each(legacy.scenarios)('draws what the original drew: $name', scenario => {
-    const sync = createCapturedSync(legacy.piecesUrl);
+    const sync = createCapturedSync();
     document.body.innerHTML = scenario.html;
     sync();
-    expect(inner('.cdc-captured--top')).toBe(scenario.top);
-    expect(inner('.cdc-captured--bottom')).toBe(scenario.bottom);
+    expect(inner('.cdc-captured--top')).toBe(withPieceGlyphs(scenario.top));
+    expect(inner('.cdc-captured--bottom')).toBe(withPieceGlyphs(scenario.bottom));
   });
 
   it('leaves the bars alone while the board is the same', () => {
-    const sync = createCapturedSync(legacy.piecesUrl);
+    const sync = createCapturedSync();
     const [scenario] = legacy.scenarios;
     document.body.innerHTML = scenario?.html ?? '';
     sync();
@@ -33,7 +34,7 @@ describe('captured pieces', () => {
   });
 
   it('reads the board again only once it changes', async () => {
-    const sync = createCapturedSync(legacy.piecesUrl);
+    const sync = createCapturedSync();
     const scenario = legacy.scenarios.find(each => each.html.includes('piece'));
     document.body.innerHTML = scenario?.html ?? '';
     sync();
@@ -48,13 +49,13 @@ describe('captured pieces', () => {
   });
 
   it('draws again into new bars when Lichess replaces <main>', () => {
-    const sync = createCapturedSync(legacy.piecesUrl);
+    const sync = createCapturedSync();
     const [scenario] = legacy.scenarios;
     document.body.innerHTML = scenario?.html ?? '';
     sync();
     document.body.innerHTML = scenario?.html ?? '';
     sync();
-    expect(inner('.cdc-captured--top')).toBe(scenario?.top);
+    expect(inner('.cdc-captured--top')).toBe(withPieceGlyphs(scenario?.top ?? ''));
   });
 });
 
@@ -66,8 +67,7 @@ describe('capturedMarkup', () => {
       bottom: 'white',
       variant: 'threeCheck',
       checks: { top: 0, bottom: 2 },
-      piecesUrl: '/p/',
     });
-    expect(markup.bottom.value).toMatch(/bk\.webp.*bk\.webp.*cdc-captured__score">\+1</);
+    expect(markup.bottom.value).toMatch(/cdc-pc-bk.*cdc-pc-bk.*cdc-captured__score">\+1</);
   });
 });

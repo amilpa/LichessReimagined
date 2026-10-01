@@ -3,7 +3,7 @@
 /* Tile (::before) and piece (::after), then name and time control, with host
  * and player count as the footer. The simul's link (its ::after) covers the card. */
 main.simul-list .slist tbody tr:not(.create) {
-  --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp');
+  --cdc-piece: var(---white-king);
   position: relative;
   isolation: isolate;
   display: grid;
@@ -28,19 +28,19 @@ main.simul-list .slist tbody tr:not(.create):hover {
 
 /* A different piece on each card, so a page of them looks like a set. */
 main.simul-list .slist tbody tr:nth-child(6n + 2) {
-  --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp');
+  --cdc-piece: var(---white-queen);
 }
 main.simul-list .slist tbody tr:nth-child(6n + 3) {
-  --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp');
+  --cdc-piece: var(---white-knight);
 }
 main.simul-list .slist tbody tr:nth-child(6n + 4) {
-  --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp');
+  --cdc-piece: var(---white-rook);
 }
 main.simul-list .slist tbody tr:nth-child(6n + 5) {
-  --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp');
+  --cdc-piece: var(---white-bishop);
 }
 main.simul-list .slist tbody tr:nth-child(6n + 6) {
-  --cdc-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp');
+  --cdc-piece: var(---white-pawn);
 }
 
 /* A 4x4 board in the section's colors, two more stacked behind it that fan out

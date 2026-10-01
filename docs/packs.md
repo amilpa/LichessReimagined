@@ -1,0 +1,87 @@
+# Packs: your own pieces, board and sounds
+
+The extension shows Lichess's own board, pieces and sounds, the ones picked in
+Lichess's settings. A pack replaces any of the three with yours: a folder on
+GitHub holding a `pack.json` and the files it names.
+
+To import one, open the user menu, then Board, Piece set or Sound, pick the
+**Imported** tab, paste the link to the pack's folder and press **Import**.
+The extension downloads every file once and keeps them in the browser; it
+asks GitHub for nothing after that. Each part is picked on its own: a pack's
+pieces with Lichess's board, say. Lichess's own tab hands a part back to it.
+
+The [example pack](../packs/example) uses every field. Copy it to start.
+
+## The links that work
+
+Any of these, to a public repository:
+
+| Link                                                                           | The pack's folder        |
+| ------------------------------------------------------------------------------ | ------------------------ |
+| `https://github.com/<owner>/<repo>`                                            | the root, default branch |
+| `https://github.com/<owner>/<repo>/tree/<branch>/<folder>`                     | `<folder>` on `<branch>` |
+| `https://github.com/<owner>/<repo>/blob/<branch>/<folder>/pack.json`           | `<folder>` on `<branch>` |
+| `https://raw.githubusercontent.com/<owner>/<repo>/<branch>/<folder>/pack.json` | `<folder>` on `<branch>` |
+
+`<branch>` may also be a tag or a commit, but not a branch with a `/` in its
+name. Importing the same link again replaces the pack with its new files.
+
+## pack.json
+
+```json
+{
+  "name": "Warm wood",
+  "pieces": "pieces/{piece}.svg",
+  "board": { "image": "board.svg", "light": "#f2e4cc", "dark": "#c4936a" },
+  "sounds": {
+    "move-self": "sounds/move-self.wav",
+    "capture": "sounds/capture.wav"
+  }
+}
+```
+
+| Field                       | What it is                                                                                                                                                                                                                              |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                      | The pack's name in the menu, 1 to 40 characters. Required.                                                                                                                                                                              |
+| `pieces`                    | The path of the twelve piece images, with `{piece}` for each one's name: `wK`, `wQ`, `wR`, `wB`, `wN`, `wP`, `bK` … `bP`, as Lichess names its own (a copy of a folder of lila's `public/piece` works as is). All twelve must be there. |
+| `board.image`               | The board: one image of all 64 squares, white's side at the bottom, `a8` top left.                                                                                                                                                      |
+| `board.light`, `board.dark` | The squares' colors, as `#rrggbb`, for the coordinates drawn on them. Optional; without them the coordinates keep Lichess's colors.                                                                                                     |
+| `sounds`                    | Any of the sounds below, each a path. A sound the pack lacks is Lichess's.                                                                                                                                                              |
+
+A pack needs at least one of `pieces`, `board` and `sounds`. Paths are
+relative to the folder of `pack.json` and can't leave it.
+
+The sounds:
+
+| Name            | Played on                                 |
+| --------------- | ----------------------------------------- |
+| `move-self`     | your move, or a move on the side you play |
+| `move-opponent` | the other side's move                     |
+| `move-check`    | a move that gives check                   |
+| `capture`       | a capture                                 |
+| `castle`        | castling                                  |
+| `promote`       | a promotion                               |
+| `premove`       | a premove set                             |
+| `illegal`       | a move the board refuses                  |
+| `notify`        | a challenge, a message, a confirmation    |
+| `tenseconds`    | low time                                  |
+| `game-start`    | the start of a game                       |
+| `game-end`      | the end of a game                         |
+
+## Files
+
+- **Images:** SVG, PNG, WebP, JPEG, GIF or AVIF. The pieces are drawn square,
+  so give them a square canvas; 128px or more, or SVG, stays sharp.
+- **Sounds:** MP3, Ogg or WAV, short.
+- **Sizes:** `pack.json` up to 64 KB, each file up to 2 MB, the whole pack up
+  to 16 MB.
+
+The extension reads what a file is from its content, not its name, and turns
+down anything else.
+
+## Licenses
+
+Share only what you may share: your own work, or work whose license lets
+you. Lichess lists its piece sets, boards and sounds with their licenses in
+[lila's COPYING.md](https://github.com/lichess-org/lila/blob/master/COPYING.md);
+some are free to copy, others are not.

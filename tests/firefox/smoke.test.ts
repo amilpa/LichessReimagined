@@ -10,7 +10,6 @@ import {
   resolveBuildId,
 } from '@puppeteer/browsers';
 import { launch, type Browser, type Page } from 'puppeteer-core';
-import { SOUND_NAMES } from '#shared/sounds.ts';
 
 // A smoke test of the Firefox build (dist/firefox, from
 // `node scripts/build.ts --target firefox`), run by Node's test runner.
@@ -49,23 +48,15 @@ function contentScriptMarks(page: Page): Promise<{ panel: string; assets: string
 }
 
 /**
- * How many of our sounds Lichess's player has, once it has any: the content
- * script reads them, the page script hands them over.
+ * Whether the page script is in: page/motion answers every reduced-motion
+ * query as if nothing were asked, whatever the browser's setting.
  */
-async function ourSoundCount(page: Page): Promise<number> {
-  const count = await page.waitForFunction(
-    () => {
-      let value: unknown = window;
-      for (const key of ['site', 'sound', 'paths']) {
-        if (typeof value !== 'object' || value === null) return 0;
-        value = Reflect.get(value, key);
-      }
-      if (!(value instanceof Map)) return 0;
-      return [...value.keys()].filter(name => String(name).startsWith('cdc-')).length;
-    },
-    { timeout: TIMEOUT_MS },
+function pageScriptIsIn(page: Page): Promise<boolean> {
+  return page.evaluate(
+    () =>
+      !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      matchMedia('(prefers-reduced-motion: no-preference)').matches,
   );
-  return count.jsonValue();
 }
 
 // One Firefox for the lot, its pages opened one after the other.
@@ -80,13 +71,13 @@ await test('the Firefox build', async suite => {
   suite.after(() => browser.close());
   await browser.installExtension(EXTENSION_DIR);
 
-  await suite.test('the home page gets the theme, the hero and our sounds', async () => {
+  await suite.test('the home page gets the theme, the hero and the page script', async () => {
     const page = await openLichess(browser, '/');
     const marks = await contentScriptMarks(page);
     assert.equal(marks.panel, PANEL_COLOR);
     assert.match(marks.assets, /^moz-extension:\/\//);
     await page.waitForSelector('main.lobby > .cdc-hero', { timeout: TIMEOUT_MS });
-    assert.equal(await ourSoundCount(page), SOUND_NAMES.length);
+    assert.equal(await pageScriptIsIn(page), true);
     await page.close();
   });
 

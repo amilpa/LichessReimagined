@@ -1,10 +1,8 @@
-/* Board, pieces and highlights. A board or piece set picked in the user menu (content/boards/)
- * comes as variables on <html>; `data-cdc-board` / `data-cdc-pieces` = 'lichess' leaves it to
- * Lichess. */
+/* Board, pieces and highlights. The board and pieces are Lichess's, unless the user picked an
+ * imported pack (content/packs/): its pieces then override the variables Lichess draws its own
+ * from, and its board comes as `--cdc-board-img` with `data-cdc-board='pack'` on <html>. */
 
 :root {
-  --cdc-sq-light: #ebecd0;
-  --cdc-sq-dark: #739552;
   --cdc-highlight: rgba(255, 255, 51, 0.5);
   --cdc-hint: rgba(0, 0, 0, 0.14);
   /* Opaque, so it covers the square on both colors. */
@@ -15,13 +13,10 @@
   --cdc-board-scale: calc(var(--cdc-zoom, 100) / 100 * 0.75 + 0.25);
 }
 
-/* ---- Board --- */
+/* ---- Board and pieces --- */
 
-html:not([data-cdc-board='lichess']) body .is2d cg-board::before {
-  background-image: var(
-    --cdc-board-img,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%23ebecd0'/%3E%3Cpath fill='%23739552' d='M1 0h1v1h-1zM3 0h1v1h-1zM5 0h1v1h-1zM7 0h1v1h-1zM0 1h1v1h-1zM2 1h1v1h-1zM4 1h1v1h-1zM6 1h1v1h-1zM1 2h1v1h-1zM3 2h1v1h-1zM5 2h1v1h-1zM7 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM1 4h1v1h-1zM3 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM0 5h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM6 5h1v1h-1zM1 6h1v1h-1zM3 6h1v1h-1zM5 6h1v1h-1zM7 6h1v1h-1zM0 7h1v1h-1zM2 7h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1z'/%3E%3C/svg%3E")
-  ) !important;
+html[data-cdc-board='pack'] body .is2d cg-board::before {
+  background-image: var(--cdc-board-img) !important;
   background-size: cover !important;
   filter: none !important;
   opacity: 1 !important;
@@ -32,79 +27,53 @@ cg-board {
   box-shadow: none !important;
 }
 
-/* ---- Pieces --- */
+/* A picked pack is read a moment after the page starts: show nothing rather than Lichess's. */
+html[data-cdc-loading~='board'] .is2d cg-board::before,
+html[data-cdc-loading~='pieces'] .is2d piece {
+  visibility: hidden !important;
+}
 
-html:not([data-cdc-pieces='lichess']) .is2d .pawn.white {
-  background-image: var(
-    --cdc-piece-wp,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp')
-  ) !important;
+/* ---- Our own pieces (#shared/piece-glyph.ts), in the set the board shows --- */
+
+.cdc-pc {
+  background: center / contain no-repeat;
 }
-html:not([data-cdc-pieces='lichess']) .is2d .knight.white {
-  background-image: var(
-    --cdc-piece-wn,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp')
-  ) !important;
+
+.cdc-pc-wp {
+  background-image: var(---white-pawn);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .bishop.white {
-  background-image: var(
-    --cdc-piece-wb,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp')
-  ) !important;
+.cdc-pc-wn {
+  background-image: var(---white-knight);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .rook.white {
-  background-image: var(
-    --cdc-piece-wr,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp')
-  ) !important;
+.cdc-pc-wb {
+  background-image: var(---white-bishop);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .queen.white {
-  background-image: var(
-    --cdc-piece-wq,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp')
-  ) !important;
+.cdc-pc-wr {
+  background-image: var(---white-rook);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .king.white {
-  background-image: var(
-    --cdc-piece-wk,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp')
-  ) !important;
+.cdc-pc-wq {
+  background-image: var(---white-queen);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .pawn.black {
-  background-image: var(
-    --cdc-piece-bp,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp')
-  ) !important;
+.cdc-pc-wk {
+  background-image: var(---white-king);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .knight.black {
-  background-image: var(
-    --cdc-piece-bn,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bn.webp')
-  ) !important;
+.cdc-pc-bp {
+  background-image: var(---black-pawn);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .bishop.black {
-  background-image: var(
-    --cdc-piece-bb,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bb.webp')
-  ) !important;
+.cdc-pc-bn {
+  background-image: var(---black-knight);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .rook.black {
-  background-image: var(
-    --cdc-piece-br,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/br.webp')
-  ) !important;
+.cdc-pc-bb {
+  background-image: var(---black-bishop);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .queen.black {
-  background-image: var(
-    --cdc-piece-bq,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bq.webp')
-  ) !important;
+.cdc-pc-br {
+  background-image: var(---black-rook);
 }
-html:not([data-cdc-pieces='lichess']) .is2d .king.black {
-  background-image: var(
-    --cdc-piece-bk,
-    url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bk.webp')
-  ) !important;
+.cdc-pc-bq {
+  background-image: var(---black-queen);
+}
+.cdc-pc-bk {
+  background-image: var(---black-king);
 }
 
 /* ---- Highlights --- */

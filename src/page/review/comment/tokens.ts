@@ -3,7 +3,7 @@ import type { LineMove } from '#page/review/chess/line.ts';
 import { colorLetter, ROLE_LETTERS } from '#page/review/chess/notation.ts';
 
 // Pieces, moves and squares go into the coach's text as [[…]] tokens, which
-// the comment's markup draws as Neo pieces, move chips and bold squares: a
+// the comment's markup draws as pieces, move chips and bold squares: a
 // beginner sees which piece, and whose, without reading the notation.
 
 /** [[p:wn]]: a piece, drawn. */

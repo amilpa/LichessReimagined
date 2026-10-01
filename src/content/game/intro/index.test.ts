@@ -33,7 +33,7 @@ beforeEach(() => {
   vi.stubGlobal('chrome', {
     runtime: { getURL: (path: string) => `chrome-extension://id/${path}` },
   });
-  // The board's and the swords' images, decoded when the test says so.
+  // The swords' image, decoded when the test says so.
   vi.stubGlobal(
     'Image',
     class {
@@ -73,7 +73,7 @@ describe('the game intro', () => {
     ).toBe('Anonymous');
     expect(main()?.dataset.cdcIntro).toBe('');
     expect(main()?.style.getPropertyValue('--cdc-intro-board')).toMatch(
-      /^url\('chrome-extension:\/\/id\/img\/boards\/\w+\.webp'\)$/,
+      /^url\("data:image\/svg\+xml,%3Csvg%20/,
     );
     expect(main()?.style.getPropertyValue('--cdc-intro-swords')).toMatch(
       /^url\('https:\/\/lichess1\.org\/assets\/flair\/img\/objects\.crossed-swords\.webp'\)$/,

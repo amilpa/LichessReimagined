@@ -136,20 +136,21 @@ A change is done when all of these hold:
 
 ## Where things go
 
-| Path              | What it holds                                                                                                                                                                                                                                                                                                                                     |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/manifest.ts` | the manifest of each target, and `BASE_VERSION`                                                                                                                                                                                                                                                                                                   |
-| `src/content/`    | the isolated-world script: `boards` (board and piece picker), `bootstrap`, `layout` (`MARKS`, `HAS`, inset, zoom, controls height), `game`, `analysis`, `pages`, `ui` (tooltips, hover card, tab bars), `sounds`, `charts`, `coach` (the coach's face), `dev` (auto-reload), `platform` (the extension APIs it uses), `sidebar` (the Donate item) |
-| `src/page/`       | the page-world script: `motion`, `sounds`, `board` (shapes, checkmate), `review`, `charts`, `game-over` (kings' badges, confetti, the coach's card), and `lichess/`, typed facades over Lichess's globals                                                                                                                                         |
-| `src/shared/`     | helpers for both worlds (DOM, markup, messages, storage, chess, charts), `testing/` for tests                                                                                                                                                                                                                                                     |
-| `src/background/` | the service worker: auto-reload, old cache cleanup                                                                                                                                                                                                                                                                                                |
-| `src/styles/`     | one stylesheet per page or part, a folder of partials past 400 lines, joined in `index.css`'s order                                                                                                                                                                                                                                               |
-| `public/`         | copied into each build: `_locales/`, `icons/`, `img/` (`boards`, `pieces`, `icons`, `coaches`), `sounds/`                                                                                                                                                                                                                                         |
-| `scripts/`        | build, package, typecheck, source rules, version, store publishing and rendering                                                                                                                                                                                                                                                                  |
-| `tests/e2e/`      | Playwright tests on lichess.org                                                                                                                                                                                                                                                                                                                   |
-| `tools/`          | Python generators, run by hand: `boards/fetch.py`, `assets/fetch.py`, `coach-rig/extract.py`, `game-rating/`                                                                                                                                                                                                                                      |
-| `store/`          | the store images and their HTML templates                                                                                                                                                                                                                                                                                                         |
-| `.github/`        | CI (`ci.yml`), releases and store submissions (`release.yml`), Dependabot                                                                                                                                                                                                                                                                         |
+| Path              | What it holds                                                                                                                                                                                                                                                                                                                                                     |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/manifest.ts` | the manifest of each target, and `BASE_VERSION`                                                                                                                                                                                                                                                                                                                   |
+| `src/content/`    | the isolated-world script: `packs` (imported boards, pieces and sounds, their pickers), `bootstrap`, `layout` (`MARKS`, `HAS`, inset, zoom, controls height), `game`, `analysis`, `pages`, `ui` (tooltips, hover card, tab bars), `charts`, `coach` (the coach's face), `dev` (auto-reload), `platform` (the extension APIs it uses), `sidebar` (the Donate item) |
+| `src/page/`       | the page-world script: `motion`, `sounds`, `board` (shapes, checkmate), `review`, `charts`, `game-over` (kings' badges, confetti, the coach's card), and `lichess/`, typed facades over Lichess's globals                                                                                                                                                         |
+| `src/shared/`     | helpers for both worlds (DOM, markup, messages, storage, chess, charts), `testing/` for tests                                                                                                                                                                                                                                                                     |
+| `src/background/` | the service worker: auto-reload, old cache cleanup                                                                                                                                                                                                                                                                                                                |
+| `src/styles/`     | one stylesheet per page or part, a folder of partials past 400 lines, joined in `index.css`'s order                                                                                                                                                                                                                                                               |
+| `public/`         | copied into each build: `_locales/`, `icons/`, `img/` (`icons`, `coaches`), `licenses/` (the bundled files' licenses)                                                                                                                                                                                                                                             |
+| `scripts/`        | build, package, typecheck, source rules, version, store publishing and rendering                                                                                                                                                                                                                                                                                  |
+| `tests/e2e/`      | Playwright tests on lichess.org                                                                                                                                                                                                                                                                                                                                   |
+| `tools/`          | Python generators, run by hand: `assets/fetch.py`, `coach-rig/extract.py`, `example-pack/sounds.py`, `game-rating/`                                                                                                                                                                                                                                               |
+| `packs/`          | the example pack users can import (`docs/packs.md` describes the format)                                                                                                                                                                                                                                                                                          |
+| `store/`          | the store images and their HTML templates                                                                                                                                                                                                                                                                                                                         |
+| `.github/`        | CI (`ci.yml`), releases and store submissions (`release.yml`), Dependabot                                                                                                                                                                                                                                                                                         |
 
 **Recipes**
 
@@ -166,10 +167,11 @@ A change is done when all of these hold:
 - _A storage key:_ in `StorageKey` or `SessionKey` (`src/shared/storage.ts`).
 - _A tab bar that slides:_ an entry in `TAB_BARS`
   (`src/content/ui/tab-bars.ts`), then its look in CSS (see "Tabs slide").
-- _An image or a sound:_ never a remote URL. Boards and piece sets go in
-  `src/content/boards/catalog.json`, then `tools/boards/fetch.py`; icons are
-  named in the CSS (`img/icons/<name>.svg`) and sounds in
-  `src/shared/sounds.ts`, then `tools/assets/fetch.py`.
+- _An image or a sound:_ never a remote URL, and never Chess.com's (see
+  the product rules). Icons are named in the CSS (`img/icons/<name>.svg`)
+  and in `EMOJI`, then `tools/assets/fetch.py`. Boards, piece sets and
+  sounds aren't bundled: they're Lichess's, or a pack's (`docs/packs.md`).
+  A new sound a pack may have goes in `src/shared/sounds.ts`.
 - _A chart:_ redrawn in SVG from the page's data, in the rating chart's look
   (see "Every chart is modern"), with `src/shared/charts/`.
 
@@ -179,19 +181,28 @@ The goal is a **modern Lichess, modelled on Chess.com**: a user of that site
 wouldn't notice they're on Lichess. When in doubt, compare with Chess.com and
 match it. Lichess keeps its features: free analysis, open data, no ads.
 
-- **The look:** dark palette, green board, Neo pieces, bold gradient
-  buttons, a fixed left sidebar, roomy player bars with avatars and clocks.
+- **Nothing of Chess.com's:** match how it works and feels, never copy what
+  it made. No image, icon, piece set, board, sound, logo, illustration or
+  text of Chess.com's goes in the extension, not even redrawn or traced:
+  Chess.com had it taken off the Chrome Web Store for that. Draw our own, use
+  Lichess's, or files under a free license, with that license in
+  `public/licenses/`.
+- **The look:** dark palette, Lichess's board and pieces (or a pack's), bold
+  gradient buttons, a fixed left sidebar, roomy player bars with avatars and
+  clocks.
 - **The layout:** board on the left, one right-hand panel (moves, controls,
   chat), and a page that never scrolls: everything fits the viewport, like a
   native app. Add nothing below the board.
-- **The feel:** its move sounds, the players' intro at the start, the
+- **The feel:** a pack's sounds if the user has one, the players' intro at the start, the
   kings' badges, the winner's confetti and the coach's card at the end, and a
   Game Review ("Bilan") with an eval graph, accuracy, move classes, a coach
   bubble, board badges and an eval bar.
 - **CSS first**, JS only for what CSS can't do (sounds, measuring, captured
   pieces, the review).
 - **Every asset is bundled**: no host permission, nothing loaded from
-  another site at run time (Lichess's own assets aside).
+  another site at run time (Lichess's own assets aside). A pack is
+  downloaded from GitHub once, when the user imports it, then kept in the
+  browser.
 - **Use Lichess's own capabilities** (its Stockfish build, its analysis
   controller) rather than reinventing them.
 - **Every language:** Lichess localizes text and some URLs (`/fr/training`).
@@ -200,7 +211,8 @@ match it. Lichess keeps its features: free analysis, open data, no ads.
 - **Desktop first:** our layout from 1020px; below, Lichess's mobile layout
   with our theme, board and pieces.
 - **Playful pages:** a color per section, icons on gradient tiles, cards,
-  pills, illustrations (Neo pieces, Lichess's 3D emoji, little boards).
+  pills, illustrations (pieces in the board's set, Fluent and Lichess's 3D
+  emoji, little boards).
   Practice, simuls and the forum set the tone. Every side menu (`.subnav`)
   gets an icon per link on a tile in its own color: add the menu to the
   shared rule in `styles/pages/headings-menus.css`, then set
@@ -256,9 +268,19 @@ Learned the hard way. Check here before touching the area concerned.
   chat: override it.
 - **CSP.** Images load from anywhere; audio and `fetch` only from Lichess's
   domains, `blob:` and `data:`, not even the extension's files. So
-  `content/sounds` reads the sounds and `page/sounds` plays them as `blob:`
-  URLs. Cross-origin data would need the background worker and a host
-  permission.
+  `content/packs` reads a pack's sounds and `page/sounds` plays them as
+  `blob:` URLs. The content script's own `fetch` isn't bound by it: it
+  reads packs from GitHub, whose files allow any origin. Other
+  cross-origin data would need the background worker and a host permission.
+- **Lichess's piece variables.** Lichess draws its pieces from
+  `---white-pawn` … `---black-king` (`.is2d .pawn.white { background-image:
+var(---white-pawn) }`), set on `:root`, and inline on `<body>` once its
+  menu changes the board or the set: a pack overrides them on both
+  (`content/packs/apply.ts`), and our own pieces (`#shared/piece-glyph.ts`)
+  read them. Before drawing a board Lichess decodes each one, slicing
+  `url(` and `)` off its value: write them unquoted, and know that one image
+  that fails to decode leaves the page without a board. Packs are checked
+  for that at import.
 - **Thin fonts.** Lichess sets weight 300 on Roboto / Noto Sans.
   `content/bootstrap/fonts.ts` appends `@font-face` rules pointing them (and
   `CDC Sans`) at the system font; they must come after Lichess's, hence not

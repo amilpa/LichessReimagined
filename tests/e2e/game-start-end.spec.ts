@@ -22,7 +22,8 @@ async function expectIntro(page: Page): Promise<void> {
   expect(intro.usernames).toHaveLength(2);
   for (const name of intro.usernames) expect(name).not.toBe('');
   expect(new Set(intro.widths).size, 'both cards the same width').toBe(1);
-  expect(intro.board).toMatch(/^url\("chrome-extension:\/\/.*\/img\/boards\/\w+\.webp"\)$/);
+  // A board of ours in other colors, drawn as an SVG.
+  expect(intro.board).toMatch(/^url\("data:image\/svg\+xml,%3Csvg%20/);
   expect(intro.swords).toMatch(
     /^url\("https:\/\/lichess1\.org\/assets\/flair\/img\/objects\.crossed-swords\.webp"\)$/,
   );

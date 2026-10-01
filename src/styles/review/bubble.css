@@ -109,7 +109,7 @@
     height: 16px;
   }
 
-  /* Pieces are drawn as Neo pieces, moves as chips led by the moving piece. Negative
+  /* Pieces are drawn in the board's set, moves as chips led by the moving piece. Negative
      margins keep the pieces from pushing the lines apart. */
   .cdc-pc {
     display: inline-block;

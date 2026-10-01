@@ -1,23 +1,19 @@
 # LichessDotCom
 
-![LichessDotCom: Lichess, the look you know](store/promo-marquee.png)
-
 Lichess is free, open source and has no ads. This Chrome extension gives it
-the look and feel most players are used to: a green board, modern pieces,
-familiar sounds, a roomy layout and a Game Review after every game.
+a modern look and feel: a dark, roomy layout, playful pages, the board, pieces
+and sounds of your choice, and a Game Review after every game.
 
 Your Lichess account, your games and your friends don't change. Only the look
 and the sounds do.
 
 ## What you get
 
-### The look you know
+### A roomy layout
 
-The green board and the Neo pieces, a sidebar on the left, player bars with
-the clocks above and below the board, and one panel on the right for the moves
-and the chat. A game fits on your screen, so there's nothing to scroll.
-
-![A live game with the familiar look](store/1-game.png)
+A sidebar on the left, player bars with the clocks above and below the board,
+and one panel on the right for the moves and the chat. A game fits on your
+screen, so there's nothing to scroll.
 
 ### A Game Review for every game
 
@@ -27,22 +23,19 @@ mistake, blunder… A coach then takes you through the game move by move.
 
 The engine runs on your own computer, so it's free and there's no daily limit.
 
-![The Game Review on a brilliant move](store/2-review.png)
+### Your board, your pieces, your sounds
 
-### Your board, your pieces
-
-37 boards and 40 piece sets, the ones you know, or Lichess's own if you'd
-rather keep them. Pick them in the settings menu, at the bottom of the
-sidebar.
-
-![The boards and piece sets](store/3-boards.png)
+The board, pieces and sounds you picked in Lichess's settings, or your own:
+put them in a folder on GitHub with a `pack.json`, paste its link in the
+settings menu (Board, Piece set or Sound, under **Imported**), and they're
+yours on every page. Private repositories work too, with a token. How to make
+one: [docs/packs.md](docs/packs.md), and a pack to start from:
+[packs/example](packs/example).
 
 ### The rest of the site too
 
 Home, puzzles, lessons, profiles, tournaments, the forum: every page gets the
 same treatment.
-
-![Other pages of the site](store/4-pages.png)
 
 ## Install it
 
@@ -86,7 +79,8 @@ Lichess tab.
 
 - It's made for computers. In a narrow window or on a tablet you get Lichess's
   usual mobile layout, with the new colors, board and pieces.
-- Its sounds and images come with it: it loads nothing from other sites.
+- Its images come with it: it loads nothing from other sites, except the
+  packs you import, once, from GitHub.
 - Nothing is tracked or collected.
 
 ## Development
@@ -130,9 +124,10 @@ This is a free, personal fan project, made for fun. It isn't sold, it shows
 no ads, it asks for no money, and it's not meant to make money in any way.
 
 It isn't affiliated with, endorsed by or sponsored by Lichess or any other
-chess site or company. All names, trademarks, logos, images, pieces, boards and
-sounds belong to their respective owners, and are used here only to change how
-lichess.org looks on your own computer. No ownership of them is claimed.
+chess site or company. Its images are its own or under free licenses, listed
+in [public/licenses](public/licenses) and [packs/example](packs/example);
+Lichess's own board, pieces and sounds come from lichess.org itself. A pack you
+import is yours: share only what you may share.
 
 If you own something used here and want it gone, please
 [open an issue](https://github.com/theophile-wallez/LichessDotCom/issues) and it will be removed promptly.

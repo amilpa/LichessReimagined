@@ -1,4 +1,4 @@
-/* The players' intro at the start of a game (content/game/intro): a board in another skin drops
+/* The players' intro at the start of a game (content/game/intro): a board in other colors drops
  * over the opponent's half with their card, a "VS" pops over crossed swords on the middle line and
  * the player's card on their half, then the board lifts. That board is drawn on cg-board::after,
  * under the pieces (z-index 2); the cards are ours, over the board, and let every click through.

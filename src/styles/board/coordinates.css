@@ -56,11 +56,7 @@ coords {
 }
 
 /* Below 1020px "outside" coordinates stay where Lichess puts them: moved left of the board,
- * they fell off phone screens. Inside, color them from our board. */
-html:not([data-cdc-board='lichess']) body .is2d coords {
-  ---cg-ccw: var(--cdc-sq-light) !important;
-  ---cg-ccb: var(--cdc-sq-dark) !important;
-}
+ * they fell off phone screens. Inside, a pack's board colors them (content/packs/apply.ts). */
 
 /* Desktop: always outside. Lichess swaps `coords-out` for `coords-in` while its eval gauge
  * shows, so they jumped in and out between moves. Layouts leave room for both classes. */

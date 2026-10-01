@@ -3,7 +3,6 @@ import { createElement, queryOne } from '#shared/dom.ts';
 import type { Feature } from '#shared/features.ts';
 import { setHtml } from '#shared/html.ts';
 import { createOwnedElement } from '#shared/owned-element.ts';
-import { extensionUrl } from '#content/platform/runtime.ts';
 import { onEveryTick } from '#content/sync-loop.ts';
 import { CAPTURABLE_ROLES, capturedMarkup, type BarSide, type MaterialPiece } from './material.ts';
 
@@ -61,8 +60,8 @@ function createPiecesWatch(): (board: Element) => boolean {
   };
 }
 
-/** A sync task drawing the captured pieces, with the Neo pieces at `piecesUrl`. */
-export function createCapturedSync(piecesUrl: string): () => void {
+/** A sync task drawing the captured pieces. */
+export function createCapturedSync(): () => void {
   const ownTopRow = createOwnedElement(() =>
     createElement('div', { className: 'cdc-captured cdc-captured--top' }),
   );
@@ -95,7 +94,6 @@ export function createCapturedSync(piecesUrl: string): () => void {
       bottom: bottomColor,
       variant,
       checks,
-      piecesUrl,
     });
     if (rowsNew) lastKey = '';
     const key = `${markup.top.value}|${markup.bottom.value}`;
@@ -108,5 +106,5 @@ export function createCapturedSync(piecesUrl: string): () => void {
 
 export const capturedPieces: Feature = {
   name: 'captured pieces',
-  start: () => onEveryTick('captured pieces', createCapturedSync(extensionUrl('img/pieces/neo/'))),
+  start: () => onEveryTick('captured pieces', createCapturedSync()),
 };

@@ -1,0 +1,92 @@
+import { afterEach, describe, expect, it } from 'vitest';
+import { packRules, setLoading, showPacks, soundFiles } from './apply.ts';
+import { fakePack, IMAGE, SOUND } from './fixtures/packs.ts';
+
+const WOOD = fakePack('ann/packs/main/wood/');
+const style = (): HTMLStyleElement | null => document.querySelector('style#cdc-packs');
+
+afterEach(() => {
+  style()?.remove();
+  delete document.documentElement.dataset.cdcBoard;
+  delete document.documentElement.dataset.cdcLoading;
+});
+
+describe('packRules', () => {
+  it('is empty with Lichess’s own board and pieces', () => {
+    expect(packRules({ board: null, pieces: null })).toBe('');
+  });
+
+  it('overrides the variables Lichess draws its pieces from', () => {
+    const rules = packRules({ board: null, pieces: WOOD });
+    // Unquoted, as Lichess slices `url(` and `)` off to decode them.
+    expect(rules).toMatch(
+      /^:root,body\{---white-king:url\(data:image\/svg\+xml;base64,[\w+/=]+\) !important;/,
+    );
+    const pairs = [
+      ['---white-pawn', WOOD.pieces?.wP],
+      ['---white-knight', WOOD.pieces?.wN],
+      ['---black-queen', WOOD.pieces?.bQ],
+      ['---black-king', WOOD.pieces?.bK],
+    ];
+    for (const [variable, image] of pairs)
+      expect(rules).toContain(`${variable}:url(${image}) !important`);
+  });
+
+  it('wins over the values Lichess sets inline on <body> once its menu is used', () => {
+    expect(packRules({ board: null, pieces: WOOD })).toMatch(/^:root,body\{/);
+  });
+
+  it('reads back as Lichess reads it, to decode each piece before drawing the board', () => {
+    const style = document.createElement('style');
+    style.textContent = packRules({ board: null, pieces: WOOD });
+    document.head.append(style);
+    const [rule] = style.sheet?.cssRules ?? [];
+    const declared =
+      rule instanceof CSSStyleRule ? rule.style.getPropertyValue('---white-pawn') : '';
+    style.remove();
+    // ui/site/src/asset.ts: `.slice(4, -1) // strip 'url(' + ... + ')'`
+    expect(declared.trim().slice(4, -1)).toBe(WOOD.pieces?.wP);
+  });
+
+  it('gives the board its image, and the coordinates its colors when it has them', () => {
+    expect(packRules({ board: WOOD, pieces: null })).toBe(
+      `:root{--cdc-board-img:url("${IMAGE}");--cdc-sq-light:#eeeeee;--cdc-sq-dark:#333333}\n` +
+        'html body .is2d coords{---cg-ccw:#eeeeee !important;---cg-ccb:#333333 !important}',
+    );
+    const colorless = { ...WOOD, board: { image: IMAGE } };
+    expect(packRules({ board: colorless, pieces: null })).toBe(
+      `:root{--cdc-board-img:url("${IMAGE}")}`,
+    );
+  });
+});
+
+describe('showPacks', () => {
+  it('puts the rules in our stylesheet and marks a pack’s board on <html>', () => {
+    showPacks({ board: null, pieces: null });
+    expect(style()).toBeNull();
+    showPacks({ board: WOOD, pieces: WOOD });
+    expect(document.documentElement.dataset.cdcBoard).toBe('pack');
+    expect(style()?.textContent).toBe(packRules({ board: WOOD, pieces: WOOD }));
+    showPacks({ board: null, pieces: null });
+    expect(document.documentElement.dataset.cdcBoard).toBeUndefined();
+    expect(style()?.textContent).toBe('');
+  });
+});
+
+describe('soundFiles', () => {
+  it('gives the pack’s sounds as bytes, and none for Lichess’s', () => {
+    const files = soundFiles(WOOD);
+    expect(Object.keys(files)).toEqual(['capture']);
+    expect(new TextDecoder().decode(files.capture)).toBe(atob(SOUND.split(',')[1] ?? ''));
+    expect(soundFiles(null)).toEqual({});
+  });
+});
+
+describe('setLoading', () => {
+  it('names what the page hides, and clears it', () => {
+    setLoading(['board', 'pieces']);
+    expect(document.documentElement.dataset.cdcLoading).toBe('board pieces');
+    setLoading([]);
+    expect(document.documentElement.dataset.cdcLoading).toBeUndefined();
+  });
+});

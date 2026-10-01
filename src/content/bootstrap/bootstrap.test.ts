@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ReadyStateSchema, setReadyState } from '#shared/testing/ready-state.ts';
+import { assets } from './assets.ts';
 import { coachChoice } from './coach-choice.ts';
 import { fontFaces, fonts } from './fonts.ts';
 import { reloadIfInjectedLate } from './late-reload.ts';
@@ -12,6 +13,17 @@ beforeEach(() => {
   delete document.documentElement.dataset['cdcCoach'];
 });
 afterEach(() => setReadyState('complete'));
+
+describe('assets', () => {
+  it('tells the page world where the extension’s files are', () => {
+    vi.stubGlobal('chrome', {
+      runtime: { getURL: (path: string) => `chrome-extension://id/${path}` },
+    });
+    assets.start();
+    expect(document.documentElement.dataset.cdcAssets).toBe('chrome-extension://id/');
+    delete document.documentElement.dataset.cdcAssets;
+  });
+});
 
 describe('fonts', () => {
   it('writes the same faces as the original', () => {

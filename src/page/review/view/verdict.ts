@@ -10,9 +10,6 @@ import { evalChip } from './markup.ts';
 // The bubble for a judged move: its icon, the verdict and the score, then
 // the coach's comment, typed out.
 
-/** The extension's base URL, set on <html> by the content script at document_start. */
-const assetsUrl = (): string => document.documentElement.dataset.cdcAssets ?? '';
-
 const coachContext = (session: Session, gameId: string): CoachContext => ({
   gameId,
   coach: session.coach.id,
@@ -56,7 +53,7 @@ export function followComment(session: Session, { parts }: CoachComment): void {
 /** The verdict's bubble, its comment typed out as far as the typing has got. */
 export function verdictMarkup(session: Session, { move, parts }: CoachComment): SafeHtml {
   const { language, stream } = session;
-  const comment = commentMarkup(parts, { stream: stream.state, assets: assetsUrl(), language });
+  const comment = commentMarkup(parts, { stream: stream.state, language });
   return html`<div class="cdc-bubble__row">${classIcon(move.moveClass)}
       <p class="cdc-bubble__title">${verdictTitle(move.moveClass, move.san, language)}</p>
       ${evalChip(move.after)}</div>

@@ -179,22 +179,22 @@
 
   html[data-cdc-has~='analyse-white'] main.analyse .material-bottom,
   html[data-cdc-has~='analyse-black'] main.analyse .material-top {
-    --cdc-mpiece-pawn: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
-    --cdc-mpiece-knight: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bn.webp');
-    --cdc-mpiece-bishop: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bb.webp');
-    --cdc-mpiece-rook: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/br.webp');
-    --cdc-mpiece-queen: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bq.webp');
-    --cdc-mpiece-king: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bk.webp');
+    --cdc-mpiece-pawn: var(---black-pawn);
+    --cdc-mpiece-knight: var(---black-knight);
+    --cdc-mpiece-bishop: var(---black-bishop);
+    --cdc-mpiece-rook: var(---black-rook);
+    --cdc-mpiece-queen: var(---black-queen);
+    --cdc-mpiece-king: var(---black-king);
   }
 
   html[data-cdc-has~='analyse-white'] main.analyse .material-top,
   html[data-cdc-has~='analyse-black'] main.analyse .material-bottom {
-    --cdc-mpiece-pawn: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp');
-    --cdc-mpiece-knight: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp');
-    --cdc-mpiece-bishop: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp');
-    --cdc-mpiece-rook: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp');
-    --cdc-mpiece-queen: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp');
-    --cdc-mpiece-king: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp');
+    --cdc-mpiece-pawn: var(---white-pawn);
+    --cdc-mpiece-knight: var(---white-knight);
+    --cdc-mpiece-bishop: var(---white-bishop);
+    --cdc-mpiece-rook: var(---white-rook);
+    --cdc-mpiece-queen: var(---white-queen);
+    --cdc-mpiece-king: var(---white-king);
   }
 
   main.analyse .material mpiece.pawn {
@@ -221,7 +221,7 @@
     margin: 0 !important;
   }
 
-  :is(.cdc-captured__group img, main.analyse .material mpiece) {
+  :is(.cdc-captured__group .cdc-pc, main.analyse .material mpiece) {
     display: block;
     width: 18px !important;
     height: 18px !important;
@@ -229,7 +229,7 @@
     filter: none !important;
   }
 
-  :is(.cdc-captured__group img, main.analyse .material mpiece) + :is(img, mpiece) {
+  :is(.cdc-captured__group .cdc-pc, main.analyse .material mpiece) + :is(.cdc-pc, mpiece) {
     margin-left: -11px !important;
   }
 

@@ -1,9 +1,7 @@
-import { SOUND_NAMES } from '#shared/sounds.ts';
 import { expect, test } from './fixtures.ts';
 import { horizontalOverflow } from './support/layout.ts';
 import { FINISHED_GAME, openLichess, rootVariable } from './support/lichess.ts';
 import { expectSidebar } from './support/sidebar.ts';
-import { ourSounds } from './support/sounds.ts';
 
 // Every public page gets the extension: the theme, the sidebar, both of its
 // scripts, and no error from them. `ours`, when set, is something the
@@ -87,9 +85,11 @@ for (const { name, path, ours } of PAGES) {
     expect(await rootVariable(page, '--cdc-bg-panel')).toBe(PANEL_COLOR);
     await expectSidebar(page);
     if (ours !== undefined) await expect(page.locator(ours).first()).toBeAttached();
-    // Only both worlds together can do this: the content script reads the
-    // bundled sounds, the page script hands them to Lichess's player.
-    await expect.poll(async () => (await ourSounds(page)).size).toBe(SOUND_NAMES.length);
+    // The page script is in too: headless Chrome asks for reduced motion, which
+    // page/motion answers as not asked.
+    expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(
+      false,
+    );
     expect(await horizontalOverflow(page)).toBe(0);
     expect(extensionErrors).toEqual([]);
   });

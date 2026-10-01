@@ -7,15 +7,13 @@ import { setHtml } from '#shared/html.ts';
 import { readPageInitData } from '#shared/page-init-data.ts';
 import { freshGameId } from '#shared/round-init.ts';
 import { readStored, SessionKey, writeStored } from '#shared/storage.ts';
-import { boardPath } from '#content/boards/catalog.ts';
-import { extensionUrl } from '#content/platform/runtime.ts';
 import { onEveryTick } from '#content/sync-loop.ts';
 import { computerRatings } from '#content/game/ai-players.ts';
-import { introMarkup, pickIntroBoard } from './markup.ts';
+import { introBoardImage, introMarkup } from './markup.ts';
 import { readPlayer } from '#shared/player-bar.ts';
 
 // The players' intro, once per game, when a player opens a game that has just
-// begun: a board in another skin drops over the opponent's half with their
+// begun: a board in other colors drops over the opponent's half with their
 // card, faces the player's card for a second, then lifts
 // (styles/game/intro.css). It never blocks the board.
 
@@ -32,7 +30,8 @@ const ShownSchema = z.string().check(z.minLength(1));
 
 interface Pending {
   readonly gameId: string;
-  readonly boardUrl: string;
+  /** The dropped board, as a CSS image. */
+  readonly board: string;
   loaded: boolean;
 }
 
@@ -43,18 +42,17 @@ export function prepareIntro(initData: string | null): void {
   const gameId = freshGameId(initData);
   if (gameId === null) return;
   if (readStored(SessionKey.gameIntro(gameId), ShownSchema, 'session') !== null) return;
-  const board = pickIntroBoard(document.documentElement.dataset.cdcBoard, Math.random);
-  const next: Pending = { gameId, boardUrl: extensionUrl(boardPath(board)), loaded: false };
+  const next: Pending = { gameId, board: introBoardImage(Math.random), loaded: false };
   pending = next;
-  // Decoded before it drops, or its first frames would show an empty board.
-  const decoding = [next.boardUrl, SWORDS_URL].map(url => {
-    const image = new Image();
-    image.src = url;
-    return image.decode();
-  });
-  void Promise.allSettled(decoding).finally(() => {
-    next.loaded = true;
-  });
+  // Decoded before it shows, or its first frames would lack it.
+  const swords = new Image();
+  swords.src = SWORDS_URL;
+  void swords
+    .decode()
+    .catch(() => undefined)
+    .finally(() => {
+      next.loaded = true;
+    });
 }
 
 function clear(main: HTMLElement, intro: HTMLElement): void {
@@ -83,7 +81,7 @@ function play(next: Pending): boolean {
     }),
   );
   writeStored(SessionKey.gameIntro(next.gameId), '1', 'session');
-  setStyleProperty(main, '--cdc-intro-board', `url('${next.boardUrl}')`);
+  setStyleProperty(main, '--cdc-intro-board', next.board);
   setStyleProperty(main, '--cdc-intro-swords', `url('${SWORDS_URL}')`);
   setStyleProperty(main, '--cdc-intro-ms', `${INTRO_MS}ms`);
   setData(main, 'cdcIntro', '');

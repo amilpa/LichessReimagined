@@ -1,0 +1,19 @@
+{
+  "name": "Warm wood",
+  "pieces": "pieces/{piece}.svg",
+  "board": { "image": "board.svg", "light": "#f2e4cc", "dark": "#c4936a" },
+  "sounds": {
+    "move-self": "sounds/move-self.wav",
+    "move-opponent": "sounds/move-opponent.wav",
+    "move-check": "sounds/move-check.wav",
+    "capture": "sounds/capture.wav",
+    "castle": "sounds/castle.wav",
+    "promote": "sounds/promote.wav",
+    "premove": "sounds/premove.wav",
+    "illegal": "sounds/illegal.wav",
+    "notify": "sounds/notify.wav",
+    "tenseconds": "sounds/tenseconds.wav",
+    "game-start": "sounds/game-start.wav",
+    "game-end": "sounds/game-end.wav"
+  }
+}

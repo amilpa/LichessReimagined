@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { queryAll, queryOne } from '#shared/dom.ts';
 import { setHtml } from '#shared/html.ts';
-import { BOARDS } from '#content/boards/catalog.ts';
-import { introMarkup, pickIntroBoard } from './markup.ts';
+import { introBoardImage, introMarkup } from './markup.ts';
 import type { BarPlayer } from '#shared/player-bar.ts';
 
 const player = (name: string, extra: Partial<BarPlayer> = {}): BarPlayer => ({
@@ -47,16 +46,26 @@ describe('introMarkup', () => {
   });
 });
 
-describe('pickIntroBoard', () => {
-  const [first, second] = BOARDS;
+const svgOf = (image: string): string =>
+  decodeURIComponent(/^url\("data:image\/svg\+xml,(.*)"\)$/.exec(image)?.[1] ?? '');
+const colorsOf = (image: string): string[] =>
+  [...svgOf(image).matchAll(/fill="(#[\da-f]{6})"/g)].map(match => match[1] ?? '');
 
-  it('never picks the board shown', () => {
-    expect(pickIntroBoard(first.id, () => 0)).toBe(second?.id);
-    expect(pickIntroBoard(second?.id, () => 0)).toBe(first.id);
+describe('introBoardImage', () => {
+  it('draws an 8×8 board, its 32 dark squares in one path', () => {
+    const svg = svgOf(introBoardImage(() => 0));
+    expect(svg).toMatch(/^<svg [^>]*viewBox="0 0 8 8"/);
+    expect(svg.match(/h1v1h-1z/g)).toHaveLength(32);
+    // a8 is light, b8 dark.
+    expect(svg).not.toContain('M0 0h1');
+    expect(svg).toContain('M1 0h1');
   });
 
-  it('may pick any board when Lichess draws its own', () => {
-    expect(pickIntroBoard('lichess', () => 0)).toBe(first.id);
-    expect(pickIntroBoard('lichess', () => 0.999_999)).toBe(BOARDS.at(-1)?.id);
+  it('picks its colors with `random`, from the first pair to the last', () => {
+    const first = colorsOf(introBoardImage(() => 0));
+    const last = colorsOf(introBoardImage(() => 0.999_999));
+    expect(first).toHaveLength(2);
+    expect(last).toHaveLength(2);
+    expect(last).not.toEqual(first);
   });
 });

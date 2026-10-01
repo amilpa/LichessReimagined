@@ -278,10 +278,9 @@
   width: 28px;
   height: 28px;
   margin: -4px -2px -4px -4px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp') center /
-    contain no-repeat;
+  background: var(---white-pawn) center / contain no-repeat;
 }
 
 .racer:has(.cg-wrap.orientation-black) .racer__pre__message__pov::before {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
+  background-image: var(---black-pawn);
 }

@@ -1,4 +1,5 @@
 import { html, type SafeHtml } from '#shared/html.ts';
+import { pieceGlyph } from '#shared/piece-glyph.ts';
 import type { ReviewLanguage } from '#page/review/i18n/types.ts';
 
 // The coach's comment as markup, typed out word by word like a chat reply.
@@ -35,13 +36,8 @@ const PIECE_LETTER = /^[KQRBN]/;
 
 export interface CommentOptions {
   readonly stream: StreamState;
-  /** The extension's base URL, where the Neo pieces are (`data-cdc-assets` on <html>). */
-  readonly assets: string;
   readonly language: ReviewLanguage;
 }
-
-const pieceImage = (assets: string, piece: string): SafeHtml =>
-  html`<img class="cdc-pc" alt="" src="${assets}img/pieces/neo/${piece}.webp">`;
 
 function movedRole(san: string): string {
   if (san.startsWith('O-O')) return 'k';
@@ -49,36 +45,36 @@ function movedRole(san: string): string {
 }
 
 // A move: the piece that moves, then the notation, a promotion's piece drawn too.
-function moveChip(assets: string, value: string): SafeHtml {
+function moveChip(value: string): SafeHtml {
   const color = value.charAt(0);
   const san = value.slice(2).replace(PIECE_LETTER, '');
   const promotion = /=([QRBN])/.exec(san);
   const text =
     promotion === null
       ? html`${san}`
-      : html`${san.slice(0, promotion.index)}=${pieceImage(assets, color + (promotion[1] ?? '').toLowerCase())}${san.slice(promotion.index + promotion[0].length)}`;
-  return html`<span class="cdc-mv">${pieceImage(assets, color + movedRole(value.slice(2)))}${text}</span>`;
+      : html`${san.slice(0, promotion.index)}=${pieceGlyph(color + (promotion[1] ?? '').toLowerCase())}${san.slice(promotion.index + promotion[0].length)}`;
+  return html`<span class="cdc-mv">${pieceGlyph(color + movedRole(value.slice(2)))}${text}</span>`;
 }
 
-function tokenMarkup(assets: string, kind: string, value: string): SafeHtml {
-  if (kind === 'p') return pieceImage(assets, value);
+function tokenMarkup(kind: string, value: string): SafeHtml {
+  if (kind === 'p') return pieceGlyph(value);
   if (kind === 's') return html`<b class="cdc-sq">${value}</b>`;
   if (kind === 'n') {
     // A line's numbered move: the number never ends a line without its move.
     const [number = '', move = ''] = value.split(/:(.*)/);
-    return html`<span class="cdc-num">${number} ${moveChip(assets, move)}</span>`;
+    return html`<span class="cdc-num">${number} ${moveChip(move)}</span>`;
   }
-  return moveChip(assets, value);
+  return moveChip(value);
 }
 
 /** A word, its tokens drawn. */
-function wordMarkup(word: string, assets: string): SafeHtml {
+function wordMarkup(word: string): SafeHtml {
   const pieces: SafeHtml[] = [];
   let from = 0;
   for (const match of word.matchAll(TOKEN)) {
     pieces.push(
       html`${word.slice(from, match.index)}`,
-      tokenMarkup(assets, match[1] ?? '', match[2] ?? ''),
+      tokenMarkup(match[1] ?? '', match[2] ?? ''),
     );
     from = match.index + match[0].length;
   }
@@ -86,7 +82,7 @@ function wordMarkup(word: string, assets: string): SafeHtml {
 }
 
 export function commentMarkup(parts: readonly CommentPart[], options: CommentOptions): SafeHtml {
-  const { stream, assets, language } = options;
+  const { stream, language } = options;
   let index = 0;
   const sentences = parts
     .filter(part => !(part.droppable && stream.dropped))
@@ -94,7 +90,7 @@ export function commentMarkup(parts: readonly CommentPart[], options: CommentOpt
       const words = language.typography(part.text).match(/\S+\s*/g) ?? [];
       const spans = words.map(word => {
         const hidden = index++ >= stream.shown;
-        return html`<span class="cdc-w${hidden ? ' cdc-w--off' : ''}">${wordMarkup(word, assets)}</span>`;
+        return html`<span class="cdc-w${hidden ? ' cdc-w--off' : ''}">${wordMarkup(word)}</span>`;
       });
       return html`<span class="cdc-say${part.droppable ? ' cdc-say--drop' : ''}">${spans} </span>`;
     });

@@ -1,6 +1,7 @@
 import { colorLetter, PIECE_VALUES, ROLE_LETTERS } from '#shared/chess/pieces.ts';
 import { opposite, type Color, type Role } from '#shared/chess/types.ts';
 import { html, type SafeHtml } from '#shared/html.ts';
+import { pieceGlyph } from '#shared/piece-glyph.ts';
 
 // Captured pieces under each player's name: the opponent's pieces that are
 // no longer on the board, grouped by type, then the lead in material.
@@ -39,8 +40,6 @@ export interface CapturedInput {
   readonly variant: string | undefined;
   /** Three-check: the checks each bar's player gave, shown as kings. */
   readonly checks: Readonly<Record<BarSide, number>>;
-  /** Where the Neo pieces are, ending in a slash. */
-  readonly piecesUrl: string;
 }
 
 export type CapturedMarkup = Readonly<Record<BarSide, SafeHtml>>;
@@ -60,8 +59,8 @@ function countMissing(start: Army, onBoard: Army): Army {
 const materialOf = (army: Army): number =>
   CAPTURABLE_ROLES.reduce((sum, role) => sum + army[role] * PIECE_VALUES[role], 0);
 
-function group(pieceUrl: string, count: number): SafeHtml {
-  const piece = html`<img src="${pieceUrl}" alt="" draggable="false">`;
+function group(color: Color, role: Role, count: number): SafeHtml {
+  const piece = pieceGlyph(`${colorLetter(color)}${ROLE_LETTERS[role]}`);
   return html`<div class="cdc-captured__group">${Array.from({ length: count }, () => piece)}</div>`;
 }
 
@@ -71,16 +70,13 @@ interface RowOptions {
   readonly missing: Army;
   readonly lead: number;
   readonly checks: number;
-  readonly piecesUrl: string;
 }
 
-function rowMarkup({ color, missing, lead, checks, piecesUrl }: RowOptions): SafeHtml {
-  const pieceUrl = (role: Role): string =>
-    `${piecesUrl}${colorLetter(color)}${ROLE_LETTERS[role]}.webp`;
+function rowMarkup({ color, missing, lead, checks }: RowOptions): SafeHtml {
   const groups = CAPTURABLE_ROLES.filter(role => missing[role] > 0).map(role =>
-    group(pieceUrl(role), missing[role]),
+    group(color, role, missing[role]),
   );
-  const kings = checks > 0 && group(pieceUrl('king'), checks);
+  const kings = checks > 0 && group(color, 'king', checks);
   const score = lead > 0 && html`<span class="cdc-captured__score">+${lead}</span>`;
   return html`${groups}${kings}${score}`;
 }
@@ -88,13 +84,13 @@ function rowMarkup({ color, missing, lead, checks, piecesUrl }: RowOptions): Saf
 /** Both bars' captured pieces: each shows the pieces of the other color that are gone. */
 export function capturedMarkup(input: CapturedInput): CapturedMarkup {
   if (input.variant === 'crazyhouse') return { top: html``, bottom: html`` };
-  const { pieces, bottom, variant, checks, piecesUrl } = input;
+  const { pieces, bottom, variant, checks } = input;
   const top = opposite(bottom);
   const armies = { white: countArmy(pieces, 'white'), black: countArmy(pieces, 'black') };
   const row = (color: Color, lead: number, given: number): SafeHtml => {
     const start = VARIANT_START.get(variant ?? '')?.[color] ?? START;
     const missing = countMissing(start, armies[color]);
-    return rowMarkup({ color, missing, lead, checks: given, piecesUrl });
+    return rowMarkup({ color, missing, lead, checks: given });
   };
   const topMaterial = materialOf(armies[top]);
   const bottomMaterial = materialOf(armies[bottom]);

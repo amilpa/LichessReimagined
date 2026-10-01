@@ -1,4 +1,4 @@
-import type { SoundName } from '#shared/sounds.ts';
+import { SOUND_NAMES, type SoundName } from '#shared/sounds.ts';
 import {
   readMoveOptions,
   type MoveOptions,
@@ -12,6 +12,7 @@ import type { SoundSession } from './session.ts';
 
 // Our sounds go into Lichess's player under their own names, and its `play()`,
 // `move()` and `saySan()` are wrapped so each event picks the matching one.
+// `urls` changes with the pick: once it's empty, every call goes to Lichess.
 
 const PREFIX = 'cdc-';
 // Our own moves reach the server, and come back with their SAN, only after
@@ -56,7 +57,8 @@ function hookPlay({ sound, urls, playOurs, playLichess }: Hook): void {
     if (typeof name === 'string' && !name.startsWith(PREFIX)) {
       // Our one check sound comes from move(). Lichess plays its own check and
       // mate sounds just before an opponent's move, or on the echo of ours.
-      if (name === 'check' || name === 'checkmate') return Promise.resolve();
+      const ownCheck = name === 'check' || name === 'checkmate';
+      if (ownCheck && urls.has('move-check')) return Promise.resolve();
       const ours = soundForLichessEvent(name);
       if (ours && urls.has(ours)) return playOurs(ours, volume);
     }
@@ -87,6 +89,7 @@ function hookMove(hook: Hook): void {
   };
 
   sound.move = (options?: unknown): unknown => {
+    if (hook.urls.size === 0) return moveLichess(options);
     const move = readMoveOptions(options);
     // The game page passes each server move here with its SAN (filter "music"),
     // just before chessground asks for the board sound: SAN says exactly what it was.
@@ -102,15 +105,24 @@ function hookMove(hook: Hook): void {
 }
 
 // Lichess passes `cut` when a jump has the SAN spoken, not when a move is played.
-function hookSaySan({ sound, jumps }: Hook): void {
+function hookSaySan({ sound, urls, jumps }: Hook): void {
   const { saySan } = sound;
   if (!saySan) return;
   const sayLichess = saySan.bind(sound);
   sound.saySan = (san, cut, force): unknown => {
-    if (cut === true && sound.theme !== 'music')
+    if (cut === true && sound.theme !== 'music' && urls.size > 0)
       jumps.jumped(typeof san === 'string' ? san : undefined);
     return sayLichess(san, cut, force);
   };
+}
+
+/** Points our names in Lichess's player at `urls`, which its cache keys by. */
+export function setSoundPaths(sound: SoundPlayer, urls: ReadonlyMap<SoundName, string>): void {
+  for (const name of SOUND_NAMES) {
+    const url = urls.get(name);
+    if (url === undefined) sound.paths.delete(PREFIX + name);
+    else sound.paths.set(PREFIX + name, url);
+  }
 }
 
 /**

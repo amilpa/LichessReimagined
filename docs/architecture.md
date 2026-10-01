@@ -14,20 +14,20 @@ only the DOM and `window.postMessage`. A third runs in the background.
 `src/shared/` holds what several of them use, and must not touch `chrome.*`:
 the page world would crash on it.
 
-| Module                                         | What it gives                                                                                                      |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `dom.ts`, `owned-element.ts`, `svg.ts`         | typed lookups, element builders, writes that skip unchanged values, an element of ours kept in a Lichess container |
-| `html.ts`                                      | the escaping `html` template and `setHtml`                                                                         |
-| `protocol.ts`, `dev-check.ts`                  | the messages between the worlds, and with the background worker                                                    |
-| `json.ts`, `zod.ts`, `guards.ts`               | parsing and validating outside data                                                                                |
-| `storage.ts`                                   | every storage key; writes that survive a full or blocked storage, and reads that throw on a blocked one            |
-| `page-init-data.ts`, `round-init.ts`           | the page's `#page-init-data`, captured before Lichess removes it; a game page's, read for a game just begun        |
-| `features.ts`, `frame.ts`, `poll.ts`           | starting features, once-per-frame work, waiting for Lichess's globals                                              |
-| `build-mode.ts`                                | whether this is a dev build, which reloads itself when rebuilt                                                     |
-| `lang.ts`, `text.ts`, `math.ts`, `geometry.ts` | the page's language, small text and number helpers, points and boxes                                               |
-| `chess/`, `chessground.ts`                     | chess basics (squares, FEN, piece letters and values, attacks), a board's pieces read from chessground's classes   |
-| `charts/`, `coach.ts`, `sounds.ts`             | chart pieces, the coach's moods and the stored coach (`pickCoach`), the sound names                                |
-| `testing/`                                     | helpers only tests import, and the vitest setup filling happy-dom's gaps                                           |
+| Module                                         | What it gives                                                                                                                                        |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dom.ts`, `owned-element.ts`, `svg.ts`         | typed lookups, element builders, writes that skip unchanged values, an element of ours kept in a Lichess container                                   |
+| `html.ts`                                      | the escaping `html` template and `setHtml`                                                                                                           |
+| `protocol.ts`, `dev-check.ts`                  | the messages between the worlds, and with the background worker                                                                                      |
+| `json.ts`, `zod.ts`, `guards.ts`               | parsing and validating outside data                                                                                                                  |
+| `storage.ts`                                   | every storage key; writes that survive a full or blocked storage, and reads that throw on a blocked one                                              |
+| `page-init-data.ts`, `round-init.ts`           | the page's `#page-init-data`, captured before Lichess removes it; a game page's, read for a game just begun                                          |
+| `features.ts`, `frame.ts`, `poll.ts`           | starting features, once-per-frame work, waiting for Lichess's globals                                                                                |
+| `build-mode.ts`                                | whether this is a dev build, which reloads itself when rebuilt                                                                                       |
+| `lang.ts`, `text.ts`, `math.ts`, `geometry.ts` | the page's language, small text and number helpers, points and boxes                                                                                 |
+| `chess/`, `chessground.ts`, `piece-glyph.ts`   | chess basics (squares, FEN, piece letters and values, attacks), a board's pieces read from chessground's classes, a piece of ours in the board's set |
+| `charts/`, `coach.ts`, `sounds.ts`             | chart pieces, the coach's moods and the stored coach (`pickCoach`), the sounds a pack may have                                                       |
+| `testing/`                                     | helpers only tests import, and the vitest setup filling happy-dom's gaps                                                                             |
 
 Each directory has its own `tsconfig.json`, so a page-world file that names
 `chrome` fails to type-check, and the linter says why.
@@ -53,6 +53,25 @@ it shows again). A task must cost next to nothing when there's nothing to do.
 A feature's folder splits what it does into small modules: pure logic
 (parsing, geometry, text, classification) apart from what touches the DOM,
 so the logic can be unit-tested without a page.
+
+## Packs
+
+The board, the pieces and the sounds are Lichess's, unless the user imports a
+pack from GitHub (`docs/packs.md`) and picks it for one of them, in the
+user menu's own panels (`src/content/packs/`):
+
+- `download.ts` reads the pack's `pack.json` and files from GitHub's raw host,
+  or through its API with a token for a private repository, checks what each
+  file is and that each image decodes, and turns them into `data:` URLs.
+- `store.ts` keeps the packs in an IndexedDB database of the page's origin;
+  `library.ts` keeps which one each part shows in localStorage, so the content
+  script knows it at `document_start` and hides that part until the pack is
+  read.
+- `apply.ts` writes one stylesheet: the pieces override the variables Lichess
+  draws its own from, the board comes as `--cdc-board-img` under
+  `data-cdc-board='pack'`. The sounds go to the page world as bytes
+  (`cdc:sounds`), where `src/page/sounds` puts them in Lichess's player. With
+  no pack, Lichess's player is left alone.
 
 ## Types
 

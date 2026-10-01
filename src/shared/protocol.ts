@@ -41,7 +41,7 @@ function post(message: unknown): void {
 export const postPageReady = (): void => post({ type: 'cdc:page-ready' });
 export const onPageReady = (handler: () => void): (() => void) => listen(PageReadySchema, handler);
 
-/** Content → page: the bundled sounds' bytes, which only the content script can read. */
+/** Content → page: the picked pack's sounds, none for Lichess's own; sent again on every pick. */
 export const postSounds = (sounds: SoundFiles): void => post({ type: 'cdc:sounds', sounds });
 export const onSounds = (handler: (sounds: SoundFiles) => void): (() => void) =>
   listen(SoundsSchema, message => handler(message.sounds));

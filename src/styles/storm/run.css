@@ -159,12 +159,11 @@ html[data-cdc-has~='storm'] main {
   width: 28px;
   height: 28px;
   margin: -4px -2px -4px -4px;
-  background: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp') center /
-    contain no-repeat;
+  background: var(---white-pawn) center / contain no-repeat;
 }
 
 .storm:has(.cg-wrap.orientation-black) .puz-clock__pov::before {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bp.webp');
+  background-image: var(---black-pawn);
 }
 
 /* Flip, new run, end run: grey buttons; flip turns green while flipped. */

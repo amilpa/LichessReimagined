@@ -4,6 +4,7 @@ import { MOVE_CLASSES } from '#page/review/classes/classes.ts';
 import { en } from '#page/review/i18n/en.ts';
 import { fr } from '#page/review/i18n/fr.ts';
 import type { ReviewLanguage } from '#page/review/i18n/types.ts';
+import { withPieceGlyphs } from '#shared/testing/piece-glyphs.ts';
 import {
   type CommentPart,
   commentKey,
@@ -17,7 +18,6 @@ import { moveToken, numberedMoveToken, pieceToken, squareToken } from './tokens.
 import legacyStreams from './fixtures/legacy-stream.json' with { type: 'json' };
 import legacy from './fixtures/legacy-units.json' with { type: 'json' };
 
-const ASSETS = 'chrome-extension://abc/';
 const LANGUAGES: Readonly<Record<string, ReviewLanguage>> = { en, fr };
 const languageOf = (lang: unknown): ReviewLanguage => LANGUAGES[String(lang)] ?? en;
 
@@ -35,7 +35,7 @@ const say = (text: string, droppable = false): CommentPart => ({ text, droppable
 
 function markup(parts: readonly CommentPart[], stream: Partial<StreamState> = {}): string {
   const state = { key: commentKey(parts), shown: Infinity, dropped: false, ...stream };
-  return commentMarkup(parts, { stream: state, assets: ASSETS, language: en }).value;
+  return commentMarkup(parts, { stream: state, language: en }).value;
 }
 
 describe('commentMarkup', () => {
@@ -43,8 +43,8 @@ describe('commentMarkup', () => {
     for (const { lang, parts, shown, dropped, html } of StreamSchema.parse(legacyStreams)) {
       const comment = parts.map(([text, droppable]) => say(text, droppable ?? false));
       const stream = { key: commentKey(comment), shown: shown ?? Infinity, dropped };
-      const options = { stream, assets: ASSETS, language: languageOf(lang) };
-      expect(commentMarkup(comment, options).value).toBe(html);
+      const options = { stream, language: languageOf(lang) };
+      expect(commentMarkup(comment, options).value).toBe(withPieceGlyphs(html));
     }
   });
 
@@ -52,7 +52,7 @@ describe('commentMarkup', () => {
     for (const [kind, value, html] of legacy.tokens) {
       const word = `[[${kind}:${value}]]`;
       expect(markup([say(word)])).toBe(
-        `<span class="cdc-say"><span class="cdc-w">${html}</span> </span>`,
+        `<span class="cdc-say"><span class="cdc-w">${withPieceGlyphs(html ?? '')}</span> </span>`,
       );
     }
   });
@@ -66,7 +66,7 @@ describe('commentMarkup', () => {
 
   it('keeps a numbered move’s number with its chip', () => {
     expect(markup([say('[[n:12...:b:Qb6]]')])).toBe(
-      `<span class="cdc-say"><span class="cdc-w"><span class="cdc-num">12... <span class="cdc-mv"><img class="cdc-pc" alt="" src="${ASSETS}img/pieces/neo/bq.webp">b6</span></span></span> </span>`,
+      `<span class="cdc-say"><span class="cdc-w"><span class="cdc-num">12... <span class="cdc-mv"><i class="cdc-pc cdc-pc-bq"></i>b6</span></span></span> </span>`,
     );
   });
 

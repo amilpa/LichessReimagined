@@ -1,6 +1,6 @@
 // The extension APIs the content script uses, in one place.
 
-/** A bundled file's URL, from its path in public/ (`img/…`, `sounds/…`). */
+/** A bundled file's URL, from its path in public/ (`img/…`). */
 export const extensionUrl = (path: string): string => chrome.runtime.getURL(path);
 
 /** Whether this content script still belongs to a running extension (not orphaned by a reload). */

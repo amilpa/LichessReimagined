@@ -1,4 +1,4 @@
-/* Online bots (/player/bots): bot cards with a Neo piece tile, rating chips and a Play button. */
+/* Online bots (/player/bots): bot cards with a piece tile, rating chips and a Play button. */
 
 /* ---- Page --- */
 
@@ -83,7 +83,7 @@
 .bots__list__entry {
   --cdc-bot: #95c85a;
   --cdc-bot-2: #5d9948;
-  --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wn.webp');
+  --cdc-bot-piece: var(---white-knight);
 }
 
 .bots__list__entry:nth-child(5n + 2) {
@@ -104,19 +104,19 @@
 }
 
 .bots__list__entry:nth-child(6n + 2) {
-  --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wb.webp');
+  --cdc-bot-piece: var(---white-bishop);
 }
 .bots__list__entry:nth-child(6n + 3) {
-  --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wr.webp');
+  --cdc-bot-piece: var(---white-rook);
 }
 .bots__list__entry:nth-child(6n + 4) {
-  --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wq.webp');
+  --cdc-bot-piece: var(---white-queen);
 }
 .bots__list__entry:nth-child(6n + 5) {
-  --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp');
+  --cdc-bot-piece: var(---white-king);
 }
 .bots__list__entry:nth-child(6n + 6) {
-  --cdc-bot-piece: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wp.webp');
+  --cdc-bot-piece: var(---white-pawn);
 }
 
 .bots__featured .bots__list__entry {

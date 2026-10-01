@@ -1,14 +1,22 @@
 import { SOUND_NAMES } from '#shared/sounds.ts';
 import { expect, test } from './fixtures.ts';
 import { FINISHED_GAME, openLichess, readPageGlobal } from './support/lichess.ts';
+import { importExamplePack, serveRepository } from './support/packs.ts';
 import { activePly } from './support/move-list.ts';
 import { heardSounds, OUR_SOUND_PREFIX, ourSounds, recordSounds } from './support/sounds.ts';
 
-// Chess.com's sounds in Lichess's own sound player. Lichess's CSP lets audio
-// load from blob: URLs only, so the content script reads the bundled files
-// and the page script hands them over as blobs.
+// A pack's sounds in Lichess's own sound player. Lichess's CSP lets audio
+// load from blob: URLs only, so the content script reads the pack's sounds
+// from its storage and the page script hands them over as blobs. Each test
+// imports the example pack, which has all of them, on a page with a board.
 
-test('our sounds are in Lichess’s sound player, as blobs of audio', async ({ page }) => {
+test.beforeEach(async ({ page, context }) => {
+  await serveRepository(context);
+  await openLichess(page, '/analysis');
+  await importExamplePack(page, 'sound');
+});
+
+test('a pack’s sounds are in Lichess’s sound player, as blobs of audio', async ({ page }) => {
   await openLichess(page, '/tv');
   await expect.poll(async () => (await ourSounds(page)).size).toBe(SOUND_NAMES.length);
   const sounds = await ourSounds(page);
@@ -18,20 +26,21 @@ test('our sounds are in Lichess’s sound player, as blobs of audio', async ({ p
   for (const url of sounds.values()) expect(url).toMatch(/^blob:https:\/\/lichess\.org\//);
   expect(await readPageGlobal(page, ['site', 'sound', 'cdcHooked'])).toBe(true);
 
-  // The bytes made it across: each blob is a whole MP3.
-  const blobs = await page.evaluate(
+  // The bytes made it across: each blob is a whole WAV of the example pack.
+  const heads = await page.evaluate(
     urls =>
       Promise.all(
         urls.map(async url => {
           const blob = await (await fetch(url)).blob();
-          return { type: blob.type, size: blob.size };
+          const head = new TextDecoder().decode((await blob.arrayBuffer()).slice(0, 12));
+          return { size: blob.size, head };
         }),
       ),
     [...sounds.values()],
   );
-  for (const blob of blobs) {
-    expect(blob.type).toBe('audio/mpeg');
-    expect(blob.size).toBeGreaterThan(1000);
+  for (const { size, head } of heads) {
+    expect(head).toMatch(/^RIFF.{4}WAVE$/s);
+    expect(size).toBeGreaterThan(1000);
   }
 });
 

@@ -1,5 +1,6 @@
 import { startFeatures } from '#shared/features.ts';
-import { boards } from './boards/index.ts';
+import { assets } from './bootstrap/assets.ts';
+import { packs } from './packs/index.ts';
 import { fonts } from './bootstrap/fonts.ts';
 import { donate } from './sidebar/donate.ts';
 import { coachChoice } from './bootstrap/coach-choice.ts';
@@ -8,7 +9,6 @@ import { marks } from './layout/marks.ts';
 import { hasFlags } from './layout/has-flags.ts';
 import { aiPlayers } from './game/ai-players.ts';
 import { boardZoom } from './layout/board-zoom.ts';
-import { sounds } from './sounds/index.ts';
 import { controlsHeight } from './layout/controls-height.ts';
 import { movesExtrasHeight } from './layout/moves-extras-height.ts';
 import { analysisPlayers } from './analysis/players.ts';
@@ -43,8 +43,9 @@ import { startSyncLoop } from './sync-loop.ts';
 // APIs, not Lichess's objects (see src/page for those).
 
 function main(): void {
-  // The board and pieces go on <html> first, so the page never shows others.
-  startFeatures([boards]);
+  // Our mark and the picked packs go on <html> first, so the page never shows Lichess's board
+  // or pieces in place of a pack's.
+  startFeatures([assets, packs]);
   if (reloadIfInjectedLate()) return;
   startFeatures([
     fonts,
@@ -55,7 +56,6 @@ function main(): void {
     hasFlags,
     aiPlayers,
     boardZoom,
-    sounds,
     controlsHeight,
     movesExtrasHeight,
     analysisPlayers,

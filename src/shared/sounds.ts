@@ -1,7 +1,7 @@
 import { z } from 'zod/mini';
 
-// The bundled sounds, public/sounds/<name>.mp3 (fetched by tools/assets/fetch.py,
-// which reads this list).
+// The sounds a pack may have (its pack.json's `sounds`, docs/packs.md), each
+// played where Lichess plays one of its own or has none.
 export const SoundNameSchema = z.enum([
   'move-self',
   'move-opponent',

@@ -169,7 +169,6 @@ export function setUp(scenario: Scenario): Driver {
   const game = fixtureGame(scenario.game);
   const root = document.documentElement;
   root.lang = scenario.lang;
-  root.dataset.cdcAssets = 'chrome-extension://abc/';
   localStorage.clear();
   // The original's storage keys and format, spelled out rather than taken from
   // the port: a change to them would orphan the caches users have.

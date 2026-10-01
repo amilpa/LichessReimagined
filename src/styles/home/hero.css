@@ -87,7 +87,7 @@
       0 12px 32px #00000040;
   }
 
-  /* A big Neo king as the hero illustration. */
+  /* A big king, in the board's set, as the hero illustration. */
   .cdc-hero::after {
     content: '';
     position: absolute;
@@ -95,8 +95,7 @@
     right: 26px;
     width: 210px;
     height: 210px;
-    background: url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp') center /
-      contain no-repeat;
+    background: var(---white-king) center / contain no-repeat;
     filter: drop-shadow(0 18px 24px #0000008c);
     transform: rotate(-8deg);
     pointer-events: none;

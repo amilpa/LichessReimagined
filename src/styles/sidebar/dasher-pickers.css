@@ -1,4 +1,4 @@
-/* ---- User menu: board and piece pickers --- */
+/* ---- User menu: board, piece and sound pickers --- */
 
 /* Rounded tiles, the current one ringed green. */
 #dasher_app .board .list button,
@@ -21,18 +21,17 @@
   border-radius: 3px;
 }
 
-/* With the extension's board or pieces on, Lichess's current one isn't what the
- * board shows: no ring. */
-#top #dasher_app .sub[data-cdc-src-on='cdc'] .list > button.active {
+/* With a pack on, Lichess's current board, set or sounds aren't what the page shows: no ring. */
+#top #dasher_app .sub[data-cdc-src-on='packs'] :is(.list, .selector) > button.active {
   background: none !important;
   box-shadow: none;
 }
 
-#top #dasher_app .sub[data-cdc-src-on='cdc'] .list > button.active:hover {
+#top #dasher_app .sub[data-cdc-src-on='packs'] .list > button.active:hover {
   background: var(--cdc-menu-hover) !important;
 }
 
-/* The Extension / Lichess tabs (content/boards/panel.ts), whose pill slides
+/* The Lichess / Imported tabs (content/packs/panel.ts), whose pill slides
  * (content/ui/tab-bars.ts). */
 #dasher_app .cdc-src-tabs {
   --cdc-tab-bg: var(--cdc-bg-raised-hover);
@@ -83,12 +82,47 @@
   box-shadow: none;
 }
 
-#top #dasher_app .sub[data-cdc-view='cdc'] > :not(.head, .cdc-src-tabs, .cdc-src-list) {
+#top
+  #dasher_app
+  .sub:not(.sound)[data-cdc-view='packs']
+  > :not(.head, .cdc-src-tabs, .cdc-src-packs),
+#top #dasher_app .sub.sound[data-cdc-view='packs'] .selector {
   display: none !important;
 }
 
-#dasher_app .sub[data-cdc-view='lichess'] > .cdc-src-list {
+#dasher_app .sub[data-cdc-view='lichess'] .cdc-src-packs {
   display: none;
+}
+
+/* The Sound panel's packs sit beside its volume slider. */
+#dasher_app .sub.sound .cdc-src-packs {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Sounds have no picture: a row per pack, like Lichess's own list. */
+#dasher_app .sub.sound .cdc-src-list {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#dasher_app .sub.sound .cdc-src-item {
+  align-items: flex-start;
+  padding: 8px 28px 8px 10px;
+}
+
+#dasher_app .sub.sound .cdc-src-thumb {
+  display: none;
+}
+
+#dasher_app .sub.sound .cdc-src-name {
+  font-size: 13px;
+  text-align: start;
+}
+
+#top #dasher_app .sub.sound .cdc-src-remove {
+  top: 50%;
+  right: 4px;
+  translate: 0 -50%;
 }
 
 /* Three to a row, each with its name, scrolling in place. */
@@ -133,12 +167,12 @@
   color: #fff;
 }
 
-/* A board's two top-left squares, like Lichess's own tiles. */
+/* A board's two top-left squares, like Lichess's own tiles: a quarter of its width. */
 #dasher_app .cdc-src-thumb {
   width: 100%;
   aspect-ratio: 2;
   border-radius: 3px;
-  background: center / cover no-repeat;
+  background: 0 0 / 400% no-repeat;
   box-shadow: 0 1px 3px #00000059;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }

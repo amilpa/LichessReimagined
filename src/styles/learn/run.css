@@ -35,11 +35,6 @@
   }
 }
 
-/* Each star stands on a black pawn, so it can be taken, that Lichess hides: our pieces showed it. */
-html:not([data-cdc-pieces='lichess']) .learn__main.apples piece.pawn.black {
-  background-image: none !important;
-}
-
 /* Align the panel with the board's top, as in a lesson. */
 .learn--run .learn__table {
   align-self: start !important;

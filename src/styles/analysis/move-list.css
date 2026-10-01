@@ -260,8 +260,8 @@
     height: 34px;
     border-radius: 8px;
     background:
-      url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/wk.webp') center / 84% no-repeat,
-      var(--cdc-sq-light, #ebecd0);
+      var(---white-king) center / 84% no-repeat,
+      var(--cdc-sq-light, #f0d9b5);
     box-shadow:
       inset 0 1px 0 #ffffff40,
       inset 0 -3px 0 #00000026,
@@ -271,8 +271,8 @@
 
   main.analyse .analyse__moves .result::after {
     background:
-      url('chrome-extension://__MSG_@@extension_id__/img/pieces/neo/bk.webp') center / 84% no-repeat,
-      var(--cdc-sq-dark, #739552);
+      var(---black-king) center / 84% no-repeat,
+      var(--cdc-sq-dark, #b58863);
   }
 
   main.analyse .analyse__moves .result:hover::before {

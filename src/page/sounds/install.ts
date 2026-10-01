@@ -3,14 +3,18 @@ import type { SoundFiles } from '#shared/protocol.ts';
 import { SOUND_NAMES, type SoundName } from '#shared/sounds.ts';
 import { soundPlayer, type SoundPlayer } from '#page/lichess/sound.ts';
 
-// Lichess's CSP lets audio load from blob: URLs, not from the extension.
-export function toBlobUrls(files: SoundFiles): Map<SoundName, string> {
-  const urls = new Map<SoundName, string>();
+/**
+ * Puts the posted sounds in `urls` in place of the ones before, as blob: URLs:
+ * Lichess's CSP lets audio load from those, not from the extension. Its
+ * player decodes the bytes whatever their type.
+ */
+export function replaceSounds(urls: Map<SoundName, string>, files: SoundFiles): void {
+  for (const url of urls.values()) URL.revokeObjectURL(url);
+  urls.clear();
   for (const name of SOUND_NAMES) {
     const bytes = files[name];
-    if (bytes) urls.set(name, URL.createObjectURL(new Blob([bytes], { type: 'audio/mpeg' })));
+    if (bytes) urls.set(name, URL.createObjectURL(new Blob([bytes])));
   }
-  return urls;
 }
 
 /** Hands over Lichess's sound player once it's set up, for up to 30 seconds. */

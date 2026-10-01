@@ -4,8 +4,10 @@ import { parseJson } from './json.ts';
 // Everything we keep in the page's storage, prefixed `cdc` so it can't clash
 // with Lichess's own keys.
 export const StorageKey = {
+  // Which imported pack each part shows (content/packs).
   board: 'cdc-board',
   pieces: 'cdc-pieces',
+  sounds: 'cdc-sounds',
   coach: 'cdc-coach',
   boardZoom: 'cdc-board-zoom',
   ratingChartRange: 'cdc-rchart:range',

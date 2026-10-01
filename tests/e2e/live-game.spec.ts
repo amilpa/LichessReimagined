@@ -1,7 +1,6 @@
 import type { Page } from '@playwright/test';
 import { expect, test } from './fixtures.ts';
 import { boardWrap, orientationOf } from './support/board.ts';
-import { EXTENSION_ORIGIN } from './support/extension.ts';
 import { boxOf, expectInView } from './support/layout.ts';
 import { computedStyle, openLichess } from './support/lichess.ts';
 import { onOneTvGame, waitForRoundKeys } from './support/tv.ts';
@@ -31,7 +30,7 @@ function capturedCount(page: Page): Promise<CapturedCount> {
         ).length;
         expected += Math.max(0, count - left);
       }
-    const shown = document.querySelectorAll('main.round .cdc-captured img').length;
+    const shown = document.querySelectorAll('main.round .cdc-captured .cdc-pc').length;
     return { expected, shown };
   });
 }
@@ -55,7 +54,7 @@ test.describe('a game on Lichess TV', () => {
     });
   });
 
-  test('shows the captured pieces in the player bars, in Neo pieces', async ({ page }) => {
+  test('shows the captured pieces in the player bars, in the board’s set', async ({ page }) => {
     await onOneTvGame(page, async () => {
       await expect(page.locator('main.round .cdc-captured--top')).toBeAttached();
       await expect(page.locator('main.round .cdc-captured--bottom')).toBeAttached();
@@ -65,10 +64,11 @@ test.describe('a game on Lichess TV', () => {
           return shown === expected;
         })
         .toBe(true);
-      for (const image of await page.locator('main.round .cdc-captured img').all())
-        await expect(image).toHaveAttribute(
-          'src',
-          new RegExp(`^${EXTENSION_ORIGIN}.*/pieces/neo/`),
+      // Lichess's own pieces, from the variables it draws the board's from.
+      for (const piece of await page.locator('main.round .cdc-captured .cdc-pc').all())
+        await expect(piece).toHaveCSS(
+          'background-image',
+          /^url\("https:\/\/lichess1\.org\/assets\//,
         );
     });
   });
