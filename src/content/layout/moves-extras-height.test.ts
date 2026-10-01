@@ -1,6 +1,6 @@
-import { afterEach, describe, expect, it } from 'vitest';
-import { rectBetween } from '#shared/testing/layout.ts';
-import { syncMovesExtrasHeight } from './moves-extras-height.ts';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { type FakeLayout, fakeLayout, rectBetween } from '#shared/testing/layout.ts';
+import { watchMovesExtras } from './moves-extras-height.ts';
 
 const GAME =
   '<main class="round"><div class="round__app"><div id="voice-bar"></div></div><div class="round__underboard"><div class="crosstable"></div></div></main>';
@@ -14,16 +14,24 @@ function measureAs(selector: string, height: number): void {
 
 const main = (): HTMLElement | null => document.querySelector('main');
 
+let layout: FakeLayout;
+let tick: () => void;
+
+beforeEach(() => {
+  layout = fakeLayout(() => 0);
+  tick = watchMovesExtras();
+});
+
 afterEach(() => {
   document.body.innerHTML = '';
 });
 
-describe('syncMovesExtrasHeight', () => {
+describe('watchMovesExtras', () => {
   it('measures the voice bar and the crosstable, to the pixel above', () => {
     document.body.innerHTML = GAME;
     measureAs('#voice-bar', 38.4);
     measureAs('.crosstable', 61);
-    syncMovesExtrasHeight();
+    tick();
     expect(main()?.style.getPropertyValue('--cdc-voice-h')).toBe('39px');
     expect(main()?.style.getPropertyValue('--cdc-crosstable-h')).toBe('61px');
   });
@@ -31,10 +39,11 @@ describe('syncMovesExtrasHeight', () => {
   it('follows a crosstable that grows, and drops what Lichess removed', () => {
     document.body.innerHTML = GAME;
     measureAs('.crosstable', 58);
-    syncMovesExtrasHeight();
+    tick();
     measureAs('.crosstable', 80);
+    layout.resize();
     document.querySelector('#voice-bar')?.remove();
-    syncMovesExtrasHeight();
+    tick();
     expect(main()?.style.getPropertyValue('--cdc-crosstable-h')).toBe('80px');
     expect(main()?.style.getPropertyValue('--cdc-voice-h')).toBe('');
   });
@@ -43,17 +52,30 @@ describe('syncMovesExtrasHeight', () => {
     document.body.innerHTML = GAME;
     measureAs('#voice-bar', 39);
     measureAs('.crosstable', 58);
-    syncMovesExtrasHeight();
+    tick();
     const observer = new MutationObserver(() => {});
     observer.observe(document.body, { attributes: true, subtree: true });
-    syncMovesExtrasHeight();
+    layout.resize();
+    tick();
     expect(observer.takeRecords()).toEqual([]);
     observer.disconnect();
   });
 
+  it('reads the layout only after a resize', () => {
+    document.body.innerHTML = GAME;
+    measureAs('.crosstable', 58);
+    tick();
+    measureAs('.crosstable', 80);
+    tick();
+    expect(main()?.style.getPropertyValue('--cdc-crosstable-h')).toBe('58px');
+    layout.resize();
+    tick();
+    expect(main()?.style.getPropertyValue('--cdc-crosstable-h')).toBe('80px');
+  });
+
   it('leaves other pages alone', () => {
     document.body.innerHTML = '<main class="analyse"><div class="crosstable"></div></main>';
-    syncMovesExtrasHeight();
+    tick();
     expect(main()?.getAttribute('style')).toBeNull();
   });
 });
