@@ -2,6 +2,9 @@ import { setData, setStyleProperty } from '#shared/dom.ts';
 import { oncePerFrame } from '#shared/frame.ts';
 import { sameOffset, tabOffset, type TabBarKind, type TabOffset } from './tab-bars.ts';
 
+// What `place` measures (getBoundingClientRect): padding or border changes count too.
+const BORDER_BOX: ResizeObserverOptions = { box: 'border-box' };
+
 // One tab bar. Its active tab's highlight is the bar's ::before, placed in
 // `--cdc-tab-{x,y,w,h}`; the bar is only marked once it's placed, so until
 // then (and with no active tab) the tab keeps its own highlight. It's placed
@@ -26,7 +29,7 @@ export class TabBar {
     this.#onDetach = onDetach;
     this.queue = oncePerFrame(() => this.place());
     this.#sizes = new ResizeObserver(this.queue);
-    this.#sizes.observe(element);
+    this.#sizes.observe(element, BORDER_BOX);
     element.addEventListener('scroll', this.queue, { passive: true });
     this.#changes = new MutationObserver(this.queue);
     this.#changes.observe(element, {
@@ -51,7 +54,7 @@ export class TabBar {
     if (this.dropIfDetached()) return;
     const children = [...this.element.children];
     // Any child: one that isn't a tab can still push the tabs along.
-    for (const child of children) this.#sizes.observe(child);
+    for (const child of children) this.#sizes.observe(child, BORDER_BOX);
     const tabs = children.filter(child => child.matches(this.kind.tab));
     const item = this.leaving?.isConnected
       ? this.leaving

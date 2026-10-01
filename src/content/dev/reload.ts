@@ -1,5 +1,5 @@
 import { DevCheckResponseSchema, type DevCheckRequest } from '#shared/dev-check.ts';
-import { isDevBuild } from '#shared/build-mode.ts';
+import { DEV_BUILD } from '#shared/build-mode.ts';
 import type { Feature } from '#shared/features.ts';
 import { isConnected } from '#content/platform/runtime.ts';
 
@@ -55,7 +55,7 @@ function onFocus(): void {
 export const devReload: Feature = {
   name: 'dev reload',
   start: () => {
-    if (!isDevBuild()) return;
+    if (!DEV_BUILD) return;
     document.addEventListener('visibilitychange', onFocus);
     window.addEventListener('focus', onFocus);
     onFocus();

@@ -9,3 +9,6 @@ if (!('rows' in HTMLTableSectionElement.prototype)) {
     },
   });
 }
+
+// The build's constant (build-mode.ts): a release build's, unless a test stubs it.
+Reflect.set(globalThis, 'CDC_DEV_BUILD', false);

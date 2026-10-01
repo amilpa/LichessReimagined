@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Feature } from '#shared/features.ts';
 import { trackListeners } from '#shared/testing/listeners.ts';
-import { devReload } from './reload.ts';
 // What the original script sent and reloaded, on the same clock.
 import legacy from './fixtures/legacy.json' with { type: 'json' };
 
@@ -10,6 +10,14 @@ interface OddScenario {
   readonly manifest: object;
   readonly answer: unknown;
   readonly release?: boolean;
+}
+
+/** The feature as a build with `CDC_DEV_BUILD` set so would have it: the module reads it once. */
+async function devReloadFor(devBuild: boolean): Promise<Feature> {
+  vi.stubGlobal('CDC_DEV_BUILD', devBuild);
+  vi.resetModules();
+  const { devReload } = await import('./reload.ts');
+  return devReload;
 }
 
 function setVisibility(state: string): void {
@@ -47,11 +55,10 @@ async function play(scenario: Scenario | OddScenario): Promise<Entry[]> {
   vi.stubGlobal('chrome', { runtime });
   // The original told a store install by its update_url; a release build now.
   const release = 'update_url' in scenario.manifest || ('release' in scenario && scenario.release);
-  vi.stubGlobal('CDC_DEV_BUILD', !release);
   vi.stubGlobal('location', { reload: () => log.push({ at: Date.now(), event: 'reload' }) });
   setVisibility('hidden' in scenario ? 'hidden' : 'visible');
 
-  devReload.start();
+  (await devReloadFor(!release)).start();
   await vi.advanceTimersByTimeAsync(10);
   window.dispatchEvent(new Event('focus'));
   await vi.advanceTimersByTimeAsync(10);
@@ -86,8 +93,7 @@ describe('devReload', () => {
       return { reload: false };
     };
     vi.stubGlobal('chrome', { runtime: { id: 'abc', getManifest: () => ({}), sendMessage } });
-    vi.stubGlobal('CDC_DEV_BUILD', true);
-    devReload.start();
+    (await devReloadFor(true)).start();
     await vi.advanceTimersByTimeAsync(100);
     window.dispatchEvent(new Event('focus'));
     document.dispatchEvent(new Event('visibilitychange'));

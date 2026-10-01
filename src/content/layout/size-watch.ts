@@ -20,7 +20,8 @@ export function createSizeWatch(): SizeWatch {
     changed: elements => {
       if (!sameElements(elements, watched)) {
         observer.disconnect();
-        for (const element of elements) observer.observe(element);
+        // The border box: what the tasks measure (getBoundingClientRect).
+        for (const element of elements) observer.observe(element, { box: 'border-box' });
         watched = elements;
         resized = true;
       }

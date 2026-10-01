@@ -23,6 +23,7 @@ the page world would crash on it.
 | `storage.ts`                                   | every storage key; writes that survive a full or blocked storage, and reads that throw on a blocked one            |
 | `page-init-data.ts`, `round-init.ts`           | the page's `#page-init-data`, captured before Lichess removes it; a game page's, read for a game just begun        |
 | `features.ts`, `frame.ts`, `poll.ts`           | starting features, once-per-frame work, waiting for Lichess's globals                                              |
+| `build-mode.ts`                                | whether this is a dev build, which reloads itself when rebuilt                                                     |
 | `lang.ts`, `text.ts`, `math.ts`, `geometry.ts` | the page's language, small text and number helpers, points and boxes                                               |
 | `chess/`, `chessground.ts`                     | chess basics (squares, FEN, piece letters and values, attacks), a board's pieces read from chessground's classes   |
 | `charts/`, `coach.ts`, `sounds.ts`             | chart pieces, the coach's moods and the stored coach (`pickCoach`), the sound names                                |
