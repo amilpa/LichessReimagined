@@ -1,5 +1,4 @@
 // Rules the linters can't express, checked over every source file:
-// - no type assertion of any kind, const assertions included (oxlint allows those),
 // - no comment that switches a check off,
 // - no `#` alias into the file's own folder, where `./` is the way,
 // - stylesheets short enough to read, and no asset loaded from another site,
@@ -62,13 +61,6 @@ interface Rule {
 }
 
 const RULES: readonly Rule[] = [
-  {
-    files: /\.ts$/,
-    check: text =>
-      /\bas\s+const\b|<\s*const\s*>/.test(text)
-        ? 'uses a const assertion: annotate the type instead'
-        : null,
-  },
   {
     files: /\.ts$/,
     check: text =>

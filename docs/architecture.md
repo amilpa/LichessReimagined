@@ -78,9 +78,9 @@ user menu's own panels (`src/content/packs/`):
 
 ## Types
 
-- No `any`, no type assertion of any kind (`as`, `<T>x`, `!`), no const
-  assertion either: annotate the type, or narrow it. Lint and
-  `scripts/check-sources.ts` enforce it.
+- No `any`, no type assertion (`as`, `<T>x`, `!`): annotate the type, or
+  narrow it. A const assertion (`as const`) is fine: it asserts nothing,
+  only keeps literals literal. Lint enforces it.
 - Data from outside (JSON, `postMessage`, storage, Lichess's API) is parsed
   with a [zod/mini](https://zod.dev/packages/mini) schema, and its type is
   `z.infer` of that schema, never written by hand. Use `parseJson`,

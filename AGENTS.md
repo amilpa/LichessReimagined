@@ -27,8 +27,8 @@ back. `pnpm check` enforces much of what follows; the rest is on you.
 
 **Types**
 
-- Strict TypeScript. Never `any`, never a type assertion (`as`, `<T>x`, `!`,
-  `as const`), never `@ts-ignore` or a lint-disable comment.
+- Strict TypeScript. Never `any`, never a type assertion (`as`, `<T>x`, `!`;
+  `as const` is fine), never `@ts-ignore` or a lint-disable comment.
 - Every piece of data from outside (JSON, fetch responses, `postMessage`,
   storage, `#page-init-data`, Lichess's globals) is validated with a
   zod/mini schema (`import { z } from 'zod/mini'`), and its type is

@@ -5,7 +5,6 @@ import { ALIASES, findProblems, isChecked } from './source-rules.ts';
 
 // The broken code below is spelled in pieces, or this file would break the
 // rules it tests.
-const CONST = 'const';
 const TS = '@ts-';
 const DISABLE = 'disable';
 
@@ -59,15 +58,6 @@ describe('the alias rule', () => {
 
 describe('the TypeScript rules', () => {
   it.each([
-    ['as', `const TARGETS = ['chrome'] as ${CONST};`],
-    ['angle-bracket', `const TARGETS = <${CONST}>['chrome'];`],
-  ])('refuse a const assertion (%s)', (_, code) => {
-    expect(findProblems('a.ts', code)).toEqual([
-      'uses a const assertion: annotate the type instead',
-    ]);
-  });
-
-  it.each([
     `// ${TS}ignore`,
     `// ${TS}expect-error`,
     `// ${TS}nocheck`,
@@ -79,13 +69,13 @@ describe('the TypeScript rules', () => {
     ]);
   });
 
-  it('pass typed code, const type parameters and the word in prose', () => {
-    const code = `export function first<${CONST} T>(items: readonly T[]): T | undefined {\n  // Used as a constant.\n  return items[0];\n}\n`;
+  it('pass typed code, const assertions and const type parameters', () => {
+    const code = `export const TARGETS = ['chrome'] as const;\nexport function first<const T>(items: readonly T[]): T | undefined {\n  return items[0];\n}\n`;
     expect(findProblems('a.ts', code)).toEqual([]);
   });
 
   it('leave other files alone', () => {
-    expect(findProblems('a.css', `/* x as ${CONST} */`)).toEqual([]);
+    expect(findProblems('a.css', `/* ${TS}ignore */`)).toEqual([]);
   });
 });
 
