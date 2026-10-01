@@ -2658,7 +2658,7 @@
         "san": "Rd8+",
         "uci": "d1d8",
         "color": "w",
-        "cls": "excellent",
+        "cls": "best",
         "loss": 0,
         "slower": false,
         "accuracy": 99.9999,

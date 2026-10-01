@@ -35,17 +35,23 @@ function topClass(input: JudgeInput, { before, after, loss, second }: Standing):
   return 'best';
 }
 
-function longMate({ before, previousPosition }: JudgeInput): boolean {
+/** The mover had a mate too long to judge by distance, and doesn't reach it sooner. */
+function keepsLongMate({ before, after, previousPosition }: JudgeInput): boolean {
   if (!('mate' in before)) return false;
-  const own = fenTurn(previousPosition.fen) === 'white' ? before.mate : -before.mate;
-  return own > SURE_MATE;
+  const sign = fenTurn(previousPosition.fen) === 'white' ? 1 : -1;
+  const own = sign * before.mate;
+  if (own <= SURE_MATE) return false;
+  // The engine's line reaches the mate a move closer; a move that does better beat it.
+  return !('mate' in after) || sign * after.mate >= own - 1;
 }
 
 function baseClass(input: JudgeInput, standing: Standing, isBest: boolean): MoveClass {
   if (input.book) return 'book';
   // Another way to a mate too long to judge by distance loses no win
-  // probability, but it isn't the engine's move.
-  if (!isBest && standing.loss < 0.5 && longMate(input)) return 'excellent';
+  // probability, but it isn't the engine's move. A server analysis has no
+  // engine move to tell.
+  const otherWay = !isBest && input.before.best !== null;
+  if (otherWay && standing.loss < 0.5 && keepsLongMate(input)) return 'excellent';
   if (isBest || standing.loss < 0.5) return topClass(input, standing);
   const moveClass = lossClass(standing.loss);
   // An error right after the opponent's own is a missed punishment.

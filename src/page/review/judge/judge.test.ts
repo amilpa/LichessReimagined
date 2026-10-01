@@ -79,8 +79,11 @@ describe('judge', () => {
   });
 
   it('calls another way to a long mate excellent, not best', () => {
-    expect(longMateMove('e2e4', 'e4').moveClass).toBe('excellent');
-    expect(longMateMove('d2d4', 'd4').moveClass).toBe('best');
+    expect(longMateMove({ uci: 'e2e4', san: 'e4' }).moveClass).toBe('excellent');
+    expect(longMateMove({ uci: 'd2d4', san: 'd4' }).moveClass).toBe('best');
+    // A quicker mate than the engine's, or a server analysis with no engine move to compare.
+    expect(longMateMove({ uci: 'e2e4', san: 'e4', after: SURE_MATE + 1 }).moveClass).toBe('best');
+    expect(longMateMove({ uci: 'e2e4', san: 'e4', best: null }).moveClass).toBe('best');
   });
 
   it('calls a book move book, at full accuracy', () => {
@@ -99,13 +102,22 @@ describe('judge', () => {
 
 const NO_LINE = { secondLineWinChance: null, best: null };
 
-/** A move from the start where White mates in a few more moves than SURE_MATE, d4 the engine's. */
-const longMateMove = (uci: string, san: string): MoveVerdict =>
+interface LongMate {
+  readonly uci: string;
+  readonly san: string;
+  /** The engine's move, d4 unless given. */
+  readonly best?: string | null;
+  /** White's mate after the move, a move slower than the engine's unless given. */
+  readonly after?: number;
+}
+
+/** A move from the start where White mates in a few more moves than SURE_MATE. */
+const longMateMove = ({ uci, san, best = 'd2d4', after = SURE_MATE + 4 }: LongMate): MoveVerdict =>
   judge({
     previousPosition: { ply: 0, fen: START },
     position: { ply: 1, fen: AFTER_E4, uci, san },
-    before: winning(SURE_MATE + 3, 'd2d4'),
-    after: winning(SURE_MATE + 4, null),
+    before: winning(SURE_MATE + 3, best),
+    after: winning(after, null),
     book: false,
     chess960: false,
   });

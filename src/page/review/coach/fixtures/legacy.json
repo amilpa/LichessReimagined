@@ -2267,7 +2267,7 @@
       },
       {
         "remark": "No escape for the king now.",
-        "parts": [["The check forces Black to respond."], ["White keeps a mate in 7.", true]]
+        "parts": [["It punishes Black’s mistake right away."], ["White keeps a mate in 7.", true]]
       },
       {
         "remark": "Taking is right here.",
@@ -2679,7 +2679,10 @@
       },
       {
         "remark": "Plus d’échappatoire pour le roi.",
-        "parts": [["L’échec force les Noirs à réagir."], ["Les Blancs gardent un mat en 7.", true]]
+        "parts": [
+          ["Il punit aussitôt l’erreur des Noirs."],
+          ["Les Blancs gardent un mat en 7.", true]
+        ]
       },
       {
         "remark": "Prendre est la bonne décision ici.",
