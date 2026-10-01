@@ -88,6 +88,15 @@ describe('hookSoundPlayer', () => {
     expect(calls).toEqual([]);
   });
 
+  it('plays Lichess’s nearest sound for one the pack lacks', () => {
+    const { sound, calls } = fakeSoundPlayer();
+    hookSoundPlayer(sound, new Map([['move-self', 'blob:move-self']]), createSession());
+    sound.move({ san: 'exd5', ply: 3 });
+    sound.move({ san: 'O-O', ply: 9 });
+    sound.move({ san: 'e4', ply: 1 });
+    expect(played(calls)).toEqual(['capture', 'move', 'cdc-move-self']);
+  });
+
   it('remembers the board after each move, for the next one', async () => {
     const { sound } = fakeSoundPlayer();
     const session = createSession();

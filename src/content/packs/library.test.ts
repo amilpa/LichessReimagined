@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi, type Mock } from 'vitest';
-import { fakePack } from './fixtures/packs.ts';
+import { fakePack } from '#shared/testing/packs.ts';
 import { createLibrary, LICHESS, storedPick, type Shown } from './library.ts';
-import type { Pack } from './pack.ts';
+import type { Pack } from '#shared/packs/pack.ts';
 
 const WOOD = fakePack('ann/packs/main/wood/');
 const CLICKS = fakePack('ann/packs/main/clicks/', ['sound']);
@@ -9,7 +9,10 @@ const CLICKS = fakePack('ann/packs/main/clicks/', ['sound']);
 type Save = (pack: Pack) => Promise<void>;
 type Erase = (id: string) => Promise<void>;
 
-function library(packs: readonly Pack[]): {
+function library(
+  packs: readonly Pack[],
+  stored: readonly Pack[] = packs,
+): {
   readonly shown: Shown[];
   readonly save: Mock<Save>;
   readonly erase: Mock<Erase>;
@@ -18,11 +21,12 @@ function library(packs: readonly Pack[]): {
   const shown: Shown[] = [];
   const save = vi.fn<Save>(() => Promise.resolve());
   const erase = vi.fn<Erase>(() => Promise.resolve());
+  const readAll = (): Promise<readonly Pack[]> => Promise.resolve(stored);
   return {
     shown,
     save,
     erase,
-    library: createLibrary({ packs, save, erase, show: next => shown.push(next) }),
+    library: createLibrary({ packs, readAll, save, erase, show: next => shown.push(next) }),
   };
 }
 
@@ -110,5 +114,15 @@ describe('createLibrary', () => {
     await expect(packs.add(WOOD)).rejects.toThrow('quota');
     expect(packs.packs()).toEqual([]);
     expect(localStorage.getItem('cdc-board')).toBeNull();
+  });
+
+  it('reads the other packs once, keeping those already shown as they are', async () => {
+    localStorage.setItem('cdc-sounds', CLICKS.id);
+    const { shown, library: packs } = library([CLICKS], [WOOD, { ...CLICKS }]);
+    expect(packs.packs()).toEqual([CLICKS]);
+    await Promise.all([packs.loadAll(), packs.loadAll()]);
+    expect(packs.packs().map(pack => pack.id)).toEqual([WOOD.id, CLICKS.id]);
+    // The same object: a new one would send its sounds to the page again.
+    expect(shown.at(-1)?.sound).toBe(CLICKS);
   });
 });

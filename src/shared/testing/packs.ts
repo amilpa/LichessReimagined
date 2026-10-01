@@ -1,4 +1,4 @@
-import { PIECE_NAMES, PiecesSchema, type Pack } from '#content/packs/pack.ts';
+import { PIECE_NAMES, PiecesSchema, type Pack } from '#shared/packs/pack.ts';
 
 // Test support: small packs, their images and sounds as valid data: URLs.
 

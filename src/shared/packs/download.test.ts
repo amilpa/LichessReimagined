@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { downloadPack, type Download } from './download.ts';
-import { fakeGithub, type Files } from './fixtures/github.ts';
+import { fakeGithub, type Files } from '#shared/testing/github.ts';
 import { PIECE_NAMES } from './pack.ts';
 import { dataUrlBytes } from './sniff.ts';
 
@@ -169,19 +169,36 @@ describe('downloadPack', () => {
     );
   });
 
-  it('turns down an image the browser can’t draw', async () => {
-    // Lichess draws no board at all when one of its pieces fails to decode.
-    vi.stubGlobal(
-      'Image',
-      class {
-        src = '';
-        decode = (): Promise<void> => Promise.reject(new Error('EncodingError'));
-      },
-    );
-    fakeGithub({ repo: 'ann/packs', files: smallPack({ name: 'B', board: { image: 'b.png' } }) });
+  it('counts a file’s bytes as they come, whatever its Content-Length says', async () => {
+    // GitHub gzips SVGs: the header gives the packed size, not what it unpacks to.
+    const files = smallPack({ name: 'B', board: { image: 'b.png' } });
+    fakeGithub({ repo: 'ann/packs', files });
+    const github = globalThis.fetch;
+    vi.stubGlobal('fetch', async (input: string, init?: RequestInit) => {
+      if (!input.endsWith('/b.png')) return github(input, init);
+      const huge = new Uint8Array(3 * 1024 * 1024);
+      return new Response(huge, { headers: { 'content-length': '100' } });
+    });
+    expect(errorOf(await downloadPack('https://github.com/ann/packs'))).toBe('b.png is over 2 MB.');
+  });
+
+  it('stops the other downloads once one fails', async () => {
+    const files = smallPack({ name: 'P', pieces: '{piece}.png' }, { 'wK.png': text('<html>') });
+    fakeGithub({ repo: 'ann/packs', files });
+    const github = globalThis.fetch;
+    const signals: AbortSignal[] = [];
+    vi.stubGlobal('fetch', (input: string, init?: RequestInit) => {
+      if (init?.signal) signals.push(init.signal);
+      // The other pieces never answer: only the abort ends them.
+      return input.endsWith('/wK.png') || input.endsWith('/pack.json')
+        ? github(input, init)
+        : new Promise(() => undefined);
+    });
     expect(errorOf(await downloadPack('https://github.com/ann/packs'))).toBe(
-      "b.png can't be drawn.",
+      'wK.png is not an image.',
     );
+    expect(signals).toHaveLength(13);
+    expect(signals.every(signal => signal.aborted)).toBe(true);
   });
 
   it('says so when GitHub can’t be reached', async () => {

@@ -6,7 +6,13 @@ import {
   type SoundPlayer,
 } from '#page/lichess/sound.ts';
 import { boardOrientation, mainBoardWrap, readBoard } from './board-reader.ts';
-import { fallbackSound, soundForLichessEvent, soundFromBoard, soundFromSan } from './choose.ts';
+import {
+  fallbackSound,
+  lichessMoveSound,
+  soundForLichessEvent,
+  soundFromBoard,
+  soundFromSan,
+} from './choose.ts';
 import { watchJumps, type JumpSounds } from './jumps.ts';
 import type { SoundSession } from './session.ts';
 
@@ -143,7 +149,7 @@ export function hookSoundPlayer(
   const playMove: PlayOurs = (name, volume) => {
     session.lastMoveSoundAt = Date.now();
     jumps.moved();
-    return playOurs(name, volume) ?? playLichess('move', volume);
+    return playOurs(name, volume) ?? playLichess(lichessMoveSound(name), volume);
   };
   const jumps = watchJumps(session, name => playMove(name, undefined));
   const hook: Hook = { sound, urls, session, playOurs, playLichess, playMove, jumps };

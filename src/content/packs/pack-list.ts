@@ -1,7 +1,7 @@
 import { createElement, setStyleProperty } from '#shared/dom.ts';
-import { downloadPack } from './download.ts';
+import { fetchPack } from './import.ts';
 import type { Library } from './library.ts';
-import { hasPart, type Pack, type PartKind } from './pack.ts';
+import { hasPart, type Pack, type PartKind } from '#shared/packs/pack.ts';
 
 // The Imported tab of a panel: the packs that have its part, each with a
 // button to remove it, and the form that imports one from a GitHub link. A
@@ -72,7 +72,7 @@ async function importPack(link: string, token: string, library: Library): Promis
   importState.busy = true;
   setStatus('Importing…', false);
   try {
-    const download = await downloadPack(link, token);
+    const download = await fetchPack(link, token);
     if ('error' in download) {
       setStatus(download.error, true);
       return;
@@ -93,11 +93,14 @@ async function importInto(link: HTMLInputElement, token: string, library: Librar
   if (!importState.failed) link.value = '';
 }
 
+// A text field masked by CSS, outside any <form>: a password field in a form
+// is what browsers offer to save as the site's password.
 function tokenField(): { readonly field: HTMLElement; readonly input: HTMLInputElement } {
   const field = createElement('details', { className: 'cdc-src-private' });
   const input = createElement('input', {
+    className: 'cdc-src-token',
     attrs: {
-      type: 'password',
+      type: 'text',
       autocomplete: 'off',
       spellcheck: 'false',
       placeholder: 'GitHub token',
@@ -109,33 +112,36 @@ function tokenField(): { readonly field: HTMLElement; readonly input: HTMLInputE
     input,
     createElement('p', {
       className: 'cdc-src-note',
-      text: 'A token that can read the repository’s contents, used for this import only and never kept.',
+      text: 'A fine-grained token that can only read this repository’s contents, used for this import and never kept.',
     }),
   );
   return { field, input };
 }
 
 function importForm(library: Library): HTMLElement {
-  const form = createElement('form', { className: 'cdc-src-import' });
+  const form = createElement('div', { className: 'cdc-src-import' });
   const row = createElement('div', { className: 'cdc-src-import__row' });
   const link = createElement('input', {
     attrs: {
       type: 'url',
-      required: '',
       spellcheck: 'false',
       placeholder: 'Link to a pack on GitHub',
       'aria-label': 'Link to a pack on GitHub',
     },
   });
-  row.append(link, createElement('button', { text: 'Import', attrs: { type: 'submit' } }));
+  const button = createElement('button', { text: 'Import', attrs: { type: 'button' } });
+  row.append(link, button);
   const token = tokenField();
   form.append(row, token.field);
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    if (importState.busy) return;
+  const submit = (): void => {
     const secret = token.input.value;
     token.input.value = '';
+    if (importState.busy || link.value.trim() === '') return;
     void importInto(link, secret, library);
+  };
+  button.addEventListener('click', submit);
+  form.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && event.target instanceof HTMLInputElement) submit();
   });
   return form;
 }

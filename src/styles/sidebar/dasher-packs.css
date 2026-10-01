@@ -84,6 +84,7 @@
 #top #dasher_app .cdc-src-private input {
   width: 100%;
   margin: 6px 0 0;
+  -webkit-text-security: disc;
 }
 
 #dasher_app .cdc-src-note {

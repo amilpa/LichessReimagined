@@ -1,6 +1,6 @@
 import { z } from 'zod/mini';
 import { readStored, StorageKey, writeStored } from '#shared/storage.ts';
-import { hasPart, PART_KINDS, type Pack, type PartKind } from './pack.ts';
+import { hasPart, PART_KINDS, type Pack, type PartKind } from '#shared/packs/pack.ts';
 
 // The imported packs, and which one each part shows: Lichess's own unless a
 // pack is picked for it. The picks are in localStorage, read at once from
@@ -30,7 +30,10 @@ const pick = (kind: PartKind, id: string): void => writeStored(PICK_KEYS[kind], 
 export type Shown = Readonly<Record<PartKind, Pack | null>>;
 
 export interface Library {
+  /** The packs read so far: the picked ones, then all once `loadAll` is done. */
   readonly packs: () => readonly Pack[];
+  /** Reads every stored pack, once, for the menu's lists. */
+  readonly loadAll: () => Promise<void>;
   /** The id of the pack the part shows, or LICHESS. */
   readonly current: (kind: PartKind) => string;
   readonly choose: (kind: PartKind, id: string) => void;
@@ -41,15 +44,18 @@ export interface Library {
 }
 
 export interface LibraryOptions {
+  /** The picked packs, read at once; the others wait for `loadAll`. */
   readonly packs: readonly Pack[];
+  readonly readAll: () => Promise<readonly Pack[]>;
   readonly save: (pack: Pack) => Promise<void>;
   readonly erase: (id: string) => Promise<void>;
   /** Puts what the parts show on the page. */
   readonly show: (shown: Shown) => void;
 }
 
-export function createLibrary({ packs, save, erase, show }: LibraryOptions): Library {
+export function createLibrary({ packs, readAll, save, erase, show }: LibraryOptions): Library {
   let list = [...packs];
+  let loading: Promise<void> | null = null;
   const listeners: (() => void)[] = [];
   const shownPack = (kind: PartKind): Pack | null => {
     const pick = storedPick(kind);
@@ -60,8 +66,15 @@ export function createLibrary({ packs, save, erase, show }: LibraryOptions): Lib
     for (const listener of listeners) listener();
   };
   update();
+  // The packs already shown keep their objects: a new one would send its sounds again.
+  const load = async (): Promise<void> => {
+    const all = await readAll();
+    list = all.map(pack => list.find(entry => entry.id === pack.id) ?? pack);
+    update();
+  };
   return {
     packs: () => list,
+    loadAll: () => (loading ??= load()),
     current: kind => shownPack(kind)?.id ?? LICHESS,
     choose: (kind, id) => {
       pick(kind, id);

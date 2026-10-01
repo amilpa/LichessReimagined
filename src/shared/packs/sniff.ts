@@ -20,7 +20,9 @@ export function imageType(bytes: Uint8Array): string | null {
   if (startsWith(bytes, [0xff, 0xd8, 0xff])) return 'image/jpeg';
   if (startsWith(bytes, ascii('RIFF')) && startsWith(bytes, ascii('WEBP'), 8)) return 'image/webp';
   if (startsWith(bytes, ascii('GIF8'))) return 'image/gif';
-  if (startsWith(bytes, ascii('ftypavif'), 4)) return 'image/avif';
+  // An AVIF still or sequence: its major brand.
+  if (startsWith(bytes, ascii('ftypavif'), 4) || startsWith(bytes, ascii('ftypavis'), 4))
+    return 'image/avif';
   return isSvg(bytes) ? 'image/svg+xml' : null;
 }
 

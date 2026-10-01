@@ -16,7 +16,10 @@ const NAME = /^[\w.-]+$/;
 const RAW_HOST = 'https://raw.githubusercontent.com';
 const API_HOST = 'https://api.github.com';
 
-const isSegment = (part: string): boolean => part !== '.' && part !== '..' && !part.includes('\\');
+// Checked once decoded: an encoded `/` (%2F) would otherwise climb out of the
+// repository, on GitHub's hosts, with a token if there is one.
+const isSegment = (part: string): boolean =>
+  part !== '' && part !== '.' && part !== '..' && !/[/\\?#%]/.test(part);
 
 function decodeParts(pathname: string): string[] | null {
   try {
@@ -32,32 +35,32 @@ function decodeParts(pathname: string): string[] | null {
 function source(
   owner: string,
   repo: string,
-  ref: string,
+  refParts: readonly string[],
   path: readonly string[],
 ): PackSource | null {
   // A link to the pack.json itself names its folder.
   const folderParts = path.at(-1) === MANIFEST_FILE ? path.slice(0, -1) : path;
   const name = repo.replace(/\.git$/, '');
-  if (!NAME.test(owner) || !NAME.test(name) || ref === '') return null;
-  if (![...ref.split('/'), ...folderParts].every(isSegment)) return null;
+  if (!NAME.test(owner) || !NAME.test(name) || refParts.length === 0) return null;
+  if (![...refParts, ...folderParts].every(isSegment)) return null;
   const folder = folderParts.map(part => `${part}/`).join('');
-  return { owner, repo: name, ref, folder };
+  return { owner, repo: name, ref: refParts.join('/'), folder };
 }
 
 // github.com/<owner>/<repo>[/tree|blob/<ref>/<path>]: a ref with a slash in it
 // can't be told from the path, so a link names a one-word branch, a tag or a commit.
 function fromGithub(parts: readonly string[]): PackSource | null {
   const [owner = '', repo = '', kind, ref = '', ...path] = parts;
-  if (kind === undefined) return source(owner, repo, 'HEAD', []);
+  if (kind === undefined) return source(owner, repo, ['HEAD'], []);
   if (kind !== 'tree' && kind !== 'blob') return null;
-  return source(owner, repo, ref, path);
+  return source(owner, repo, [ref], path);
 }
 
 // raw.githubusercontent.com/<owner>/<repo>/<ref>/<path>, the ref as refs/heads/<branch> too.
 function fromRaw(parts: readonly string[]): PackSource | null {
   const [owner = '', repo = '', ...rest] = parts;
   const refLength = rest[0] === 'refs' ? 3 : 1;
-  return source(owner, repo, rest.slice(0, refLength).join('/'), rest.slice(refLength));
+  return source(owner, repo, rest.slice(0, refLength), rest.slice(refLength));
 }
 
 /** The pack a link points at, or null for a link that isn't to a GitHub folder or file. */
@@ -79,12 +82,11 @@ export function parsePackLink(link: string): PackSource | null {
 export const packId = ({ owner, repo, ref, folder }: PackSource): string =>
   `${owner.toLowerCase()}/${repo.toLowerCase()}/${ref}/${folder}`;
 
-const encodedPath = (folder: string, path: string): string =>
-  `${folder}${path}`.split('/').map(encodeURIComponent).join('/');
+const encodedPath = (path: string): string => path.split('/').map(encodeURIComponent).join('/');
 
 /** A file of a public pack, from its path relative to the pack's folder. */
 export function fileUrl({ owner, repo, ref, folder }: PackSource, path: string): string {
-  return `${RAW_HOST}/${owner}/${repo}/${ref}/${encodedPath(folder, path)}`;
+  return `${RAW_HOST}/${owner}/${repo}/${encodedPath(ref)}/${encodedPath(`${folder}${path}`)}`;
 }
 
 /**
@@ -93,5 +95,5 @@ export function fileUrl({ owner, repo, ref, folder }: PackSource, path: string):
  */
 export function apiFileUrl({ owner, repo, ref, folder }: PackSource, path: string): string {
   const query = ref === 'HEAD' ? '' : `?ref=${encodeURIComponent(ref)}`;
-  return `${API_HOST}/repos/${owner}/${repo}/contents/${encodedPath(folder, path)}${query}`;
+  return `${API_HOST}/repos/${owner}/${repo}/contents/${encodedPath(`${folder}${path}`)}${query}`;
 }

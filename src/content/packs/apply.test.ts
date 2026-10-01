@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { packRules, setLoading, showPacks, soundFiles } from './apply.ts';
-import { fakePack, IMAGE, SOUND } from './fixtures/packs.ts';
+import { fakePack, IMAGE, SOUND } from '#shared/testing/packs.ts';
 
 const WOOD = fakePack('ann/packs/main/wood/');
 const style = (): HTMLStyleElement | null => document.querySelector('style#cdc-packs');

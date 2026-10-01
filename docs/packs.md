@@ -7,14 +7,15 @@ GitHub holding a `pack.json` and the files it names.
 To import one, open the user menu, then Board, Piece set or Sound, pick the
 **Imported** tab, paste the link to the pack's folder and press **Import**.
 The extension downloads every file once and keeps them in the browser; it
-asks GitHub for nothing after that. Each part is picked on its own: a pack's
-pieces with Lichess's board, say. Lichess's own tab hands a part back to it.
+asks GitHub for nothing after that. An import shows every part the pack has,
+from whichever panel; then each part is picked on its own: a pack's pieces
+with Lichess's board, say. Lichess's own tab hands a part back to it.
 
 The [example pack](../packs/example) uses every field. Copy it to start.
 
 ## The links that work
 
-Any of these, to a public repository:
+Any of these, to a public repository or a private one (see below):
 
 | Link                                                                           | The pack's folder        |
 | ------------------------------------------------------------------------------ | ------------------------ |
@@ -25,6 +26,17 @@ Any of these, to a public repository:
 
 `<branch>` may also be a tag or a commit, but not a branch with a `/` in its
 name. Importing the same link again replaces the pack with its new files.
+
+### A private repository
+
+GitHub serves a private repository's files only with a token. Make a
+[fine-grained token](https://github.com/settings/personal-access-tokens/new)
+for that repository alone, with **Contents: Read-only**, and paste it under
+**Private repository?** before importing. The extension sends it to GitHub's
+API for that import only and never keeps it; the pack's files are kept, so it
+isn't needed again until you import the pack anew. The field is in Lichess's
+page, like the rest of the menu: a token that can do nothing but read that
+repository keeps the risk to that.
 
 ## pack.json
 
@@ -45,11 +57,11 @@ name. Importing the same link again replaces the pack with its new files.
 | `name`                      | The pack's name in the menu, 1 to 40 characters. Required.                                                                                                                                                                              |
 | `pieces`                    | The path of the twelve piece images, with `{piece}` for each one's name: `wK`, `wQ`, `wR`, `wB`, `wN`, `wP`, `bK` … `bP`, as Lichess names its own (a copy of a folder of lila's `public/piece` works as is). All twelve must be there. |
 | `board.image`               | The board: one image of all 64 squares, white's side at the bottom, `a8` top left.                                                                                                                                                      |
-| `board.light`, `board.dark` | The squares' colors, as `#rrggbb`, for the coordinates drawn on them. Optional; without them the coordinates keep Lichess's colors.                                                                                                     |
+| `board.light`, `board.dark` | The squares' colors, as `#rrggbb`, for the coordinates drawn on them. Optional, but both or neither: without them the coordinates keep Lichess's colors.                                                                                |
 | `sounds`                    | Any of the sounds below, each a path. A sound the pack lacks is Lichess's.                                                                                                                                                              |
 
-A pack needs at least one of `pieces`, `board` and `sounds`. Paths are
-relative to the folder of `pack.json` and can't leave it.
+A pack needs at least one of `pieces`, `board` and `sounds` (with a sound in
+it). Paths are relative to the folder of `pack.json` and can't leave it.
 
 The sounds:
 
@@ -76,8 +88,9 @@ The sounds:
 - **Sizes:** `pack.json` up to 64 KB, each file up to 2 MB, the whole pack up
   to 16 MB.
 
-The extension reads what a file is from its content, not its name, and turns
-down anything else.
+The extension tells what a file is from its first bytes, not its name, and
+turns down anything else. Each image must also draw: Lichess draws no board
+at all when one of its pieces fails to.
 
 ## Licenses
 

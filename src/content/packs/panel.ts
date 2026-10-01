@@ -1,6 +1,6 @@
 import { createElement, queryAll, setData } from '#shared/dom.ts';
 import { LICHESS, type Library } from './library.ts';
-import type { PartKind } from './pack.ts';
+import type { PartKind } from '#shared/packs/pack.ts';
 import { packSection } from './pack-list.ts';
 
 // The Lichess / Imported tabs added to the user menu's Board, Piece set and

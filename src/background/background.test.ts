@@ -111,6 +111,17 @@ async function ask(
 const count = (fake: Fake): Record<string, number> =>
   Object.fromEntries(Object.entries(fake.listeners).map(([name, list]) => [name, list.length]));
 
+// Every build now listens for pack downloads too (background/packs.ts), which
+// the original had none of: one message listener more than it recorded.
+const PACK_LISTENERS = 1;
+
+function withPackListener<T extends { readonly listeners: Record<string, number> }>(
+  recorded: T,
+): T {
+  const { message = 0 } = recorded.listeners;
+  return { ...recorded, listeners: { ...recorded.listeners, message: message + PACK_LISTENERS } };
+}
+
 const files = (): Record<string, string> => ({
   'manifest.json': '{}',
   'background.js': 'bg',
@@ -140,14 +151,16 @@ describe('the background worker', () => {
     for (const listener of fake.listeners.installed) await listener({ reason: 'install' });
     const answer = await ask(fake, { type: 'cdc:dev-check' });
     const expected = legacy.scenarios.find(scenario => scenario.name === name);
-    expect({ name, listeners: count(fake), answer, log: fake.log }).toEqual(expected);
+    expect({ name, listeners: count(fake), answer, log: fake.log }).toEqual(
+      expected && withPackListener(expected),
+    );
   });
 
   it('release build: only drops the old cache, even loaded unpacked', async () => {
     const fake = fakeChrome({ manifest: CHROME_MANIFEST, files: files() });
     vi.resetModules();
     await import('./index.ts');
-    expect(count(fake)).toEqual({ installed: 1, startup: 0, message: 0 });
+    expect(count(fake)).toEqual({ installed: 1, startup: 0, message: PACK_LISTENERS });
     expect(await ask(fake, { type: 'cdc:dev-check' })).toEqual({ responses: [] });
   });
 
@@ -171,7 +184,7 @@ describe('the background worker', () => {
     steps.push({ step: 'reloads after 50 ms', reloads: reloads() });
     steps.push({ step: 'while reloading', ...(await ask(fake, { type: 'cdc:dev-check' })) });
     vi.advanceTimersByTime(100);
-    expect({ listeners, loaded, steps, log: fake.log }).toEqual(legacy.unpacked);
+    expect({ listeners, loaded, steps, log: fake.log }).toEqual(withPackListener(legacy.unpacked));
   });
 
   it('unpacked: waits out a build swapping the folder, then reloads', async () => {

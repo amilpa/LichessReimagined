@@ -43,9 +43,22 @@ export const pieceVariable = (name: PieceName): string => {
   return `---${color}-${role}`;
 };
 
-// Checked again when read back: these strings end up in a stylesheet.
-const ImageSchema = z.string().check(z.regex(/^data:image\/[\w.+-]+;base64,[\w+/]+=*$/));
-const AudioSchema = z.string().check(z.regex(/^data:audio\/[\w.+-]+;base64,[\w+/]+=*$/));
+// Checked again when read back: these strings end up in a stylesheet, and
+// sounds go through atob, which throws on anything but whole base64.
+const ImageSchema = z
+  .string()
+  .check(
+    z.regex(
+      /^data:image\/[\w.+-]+;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/,
+    ),
+  );
+const AudioSchema = z
+  .string()
+  .check(
+    z.regex(
+      /^data:audio\/[\w.+-]+;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/,
+    ),
+  );
 export const HexColorSchema = z.string().check(z.regex(/^#[\da-f]{6}$/i));
 
 export const PiecesSchema = z.record(PieceNameSchema, ImageSchema);

@@ -34,6 +34,11 @@ describe('parsePackLink', () => {
     'https://github.com/ann/packs/tree/main/a%5Cb',
     'https://github.com/a%20n/packs',
     'https://github.com/ann/packs/tree/main/%E0%A4%A',
+    // An encoded slash, to climb out to another repository or API path.
+    'https://github.com/ann/packs/tree/main/x%2F..%2F..%2F..%2F..%2Fmallory%2Fevil%2Fmain',
+    'https://github.com/ann/packs/tree/main%2F..%2F..%2Fuser',
+    'https://raw.githubusercontent.com/ann/packs/main/a%2F..%2F..%2Fb/pack.json',
+    'https://github.com/ann/packs/tree/main%3Fx%23/f',
   ])('turns down %s', link => {
     expect(parsePackLink(link)).toBeNull();
   });

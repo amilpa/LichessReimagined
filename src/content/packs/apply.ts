@@ -1,8 +1,8 @@
 import { createElement, setData } from '#shared/dom.ts';
 import type { SoundFiles } from '#shared/protocol.ts';
 import { SOUND_NAMES } from '#shared/sounds.ts';
-import { PIECE_NAMES, pieceVariable, type Pack } from './pack.ts';
-import { dataUrlBytes } from './sniff.ts';
+import { PIECE_NAMES, pieceVariable, type Pack } from '#shared/packs/pack.ts';
+import { dataUrlBytes } from '#shared/packs/sniff.ts';
 
 // Puts the picked packs on the page. Their images go in a stylesheet of ours,
 // as data: URLs too long for <html>'s style attribute, which other features

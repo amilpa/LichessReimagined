@@ -23,6 +23,9 @@ const EXTENSION_DIR = path.resolve(
 const CACHE_DIR = path.join(homedir(), '.cache', 'puppeteer');
 const TIMEOUT_MS = 30_000;
 const PANEL_COLOR = '#262522';
+// From GitHub itself: Firefox runs the download in the background script,
+// whose requests a page's interception never sees.
+const EXAMPLE_LINK = 'https://github.com/theophile-wallez/LichessDotCom/tree/main/packs/example';
 
 /** Firefox's current release, downloaded unless it's already in the cache. */
 async function firefoxPath(): Promise<string> {
@@ -59,6 +62,41 @@ function pageScriptIsIn(page: Page): Promise<boolean> {
   );
 }
 
+/** Imports the example pack from the user menu's Board panel, as a user would. */
+async function importExamplePack(page: Page): Promise<void> {
+  await page.click('#top .dasher > .toggle');
+  await page.waitForSelector('#dasher_app .subs > button.sub', { timeout: TIMEOUT_MS });
+  await page.evaluate(() => {
+    for (const item of document.querySelectorAll('#dasher_app .subs > button.sub'))
+      if (item.textContent === 'Board' && item instanceof HTMLElement) item.click();
+  });
+  const tab = '#dasher_app div.sub.board .cdc-src-tabs button[data-cdc-tab="packs"]';
+  await page.waitForSelector(tab, { timeout: TIMEOUT_MS });
+  await page.click(tab);
+  await page.type('#dasher_app .cdc-src-import input[type="url"]', EXAMPLE_LINK);
+  await page.click('#dasher_app .cdc-src-import button');
+  await page.waitForFunction(
+    () =>
+      document.querySelector('#dasher_app .cdc-src-status')?.textContent?.startsWith('Imported'),
+    { timeout: TIMEOUT_MS },
+  );
+}
+
+/** Waits for the board's white knight to be drawn from a pack's image. */
+async function knightFromPack(page: Page): Promise<boolean> {
+  const drawn = await page.waitForFunction(
+    () => {
+      const knight = document.querySelector('cg-board piece.knight.white');
+      return (
+        knight !== null &&
+        getComputedStyle(knight).backgroundImage.startsWith('url("data:image/svg')
+      );
+    },
+    { timeout: TIMEOUT_MS },
+  );
+  return drawn.jsonValue();
+}
+
 // One Firefox for the lot, its pages opened one after the other.
 await test('the Firefox build', async suite => {
   if (!existsSync(path.join(EXTENSION_DIR, 'manifest.json')))
@@ -80,6 +118,19 @@ await test('the Firefox build', async suite => {
     assert.equal(await pageScriptIsIn(page), true);
     await page.close();
   });
+
+  // The download in the background script, and IndexedDB from a content script.
+  await suite.test(
+    'a pack imported from GitHub draws the board, and stays after a reload',
+    async () => {
+      const page = await openLichess(browser, '/analysis');
+      await importExamplePack(page);
+      assert.equal(await knightFromPack(page), true);
+      await page.reload({ waitUntil: 'load' });
+      assert.equal(await knightFromPack(page), true);
+      await page.close();
+    },
+  );
 
   await suite.test('the free analysis board gets the coach, and its face', async () => {
     const page = await openLichess(browser, '/analysis');

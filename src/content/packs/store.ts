@@ -1,4 +1,4 @@
-import { PackSchema, type Pack } from './pack.ts';
+import { PackSchema, type Pack } from '#shared/packs/pack.ts';
 
 // The imported packs, in an IndexedDB database of the page's origin: they're
 // too big for localStorage, and chrome.storage would need a permission. Read
@@ -34,6 +34,13 @@ async function withStore<T>(
   } finally {
     database.close();
   }
+}
+
+/** The stored pack of that id, if it still reads as one. */
+export async function readPack(id: string): Promise<Pack | null> {
+  const value: unknown = await withStore('readonly', store => store.get(id));
+  const result = PackSchema.safeParse(value);
+  return result.success ? result.data : null;
 }
 
 /** Every stored pack that still reads as one. */

@@ -8,7 +8,7 @@ this file whole before changing anything. The code's design is detailed in
 ## The project in brief
 
 - A browser extension (Manifest V3, Chrome and Firefox) that gives
-  lichess.org Chess.com's look and feel, plus a Game Review with a coach.
+  lichess.org a modern look and feel, plus a Game Review with a coach.
 - TypeScript 7, bundled by rolldown (`scripts/build.ts`) into
   `dist/<target>/`. The browser loads the build, never `src/`.
 - Two scripts run in each Lichess tab, in two JavaScript worlds that share
@@ -142,7 +142,7 @@ A change is done when all of these hold:
 | `src/content/`    | the isolated-world script: `packs` (imported boards, pieces and sounds, their pickers), `bootstrap`, `layout` (`MARKS`, `HAS`, inset, zoom, controls height), `game`, `analysis`, `pages`, `ui` (tooltips, hover card, tab bars), `charts`, `coach` (the coach's face), `dev` (auto-reload), `platform` (the extension APIs it uses), `sidebar` (the Donate item) |
 | `src/page/`       | the page-world script: `motion`, `sounds`, `board` (shapes, checkmate), `review`, `charts`, `game-over` (kings' badges, confetti, the coach's card), and `lichess/`, typed facades over Lichess's globals                                                                                                                                                         |
 | `src/shared/`     | helpers for both worlds (DOM, markup, messages, storage, chess, charts), `testing/` for tests                                                                                                                                                                                                                                                                     |
-| `src/background/` | the service worker: auto-reload, old cache cleanup                                                                                                                                                                                                                                                                                                                |
+| `src/background/` | the service worker: auto-reload, old cache cleanup, pack downloads                                                                                                                                                                                                                                                                                                |
 | `src/styles/`     | one stylesheet per page or part, a folder of partials past 400 lines, joined in `index.css`'s order                                                                                                                                                                                                                                                               |
 | `public/`         | copied into each build: `_locales/`, `icons/`, `img/` (`icons`, `coaches`), `licenses/` (the bundled files' licenses)                                                                                                                                                                                                                                             |
 | `scripts/`        | build, package, typecheck, source rules, version, store publishing and rendering                                                                                                                                                                                                                                                                                  |
@@ -177,9 +177,10 @@ A change is done when all of these hold:
 
 ## Product rules
 
-The goal is a **modern Lichess, modelled on Chess.com**: a user of that site
-wouldn't notice they're on Lichess. When in doubt, compare with Chess.com and
-match it. Lichess keeps its features: free analysis, open data, no ads.
+The goal is a **modern Lichess, as easy to use as Chess.com**: a user of that
+site finds their way at once. When in doubt, compare with how Chess.com works
+and match that, never what it made (below). Lichess keeps its features and
+its name: free analysis, open data, no ads.
 
 - **Nothing of Chess.com's:** match how it works and feels, never copy what
   it made. No image, icon, piece set, board, sound, logo, illustration or
@@ -269,9 +270,10 @@ Learned the hard way. Check here before touching the area concerned.
 - **CSP.** Images load from anywhere; audio and `fetch` only from Lichess's
   domains, `blob:` and `data:`, not even the extension's files. So
   `content/packs` reads a pack's sounds and `page/sounds` plays them as
-  `blob:` URLs. The content script's own `fetch` isn't bound by it: it
-  reads packs from GitHub, whose files allow any origin. Other
-  cross-origin data would need the background worker and a host permission.
+  `blob:` URLs. Firefox holds a content script's `fetch` to the page's CSP
+  too, so packs are downloaded by the background worker
+  (`background/packs.ts`): GitHub's files allow any origin, so it needs no
+  host permission. Other cross-origin data would need one.
 - **Lichess's piece variables.** Lichess draws its pieces from
   `---white-pawn` … `---black-king` (`.is2d .pawn.white { background-image:
 var(---white-pawn) }`), set on `:root`, and inline on `<body>` once its

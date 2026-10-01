@@ -60,9 +60,12 @@ The board, the pieces and the sounds are Lichess's, unless the user imports a
 pack from GitHub (`docs/packs.md`) and picks it for one of them, in the
 user menu's own panels (`src/content/packs/`):
 
-- `download.ts` reads the pack's `pack.json` and files from GitHub's raw host,
-  or through its API with a token for a private repository, checks what each
-  file is and that each image decodes, and turns them into `data:` URLs.
+- `src/shared/packs/download.ts` reads the pack's `pack.json` and files from
+  GitHub's raw host, or through its API with a token for a private
+  repository, checks what each file is, and turns them into `data:` URLs. It
+  runs in the background worker (`src/background/packs.ts`), as Firefox holds
+  a content script's requests to the page's CSP; `import.ts` asks for it, then
+  checks that each image decodes, which needs a DOM.
 - `store.ts` keeps the packs in an IndexedDB database of the page's origin;
   `library.ts` keeps which one each part shows in localStorage, so the content
   script knows it at `document_start` and hides that part until the pack is

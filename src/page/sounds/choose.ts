@@ -28,6 +28,10 @@ export const soundForLichessEvent = (name: string): SoundName | undefined =>
 export const fallbackSound = (lichessName: string | undefined): SoundName =>
   lichessName === 'capture' ? 'capture' : 'move-self';
 
+/** Lichess's sound for a move whose sound the pack lacks: its check sound plays on its own. */
+export const lichessMoveSound = (name: SoundName): string =>
+  name === 'capture' ? 'capture' : 'move';
+
 export function soundFromSan(san: string, ply: number | undefined, orientation: Color): SoundName {
   if (/[+#]/.test(san)) return 'move-check';
   if (san.startsWith('O-O')) return 'castle';

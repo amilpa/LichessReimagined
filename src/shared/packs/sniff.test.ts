@@ -19,6 +19,7 @@ describe('imageType', () => {
     [bytes('RIFF', 0, 0, 0, 0, 'WEBPVP8 '), 'image/webp'],
     [bytes('GIF89a'), 'image/gif'],
     [bytes(0, 0, 0, 0x1c, 'ftypavif'), 'image/avif'],
+    [bytes(0, 0, 0, 0x1c, 'ftypavis'), 'image/avif'],
     [text('<svg xmlns="http://www.w3.org/2000/svg"/>'), 'image/svg+xml'],
     [text('﻿<?xml version="1.0"?>\n<!-- a knight -->\n<svg viewBox="0 0 1 1">'), 'image/svg+xml'],
   ])('knows an image by its first bytes', (file, type) => {

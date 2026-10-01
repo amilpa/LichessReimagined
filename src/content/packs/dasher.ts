@@ -1,6 +1,6 @@
 import { closestTo, onDomReady, queryOne } from '#shared/dom.ts';
 import { LICHESS, type Library } from './library.ts';
-import { PART_KINDS, type PartKind } from './pack.ts';
+import { PART_KINDS, type PartKind } from '#shared/packs/pack.ts';
 import { dressPanel, markPanel, panelSelector, viewOf, type View } from './panel.ts';
 
 // The user menu (#dasher_app) and its Board, Piece set and Sound panels.
@@ -30,6 +30,7 @@ function syncPanels(states: readonly PanelState[], library: Library, redress: bo
       state.open = false;
       continue;
     }
+    void library.loadAll();
     // A panel opens on the tab of what the page shows. Snabbdom draws a new
     // panel when 3D goes back to 2D (its class changes), and that one keeps the tab.
     if (!state.open) state.view = viewOf(library.current(state.kind));

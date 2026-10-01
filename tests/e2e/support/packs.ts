@@ -30,7 +30,7 @@ export async function importExamplePack(page: Page, kind: PickerKind = 'board'):
   const panel = await openPicker(page, kind);
   await pickerTab(panel, 'packs').click();
   await panel.locator('.cdc-src-import input[type="url"]').fill(EXAMPLE_LINK);
-  await panel.locator('.cdc-src-import button[type="submit"]').click();
+  await panel.locator('.cdc-src-import button').click();
   await expect(panel.locator('.cdc-src-status')).toHaveText('Imported “Warm wood”.');
   await closeMenu(page);
 }

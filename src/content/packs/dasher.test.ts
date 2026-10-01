@@ -3,10 +3,11 @@ import { queryAll, queryOne } from '#shared/dom.ts';
 import { trackListeners } from '#shared/testing/listeners.ts';
 import { flush } from '#shared/testing/timers.ts';
 import { watchDasher } from './dasher.ts';
-import { fakeGithub } from './fixtures/github.ts';
-import { fakePack } from './fixtures/packs.ts';
+import { fakeGithub } from '#shared/testing/github.ts';
+import { fakeWorker } from '#shared/testing/worker.ts';
+import { fakePack } from '#shared/testing/packs.ts';
 import { createLibrary, LICHESS, type Library } from './library.ts';
-import type { Pack } from './pack.ts';
+import type { Pack } from '#shared/packs/pack.ts';
 
 const WOOD = fakePack('ann/packs/main/wood/');
 const CLICKS = fakePack('ann/packs/main/clicks/', ['sound']);
@@ -38,6 +39,7 @@ function openPanel(kind: keyof typeof PANELS): HTMLElement {
 function start(packs: readonly Pack[]): Library {
   const library = createLibrary({
     packs,
+    readAll: () => Promise.resolve(packs),
     save: () => Promise.resolve(),
     erase: () => Promise.resolve(),
     show: () => undefined,
@@ -58,10 +60,11 @@ function submit(panel: HTMLElement, link: string, token = ''): void {
   if (!input || !secret) throw new Error('no form');
   input.value = link;
   secret.value = token;
-  queryOne(panel, '.cdc-src-import', HTMLFormElement)?.requestSubmit();
+  queryOne(panel, '.cdc-src-import button', HTMLButtonElement)?.click();
 }
 
 beforeEach(() => {
+  fakeWorker();
   stopListeners = trackListeners(document);
   document.body.innerHTML =
     '<div id="top"><div class="dasher"><div id="dasher_app"></div></div></div>';
@@ -152,6 +155,19 @@ describe('importing a pack', () => {
     expect(library.current('sound')).toBe('ann/packs/HEAD/');
     expect(status(redrawn)).toBe('Imported “Clicks”.');
     expect(queryOne(redrawn, '.cdc-src-import input', HTMLInputElement)?.value).toBe('');
+  });
+
+  it('takes the token in no form and no password field, which browsers offer to save', async () => {
+    fakeGithub({ repo: 'ann/packs', files });
+    const library = start([]);
+    const panel = openPanel('sound');
+    await flush();
+    expect(panel.querySelector('form, input[type="password"]')).toBeNull();
+    const [link] = queryAll(panel, '.cdc-src-import input', HTMLInputElement);
+    if (!link) throw new Error('no link field');
+    link.value = 'https://github.com/ann/packs';
+    link.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    await vi.waitFor(() => expect(library.packs()).toHaveLength(1));
   });
 
   it('says what went wrong, keeping the link to fix it', async () => {

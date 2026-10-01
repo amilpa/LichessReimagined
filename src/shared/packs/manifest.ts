@@ -27,7 +27,11 @@ export const ManifestSchema = z
         dark: z.optional(HexColorSchema),
       }),
     ),
-    sounds: z.optional(z.partialRecord(SoundNameSchema, PathSchema)),
+    sounds: z.optional(
+      z
+        .partialRecord(SoundNameSchema, PathSchema)
+        .check(z.refine(sounds => Object.keys(sounds).length > 0)),
+    ),
   })
   .check(
     z.refine(
