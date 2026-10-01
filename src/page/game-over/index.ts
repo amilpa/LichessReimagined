@@ -33,18 +33,12 @@ async function bookPly(gameId: string, positions: number): Promise<number> {
   }
 }
 
-interface Counted {
-  /** The engine the count ran on, for the review's analysis to take over. */
-  readonly engine: Stockfish;
-  readonly bookPly: number;
-}
-
-/** The coach's count; null when none ran or it failed. */
+/** The coach's count; the engine it ran on, or null when none ran or it failed. */
 async function countMoves(
   view: GameOverView,
   game: PlayedGame,
   finished: FinishedGame,
-): Promise<Counted | null> {
+): Promise<Stockfish | null> {
   const positions = finished.treeParts;
   const variant = finished.game.variant.key;
   if (!worthReviewing(variant, positions.length)) {
@@ -62,7 +56,7 @@ async function countMoves(
     view.verdict(
       await quickReview({ positions, color: game.color, bookPly: book, chess960, analyse }),
     );
-    return { engine, bookPly: book };
+    return engine;
   } catch (error) {
     console.warn('[LichessDotCom] game over analysis', error);
     view.failed();
@@ -95,8 +89,8 @@ async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
     opponent: opponentName(main, game.color, texts.anonymous),
     reviewHref: `/${game.gameId}/${game.color}`,
   });
-  const counted = await countMoves(view, game, finished);
-  if (!counted) return;
+  const engine = await countMoves(view, game, finished);
+  if (!engine) return;
   // Then Game Review's own analysis, for when the player opens it; the card
   // takes its figures, so both say the same.
   const positions = finished.treeParts;
@@ -105,19 +99,21 @@ async function onGameEnd(game: PlayedGame, main: HTMLElement): Promise<void> {
     gameId: game.gameId,
     positions,
     variant,
-    engine: counted.engine,
+    engine,
     stillOver: () => showsOver(main, game.gameId),
   });
-  if (records)
-    view.refine(
-      summarize({
-        positions,
-        records,
-        color: game.color,
-        bookPly: counted.bookPly,
-        chess960: variant === 'chess960',
-      }),
-    );
+  if (!records) return;
+  // Asked again: right after the game, the export may not know its opening yet.
+  const book = await bookPly(game.gameId, positions.length);
+  view.refine(
+    summarize({
+      positions,
+      records,
+      color: game.color,
+      bookPly: book,
+      chess960: variant === 'chess960',
+    }),
+  );
 }
 
 /** Waits for the game's result to show, then plays its end once. */
