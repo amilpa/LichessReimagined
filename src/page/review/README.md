@@ -76,6 +76,16 @@ engine's lines around a move that wasn't best (`view/explain-hint.ts`); its
 button plays the best line on the board as a variation, while the coach still
 speaks of the move it stands for (`lineShown`, `view/navigation.ts`).
 
+The game's analysis runs on the page's engines (`engine-pool.ts`): up to
+three, on one thread each, as the device's cores and memory allow, each on a
+position of its own (`nextJob`). A position whose engine stops answering goes
+to another, and once the analysis is complete all engines but one are ended.
+It waits in a hidden tab and while "Learn from your mistakes" runs
+(`game/wait.ts`). Its records are saved as they come in
+(`cdc-review-progress:*`), then under the finished game's key
+(`cdc-review:*`); an index (`cdc-review-index`) keeps the 200 games opened
+last and drops the others (`game/cache.ts`).
+
 `render.ts` runs every 150 ms: it draws the panel again only when what it
 shows changes (`render-key.ts`), keeping the buttons and scroll positions a
 redraw leaves as they were, then the board's marks.

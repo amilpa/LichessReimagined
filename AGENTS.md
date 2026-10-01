@@ -474,8 +474,9 @@ Learned the hard way. Check here before touching the area concerned.
   Scala template and Lichess's own stylesheet for the page
   (`assets/css/<key>.<hash>.css`), without the shell's CSP `<meta>`, and
   measure in numbers.
-- The Game Review's Stockfish is nondeterministic (two runs differ on about
-  a quarter of the verdicts by one step, the game rating by 100+ points):
+- The Game Review's Stockfish is nondeterministic (two runs of a game
+  differ on about one verdict in six, mostly by one step, the game rating by
+  100+ points):
   compare runs from the same `cdc-review:*` cache entry, which skips the
   engine, or against that spread.
 - Firefox: Puppeteer loads `dist/firefox` over WebDriver BiDi
