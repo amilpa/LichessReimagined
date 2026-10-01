@@ -51,6 +51,25 @@ test('an analysed game shows its charts and "Learn from your mistakes"', async (
   await expect(page.locator(UNDERBOARD)).toBeHidden();
 });
 
+test('a game’s tabs keep their whole names, and its crosstable spans the panel', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await openLichess(page, ANALYSED_GAME);
+  await page.locator('.cdc-review__close').click();
+  await page.locator(BUTTON).click();
+  const menu = page.locator(`${UNDERBOARD} .analyse__underboard__menu`);
+  await menu.locator('[data-panel="ctable"]').click();
+  const cut = await menu.evaluate(bar =>
+    [...bar.children].filter(tab => tab.scrollWidth > tab.clientWidth).map(tab => tab.textContent),
+  );
+  expect(cut).toEqual([]);
+  const crosstable = page.locator(`${UNDERBOARD} .crosstable`);
+  await expectInView(page, crosstable);
+  const panel = await page.locator(`${UNDERBOARD} .analyse__underboard__panels`).boundingBox();
+  expect((await crosstable.boundingBox())?.width).toBeCloseTo(panel?.width ?? 0, 0);
+});
+
 test('a study shows its toolbar', async ({ page }) => {
   await openLichess(page, STUDY);
   await page.locator(BUTTON).click();

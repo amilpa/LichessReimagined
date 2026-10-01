@@ -80,7 +80,13 @@ main.analyse .analyse__controls > .cdc-underboard {
     background: var(--cdc-bg-panel-dark);
   }
 
+  /* In a narrow panel the tabs take a second row rather than cut their names. */
+  main.analyse .analyse__underboard__menu {
+    flex-wrap: wrap;
+  }
+
   main.analyse .analyse__underboard__menu > button {
+    flex: 1 0 auto;
     border-color: transparent !important;
     color: var(--cdc-text-dim) !important;
     font-family: var(--cdc-font) !important;
@@ -94,6 +100,15 @@ main.analyse .analyse__controls > .cdc-underboard {
 
   main.analyse .analyse__underboard__menu:not([data-cdc-tabs]) > button.active {
     border-bottom-color: #fff !important;
+  }
+
+  /* The crosstable's tab: our crosstable (theme/crosstable.css), as a card. */
+  /* Its width is the panel's: a container has no width of its own to center with. */
+  main.analyse .analyse__underboard .crosstable {
+    width: 100% !important;
+    border: 1px solid var(--cdc-border) !important;
+    border-radius: 6px !important;
+    background: var(--cdc-bg-panel-dark) !important;
   }
 
   /* A fourth toggle in the bar: in a narrow panel they give the jump buttons room. */
