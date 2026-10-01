@@ -1,6 +1,7 @@
 import type { Analysis } from '#page/lichess/analysis.ts';
 import { judgeAt, liveDigest } from '#page/review/live/judging.ts';
 import type { Session } from '#page/review/session.ts';
+import { learnLabel } from './learn.ts';
 import { reviewMove } from './navigation.ts';
 
 // What the panel shows, as one string: it's drawn again only when that
@@ -33,6 +34,8 @@ export function renderKey(session: Session, analysis: Analysis): string {
     analysis.orientation(),
     view.review !== null,
     progressKey(session, analysis),
+    // Lichess may draw its analysis request after the summary.
+    view.mode === 'summary' && learnLabel(analysis) !== null,
     view.error ?? '',
     view.explain,
     // The lines Explain has in, and the one it played on the board.

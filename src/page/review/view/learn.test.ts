@@ -5,6 +5,7 @@ import { en } from '#page/review/i18n/en.ts';
 import { createSession, type Mode } from '#page/review/session.ts';
 import { createElements } from './elements.ts';
 import { learnFromMistakes } from './learn.ts';
+import { renderKey } from './render-key.ts';
 import { renderSummary } from './summary-panel.ts';
 
 const START = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -62,6 +63,15 @@ describe('the summary’s "Learn from your mistakes"', () => {
   it('shows where Lichess offers to analyse the game first', () => {
     document.body.innerHTML = requestForm('future-game-analysis');
     expect(learnButton(false)?.textContent).toBe('Learn from your mistakes');
+  });
+
+  it('comes in when Lichess draws its form after the summary', () => {
+    document.body.innerHTML =
+      '<main class="analyse"><div class="analyse__underboard"></div></main>';
+    const { facade, session } = setUp(false);
+    const before = renderKey(session, facade);
+    document.body.innerHTML = requestForm('future-game-analysis');
+    expect(renderKey(session, facade)).not.toBe(before);
   });
 
   // Lichess analyses only games of more than 4 moves; the review runs from 2.
