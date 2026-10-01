@@ -23,6 +23,7 @@ import { boardInset } from './layout/board-inset.ts';
 import { evalGauge } from './analysis/eval-gauge.ts';
 import { puzzleSession } from './pages/puzzle.ts';
 import { homeHero } from './pages/home-hero.ts';
+import { blogCarousel } from './pages/blog-carousel/index.ts';
 import { coachTitles } from './pages/coach-titles.ts';
 import { swiss } from './pages/swiss.ts';
 import { forumLabels } from './pages/forum.ts';
@@ -69,6 +70,7 @@ function main(): void {
     evalGauge,
     puzzleSession,
     homeHero,
+    blogCarousel,
     coachTitles,
     swiss,
     forumLabels,
