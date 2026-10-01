@@ -127,4 +127,19 @@ test.describe('a game on Lichess TV', () => {
       expect((await boxOf(crosstable)).top).toBeGreaterThanOrEqual(buttons.bottom - 1);
     });
   });
+
+  test('shows the score of the players’ match as a pill', async ({ page }) => {
+    const crosstable = page.locator('main.round .round__underboard > .crosstable');
+    await onOneTvGame(page, async () => {
+      await expectInView(page, crosstable);
+      // Lichess adds it only while the players are in a match: one like it.
+      const background = await crosstable.evaluate(element => {
+        const matchup = document.createElement('div');
+        matchup.className = 'crosstable__matchup';
+        element.append(matchup);
+        return getComputedStyle(matchup).backgroundColor;
+      });
+      expect(background).not.toBe('rgba(0, 0, 0, 0)');
+    });
+  });
 });

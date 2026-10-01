@@ -172,7 +172,8 @@
     text-align: end;
   }
 
-  main.round .crosstable__matchup {
+  /* Past the reset of the crosstable's parts above. */
+  main.round .crosstable .crosstable__matchup {
     padding: 0 6px;
     border-radius: 4px;
     background: color-mix(in srgb, var(--cdc-green) 16%, transparent) !important;
