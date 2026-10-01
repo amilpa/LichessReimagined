@@ -2267,7 +2267,7 @@
       },
       {
         "remark": "No escape for the king now.",
-        "parts": [["It punishes Black’s mistake right away."], ["White keeps a mate in 7.", true]]
+        "parts": [["The check forces Black to respond."], ["White keeps a mate in 7.", true]]
       },
       {
         "remark": "Taking is right here.",
@@ -2679,10 +2679,7 @@
       },
       {
         "remark": "Plus d’échappatoire pour le roi.",
-        "parts": [
-          ["Il punit aussitôt l’erreur des Noirs."],
-          ["Les Blancs gardent un mat en 7.", true]
-        ]
+        "parts": [["L’échec force les Noirs à réagir."], ["Les Blancs gardent un mat en 7.", true]]
       },
       {
         "remark": "Prendre est la bonne décision ici.",
@@ -2950,10 +2947,7 @@
       },
       {
         "remark": "The mating net tightens.",
-        "parts": [
-          ["It punishes Black’s mistake right away."],
-          ["White still has a mate in 6.", true]
-        ]
+        "parts": [["The mating net tightens."], ["White still has a mate in 6.", true]]
       },
       {
         "remark": "A good capture.",
@@ -3122,10 +3116,7 @@
       },
       {
         "remark": "One step closer to checkmate.",
-        "parts": [
-          ["It punishes Black’s mistake right away."],
-          ["White still has a mate in 8.", true]
-        ]
+        "parts": [["The check forces Black to respond."], ["White still has a mate in 8.", true]]
       },
       {
         "remark": "Strong and simple.",
@@ -3306,10 +3297,7 @@
       },
       {
         "remark": "Le filet de mat se resserre.",
-        "parts": [
-          ["Il punit aussitôt l’erreur des Noirs."],
-          ["Les Blancs ont toujours un mat en 6.", true]
-        ]
+        "parts": [["Le filet de mat se resserre."], ["Les Blancs ont toujours un mat en 6.", true]]
       },
       {
         "remark": "Une bonne prise.",
@@ -3491,7 +3479,7 @@
       {
         "remark": "Encore un pas vers le mat.",
         "parts": [
-          ["Il punit aussitôt l’erreur des Noirs."],
+          ["L’échec force les Noirs à réagir."],
           ["Les Blancs ont toujours un mat en 8.", true]
         ]
       },
@@ -5796,7 +5784,7 @@
       },
       {
         "remark": "Mate is coming. Keep going!",
-        "parts": [["It punishes White’s mistake right away."], ["Black keeps a mate in 8.", true]]
+        "parts": [["The check forces White to respond."], ["Black keeps a mate in 8.", true]]
       },
       {
         "remark": "Nothing better here.",
@@ -6137,10 +6125,7 @@
       },
       {
         "remark": "Le mat arrive. Continue !",
-        "parts": [
-          ["Il punit aussitôt l’erreur des Blancs."],
-          ["Les Noirs gardent un mat en 8.", true]
-        ]
+        "parts": [["L’échec force les Blancs à réagir."], ["Les Noirs gardent un mat en 8.", true]]
       },
       {
         "remark": "Rien de mieux ici.",
@@ -6699,7 +6684,7 @@
       },
       {
         "remark": "No escape for the king now.",
-        "parts": [["It punishes Black’s mistake right away."], ["White keeps a mate in 8.", true]]
+        "parts": [["No escape for the king now."], ["White keeps a mate in 8.", true]]
       },
       {
         "remark": "That’s the most accurate move.",
@@ -7082,10 +7067,7 @@
       },
       {
         "remark": "Plus d’échappatoire pour le roi.",
-        "parts": [
-          ["Il punit aussitôt l’erreur des Noirs."],
-          ["Les Blancs gardent un mat en 8.", true]
-        ]
+        "parts": [["Plus d’échappatoire pour le roi."], ["Les Blancs gardent un mat en 8.", true]]
       },
       {
         "remark": "C’est le coup le plus précis.",
@@ -8867,10 +8849,7 @@
       },
       {
         "remark": "One step closer to checkmate.",
-        "parts": [
-          ["It punishes White’s mistake right away."],
-          ["Black still has a mate in 5.", true]
-        ]
+        "parts": [["One step closer to checkmate."], ["Black still has a mate in 5.", true]]
       },
       {
         "remark": "Taking is right here.",
@@ -9207,10 +9186,7 @@
       },
       {
         "remark": "Encore un pas vers le mat.",
-        "parts": [
-          ["Il punit aussitôt l’erreur des Blancs."],
-          ["Les Noirs ont toujours un mat en 5.", true]
-        ]
+        "parts": [["Encore un pas vers le mat."], ["Les Noirs ont toujours un mat en 5.", true]]
       },
       {
         "remark": "Prendre est la bonne décision ici.",

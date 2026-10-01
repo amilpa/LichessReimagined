@@ -11,7 +11,7 @@ import {
   nextOfClass,
   playerAccuracy,
 } from './summary.ts';
-import { isPlayed } from './types.ts';
+import { isPlayed, type MoveVerdict } from './types.ts';
 // What the original script judged on the fixture games, and its mate verdicts.
 import legacy from './fixtures/legacy.json' with { type: 'json' };
 import legacyMates from './fixtures/legacy-mate.json' with { type: 'json' };
@@ -78,6 +78,11 @@ describe('judge', () => {
     expect(move(false).bestSan).toBe('O-O');
   });
 
+  it('calls another way to a long mate excellent, not best', () => {
+    expect(longMateMove('e2e4', 'e4').moveClass).toBe('excellent');
+    expect(longMateMove('d2d4', 'd4').moveClass).toBe('best');
+  });
+
   it('calls a book move book, at full accuracy', () => {
     const move = judge({
       previousPosition: { ply: 0, fen: START },
@@ -93,6 +98,25 @@ describe('judge', () => {
 });
 
 const NO_LINE = { secondLineWinChance: null, best: null };
+
+/** A move from the start where White mates in a few more moves than SURE_MATE, d4 the engine's. */
+const longMateMove = (uci: string, san: string): MoveVerdict =>
+  judge({
+    previousPosition: { ply: 0, fen: START },
+    position: { ply: 1, fen: AFTER_E4, uci, san },
+    before: winning(SURE_MATE + 3, 'd2d4'),
+    after: winning(SURE_MATE + 4, null),
+    book: false,
+    chess960: false,
+  });
+
+/** White mates in `moves`. */
+const winning = (moves: number, best: string | null): PositionRecord => ({
+  mate: moves,
+  whiteWinChance: 100,
+  secondLineWinChance: null,
+  best,
+});
 
 const mate = (moves: number | null): PositionRecord =>
   moves === null ? record(50, null) : { mate: moves, whiteWinChance: 0, ...NO_LINE };

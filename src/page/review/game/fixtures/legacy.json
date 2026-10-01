@@ -1614,7 +1614,7 @@
         },
         {
           "ply": 25,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "a2a3",
@@ -1626,11 +1626,11 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e5d5",
-          "previous": [25, "best"]
+          "previous": [25, "excellent"]
         },
         {
           "ply": 27,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "a2a3",
@@ -1642,11 +1642,11 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e5e4",
-          "previous": [27, "best"]
+          "previous": [27, "excellent"]
         },
         {
           "ply": 29,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "c2a3",
@@ -1658,7 +1658,7 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e4e2",
-          "previous": [29, "best"]
+          "previous": [29, "excellent"]
         },
         {
           "ply": 31,
@@ -1790,7 +1790,7 @@
         },
         {
           "ply": 47,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "c2f5",
@@ -1802,7 +1802,7 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e7a3",
-          "previous": [47, "best"]
+          "previous": [47, "excellent"]
         },
         {
           "ply": 49,
@@ -2089,7 +2089,7 @@
         },
         {
           "ply": 25,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "a2a3",
@@ -2101,11 +2101,11 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e5d5",
-          "previous": [25, "best"]
+          "previous": [25, "excellent"]
         },
         {
           "ply": 27,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "a2a3",
@@ -2117,11 +2117,11 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e5e4",
-          "previous": [27, "best"]
+          "previous": [27, "excellent"]
         },
         {
           "ply": 29,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "c2a3",
@@ -2133,7 +2133,7 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e4e2",
-          "previous": [29, "best"]
+          "previous": [29, "excellent"]
         },
         {
           "ply": 31,
@@ -2265,7 +2265,7 @@
         },
         {
           "ply": 47,
-          "cls": "best",
+          "cls": "excellent",
           "loss": 0,
           "accuracy": 99.9999,
           "best": "c2f5",
@@ -2277,7 +2277,7 @@
           "loss": 0,
           "accuracy": 99.9999,
           "best": "e7a3",
-          "previous": [47, "best"]
+          "previous": [47, "excellent"]
         },
         {
           "ply": 49,
@@ -2446,9 +2446,9 @@
         "w": {
           "book": 4,
           "good": 1,
-          "best": 17,
+          "best": 13,
           "great": 3,
-          "excellent": 2,
+          "excellent": 6,
           "inaccuracy": 1,
           "brilliant": 1,
           "blunder": 1

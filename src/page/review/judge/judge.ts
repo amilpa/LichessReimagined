@@ -3,7 +3,7 @@ import { isSacrifice } from '#page/review/chess/material.ts';
 import { normalizeUci, uciToSan } from '#page/review/chess/notation.ts';
 import { type MoveClass, RANK } from '#page/review/classes/classes.ts';
 import { forColor, moveAccuracy } from '#page/review/evaluation/score.ts';
-import { mateVerdict } from './mate.ts';
+import { mateVerdict, SURE_MATE } from './mate.ts';
 import type { JudgeInput, MoveVerdict } from './types.ts';
 
 interface Standing {
@@ -35,8 +35,17 @@ function topClass(input: JudgeInput, { before, after, loss, second }: Standing):
   return 'best';
 }
 
+function longMate({ before, previousPosition }: JudgeInput): boolean {
+  if (!('mate' in before)) return false;
+  const own = fenTurn(previousPosition.fen) === 'white' ? before.mate : -before.mate;
+  return own > SURE_MATE;
+}
+
 function baseClass(input: JudgeInput, standing: Standing, isBest: boolean): MoveClass {
   if (input.book) return 'book';
+  // Another way to a mate too long to judge by distance loses no win
+  // probability, but it isn't the engine's move.
+  if (!isBest && standing.loss < 0.5 && longMate(input)) return 'excellent';
   if (isBest || standing.loss < 0.5) return topClass(input, standing);
   const moveClass = lossClass(standing.loss);
   // An error right after the opponent's own is a missed punishment.
