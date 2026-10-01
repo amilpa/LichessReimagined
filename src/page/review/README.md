@@ -82,15 +82,16 @@ three, on one thread each, as the device's cores and memory allow, each on a
 position of its own (`nextJob`), on Lichess's relaxed SIMD build where the
 browser runs it (`engine/relaxed-simd.ts`), a quarter faster. A position whose
 engine stops answering goes to another, and once the analysis is complete all
-engines but one are ended. It waits in a hidden tab and while "Learn from your
+engines but one are ended (a review read whole from the cache boots only
+one). It waits in a hidden tab and while "Learn from your
 mistakes" runs (`game/wait.ts`). Its core (`game/analyse-records.ts`) needs
 only the game's id, positions and variant (`RecordsRun`, `game/records.ts`):
 the analysis page adds the export, the draft and the move on the board first
 (`game/analyse-game.ts`); the game page, once the game is over, runs it at
 full depth only and ends its engines when done. Its records are saved as they
 come in (`cdc-review-progress:*`), then under the finished game's key
-(`cdc-review:*`); an index (`cdc-review-index`) keeps the 200 games opened
-last and drops the others (`game/cache.ts`).
+(`cdc-review:*`); an index (`cdc-review-index`) keeps the 200 games analysed
+last, on either page, and drops the others (`game/cache.ts`).
 
 The summary's "Learn from your mistakes" hands over to Lichess's own
 exercise (`view/learn.ts`): it asks for the server analysis the exercise needs

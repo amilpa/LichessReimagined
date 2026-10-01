@@ -132,9 +132,15 @@ function refuse(): never {
 /** The original's timing: a full-depth search takes 150 ms, a quick one 30 ms. */
 export const SCRIPT_DELAY: SearchDelay = ({ depth }) => (depth >= 16 ? 150 : 30);
 
-/** The fake engine, which finds the positions it's sent in the fake game's tree. */
-export function useFakeEngine(ctrl: FakeController, delay: SearchDelay = SCRIPT_DELAY): void {
-  installFakeStockfish(delay, (fen, moves) => fenAfter(ctrl.tree.root, fen, moves));
+/**
+ * The fake engine, which finds the positions it's sent in the fake game's
+ * tree. Returns how many engines the page has booted so far.
+ */
+export function useFakeEngine(
+  ctrl: FakeController,
+  delay: SearchDelay = SCRIPT_DELAY,
+): () => number {
+  return installFakeStockfish(delay, (fen, moves) => fenAfter(ctrl.tree.root, fen, moves));
 }
 
 function installEngine(ctrl: FakeController): void {

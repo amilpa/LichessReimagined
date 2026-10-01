@@ -36,9 +36,14 @@ export class EnginePool {
     return this.#size;
   }
 
+  /** Whether the pool takes another engine: not once cut down by `keep` or `end`. */
+  get hasRoom(): boolean {
+    return this.#size < this.#limit;
+  }
+
   /** Takes an engine booted after the others, unless the pool was cut down since. */
   add(engine: PoolEngine): void {
-    if (this.#size >= this.#limit) {
+    if (!this.hasRoom) {
       engine.quit();
       return;
     }

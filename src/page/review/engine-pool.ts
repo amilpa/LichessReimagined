@@ -2,6 +2,7 @@ import { clamp } from '#shared/math.ts';
 import type { Analysis } from '#page/lichess/analysis.ts';
 import { EnginePool } from './engine/pool.ts';
 import { Stockfish } from './engine/stockfish.ts';
+import { isComplete } from './game/records.ts';
 import type { Session } from './session.ts';
 
 /** More engines barely help: the game's analysis is then held up by the cloud and the page. */
@@ -34,8 +35,9 @@ export async function bootEngine(chess960: boolean): Promise<Stockfish> {
 }
 
 /** The engines past the first, booted one after another; one that fails ends it. */
-async function bootMore(pool: EnginePool, chess960: boolean): Promise<void> {
-  for (let count = 1; count < engineCount(); count++) {
+async function bootMore(pool: EnginePool, chess960: boolean, count: number): Promise<void> {
+  // A pool cut down by `keep` or `end` takes no more.
+  for (let booted = 1; booted < count && pool.hasRoom; booted++) {
     try {
       pool.add(await bootEngine(chess960));
     } catch (error) {
@@ -48,6 +50,8 @@ async function bootMore(pool: EnginePool, chess960: boolean): Promise<void> {
 
 export interface EnginesOptions {
   readonly chess960: boolean;
+  /** How many engines, the first included: `engineCount()` unless given. */
+  readonly count?: number;
   /** An engine already booted for the game, taken as the first. */
   readonly first?: Stockfish;
 }
@@ -56,9 +60,13 @@ export interface EnginesOptions {
  * A pool of engines: it comes with the first, and takes the others as they
  * boot, one at a time. If the first fails to boot, the pool fails.
  */
-export async function startEngines({ chess960, first }: EnginesOptions): Promise<EnginePool> {
+export async function startEngines({
+  chess960,
+  count = engineCount(),
+  first,
+}: EnginesOptions): Promise<EnginePool> {
   const pool = new EnginePool([first ?? (await bootEngine(chess960))]);
-  void bootMore(pool, chess960);
+  void bootMore(pool, chess960, count);
   return pool;
 }
 
@@ -67,6 +75,9 @@ export async function startEngines({ chess960, first }: EnginesOptions): Promise
  * off it share them. A pool that failed stays failed.
  */
 export function engineFor(session: Session, analysis: Analysis): Promise<EnginePool> {
-  session.engine ??= startEngines({ chess960: analysis.chess960 });
+  // Once the game is analysed (or read from the cache), only the moves played
+  // and Explain need an engine.
+  const count = isComplete(session.work) ? 1 : engineCount();
+  session.engine ??= startEngines({ chess960: analysis.chess960, count });
   return session.engine;
 }

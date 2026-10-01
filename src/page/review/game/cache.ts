@@ -12,7 +12,7 @@ import { StoredRecordCodec } from '#page/review/evaluation/stored.ts';
 // Each game's records at full depth: kept once its analysis is complete, so
 // opening the game again shows its review at once, and kept as they come in
 // under another key, so a reload doesn't start the analysis over. It's
-// Lichess's storage too: only the games opened last are kept.
+// Lichess's storage too: only the games analysed last are kept.
 
 /** Bump to drop every cached review, when the records' meaning changes. */
 const CACHE_VERSION = 1;

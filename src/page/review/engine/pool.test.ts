@@ -86,9 +86,11 @@ describe('EnginePool', () => {
     const [busy, idle, spare] = [new HeldEngine(), new HeldEngine(), new HeldEngine()];
     const pool = new EnginePool([spare, idle, busy]);
     void pool.analyse({ position: 'one' });
+    expect(pool.hasRoom).toBe(true);
     pool.keep(1);
     expect([busy.quits, idle.quits, spare.quits]).toEqual([0, 1, 1]);
     expect(pool.size).toBe(1);
+    expect(pool.hasRoom).toBe(false);
     const late = new HeldEngine();
     pool.add(late);
     expect(late.quits).toBe(1);

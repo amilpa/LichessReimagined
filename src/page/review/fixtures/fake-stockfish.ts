@@ -61,11 +61,14 @@ export type SearchDelay = (search: {
   readonly engine: number;
 }) => number | null;
 
-/** Installs the fake: each search answers after `delay` ms of the (fake) clock. */
+/**
+ * Installs the fake: each search answers after `delay` ms of the (fake)
+ * clock. Returns how many engines the page has booted so far.
+ */
 export function installFakeStockfish(
   delay: SearchDelay,
   resolve: ResolvePosition = fen => fen,
-): void {
+): () => number {
   let booted = 0;
   const factory = (): FakeModule => {
     const engine = booted++;
@@ -95,4 +98,5 @@ export function installFakeStockfish(
     return module;
   };
   Reflect.set(globalThis, 'cdcFakeStockfish', factory);
+  return () => booted;
 }
