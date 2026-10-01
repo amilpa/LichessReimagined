@@ -15,13 +15,6 @@ export function seeDeep(session: Session, index: number, record: PositionRecord)
   live.judged.clear();
 }
 
-/** Takes a full-depth record, unless the position has one. */
-export function setDeep(session: Session, index: number, record: PositionRecord): void {
-  if (session.work.deep[index]) return;
-  session.work.deep[index] = record;
-  seeDeep(session, index, record);
-}
-
 /**
  * Records the game's book moves for the moves played off it, so the masters
  * database isn't asked about them.

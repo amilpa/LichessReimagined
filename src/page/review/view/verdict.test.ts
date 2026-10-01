@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { refresh, setDeep } from '#page/review/game/work.ts';
-import { fakeGame, newSession } from '#page/review/fixtures/unit-review.ts';
+import { refresh } from '#page/review/game/work.ts';
+import { fakeGame, newSession, setDeep } from '#page/review/fixtures/unit-review.ts';
 import type { Session } from '#page/review/session.ts';
 import { openingOf } from './verdict.ts';
 

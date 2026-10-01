@@ -1,5 +1,6 @@
 import { analysis, type Analysis } from '#page/lichess/analysis.ts';
-import { refresh, setDeep } from '#page/review/game/work.ts';
+import type { PositionRecord } from '#page/review/evaluation/score.ts';
+import { refresh, seeDeep } from '#page/review/game/work.ts';
 import { en } from '#page/review/i18n/en.ts';
 import { createSession, type Session } from '#page/review/session.ts';
 import { createElements } from '#page/review/view/elements.ts';
@@ -9,6 +10,13 @@ import type { FixtureGame } from './replay.ts';
 import { roughOf, type UNIT_CASES } from './unit-cases.ts';
 
 // Test support: a review session over a fake game, for the unit tests.
+
+/** Takes a full-depth record, unless the position has one, as the analysis does. */
+export function setDeep(session: Session, index: number, record: PositionRecord): void {
+  if (session.work.deep[index]) return;
+  session.work.deep[index] = record;
+  seeDeep(session, index, record);
+}
 
 export const newSession = (): Session =>
   createSession({
