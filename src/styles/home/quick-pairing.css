@@ -165,7 +165,7 @@
   }
   main.lobby .lpool[data-id^='30+'] {
     --cdc-pool-speed: 'Classical';
-    --cdc-pool-icon: var(--cdc-mode-rapid);
+    --cdc-pool-icon: var(--cdc-mode-classical);
     --cdc-pool-color: #81b64c;
   }
 
@@ -219,12 +219,13 @@
 
   main.lobby
     .lpool:is([data-id='1+0'], [data-id='3+0'], [data-id='10+0'], [data-id='30+0'])::after {
-    content: '';
+    content: var(--cdc-pool-icon);
     width: 20px;
-    height: 20px;
-    background: var(--cdc-pool-color);
-    -webkit-mask: var(--cdc-pool-icon) center / contain no-repeat;
-    mask: var(--cdc-pool-icon) center / contain no-repeat;
+    color: var(--cdc-pool-color);
+    font-family: lichess;
+    font-size: 19px;
+    line-height: 20px;
+    text-align: center;
   }
 
   /* "Custom" opens the game setup dialog: a "More time controls" link under the grid. */

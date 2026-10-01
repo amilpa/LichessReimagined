@@ -28,16 +28,16 @@ export const MOVE_CLASSES: readonly MoveClass[] = [
 ];
 
 export const CLASS_COLORS: Readonly<Record<MoveClass, string>> = {
-  brilliant: '#26c2a3',
-  great: '#749bbf',
-  book: '#d5a47d',
-  best: '#81b64c',
-  excellent: '#81b64c',
-  good: '#95b776',
-  inaccuracy: '#f7c631',
-  mistake: '#ffa459',
-  miss: '#ff7769',
-  blunder: '#fa412d',
+  brilliant: '#1cb3c8',
+  great: '#5288d6',
+  book: '#b08a63',
+  best: '#4caa48',
+  excellent: '#4caa48',
+  good: '#8aab5e',
+  inaccuracy: '#eeb422',
+  mistake: '#f2862f',
+  miss: '#e8576a',
+  blunder: '#d4322a',
 };
 
 /** From best to worst: a mate verdict only ever makes a move's class worse. Book has no rank. */

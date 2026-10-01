@@ -136,17 +136,17 @@
   color: #fff !important;
 }
 
-/* Each rating's time-control icon in its color. No classical clock icon: rapid's, in the rating
- * chart's classical color, so the two columns still read apart. */
+/* Each rating's time-control glyph (Lichess's font) in its color. */
 :is(.fide-players, .fide-federation)
   .fide-players-table
   thead
   th:is(:nth-child(2), :nth-child(3), :nth-child(4)) {
-  --cdc-mode-icon: var(--cdc-mode-rapid);
+  --cdc-mode-icon: var(--cdc-mode-classical);
   --cdc-mode-color: #2dd4bf;
 }
 
 :is(.fide-players, .fide-federation) .fide-players-table thead th:nth-child(3) {
+  --cdc-mode-icon: var(--cdc-mode-rapid);
   --cdc-mode-color: #81b64c;
 }
 
@@ -164,14 +164,14 @@
   .fide-players-table:not(.fide-players-table--sortable)
   thead
   th:is(:nth-child(2), :nth-child(3), :nth-child(4))::before {
-  content: '';
+  content: var(--cdc-mode-icon);
   flex: none;
   display: inline-block;
-  width: 14px;
-  height: 14px;
-  background: var(--cdc-mode-color);
-  -webkit-mask: var(--cdc-mode-icon) center / contain no-repeat;
-  mask: var(--cdc-mode-icon) center / contain no-repeat;
+  color: var(--cdc-mode-color);
+  font-family: lichess;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
   vertical-align: -2px;
 }
 

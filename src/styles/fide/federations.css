@@ -64,11 +64,12 @@
 }
 
 .fide-federations .slist thead th:is(:nth-child(3), :nth-child(4), :nth-child(5)) {
-  --cdc-mode-icon: var(--cdc-mode-rapid);
+  --cdc-mode-icon: var(--cdc-mode-classical);
   --cdc-mode-color: #2dd4bf;
 }
 
 .fide-federations .slist thead th:nth-child(4) {
+  --cdc-mode-icon: var(--cdc-mode-rapid);
   --cdc-mode-color: #81b64c;
 }
 
@@ -78,14 +79,14 @@
 }
 
 .fide-federations .slist thead th:is(:nth-child(3), :nth-child(4), :nth-child(5))::before {
-  content: '';
+  content: var(--cdc-mode-icon);
   display: inline-block;
-  width: 14px;
-  height: 14px;
   margin-inline-end: 6px;
-  background: var(--cdc-mode-color);
-  -webkit-mask: var(--cdc-mode-icon) center / contain no-repeat;
-  mask: var(--cdc-mode-icon) center / contain no-repeat;
+  color: var(--cdc-mode-color);
+  font-family: lichess;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
   vertical-align: -2px;
 }
 

@@ -10,7 +10,7 @@ const shortHash = (text: string): string => fnv(text).toString(36);
 export const hashOf = (text: string | null): string | null =>
   text === null ? null : shortHash(text);
 
-const ICON = /<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" viewBox="0 0 18 19">[\s\S]*?<\/svg>/g;
+const ICON = /<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" viewBox="0 0 20 20">[\s\S]*?<\/svg>/g;
 const ICON_URL = /url\((?:&quot;|")?data:image\/svg\+xml,.*?%3C%2Fsvg%3E(?:&quot;|")?\)/g;
 
 // The names the port gave the `cdc` prefix, back to the original's, as the

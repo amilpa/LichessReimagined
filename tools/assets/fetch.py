@@ -55,6 +55,7 @@ EMOJI = {
     'people-hugging': 'People hugging',
     'play-button': 'Play button',
     'puzzle-piece': 'Puzzle piece',
+    'question-mark': 'Red question mark',
     'red-heart': 'Red heart',
     'robot': 'Robot',
     'round-pushpin': 'Round pushpin',

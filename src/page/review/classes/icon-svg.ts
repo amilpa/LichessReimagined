@@ -2,16 +2,14 @@ import { html, type SafeHtml } from '#shared/html.ts';
 import { CLASS_COLORS, type MoveClass } from './classes.ts';
 import { CLASS_GLYPHS } from './glyphs.ts';
 
-// A class's icon: a shadowed circle in its color, and white glyphs whose
-// shadow is the same glyphs half a unit lower.
-
-const BREAK = '\n      ';
+// A class's icon: a disc in its color under a white glyph. The disc's fill is
+// the first in the markup, which the review's test snapshots read as its color.
 
 function buildSvg(moveClass: MoveClass): SafeHtml {
-  const glyphs = CLASS_GLYPHS[moveClass].map(path => html`<path d="${path}"/>`);
-  const shadowOpacity = moveClass === 'book' ? 0.3 : 0.2;
-  const glyphFill = moveClass === 'miss' ? '#f1f2f2' : '#fff';
-  return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19">${BREAK}<path opacity="0.3" d="M9,.5a9,9,0,1,0,9,9A9,9,0,0,0,9,.5Z"/>${BREAK}<path fill="${CLASS_COLORS[moveClass]}" d="M9,0a9,9,0,1,0,9,9A9,9,0,0,0,9,0Z"/>${BREAK}<g opacity="${shadowOpacity}" transform="translate(0 .5)">${glyphs}</g>${BREAK}<g fill="${glyphFill}">${glyphs}</g></svg>`;
+  const paths = CLASS_GLYPHS[moveClass].map(({ path, solid }) =>
+    solid ? html`<path fill="#fff" stroke-width="1" d="${path}"/>` : html`<path d="${path}"/>`,
+  );
+  return html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="${CLASS_COLORS[moveClass]}"/><g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${paths}</g></svg>`;
 }
 
 const svgCache = new Map<MoveClass, SafeHtml>();

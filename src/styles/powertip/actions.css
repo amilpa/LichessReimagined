@@ -110,42 +110,12 @@
   color: var(--cdc-text-strong) !important;
 }
 
+/* Lichess's own glyphs, sized to the buttons. */
 #powerTip .upt__actions .btn-rack__btn::before {
   margin: 0 !important;
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 1;
   opacity: 1;
-}
-
-/* Watch, message, challenge and follow get the glyphs defined on :root.
-   Following and Blocked keep Lichess's: a plus would read as "not following yet". */
-#powerTip .upt__actions .btn-rack__btn[data-icon='\e010']::before {
-  --cdc-upt-icon: var(--cdc-upt-watch);
-}
-
-#powerTip .upt__actions .btn-rack__btn[data-icon='\e041']::before {
-  --cdc-upt-icon: var(--cdc-upt-message);
-}
-
-#powerTip .upt__actions .btn-rack__btn[data-icon='\e033']::before {
-  --cdc-upt-icon: var(--cdc-upt-challenge);
-}
-
-#powerTip .upt__actions .relation-button[data-icon='\e046']:not([href*='/unfollow'])::before {
-  --cdc-upt-icon: var(--cdc-upt-follow);
-}
-
-/* Only those four: without --cdc-upt-icon the mask would draw a solid 18px block. */
-#powerTip
-  .upt__actions
-  .btn-rack__btn:is([data-icon='\e010'], [data-icon='\e041'], [data-icon='\e033'])::before,
-#powerTip .upt__actions .relation-button[data-icon='\e046']:not([href*='/unfollow'])::before {
-  content: '' !important;
-  display: block;
-  width: 18px;
-  height: 18px;
-  background: currentColor;
-  -webkit-mask: var(--cdc-upt-icon) center / contain no-repeat;
-  mask: var(--cdc-upt-icon) center / contain no-repeat;
 }
 
 /* Follow / Following / Blocked has the label, so it takes the remaining width. */

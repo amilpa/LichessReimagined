@@ -123,7 +123,7 @@
   background: var(--cdc-btn-green-hover) !important;
 }
 
-/* Time controls are our icons (theme/), white once chosen. */
+/* Time controls keep their mode colors (theme/), white once chosen. */
 .explorer-box.explorer__config .speed .choices button [data-icon]::before {
   font-size: 18px;
 }

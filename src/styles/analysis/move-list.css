@@ -90,22 +90,22 @@
 
   /* Annotated moves take the Game Review's colors; the glyph is a round badge before the move. */
   main.analyse .tview2 move.brilliant {
-    --cdc-glyph: #26c2a3;
+    --cdc-glyph: #1cb3c8;
   }
   main.analyse .tview2 move.good {
-    --cdc-glyph: #749bbf;
+    --cdc-glyph: #5288d6;
   }
   main.analyse .tview2 move.interesting {
     --cdc-glyph: #96af8b;
   }
   main.analyse .tview2 move.inaccuracy {
-    --cdc-glyph: #f7c631;
+    --cdc-glyph: #eeb422;
   }
   main.analyse .tview2 move.mistake {
-    --cdc-glyph: #ffa459;
+    --cdc-glyph: #f2862f;
   }
   main.analyse .tview2 move.blunder {
-    --cdc-glyph: #fa412d;
+    --cdc-glyph: #d4322a;
   }
 
   main.analyse .tview2 move:is(.brilliant, .good, .interesting, .inaccuracy, .mistake, .blunder) {
@@ -148,13 +148,13 @@
   }
 
   main.analyse .tview2-column > interrupt:has(> comment.inaccuracy) {
-    --cdc-note: #f7c631;
+    --cdc-note: #eeb422;
   }
   main.analyse .tview2-column > interrupt:has(> comment.mistake) {
-    --cdc-note: #ffa459;
+    --cdc-note: #f2862f;
   }
   main.analyse .tview2-column > interrupt:has(> comment.blunder) {
-    --cdc-note: #fa412d;
+    --cdc-note: #d4322a;
   }
 
   main.analyse .tview2 interrupt comment {

@@ -288,9 +288,12 @@ var(---white-pawn) }`), set on `:root`, and inline on `<body>` once its
 - **Icons.** The colored icons are Microsoft's Fluent Emoji (MIT), each
   named in `EMOJI` (`tools/assets/fetch.py`). Time-control icons are Lichess font glyphs in
   `[data-icon]::before` (`\e059` ultrabullet, `\e032` bullet, `\e008` blitz,
-  `\e002` rapid, `\e00a` classical, `\e019` correspondence), masked with our
-  icons in `styles/theme/game-modes.css`: set `--cdc-mode-color` on the
-  `::before` to recolor one.
+  `\e002` rapid, `\e00a` classical, `\e019` correspondence), kept as they are
+  and colored per mode in `styles/theme/game-modes.css`: set `--cdc-mode-color`
+  on the `::before` to recolor one. Outside a `[data-icon]`, draw the glyph with
+  `content: var(--cdc-mode-rapid)` (and `bullet`, `blitz`, `classical`) in
+  `font-family: lichess`. Never copy another site's icons or drawings: use
+  Lichess's glyphs, Fluent Emoji, Lichess's flair images, or draw your own.
 - **Practice lessons are analysis pages.** `/practice/…` is `main.analyse`
   with `.practice__side` and either `.gamebook` (a lesson) or
   `.practice-box` (a drill). "Practice with computer" adds `.practice-box`

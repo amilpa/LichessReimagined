@@ -68,7 +68,7 @@ describe('the counts', () => {
     );
     expect(labels).toEqual(['best moves', 'excellent moves', 'miss']);
     const [best] = queryAll(root, '.cdc-end__count', HTMLElement);
-    expect(best?.style.getPropertyValue('--cdc-count-c')).toBe('#81b64c');
+    expect(best?.style.getPropertyValue('--cdc-count-c')).toBe('#4caa48');
   });
 
   it('change in place to other counts, even mid-roll', () => {

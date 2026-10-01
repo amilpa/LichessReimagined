@@ -246,7 +246,7 @@
     min-width: 0;
   }
 
-  /* White icon on the tile: ours (theme/) where there is one, else Lichess's glyph. */
+  /* Lichess's glyph, white on the tile. */
   main.round.tv-single .tv-channel > span::before {
     --cdc-mode-color: #fff;
     order: 0 !important;
