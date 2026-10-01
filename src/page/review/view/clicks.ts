@@ -1,4 +1,4 @@
-import { closestTo } from '#shared/dom.ts';
+import { closestTo, queryOne } from '#shared/dom.ts';
 import { analysis as pageAnalysis, type Analysis } from '#page/lichess/analysis.ts';
 import type { Session } from '#page/review/session.ts';
 import { type PanelAction, PanelActionSchema } from './actions.ts';
@@ -61,12 +61,22 @@ function onClick(session: Session, event: MouseEvent): void {
   }
   const analysis = pageAnalysis();
   if (!analysis) return;
+  const focused = document.activeElement === button;
   if (action !== 'play') stopPlaying(session);
   if (action === 'jump') jumpToClass(session, analysis, button);
   // Lichess's exercise, not the review's: it closes the review.
   else if (action === 'learn') learnFromMistakes(session, analysis);
   else act(session, analysis, action);
   session.redraw(true);
+  if (focused && !button.isConnected) keepFocus(session, action);
+}
+
+/** The redraw replaced the button: the focus stays in the review, on the same action if it's there. */
+function keepFocus({ elements }: Session, action: PanelAction): void {
+  const same = [elements.panel, elements.controls]
+    .map(root => queryOne(root, `[data-cdc="${action}"]`, HTMLElement))
+    .find(element => element !== null);
+  (same ?? elements.panel).focus({ preventScroll: true });
 }
 
 export function watchClicks(session: Session): void {

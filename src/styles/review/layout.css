@@ -126,6 +126,11 @@
     font-family: var(--cdc-font);
   }
 
+  /* It holds the focus only for a button its redraw replaced (view/clicks.ts). */
+  #cdc-review:focus {
+    outline: none;
+  }
+
   html.cdc-review-summary #cdc-review {
     border-radius: 6px;
   }

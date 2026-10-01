@@ -21,7 +21,8 @@ export function createElements(): ReviewElements {
   const barLabel = createElement('span', { className: 'cdc-evalbar__label' });
   bar.append(barFill, barLabel);
   return {
-    panel: createElement('div', { id: 'cdc-review' }),
+    // Focusable, to keep the focus of a button its redraw replaced.
+    panel: createElement('div', { id: 'cdc-review', attrs: { tabindex: '-1' } }),
     graphBox: createElement('div', { id: 'cdc-review-graph' }),
     controls: createElement('div', { id: 'cdc-review-controls' }),
     bar,
