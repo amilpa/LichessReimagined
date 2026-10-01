@@ -78,8 +78,10 @@ speaks of the move it stands for (`lineShown`, `view/navigation.ts`).
 
 The game's analysis runs on the page's engines (`engine-pool.ts`): up to
 three, on one thread each, as the device's cores and memory allow, each on a
-position of its own (`nextJob`). A position whose engine stops answering goes
-to another, and once the analysis is complete all engines but one are ended.
+position of its own (`nextJob`), on Lichess's relaxed SIMD build where the
+browser runs it (`engine/relaxed-simd.ts`), a quarter faster. A position whose
+engine stops answering goes to another, and once the analysis is complete all
+engines but one are ended.
 It waits in a hidden tab and while "Learn from your mistakes" runs
 (`game/wait.ts`). Its records are saved as they come in
 (`cdc-review-progress:*`), then under the finished game's key

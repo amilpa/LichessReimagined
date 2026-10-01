@@ -326,7 +326,9 @@ Learned the hard way. Check here before touching the area concerned.
   analysis controller (`mainline`, `node`, `path`, `nodeList`,
   `tree.nodeAtPath`, `jumpToMain`, which doesn't scroll the move list,
   `getOrientation`), with the arrows in `chessground.state.drawable`; the
-  engine is `npm/stockfish-web/sf_19_smallnet.js`. Only analysis pages have
+  engine is `npm/stockfish-web/sf_19_smallnet.js`, or its `_relaxed-simd.js`
+  build where the browser runs relaxed SIMD, as Lichess picks it
+  (`page/review/engine/relaxed-simd.ts`). Only analysis pages have
   a controller: code that must also work on game pages reads the board's
   DOM (`page/board` does).
 - **The cloud eval.** `/api/cloud-eval?fen=…&multiPv=2`: no account, one

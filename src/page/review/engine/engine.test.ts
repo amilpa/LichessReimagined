@@ -124,9 +124,14 @@ describe('Stockfish', () => {
       'fetch',
       vi.fn<() => Promise<Response>>(async () => new Response(new Uint8Array([1, 2, 3]))),
     );
+    // A browser with relaxed SIMD: Lichess's faster build.
+    vi.spyOn(WebAssembly, 'validate').mockReturnValue(true);
     const engine = new Stockfish({ chess960: true });
     await engine.boot();
-    expect(urls).toEqual(['npm/stockfish-web/sf_19_smallnet.js (document)', 'lifat/nnue/big.nnue']);
+    expect(urls).toEqual([
+      'npm/stockfish-web/sf_19_smallnet_relaxed-simd.js (document)',
+      'lifat/nnue/big.nnue',
+    ]);
     expect(sent).toContain('setoption name UCI_Chess960 value true');
     expect(sent).toContain('setoption name MultiPV value 2');
     const [first, second] = await Promise.all([

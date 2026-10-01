@@ -1,6 +1,7 @@
 import { z } from 'zod/mini';
 import { createGuard } from '#shared/guards.ts';
-import { FULL_SEARCH, type SearchLimits, STOCKFISH_BUILD } from './settings.ts';
+import { hasRelaxedSimd } from './relaxed-simd.ts';
+import { FULL_SEARCH, type SearchLimits, STOCKFISH_BUILD, stockfishScript } from './settings.ts';
 import { assetUrl } from '#page/lichess/assets.ts';
 import { type EngineResult, SearchCollector } from './uci.ts';
 
@@ -63,8 +64,8 @@ async function loadNetworks(module: StockfishModule): Promise<void> {
 }
 
 async function loadModule(): Promise<StockfishModule> {
-  const { root, script } = STOCKFISH_BUILD;
-  const url = assetUrl(`${root}/${script}`, { documentOrigin: true });
+  const { root } = STOCKFISH_BUILD;
+  const url = assetUrl(`${root}/${stockfishScript(hasRelaxedSimd())}`, { documentOrigin: true });
   const wasmMemory = sharedMemory();
   const imported: unknown = await import(url);
   if (!isFactory(imported)) throw new Error('Stockfish did not load');

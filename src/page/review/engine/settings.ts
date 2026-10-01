@@ -3,6 +3,15 @@
 
 export const STOCKFISH_BUILD = { root: 'npm/stockfish-web', script: 'sf_19_smallnet.js' };
 
+/**
+ * The build's script for this browser. Where relaxed SIMD runs, Lichess ships
+ * the same engine built with it: same lines, about a quarter faster.
+ */
+export const stockfishScript = (relaxedSimd: boolean): string =>
+  relaxedSimd
+    ? STOCKFISH_BUILD.script.replace(/\.js$/, '_relaxed-simd.js')
+    : STOCKFISH_BUILD.script;
+
 export interface SearchLimits {
   readonly depth: number;
   readonly movetime: number;
