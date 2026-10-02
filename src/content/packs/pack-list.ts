@@ -134,9 +134,13 @@ function importForm(library: Library): HTMLElement {
   const token = tokenField();
   form.append(row, token.field);
   const submit = (): void => {
+    if (importState.busy) return;
+    if (link.value.trim() === '') {
+      setStatus('Paste a link to a pack first.', true);
+      return;
+    }
     const secret = token.input.value;
     token.input.value = '';
-    if (importState.busy || link.value.trim() === '') return;
     void importInto(link, secret, library);
   };
   button.addEventListener('click', submit);
@@ -146,18 +150,35 @@ function importForm(library: Library): HTMLElement {
   return form;
 }
 
+/** The packs with the panel's part, or a line saying there are none. */
+function packListing(kind: PartKind, library: Library): HTMLElement {
+  const packs = library.packs().filter(pack => hasPart(pack, kind));
+  if (packs.length === 0) {
+    const text = library.unreadable()
+      ? 'The imported packs could not be read.'
+      : 'No pack imported yet.';
+    return createElement('p', { className: 'cdc-src-empty', text });
+  }
+  const list = createElement('div', { className: 'cdc-src-list' });
+  list.append(...packs.map(pack => packEntry(kind, pack, library)));
+  return list;
+}
+
+/** Draws the panel's packs again, leaving the form and what's typed in it. */
+export function refreshListing(panel: HTMLElement, kind: PartKind, library: Library): void {
+  panel
+    .querySelector('.cdc-src-packs > :is(.cdc-src-list, .cdc-src-empty)')
+    ?.replaceWith(packListing(kind, library));
+}
+
 /** The Imported tab's content for a panel's part. */
 export function packSection(kind: PartKind, library: Library): HTMLElement {
   const section = createElement('div', { className: 'cdc-src-packs' });
-  const packs = library.packs().filter(pack => hasPart(pack, kind));
-  const list = createElement('div', { className: 'cdc-src-list' });
-  list.append(...packs.map(pack => packEntry(kind, pack, library)));
-  const empty = createElement('p', { className: 'cdc-src-empty', text: 'No pack imported yet.' });
   const help = createElement('a', {
     className: 'cdc-src-help',
     text: 'How to make a pack',
     attrs: { href: HELP_URL, target: '_blank', rel: 'noopener' },
   });
-  section.append(packs.length > 0 ? list : empty, importForm(library), statusLine(), help);
+  section.append(packListing(kind, library), importForm(library), statusLine(), help);
   return section;
 }

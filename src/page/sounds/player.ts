@@ -8,7 +8,7 @@ import {
 import { boardOrientation, mainBoardWrap, readBoard } from './board-reader.ts';
 import {
   fallbackSound,
-  lichessMoveSound,
+  standIn,
   soundForLichessEvent,
   soundFromBoard,
   soundFromSan,
@@ -32,6 +32,8 @@ interface ServerMove {
 }
 
 type PlayOurs = (name: SoundName, volume: unknown) => unknown;
+/** Plays a move's sound; `captured` picks the stand-in for one the pack lacks. */
+type PlayMove = (name: SoundName, volume: unknown, captured: boolean) => unknown;
 
 interface Hook {
   readonly sound: SoundPlayer;
@@ -39,7 +41,7 @@ interface Hook {
   readonly session: SoundSession;
   readonly playOurs: PlayOurs;
   readonly playLichess: PlaySound;
-  readonly playMove: PlayOurs;
+  readonly playMove: PlayMove;
   readonly jumps: JumpSounds;
 }
 
@@ -79,7 +81,7 @@ function hookMove(hook: Hook): void {
 
   const playSan = (san: string, ply: number | undefined, volume: unknown): unknown => {
     rememberBoard(session);
-    return playMove(soundFromSan(san, ply, boardOrientation()), volume);
+    return playMove(soundFromSan(san, ply, boardOrientation()), volume, san.includes('x'));
   };
   // Board moves on the game page, and drops (no argument).
   const playBoardMove = ({ name }: MoveOptions, volume: unknown): unknown => {
@@ -90,7 +92,9 @@ function hookMove(hook: Hook): void {
     session.lastMoveSoundAt = Date.now();
     jumps.moved();
     // The board is redrawn on the next frame: read it after that.
-    requestAnimationFrame(() => playMove(soundAfterBoardMove(session, name), volume));
+    requestAnimationFrame(() =>
+      playMove(soundAfterBoardMove(session, name), volume, name === 'capture'),
+    );
     return Promise.resolve();
   };
 
@@ -146,12 +150,13 @@ export function hookSoundPlayer(
   const playLichess = sound.play.bind(sound);
   const playOurs: PlayOurs = (name, volume) =>
     urls.has(name) ? playLichess(PREFIX + name, volume) : undefined;
-  const playMove: PlayOurs = (name, volume) => {
+  const playMove: PlayMove = (name, volume, captured) => {
     session.lastMoveSoundAt = Date.now();
     jumps.moved();
-    return playOurs(name, volume) ?? playLichess(lichessMoveSound(name), volume);
+    const { ours, lichess } = standIn(captured);
+    return playOurs(name, volume) ?? playOurs(ours, volume) ?? playLichess(lichess, volume);
   };
-  const jumps = watchJumps(session, name => playMove(name, undefined));
+  const jumps = watchJumps(session, name => playMove(name, undefined, name === 'capture'));
   const hook: Hook = { sound, urls, session, playOurs, playLichess, playMove, jumps };
   hookPlay(hook);
   hookMove(hook);

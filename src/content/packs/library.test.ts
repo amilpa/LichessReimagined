@@ -14,6 +14,7 @@ function library(
   stored: readonly Pack[] = packs,
 ): {
   readonly shown: Shown[];
+  readonly readAll: Mock<() => Promise<readonly Pack[]>>;
   readonly save: Mock<Save>;
   readonly erase: Mock<Erase>;
   readonly library: ReturnType<typeof createLibrary>;
@@ -21,9 +22,10 @@ function library(
   const shown: Shown[] = [];
   const save = vi.fn<Save>(() => Promise.resolve());
   const erase = vi.fn<Erase>(() => Promise.resolve());
-  const readAll = (): Promise<readonly Pack[]> => Promise.resolve(stored);
+  const readAll = vi.fn<() => Promise<readonly Pack[]>>(() => Promise.resolve(stored));
   return {
     shown,
+    readAll,
     save,
     erase,
     library: createLibrary({ packs, readAll, save, erase, show: next => shown.push(next) }),
@@ -118,9 +120,11 @@ describe('createLibrary', () => {
 
   it('reads the other packs once, keeping those already shown as they are', async () => {
     localStorage.setItem('cdc-sounds', CLICKS.id);
-    const { shown, library: packs } = library([CLICKS], [WOOD, { ...CLICKS }]);
+    const { shown, readAll, library: packs } = library([CLICKS], [WOOD, { ...CLICKS }]);
     expect(packs.packs()).toEqual([CLICKS]);
     await Promise.all([packs.loadAll(), packs.loadAll()]);
+    await packs.loadAll();
+    expect(readAll).toHaveBeenCalledOnce();
     expect(packs.packs().map(pack => pack.id)).toEqual([WOOD.id, CLICKS.id]);
     // The same object: a new one would send its sounds to the page again.
     expect(shown.at(-1)?.sound).toBe(CLICKS);

@@ -53,4 +53,16 @@ describe('fetchPack', () => {
       error: 'The extension was updated: reload the page.',
     });
   });
+
+  it('says the extension didn’t answer when its worker is gone', async () => {
+    vi.stubGlobal('chrome', {
+      runtime: {
+        sendMessage: () =>
+          Promise.reject(new Error('The message port closed before a response was received.')),
+      },
+    });
+    expect(await fetchPack('https://github.com/ann/packs', '')).toEqual({
+      error: 'The extension did not answer: try again.',
+    });
+  });
 });

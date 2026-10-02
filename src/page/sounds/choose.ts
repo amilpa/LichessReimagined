@@ -28,9 +28,17 @@ export const soundForLichessEvent = (name: string): SoundName | undefined =>
 export const fallbackSound = (lichessName: string | undefined): SoundName =>
   lichessName === 'capture' ? 'capture' : 'move-self';
 
-/** Lichess's sound for a move whose sound the pack lacks: its check sound plays on its own. */
-export const lichessMoveSound = (name: SoundName): string =>
-  name === 'capture' ? 'capture' : 'move';
+export interface StandIn {
+  readonly ours: SoundName;
+  readonly lichess: string;
+}
+
+/**
+ * What plays for a move whose sound the pack lacks: the pack's capture or
+ * move, else Lichess's. A check's own sound, Lichess plays on its own.
+ */
+export const standIn = (captured: boolean): StandIn =>
+  captured ? { ours: 'capture', lichess: 'capture' } : { ours: 'move-self', lichess: 'move' };
 
 export function soundFromSan(san: string, ply: number | undefined, orientation: Color): SoundName {
   if (/[+#]/.test(san)) return 'move-check';

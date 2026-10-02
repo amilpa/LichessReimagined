@@ -21,11 +21,14 @@ export const ManifestSchema = z
     name: z.string().check(z.minLength(1), z.maxLength(40)),
     pieces: z.optional(PathSchema.check(z.refine(path => path.includes(PIECE_TOKEN)))),
     board: z.optional(
-      z.object({
-        image: PathSchema,
-        light: z.optional(HexColorSchema),
-        dark: z.optional(HexColorSchema),
-      }),
+      z
+        .object({
+          image: PathSchema,
+          light: z.optional(HexColorSchema),
+          dark: z.optional(HexColorSchema),
+        })
+        // The coordinates take both colors, or keep Lichess's.
+        .check(z.refine(board => (board.light === undefined) === (board.dark === undefined))),
     ),
     sounds: z.optional(
       z

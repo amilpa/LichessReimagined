@@ -42,7 +42,8 @@ function source(
   const folderParts = path.at(-1) === MANIFEST_FILE ? path.slice(0, -1) : path;
   const name = repo.replace(/\.git$/, '');
   if (!NAME.test(owner) || !NAME.test(name) || refParts.length === 0) return null;
-  if (![...refParts, ...folderParts].every(isSegment)) return null;
+  // The owner and the repository too: `...git` is `..` once stripped.
+  if (![owner, name, ...refParts, ...folderParts].every(isSegment)) return null;
   const folder = folderParts.map(part => `${part}/`).join('');
   return { owner, repo: name, ref: refParts.join('/'), folder };
 }

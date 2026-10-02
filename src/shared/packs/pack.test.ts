@@ -20,6 +20,11 @@ describe('PackSchema', () => {
   ])('turns down %s', (_, change) => {
     expect(PackSchema.safeParse({ ...pack, ...change }).success).toBe(false);
   });
+
+  it('reads a file of many megabytes without overflowing', () => {
+    const image = `data:image/png;base64,${'A'.repeat(24 * 1024 * 1024)}`;
+    expect(PackSchema.safeParse({ ...pack, board: { image } }).success).toBe(true);
+  });
 });
 
 describe('the pieces', () => {

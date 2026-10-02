@@ -39,6 +39,9 @@ describe('parsePackLink', () => {
     'https://github.com/ann/packs/tree/main%2F..%2F..%2Fuser',
     'https://raw.githubusercontent.com/ann/packs/main/a%2F..%2F..%2Fb/pack.json',
     'https://github.com/ann/packs/tree/main%3Fx%23/f',
+    // A repository named by dots alone, `..` once `.git` is stripped.
+    'https://github.com/ann/...git/tree/main/mallory/evil/contents/p',
+    'https://github.com/ann/..git',
   ])('turns down %s', link => {
     expect(parsePackLink(link)).toBeNull();
   });

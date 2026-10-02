@@ -27,6 +27,7 @@ the page world would crash on it.
 | `lang.ts`, `text.ts`, `math.ts`, `geometry.ts` | the page's language, small text and number helpers, points and boxes                                                                                 |
 | `chess/`, `chessground.ts`, `piece-glyph.ts`   | chess basics (squares, FEN, piece letters and values, attacks), a board's pieces read from chessground's classes, a piece of ours in the board's set |
 | `charts/`, `coach.ts`, `sounds.ts`             | chart pieces, the coach's moods and the stored coach (`pickCoach`), the sounds a pack may have                                                       |
+| `packs/`                                       | packs: their `pack.json`, links, files and stored form, the download the worker runs, its messages                                                   |
 | `testing/`                                     | helpers only tests import, and the vitest setup filling happy-dom's gaps                                                                             |
 
 Each directory has its own `tsconfig.json`, so a page-world file that names
@@ -69,7 +70,8 @@ user menu's own panels (`src/content/packs/`):
 - `store.ts` keeps the packs in an IndexedDB database of the page's origin;
   `library.ts` keeps which one each part shows in localStorage, so the content
   script knows it at `document_start` and hides that part until the pack is
-  read.
+  read, 2 s at most. Only the picked packs are read then; the menu reads the
+  others when one of its panels opens.
 - `apply.ts` writes one stylesheet: the pieces override the variables Lichess
   draws its own from, the board comes as `--cdc-board-img` under
   `data-cdc-board='pack'`. The sounds go to the page world as bytes

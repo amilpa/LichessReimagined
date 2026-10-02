@@ -1,6 +1,7 @@
 import { closestTo, onDomReady, queryOne } from '#shared/dom.ts';
 import { LICHESS, type Library } from './library.ts';
 import { PART_KINDS, type PartKind } from '#shared/packs/pack.ts';
+import { refreshListing } from './pack-list.ts';
 import { dressPanel, markPanel, panelSelector, viewOf, type View } from './panel.ts';
 
 // The user menu (#dasher_app) and its Board, Piece set and Sound panels.
@@ -23,20 +24,23 @@ const LICHESS_CHOICES: Readonly<Record<PartKind, string>> = {
 const isDressable = (panel: HTMLElement, kind: PartKind): boolean =>
   kind === 'sound' || panel.matches('.d2');
 
-function syncPanels(states: readonly PanelState[], library: Library, redress: boolean): void {
+function syncPanels(states: readonly PanelState[], library: Library): void {
   for (const state of states) {
     const panel = queryOne(document, panelSelector(state.kind), HTMLElement);
     if (!panel) {
       state.open = false;
       continue;
     }
-    void library.loadAll();
     // A panel opens on the tab of what the page shows. Snabbdom draws a new
     // panel when 3D goes back to 2D (its class changes), and that one keeps the tab.
-    if (!state.open) state.view = viewOf(library.current(state.kind));
+    // Opening it reads the packs, not each redraw: ours wake this observer too.
+    if (!state.open) {
+      state.view = viewOf(library.current(state.kind));
+      void library.loadAll();
+    }
     state.open = true;
     const dressed = panel.querySelector(':scope > .cdc-src-tabs') !== null;
-    if (!isDressable(panel, state.kind) || (dressed && !redress)) continue;
+    if (!isDressable(panel, state.kind) || dressed) continue;
     dressPanel(panel, {
       kind: state.kind,
       library,
@@ -61,24 +65,25 @@ function onLichessPick(library: Library, target: EventTarget | null): void {
 export function watchDasher(library: Library): void {
   const states: PanelState[] = PART_KINDS.map(kind => ({ kind, open: false, view: LICHESS }));
   document.addEventListener('click', event => onLichessPick(library, event.target));
-  // A pack added or removed redraws our lists; a pick only moves the ring.
+  // New packs, or packs read at last, redraw our lists; a pick only moves the ring.
   let listed = library.packs();
   library.onChange(() => {
     const packs = library.packs();
-    syncPanels(states, library, packs !== listed);
-    listed = packs;
     for (const { kind } of states) {
       const panel = queryOne(document, panelSelector(kind), HTMLElement);
-      if (panel) markPanel(panel, kind, library);
+      if (!panel) continue;
+      if (packs !== listed || library.unreadable()) refreshListing(panel, kind, library);
+      markPanel(panel, kind, library);
     }
+    listed = packs;
   });
   onDomReady(() => {
     const parent = document.getElementById('dasher_app')?.parentElement;
     if (!parent) return;
-    new MutationObserver(() => syncPanels(states, library, false)).observe(parent, {
+    new MutationObserver(() => syncPanels(states, library)).observe(parent, {
       childList: true,
       subtree: true,
     });
-    syncPanels(states, library, false);
+    syncPanels(states, library);
   });
 }

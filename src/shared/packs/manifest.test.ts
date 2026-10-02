@@ -32,7 +32,8 @@ describe('ManifestSchema', () => {
     [{ name: 'Up', board: { image: '../board.png' } }, 'board.image'],
     [{ name: 'Root', board: { image: '/board.png' } }, 'board.image'],
     [{ name: 'Query', board: { image: 'board.png?raw=1' } }, 'board.image'],
-    [{ name: 'Color', board: { image: 'b.png', light: 'beige' } }, 'board.light'],
+    [{ name: 'Color', board: { image: 'b.png', light: 'beige', dark: '#000000' } }, 'board.light'],
+    [{ name: 'Half', board: { image: 'b.png', light: '#ffffff' } }, 'board'],
     [{ name: 'Typo', sounds: { mvoe: 'm.mp3' } }, 'sounds'],
     // Imported, it would show in no list, and couldn't be removed.
     [{ name: 'Silent', sounds: {} }, 'sounds'],

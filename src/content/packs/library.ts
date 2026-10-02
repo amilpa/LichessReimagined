@@ -32,8 +32,10 @@ export type Shown = Readonly<Record<PartKind, Pack | null>>;
 export interface Library {
   /** The packs read so far: the picked ones, then all once `loadAll` is done. */
   readonly packs: () => readonly Pack[];
-  /** Reads every stored pack, once, for the menu's lists. */
+  /** Reads every stored pack, once, for the menu's lists: again if that failed. */
   readonly loadAll: () => Promise<void>;
+  /** Whether the last try at reading them all failed. */
+  readonly unreadable: () => boolean;
   /** The id of the pack the part shows, or LICHESS. */
   readonly current: (kind: PartKind) => string;
   readonly choose: (kind: PartKind, id: string) => void;
@@ -56,6 +58,7 @@ export interface LibraryOptions {
 export function createLibrary({ packs, readAll, save, erase, show }: LibraryOptions): Library {
   let list = [...packs];
   let loading: Promise<void> | null = null;
+  let failed = false;
   const listeners: (() => void)[] = [];
   const shownPack = (kind: PartKind): Pack | null => {
     const pick = storedPick(kind);
@@ -68,13 +71,21 @@ export function createLibrary({ packs, readAll, save, erase, show }: LibraryOpti
   update();
   // The packs already shown keep their objects: a new one would send its sounds again.
   const load = async (): Promise<void> => {
-    const all = await readAll();
-    list = all.map(pack => list.find(entry => entry.id === pack.id) ?? pack);
+    try {
+      const all = await readAll();
+      list = all.map(pack => list.find(entry => entry.id === pack.id) ?? pack);
+      failed = false;
+    } catch (error) {
+      console.error('[LichessDotCom] the imported packs could not be read', error);
+      loading = null;
+      failed = true;
+    }
     update();
   };
   return {
     packs: () => list,
     loadAll: () => (loading ??= load()),
+    unreadable: () => failed,
     current: kind => shownPack(kind)?.id ?? LICHESS,
     choose: (kind, id) => {
       pick(kind, id);

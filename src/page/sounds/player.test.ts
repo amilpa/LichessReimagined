@@ -88,13 +88,22 @@ describe('hookSoundPlayer', () => {
     expect(calls).toEqual([]);
   });
 
-  it('plays Lichess’s nearest sound for one the pack lacks', () => {
+  it('plays the pack’s capture or move for a sound it lacks, else Lichess’s', () => {
     const { sound, calls } = fakeSoundPlayer();
     hookSoundPlayer(sound, new Map([['move-self', 'blob:move-self']]), createSession());
     sound.move({ san: 'exd5', ply: 3 });
     sound.move({ san: 'O-O', ply: 9 });
-    sound.move({ san: 'e4', ply: 1 });
-    expect(played(calls)).toEqual(['capture', 'move', 'cdc-move-self']);
+    expect(played(calls)).toEqual(['capture', 'cdc-move-self']);
+  });
+
+  it('plays a capture’s sound for a capture that checks, when the pack has no check sound', () => {
+    const { sound, calls } = fakeSoundPlayer();
+    hookSoundPlayer(sound, new Map([['capture', 'blob:capture']]), createSession());
+    sound.move({ san: 'Bxf7+', ply: 5 });
+    sound.move({ san: 'Qh5+', ply: 7 });
+    // Lichess plays its own check sound beside it: the pack has none to replace it.
+    sound.play('check');
+    expect(played(calls)).toEqual(['cdc-capture', 'move', 'check']);
   });
 
   it('remembers the board after each move, for the next one', async () => {

@@ -32,14 +32,17 @@ async function undrawable({ pieces, board }: Pack): Promise<string | null> {
   return images.find((_, i) => drawn[i] !== true)?.what ?? null;
 }
 
+const NO_ANSWER = 'The extension did not answer: try again.';
+
 /** Downloads the pack a link points at, with a private repository's token ('' for none). */
 export async function fetchPack(link: string, token: string): Promise<DownloadResponse> {
   let answer: unknown;
   try {
     answer = await askWorker({ type: 'cdc:download-pack', link, token });
-  } catch {
-    // The extension was updated under this page.
-    return { error: 'The extension was updated: reload the page.' };
+  } catch (error) {
+    // Chrome says so when the extension was updated or reloaded under this page.
+    const updated = error instanceof Error && error.message.includes('context invalidated');
+    return { error: updated ? 'The extension was updated: reload the page.' : NO_ANSWER };
   }
   const response = DownloadResponseSchema.safeParse(answer);
   if (!response.success) return { error: 'The pack could not be downloaded.' };

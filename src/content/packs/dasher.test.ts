@@ -36,10 +36,13 @@ function openPanel(kind: keyof typeof PANELS): HTMLElement {
   return panel;
 }
 
-function start(packs: readonly Pack[]): Library {
+function start(
+  packs: readonly Pack[],
+  readAll = (): Promise<readonly Pack[]> => Promise.resolve(packs),
+): Library {
   const library = createLibrary({
     packs,
-    readAll: () => Promise.resolve(packs),
+    readAll,
     save: () => Promise.resolve(),
     erase: () => Promise.resolve(),
     show: () => undefined,
@@ -121,6 +124,50 @@ describe('the user menu’s panels', () => {
     expect(library.current('sound')).toBe(LICHESS);
   });
 
+  it('list the packs read once the menu opens, keeping what’s typed', async () => {
+    const all = Promise.withResolvers<readonly Pack[]>();
+    start([], () => all.promise);
+    const panel = openPanel('sound');
+    await flush();
+    expect(panel.querySelector('.cdc-src-empty')?.textContent).toBe('No pack imported yet.');
+    const [link, token] = queryAll(panel, '.cdc-src-import input', HTMLInputElement);
+    if (!link || !token) throw new Error('no form');
+    link.value = 'https://github.com/ann/packs';
+    token.value = 'secret';
+    all.resolve([WOOD, CLICKS]);
+    await flush();
+    expect(names(panel)).toEqual(['Pack ann/packs/main/wood/', 'Pack ann/packs/main/clicks/']);
+    expect([link.isConnected, link.value, token.value]).toEqual([
+      true,
+      'https://github.com/ann/packs',
+      'secret',
+    ]);
+  });
+
+  it('say so when the packs can’t be read, and try again on the next opening', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const readAll = vi
+      .fn<() => Promise<readonly Pack[]>>()
+      .mockRejectedValueOnce(new Error('blocked'))
+      .mockResolvedValue([WOOD]);
+    start([], readAll);
+    const panel = openPanel('board');
+    await flush();
+    tab(panel, 'packs')?.click();
+    expect(panel.querySelector('.cdc-src-empty')?.textContent).toBe(
+      'The imported packs could not be read.',
+    );
+    expect(error).toHaveBeenCalledOnce();
+    // Closed, then opened again.
+    const app = document.getElementById('dasher_app');
+    if (app) app.innerHTML = '';
+    await flush();
+    const again = openPanel('board');
+    await flush();
+    expect(names(again)).toEqual(['Pack ann/packs/main/wood/']);
+    expect(readAll).toHaveBeenCalledTimes(2);
+  });
+
   it('remove a pack from every list', async () => {
     const library = start([WOOD, CLICKS]);
     const panel = openPanel('sound');
@@ -168,6 +215,15 @@ describe('importing a pack', () => {
     link.value = 'https://github.com/ann/packs';
     link.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     await vi.waitFor(() => expect(library.packs()).toHaveLength(1));
+  });
+
+  it('keeps the token when there’s no link to import yet', async () => {
+    start([]);
+    const panel = openPanel('piece');
+    await flush();
+    submit(panel, '  ', 'secret');
+    expect(status(panel)).toBe('Paste a link to a pack first.');
+    expect(queryAll(panel, '.cdc-src-import input', HTMLInputElement)[1]?.value).toBe('secret');
   });
 
   it('says what went wrong, keeping the link to fix it', async () => {

@@ -44,21 +44,16 @@ export const pieceVariable = (name: PieceName): string => {
 };
 
 // Checked again when read back: these strings end up in a stylesheet, and
-// sounds go through atob, which throws on anything but whole base64.
+// sounds go through atob, which throws on anything but whole base64. One
+// pass of a character class: a repeated group overflows the regex engine's
+// stack on a few megabytes.
+const isWholeBase64 = (url: string): boolean => (url.length - url.indexOf(',') - 1) % 4 === 0;
 const ImageSchema = z
   .string()
-  .check(
-    z.regex(
-      /^data:image\/[\w.+-]+;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/,
-    ),
-  );
+  .check(z.regex(/^data:image\/[\w.+-]+;base64,[A-Za-z0-9+/]*={0,2}$/), z.refine(isWholeBase64));
 const AudioSchema = z
   .string()
-  .check(
-    z.regex(
-      /^data:audio\/[\w.+-]+;base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/,
-    ),
-  );
+  .check(z.regex(/^data:audio\/[\w.+-]+;base64,[A-Za-z0-9+/]*={0,2}$/), z.refine(isWholeBase64));
 export const HexColorSchema = z.string().check(z.regex(/^#[\da-f]{6}$/i));
 
 export const PiecesSchema = z.record(PieceNameSchema, ImageSchema);
