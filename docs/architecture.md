@@ -161,3 +161,5 @@ indentation (`scripts/lib/css-strip.ts`). Content-script CSS loses ties with Lic
 | `pnpm test:e2e:fast`        | the same, without the `@slow` ones      |
 | `pnpm test:firefox`         | Firefox smoke test (build it first)     |
 | `pnpm check`                | everything but the end-to-end tests     |
+| `pnpm check:fast`           | the same, tests of changed files only   |
+| `pnpm preview`              | builds into the main checkout's `dist`  |

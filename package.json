@@ -16,6 +16,7 @@
   "scripts": {
     "build": "node scripts/build.ts",
     "dev": "node scripts/build.ts --watch",
+    "preview": "node scripts/build.ts --out \"$(git worktree list --porcelain | sed -n '1s/^worktree //p')/dist/chrome\"",
     "package": "node scripts/package.ts",
     "store:render": "node scripts/store/render.ts",
     "typecheck": "node scripts/typecheck.ts",
@@ -29,7 +30,8 @@
     "test:e2e": "playwright test",
     "test:e2e:fast": "playwright test --grep-invert @slow",
     "test:firefox": "node --test tests/firefox/smoke.test.ts",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && node scripts/check-sources.ts"
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && node scripts/check-sources.ts",
+    "check:fast": "pnpm typecheck && pnpm lint && pnpm format:check && node scripts/check-sources.ts && vitest run --changed origin/main --passWithNoTests"
   },
   "dependencies": {
     "lottie-web": "5.13.0",

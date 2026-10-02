@@ -99,8 +99,9 @@ itself when you go back to a Lichess tab after a rebuild (a `--release` build
 doesn't).
 
 `pnpm check` runs the type checks, the linter, the formatting check and the
-unit tests, and `pnpm test:e2e` the end-to-end tests on lichess.org (after
-`pnpm build`). How the code is organized:
+unit tests (`pnpm check:fast` only those of the files changed since
+`origin/main`), and `pnpm test:e2e` the end-to-end tests on lichess.org
+(after `pnpm build`). How the code is organized:
 [docs/architecture.md](docs/architecture.md).
 
 ### Building from the sources

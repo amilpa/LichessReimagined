@@ -85,8 +85,9 @@ back. `pnpm check` enforces much of what follows; the rest is on you.
 
 **Tests**
 
-- Every change ships with tests. Unit tests sit next to the code
-  (`name.test.ts`, vitest in happy-dom): logic through its exports, DOM
+- Every change ships with tests, written once the user has validated it
+  (see [How a change goes](#how-a-change-goes)). Unit tests sit next to the
+  code (`name.test.ts`, vitest in happy-dom): logic through its exports, DOM
   features by building the markup Lichess serves and checking what we add.
   User-visible flows get an end-to-end test in `tests/e2e`.
 - See each new test fail once before trusting it: a test that can't fail is
@@ -104,9 +105,31 @@ back. `pnpm check` enforces much of what follows; the rest is on you.
 - When you change what `AGENTS.md`, `docs/architecture.md`, a README or a
   comment describes, update it in the same change.
 
+## How a change goes
+
+The user judges a change by seeing it in their own Chrome, so that loop
+must be short. A change goes in two steps.
+
+1. **Draft, until the user validates it.** Write the change to the quality
+   bar above, but no new tests, no Playwright, no viewport sweep. Run
+   `pnpm check:fast` (types, lint, format, source rules, and only the unit
+   tests of what changed since `origin/main`: seconds, not a minute) and fix
+   what it finds, then `pnpm preview`: it builds into the main checkout's
+   `dist/chrome`, which Chrome reloads when a Lichess tab next gets focus.
+   Tell the user what to look at, and iterate on their feedback. Commit
+   nothing yet. Previews from several worktrees overwrite each other: the
+   last one built is what Chrome shows.
+2. **Finish, once the user says it's good** (or asks to ship). Write the
+   tests, then meet the [Definition of done](#definition-of-done) and ship.
+
+A one-line fix the user doesn't need to see (a typo, a doc, a script) can
+skip the draft. CI runs the whole suite, end-to-end tests included, on every
+push to `main`.
+
 ## Definition of done
 
-A change is done when all of these hold:
+A change is done, once the user has validated its draft, when all of these
+hold:
 
 - [ ] `pnpm check` passes: types, lint, formatting, source rules, unit tests.
 - [ ] New or changed behavior is covered by tests you've seen fail without
@@ -125,7 +148,9 @@ A change is done when all of these hold:
 | `pnpm install`                  | installs the dependencies (Node 24 first, and `corepack enable` for pnpm)        |
 | `pnpm build`                    | builds `dist/chrome` with source maps (`--target firefox`, `--release`, `--out`) |
 | `pnpm dev`                      | the same, rebuilt on every change                                                |
+| `pnpm preview`                  | builds into the main checkout's `dist/chrome`, the one Chrome loads              |
 | `pnpm check`                    | typecheck, lint, format check, source rules, unit tests                          |
+| `pnpm check:fast`               | the same, but only the unit tests of files changed since `origin/main`           |
 | `pnpm test` / `pnpm test:watch` | unit tests                                                                       |
 | `pnpm test:e2e`                 | end-to-end tests on lichess.org (build first)                                    |
 | `pnpm test:e2e:fast`            | the same, without the `@slow` ones (the engine's)                                |
@@ -524,8 +549,9 @@ var(---white-pawn) }`), set on `:root`, and inline on `<body>` once its
 
 ## Shipping
 
-When the work is done (see [Definition of done](#definition-of-done)), ship
-it without being asked. Don't open a PR.
+When the user has validated the draft and the work is done (see
+[Definition of done](#definition-of-done)), ship it without being asked.
+Don't open a PR.
 
 1. Commit with a short message in English (a one-line summary under ~70
    characters, in the imperative: "Fix the eval bar on flipped boards"; a
