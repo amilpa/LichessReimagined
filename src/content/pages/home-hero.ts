@@ -2,7 +2,6 @@ import { createElement, onDomReady, queryOne } from '#shared/dom.ts';
 import type { Feature } from '#shared/features.ts';
 import { pageLang } from '#shared/lang.ts';
 import { nonEmpty } from '#shared/text.ts';
-import { onEveryTick } from '#content/sync-loop.ts';
 import { heroText, type HeroText } from './hero-texts.ts';
 
 // The home page's hero card (styles/home/hero.css), in the page's language.
@@ -35,8 +34,8 @@ export function addHero(text: HeroText): void {
 export const homeHero: Feature = {
   name: 'home hero',
   start: () => {
+    // The lobby page is server-rendered: once added, the hero stays.
     const text = heroText(pageLang());
     onDomReady(() => addHero(text));
-    onEveryTick('home hero', () => addHero(text));
   },
 };

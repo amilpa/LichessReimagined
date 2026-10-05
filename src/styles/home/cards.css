@@ -18,9 +18,10 @@
     border: none !important;
     border-radius: 16px !important;
     background: var(--cdc-bg-panel) !important;
+    /* A small blur: the old 28px one repainted on every scroll frame. */
     box-shadow:
       inset 0 1px 0 #ffffff0d,
-      0 10px 28px #00000033 !important;
+      0 4px 12px #00000033 !important;
   }
 
   /* Card titles Lichess doesn't provide. */

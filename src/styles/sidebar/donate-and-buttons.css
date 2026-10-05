@@ -72,33 +72,49 @@
     display: flex !important;
     flex-flow: row wrap !important;
     align-items: center !important;
-    gap: 4px;
-    padding: 8px 8px 12px !important;
+    justify-content: center !important;
+    /* Wide between the groups (search, user, icons), tight within the icon group. */
+    row-gap: 12px;
+    column-gap: 6px;
+    padding: 14px 10px !important;
+    border-top: 1px solid #ffffff14;
   }
 
   #top .site-buttons > * {
     order: 2;
   }
 
+  /* Icon buttons as tiles, like the nav rows above. They all share one order,
+   * so they sit together in their own row under the user. */
   #top .site-buttons .link,
   #top .site-buttons .toggle {
-    height: 36px !important;
-    line-height: 36px !important;
-    padding: 0 8px !important;
+    display: grid !important;
+    place-items: center;
+    width: 38px;
+    height: 38px !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    border-radius: 9px;
     color: var(--cdc-text-dim) !important;
+    transition: background-color 0.15s !important;
   }
 
   #top .site-buttons .link:hover,
   #top .site-buttons .toggle:hover {
+    background: var(--cdc-sb-hover);
     color: #fff !important;
   }
 
+  /* A sunken search field rather than Lichess's flat box. */
   #top #clinput {
     order: 0;
     flex: 1 0 100%;
-    height: 36px !important;
+    height: 38px !important;
     align-items: center;
-    border-radius: 5px;
+    border: 1px solid var(--cdc-card-border);
+    border-radius: 8px;
+    background: #00000038;
+    transition: border-color 0.15s !important;
   }
 
   #top #clinput input {
@@ -147,8 +163,10 @@
     box-sizing: border-box;
     max-width: none !important;
     width: 100%;
-    padding-inline-end: 44px !important;
-    border-radius: 5px;
+    min-height: 42px;
+    padding: 6px 44px 6px 10px !important;
+    border-radius: 9px;
+    background: #ffffff08;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

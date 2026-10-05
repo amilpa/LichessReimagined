@@ -57,9 +57,11 @@ export function syncHasFlags(): void {
 }
 
 // The pieces and the clock's digits change all the time and hold none of the
-// flags, so a change there alone isn't worth a check.
+// flags, so a change there alone isn't worth a check. The lobby's seek list
+// and counters stream in the same way, without ever changing the flags.
 const isBoardOrClock = (record: MutationRecord): boolean =>
-  closestTo(record.target, 'cg-container, .time', Element) !== null;
+  closestTo(record.target, 'cg-container, .time, .hooks__list, .lobby__counters', Element) !==
+  null;
 
 export const hasFlags: Feature = {
   name: 'has flags',

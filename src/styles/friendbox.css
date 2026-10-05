@@ -1,93 +1,47 @@
-/* Online friends dock (#friend_box, bottom right, signed in only).
+/* Online friends (#friend_box, signed in only). Logged in, it sits in the
+   sidebar's bottom row beside the challenges and notifications toggles: its
+   button is one of their tiles, and its list opens in the same fixed panel.
    Lichess shows and hides the box itself, so its display is left alone. */
 
-/* Closed, as wide as its title; open, wide enough for the rows. */
+/* In the sidebar's flow, not a floating dock: the dropdown panel below is
+   already fixed beside the sidebar (styles/sidebar/donate-and-buttons.css). */
 #friend_box {
-  inset-inline-end: 6px !important;
-  width: max-content;
+  position: static !important;
+  inset-inline-end: auto !important;
+  bottom: auto !important;
+  width: auto !important;
   min-width: 0 !important;
-  border: 1px solid var(--cdc-menu-border) !important;
-  border-bottom: none !important;
-  border-radius: 8px 8px 0 0 !important;
-  background: #3c3a378c !important;
-  backdrop-filter: blur(14px) saturate(1.4);
-  box-shadow: 0 -2px 14px #0000004d;
-  color: var(--cdc-text);
-  font-family: var(--cdc-font);
-  font-size: 13px !important;
-}
-
-#friend_box:has(.content_wrap):not(:has(.content_wrap.none)) {
-  width: 240px;
-  background: #3c3a37cc !important;
-}
-
-/* ---- Title --- */
-
-/* Not a flexbox: the count and the words are separate text nodes a gap would split. */
-#friend_box .friend_box_title {
-  position: relative;
-  padding: 6px 28px 6px 10px !important;
   border: none !important;
+  border-radius: 0 !important;
   background: none !important;
   box-shadow: none !important;
-  color: var(--cdc-text) !important;
-  font-weight: 600;
-  text-shadow: none !important;
-  white-space: nowrap;
-  user-select: none;
-  transition: background-color 0.15s !important;
+  overflow: visible !important;
 }
 
-#friend_box .friend_box_title:hover {
-  background: var(--cdc-menu-hover) !important;
+/* The friends tile: no Lichess background, the row's hover wash instead. */
+#top #friend_box .friend_box_button {
+  background: transparent !important;
 }
 
-#friend_box .friend_box_title strong {
-  color: var(--cdc-text-strong);
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
+#top #friend_box .friend_box_button:hover {
+  background: var(--cdc-sb-hover) !important;
+  color: #fff !important;
 }
 
-/* Lichess shows a triangle until the first count arrives; the chevron replaces it. */
-#friend_box .friend_box_title [data-icon] {
-  display: none;
+/* The list's panel: the menu's border and padding, like the dasher's. */
+#top #friend_box .content_wrap {
+  width: 264px;
+  box-sizing: border-box;
+  padding: 6px !important;
+  border: 1px solid var(--cdc-menu-border) !important;
 }
 
-/* Status dot: green when a friend is online, grey otherwise. */
-#friend_box .friend_box_title::before {
-  content: '';
-  display: inline-block;
-  margin-inline-end: 8px;
-  vertical-align: 1px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cdc-font-dimmer);
-}
-
-#friend_box:has(.list > div) .friend_box_title::before {
-  background: var(--cdc-green);
-  box-shadow: 0 0 0 3px #81b64c33;
-}
-
-/* Chevron: up while closed, down while open. */
-#friend_box .friend_box_title::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  inset-inline-end: 11px;
-  width: 6px;
-  height: 6px;
-  margin-top: -3px;
-  border: solid var(--cdc-text-dim);
-  border-width: 2px 2px 0 0;
-  transform: translateY(2px) rotate(-45deg);
-  transition: transform 0.2s ease !important;
-}
-
-#friend_box:has(.content_wrap):not(:has(.content_wrap.none)) .friend_box_title::after {
-  transform: translateY(-2px) rotate(135deg);
+/* "N friends online" as the panel's title. */
+#friend_box .friend_box_count {
+  padding: 8px 12px 4px !important;
+  color: var(--cdc-text-dim) !important;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 /* ---- List --- */
@@ -106,7 +60,7 @@
 
 #friend_box .content {
   max-height: min(60vh, 420px) !important;
-  padding: 6px;
+  padding: 8px;
 }
 
 #friend_box .content:empty {
@@ -115,8 +69,9 @@
 
 #friend_box .content > div {
   align-items: center;
-  gap: 6px;
-  border-radius: 6px;
+  gap: 8px;
+  padding: 2px;
+  border-radius: 8px;
   transition: background-color 0.15s !important;
 }
 

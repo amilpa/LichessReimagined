@@ -15,6 +15,7 @@ import { analysisPlayers } from './analysis/players.ts';
 import { underboard } from './analysis/underboard.ts';
 import { capturedPieces } from './game/captured.ts';
 import { boardTools } from './game/board-tools.ts';
+import { squareHover } from './game/square-hover.ts';
 import { moveTimes } from './game/move-times.ts';
 import { newGame } from './game/new-game.ts';
 import { countryFlags } from './game/flags.ts';
@@ -62,6 +63,7 @@ function main(): void {
     underboard,
     capturedPieces,
     boardTools,
+    squareHover,
     moveTimes,
     newGame,
     countryFlags,

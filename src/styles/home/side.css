@@ -21,18 +21,6 @@
     background: var(--cdc-bg-panel);
   }
 
-  main.lobby .lobby__feed::after {
-    content: '';
-    position: sticky;
-    bottom: 0;
-    z-index: 2;
-    display: block;
-    height: 40px;
-    margin-top: -40px;
-    background: linear-gradient(#26252200, var(--cdc-bg-panel));
-    pointer-events: none;
-  }
-
   /* Lichess's gold rail and ringed markers → a faint rail and icon tiles. */
   main.lobby .daily-feed__updates {
     position: relative;
@@ -223,7 +211,7 @@
     background: var(--cdc-bg-panel) !important;
     box-shadow:
       inset 0 1px 0 #ffffff0d,
-      0 10px 28px #00000033 !important;
+      0 4px 12px #00000033 !important;
     opacity: 1 !important;
     text-shadow: none !important;
   }

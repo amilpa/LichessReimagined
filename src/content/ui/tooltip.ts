@@ -39,8 +39,10 @@ export class Tooltip {
   #hiddenAt = 0;
 
   hide(): void {
+    // Fires on every scroll event: leave when nothing shows.
+    if (!this.#target) return;
     clearTimeout(this.#timer);
-    if (this.#target && this.#element.classList.contains(ON)) this.#hiddenAt = Date.now();
+    if (this.#element.classList.contains(ON)) this.#hiddenAt = Date.now();
     this.#target = null;
     this.#element.classList.toggle(ON, false);
   }

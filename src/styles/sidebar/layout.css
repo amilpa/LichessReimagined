@@ -8,7 +8,7 @@
 
 @media (min-width: 1020px) {
   :root {
-    --cdc-sidebar-w: 176px;
+    --cdc-sidebar-w: 240px;
   }
 
   /* Row hover: a faint light wash. */

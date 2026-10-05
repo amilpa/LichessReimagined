@@ -87,6 +87,15 @@ body[data-board] .is2d cg-board square.last-move {
 
 cg-board square.selected {
   background-color: var(--cdc-highlight) !important;
+  /* The piece's own square gets the border too, like the hovered dest. */
+  box-shadow: inset 0 0 0 max(5px, 0.55vmin) rgba(255, 255, 255, 0.75);
+}
+
+/* While a piece is dragged (content/game/square-hover.ts marks the board),
+   its origin square keeps no border: the hover marker covers the dragged-to
+   square instead. */
+.cg-wrap[data-cdc-drag] cg-board square.selected {
+  box-shadow: none;
 }
 
 cg-board square:is(.move-dest, .premove-dest) {
@@ -103,7 +112,19 @@ cg-board square.oc:is(.move-dest, .premove-dest) {
 
 cg-board square.move-dest:hover,
 cg-board square.move-dest.hover {
-  box-shadow: inset 0 0 0 max(3px, 0.35vmin) rgba(255, 255, 255, 0.65);
+  box-shadow: inset 0 0 0 max(5px, 0.55vmin) rgba(255, 255, 255, 0.5);
+}
+
+/* Our hover square (content/game/square-hover.ts): chessground makes no
+   element for a plain square, so the feature moves this one along. */
+cg-container > .cdc-square-hover {
+  position: absolute;
+  z-index: 3;
+  width: 12.5%;
+  height: 12.5%;
+  display: none;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 max(5px, 0.55vmin) rgba(255, 255, 255, 0.5);
 }
 
 /* A set premove: both squares, opaque (chessground already shows the piece on the new one). */

@@ -1,6 +1,6 @@
 import { queryAll } from '#shared/dom.ts';
 import type { Feature } from '#shared/features.ts';
-import { onEveryTick } from '#content/sync-loop.ts';
+import { oncePerFrame } from '#shared/frame.ts';
 import { TabBar } from './tab-bar.ts';
 import { leavesPage, TAB_BARS } from './tab-bars.ts';
 
@@ -63,7 +63,12 @@ export const tabs: Feature = {
   name: 'sliding tabs',
   start: () => {
     const bars = createTabBars();
-    onEveryTick('sliding tabs', bars.sync);
+    // Bars appear as Lichess draws them: find them as the DOM changes, not
+    // ten selector sweeps four times a second. A bar re-places itself on its
+    // own changes (see TabBar), so child additions are all this needs.
+    const syncSoon = oncePerFrame(bars.sync);
+    new MutationObserver(syncSoon).observe(document, { childList: true, subtree: true });
+    bars.sync();
     document.addEventListener('click', bars.onClick);
     window.addEventListener('pageshow', bars.onPageShow);
   },
