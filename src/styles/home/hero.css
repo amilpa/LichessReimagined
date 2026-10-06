@@ -193,6 +193,16 @@
     font-size: 26px !important;
   }
 
+  /* Smaller pictures, closer to the label. */
+  main.lobby .lobby__start__button {
+    gap: 10px !important;
+  }
+
+  main.lobby .lobby__start__button::before {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
   /* Below 1260px the labels wrapped to four or five lines in French or German: smaller
      type, icons and gutters keep them to three. */
   @media (max-width: 1259.29px) {

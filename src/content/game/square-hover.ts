@@ -12,14 +12,13 @@ const HOVER = 'cdc-square-hover';
 interface Board {
   readonly wrap: HTMLElement;
   readonly container: HTMLElement;
-  readonly black: boolean;
 }
 
 function findBoard(target: EventTarget | null): Board | null {
   const container = closestTo(target, 'cg-container', HTMLElement);
   const wrap = container ? closestTo(container, '.cg-wrap', HTMLElement) : null;
   if (!container || !wrap) return null;
-  return { wrap, container, black: wrap.classList.contains('orientation-black') };
+  return { wrap, container };
 }
 
 const markers = new WeakMap<Element, HTMLElement>();
@@ -28,6 +27,8 @@ const shownAt = new WeakMap<Element, string | null>();
 function markerFor(container: HTMLElement): HTMLElement {
   const known = markers.get(container);
   if (known?.isConnected) return known;
+  // A fresh marker must place itself: forget where the detached one showed.
+  shownAt.delete(container);
   // Chessground positions its own layers, not the container itself.
   if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
   const marker = createElement('div', { className: HOVER });
@@ -37,12 +38,11 @@ function markerFor(container: HTMLElement): HTMLElement {
 }
 
 /** The hovered square's column and row as shown, or null past the edge. */
-function columnRow(rect: DOMRect, x: number, y: number, black: boolean): string | null {
-  const across = ((x - rect.left) / rect.width) * 8;
-  const down = ((y - rect.top) / rect.height) * 8;
-  if (across < 0 || across >= 8 || down < 0 || down >= 8) return null;
-  const column = black ? 7 - Math.floor(across) : Math.floor(across);
-  const row = black ? 7 - Math.floor(down) : Math.floor(down);
+function columnRow(rect: DOMRect, x: number, y: number): string | null {
+  if (!(rect.width > 0 && rect.height > 0)) return null;
+  const column = Math.floor(((x - rect.left) / rect.width) * 8);
+  const row = Math.floor(((y - rect.top) / rect.height) * 8);
+  if (column < 0 || column >= 8 || row < 0 || row >= 8) return null;
   return `${column},${row}`;
 }
 
@@ -74,12 +74,7 @@ function place(): void {
     hide(job.board.container);
     return;
   }
-  const key = columnRow(
-    job.board.container.getBoundingClientRect(),
-    job.x,
-    job.y,
-    job.board.black,
-  );
+  const key = columnRow(job.board.container.getBoundingClientRect(), job.x, job.y);
   if (key === null) hide(job.board.container);
   else show(markerFor(job.board.container), job.board.container, key);
 }
@@ -133,5 +128,7 @@ export const squareHover: Feature = {
     document.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('pointerup', onPointerUp);
     document.addEventListener('pointercancel', onPointerUp);
+    // Losing the window mid-drag skips the pointerup: clean up anyway.
+    window.addEventListener('blur', onPointerUp);
   },
 };

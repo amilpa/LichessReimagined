@@ -1,0 +1,118 @@
+/* ---- Quick play (content/pages/quick-play.ts) --- */
+
+@media (min-width: 1020px) {
+  /* The new labels from first paint: the lobby re-renders its buttons after
+   * connecting, so JS text arrives a beat late. Until flagged, the original
+   * text collapses and our label draws in its place. */
+  main.lobby
+    :is(
+      .lobby__start__button--hook,
+      .lobby__start__button--friend,
+      .lobby__start__button--ai
+    ):not([data-cdc-label]) {
+    font-size: 0 !important;
+  }
+
+  main.lobby
+    :is(
+      .lobby__start__button--hook,
+      .lobby__start__button--friend,
+      .lobby__start__button--ai
+    ):not([data-cdc-label])::after {
+    font-size: 16px;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  main.lobby .lobby__start__button--hook:not([data-cdc-label])::after {
+    content: 'Battle';
+  }
+
+  main.lobby .lobby__start__button--friend:not([data-cdc-label])::after {
+    content: 'Puzzles';
+  }
+
+  main.lobby .lobby__start__button--ai:not([data-cdc-label])::after {
+    content: 'Analysis';
+  }
+
+  @media (max-width: 1259.29px) {
+    main.lobby
+      :is(
+        .lobby__start__button--hook,
+        .lobby__start__button--friend,
+        .lobby__start__button--ai
+      ):not([data-cdc-label])::after {
+      font-size: 14px;
+    }
+  }
+  /* The mode picker under the quick-play button: the user menu's look. */
+  .cdc-quick {
+    position: fixed;
+    z-index: 120;
+    box-sizing: border-box;
+    width: 264px;
+    padding: 6px !important;
+    border: 1px solid var(--cdc-menu-border) !important;
+    border-radius: 10px !important;
+    background: var(--cdc-menu-bg) !important;
+    box-shadow: var(--cdc-menu-shadow) !important;
+  }
+
+  .cdc-quick__row {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    padding: 6px 12px !important;
+    border: none !important;
+    border-radius: 6px;
+    background: none !important;
+    color: var(--cdc-text) !important;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .cdc-quick__row:hover {
+    background: var(--cdc-menu-hover) !important;
+    color: #fff !important;
+  }
+
+  .cdc-quick__row:disabled {
+    opacity: 0.4;
+  }
+
+  .cdc-quick__games {
+    margin-inline-start: auto;
+    color: var(--cdc-text-dim);
+    font-size: 13px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .cdc-quick__row:hover .cdc-quick__games {
+    color: #fff;
+  }
+
+  /* Start-button icons that match their new jobs: crossed swords for battle,
+   * a puzzle piece for puzzle themes, a microscope for analysis. */
+  main.lobby .lobby__start__button--hook.button::before {
+    content: '' !important;
+    flex: none;
+    width: 30px;
+    height: 30px;
+    background: url('chrome-extension://__MSG_@@extension_id__/img/icons/crossed-swords.svg')
+      center / contain no-repeat;
+  }
+
+  main.lobby .lobby__start__button--friend.button::before {
+    background-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/puzzle-piece.svg') !important;
+  }
+
+  main.lobby .lobby__start__button--ai.button::before {
+    background-image: url('chrome-extension://__MSG_@@extension_id__/img/icons/microscope.svg') !important;
+  }
+}

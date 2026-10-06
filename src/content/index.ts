@@ -24,6 +24,9 @@ import { boardInset } from './layout/board-inset.ts';
 import { evalGauge } from './analysis/eval-gauge.ts';
 import { puzzleSession } from './pages/puzzle.ts';
 import { homeHero } from './pages/home-hero.ts';
+import { quickPlay } from './pages/quick-play.ts';
+import { lobbyShortcuts } from './pages/lobby-shortcuts.ts';
+import { lobbyHistory } from './pages/lobby-history.ts';
 import { blogCarousel } from './pages/blog-carousel/index.ts';
 import { coachTitles } from './pages/coach-titles.ts';
 import { swiss } from './pages/swiss.ts';
@@ -72,6 +75,9 @@ function main(): void {
     evalGauge,
     puzzleSession,
     homeHero,
+    quickPlay,
+    lobbyShortcuts,
+    lobbyHistory,
     blogCarousel,
     coachTitles,
     swiss,

@@ -112,7 +112,14 @@ cg-board square.oc:is(.move-dest, .premove-dest) {
 
 cg-board square.move-dest:hover,
 cg-board square.move-dest.hover {
+  /* No Lichess green tint under the dragged-to square: border only. */
+  background-color: transparent !important;
   box-shadow: inset 0 0 0 max(5px, 0.55vmin) rgba(255, 255, 255, 0.5);
+}
+
+/* No origin ghost while dragging: the dragged piece alone marks the move. */
+cg-container piece.ghost {
+  display: none !important;
 }
 
 /* Our hover square (content/game/square-hover.ts): chessground makes no
