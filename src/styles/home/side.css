@@ -217,7 +217,7 @@
   }
 
   main.lobby .tour-spotlight:hover {
-    background: #2c2b28 !important;
+    background: var(--cdc-card-hover) !important;
   }
 
   main.lobby .tour-spotlight .name {

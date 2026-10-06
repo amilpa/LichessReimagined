@@ -12,7 +12,7 @@
   border: 1px solid var(--cdc-card-border);
   border-bottom: none;
   border-radius: 14px 14px 0 0;
-  background: linear-gradient(180deg, #34322f, var(--cdc-bg-panel)) !important;
+  background: linear-gradient(180deg, #1e1e24, var(--cdc-bg-panel)) !important;
 }
 
 /* Lichess has no profile pictures: the default avatar. Pinned to the top so

@@ -248,7 +248,7 @@
   padding: 24px 32px !important;
   border: 1px solid var(--cdc-card-border);
   border-radius: 18px !important;
-  background: #262522eb !important;
+  background: #18181ceb !important;
   box-shadow: 0 16px 40px #000000b3 !important;
   backdrop-filter: blur(6px);
 }

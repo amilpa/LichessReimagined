@@ -7,32 +7,37 @@
 :root.dark,
 :root.transp,
 :root.transp.light {
-  --cdc-bg-page: #302e2b;
-  --cdc-bg-panel: #262522;
-  --cdc-bg-panel-dark: #21201d;
-  --cdc-bg-raised: #3c3a37;
-  --cdc-bg-raised-hover: #4b4847;
-  --cdc-border: #3c3a37;
+  --cdc-bg-page: #111111;
+  --cdc-bg-panel: #18181c;
+  --cdc-bg-panel-dark: #141417;
+  --cdc-bg-raised: #222228;
+  --cdc-bg-raised-hover: #2c2c34;
+  --cdc-border: #26262c;
   --cdc-text: #ffffffd9;
   --cdc-text-strong: #fff;
   --cdc-text-dim: #989795;
   /* Tertiary text (move numbers, unrated chips): still 3:1 on the panels. */
   --cdc-font-dimmer: #7d7b78;
-  --cdc-green: #81b64c;
-  --cdc-green-hover: #a3d160;
-  --cdc-green-shadow: #45753c;
+  /* Brand: vivid violet. Green survives only as --cdc-win, for results (wins,
+   * online dots, correct answers) that must stay green. */
+  --cdc-green: #5e00ff;
+  --cdc-green-hover: #9d7bff;
+  --cdc-green-shadow: #3a0b9e;
+  --cdc-win: #81b64c;
+  --cdc-win-hover: #a3d160;
+  --cdc-win-shadow: #45753c;
   /* Menus are lighter than cards, and outlined: on a dark UI a shadow alone
    * doesn't separate them. */
-  --cdc-menu-bg: #3c3a37;
+  --cdc-menu-bg: #232329;
   --cdc-menu-border: #ffffff24;
   --cdc-menu-hover: #ffffff17;
   --cdc-menu-shadow: 0 0 0 1px #0000008c, 0 16px 40px #000000b3, 0 4px 12px #00000080;
   /* Buttons: a gradient, 1px lighter top and darker bottom edges, a soft shadow. */
-  --cdc-btn-green: linear-gradient(#8bbe52 0%, #7fb34c 12%, #6ea749 50%, #599144 100%);
-  --cdc-btn-green-hover: linear-gradient(#9ccd5f 0%, #8dc054 12%, #7bb44f 50%, #69a34c 100%);
-  --cdc-btn-green-shadow: inset 0 1px 0 #9ccd5e, inset 0 -1px 0 #45753c, 0 1px 4px #0000005c;
-  --cdc-btn-grey: linear-gradient(#3c3a38, #32302e);
-  --cdc-btn-grey-hover: linear-gradient(#4a4845, #3d3b38);
+  --cdc-btn-green: linear-gradient(#7a33ff 0%, #6a1fff 12%, #5e00ff 50%, #4c00d4 100%);
+  --cdc-btn-green-hover: linear-gradient(#8b4dff 0%, #7a33ff 12%, #6a1fff 50%, #5a0fe6 100%);
+  --cdc-btn-green-shadow: inset 0 1px 0 #9a6bff, inset 0 -1px 0 #3a0b9e, 0 1px 4px #0000005c;
+  --cdc-btn-grey: linear-gradient(#26262c, #1d1d22);
+  --cdc-btn-grey-hover: linear-gradient(#33333a, #28282e);
   --cdc-btn-grey-shadow: inset 0 1px 0 #ffffff17, inset 0 -1px 0 #0000000f, 0 1px 4px #0000005c;
   --cdc-btn-red: linear-gradient(#e25a55 0%, #d64742 50%, #c0392f 100%);
   --cdc-btn-red-hover: linear-gradient(#ea6a65, #dc5550 50%, #c9453b);
@@ -41,8 +46,8 @@
    * the page, or the card melts into it. */
   --cdc-card-border: #ffffff0f;
   --cdc-card-border-hover: #ffffff2e;
-  --cdc-card-hover: #2c2b28;
-  --cdc-card-shadow-hover: 0 4px 12px #00000040;
+  --cdc-card-hover: #202027;
+  --cdc-card-shadow-hover: 0 4px 12px #00000066;
   /* Title badge (GM, IM...). */
   --cdc-title-bg: #7c2929;
   /* Lichess has no profile pictures: one default avatar for all. */
@@ -64,15 +69,15 @@
   --c-bg-high: var(--cdc-bg-panel) !important;
   --c-bg-opaque: var(--cdc-bg-panel) !important;
   --c-bg-page: var(--cdc-bg-page) !important;
-  --c-bg-mid: #2b2a27 !important;
+  --c-bg-mid: #1c1c21 !important;
   --c-bg-low: var(--cdc-bg-raised) !important;
   --c-bg-popup: var(--cdc-bg-panel) !important;
   --c-bg-header-dropdown: var(--cdc-bg-panel) !important;
-  --c-bg-zebra: #2b2a27 !important;
-  --c-bg-zebra2: #33312e !important;
+  --c-bg-zebra: #1c1c21 !important;
+  --c-bg-zebra2: #222228 !important;
   --c-bg-input: var(--cdc-bg-raised) !important;
   --c-page-input: var(--cdc-bg-raised) !important;
-  --c-bg-variation: #2b2a27 !important;
+  --c-bg-variation: #1c1c21 !important;
   --c-body-gradient: var(--cdc-bg-page) !important;
   --c-font: #d4d3d1 !important;
   --c-font-dim: var(--cdc-text-dim) !important;
@@ -84,35 +89,35 @@
   --c-header-dropdown: var(--cdc-text) !important;
   --c-border: var(--cdc-border) !important;
   --c-border-page: var(--cdc-border) !important;
-  --c-border-light: #5d5b58 !important;
-  --c-shade: #4b4847 !important;
-  --c-dark: #21201d !important;
+  --c-border-light: #45454e !important;
+  --c-shade: #33333a !important;
+  --c-dark: #141417 !important;
   --c-dimmer: #000 !important;
   --c-clearer: #fff !important;
   --c-over: #fff !important;
   --c-primary: var(--cdc-green) !important;
-  --c-primary-dim: #5d9948 !important;
+  --c-primary-dim: #7b53f0 !important;
   --c-primary-clear: var(--cdc-green-hover) !important;
   --c-secondary: var(--cdc-green) !important;
-  --c-secondary-dim: #5d9948 !important;
-  --c-secondary-dimmer: #45753c !important;
+  --c-secondary-dim: #7b53f0 !important;
+  --c-secondary-dimmer: #3f1499 !important;
   --c-link: var(--cdc-green) !important;
-  --c-link-dim: #5d9948 !important;
+  --c-link-dim: #7b53f0 !important;
   --c-link-clear: var(--cdc-green-hover) !important;
   --c-link-hover: var(--cdc-green-hover) !important;
-  --c-good: var(--cdc-green) !important;
+  --c-good: #81b64c !important;
   --c-bad: #e02828 !important;
   --c-accent: var(--cdc-green) !important;
-  --c-future: #4b4847 !important;
+  --c-future: #33333a !important;
   --c-brag: #e3aa24 !important;
   --c-metal-top: var(--cdc-bg-raised) !important;
   --c-metal-bottom: var(--cdc-bg-raised) !important;
   --c-metal-top-hover: var(--cdc-bg-raised-hover) !important;
   --c-metal-bottom-hover: var(--cdc-bg-raised-hover) !important;
   --c-page-mask: #000000b3 !important;
-  --c-chat-host-bg: #81b64c33 !important;
-  --c-chat-mention-bg: #81b64c26 !important;
-  --c-paper: #262522 !important;
+  --c-chat-host-bg: #5e00ff33 !important;
+  --c-chat-mention-bg: #5e00ff26 !important;
+  --c-paper: #18181c !important;
 
   color-scheme: dark;
   background: var(--cdc-bg-page) !important;
@@ -214,7 +219,7 @@ select {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4b4847;
+  background: #33333a;
   border-radius: 4px;
 }
 
@@ -222,7 +227,7 @@ select {
  * would switch off the rules above. */
 @supports (-moz-appearance: none) {
   html {
-    scrollbar-color: #4b4847 transparent;
+    scrollbar-color: #33333a transparent;
   }
 }
 

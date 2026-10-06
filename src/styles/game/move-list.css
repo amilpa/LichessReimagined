@@ -35,7 +35,7 @@
     line-height: 1 !important;
     white-space: normal;
     /* Row stripes; `local` scrolls them with the moves. */
-    background: repeating-linear-gradient(to bottom, transparent 0 30px, #2b2a27 30px 60px) local !important;
+    background: repeating-linear-gradient(to bottom, transparent 0 30px, #1c1c21 30px 60px) local !important;
     box-shadow: none !important;
   }
 

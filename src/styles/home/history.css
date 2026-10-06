@@ -80,7 +80,7 @@
 
   main.lobby .cdc-history__game--win .cdc-history__badge {
     background: #81b64c26;
-    color: var(--cdc-green-hover);
+    color: var(--cdc-win-hover);
   }
 
   main.lobby .cdc-history__game--loss .cdc-history__badge {
@@ -112,7 +112,7 @@
   }
 
   main.lobby .cdc-history__diff--up {
-    color: var(--cdc-green-hover);
+    color: var(--cdc-win-hover);
   }
 
   main.lobby .cdc-history__diff--down {

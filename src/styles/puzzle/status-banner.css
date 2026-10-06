@@ -69,7 +69,7 @@ main.puzzle .puzzle__feedback:is(.good, .fail) {
 }
 
 main.puzzle .puzzle__feedback.good {
-  --cdc-feedback: var(--cdc-green-hover);
+  --cdc-feedback: var(--cdc-win-hover);
   --cdc-feedback-badge: var(--cdc-btn-green);
 }
 
@@ -260,7 +260,7 @@ main.puzzle .puzzle__feedback.after .puzzle__vote .button {
 }
 
 main.puzzle .puzzle__feedback.after .puzzle__vote .button.vote-up:is(:hover, .active) {
-  color: var(--cdc-green-hover) !important;
+  color: var(--cdc-win-hover) !important;
 }
 
 main.puzzle .puzzle__feedback.after .puzzle__vote .button.vote-down:is(:hover, .active) {

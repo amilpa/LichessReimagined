@@ -143,20 +143,17 @@
   color: #fff !important;
 }
 
-/* "Create a game" as the big green Play button. The doubled class beats the metal-button
- * hover in theme/; the icon stays white where Lichess tints it green. */
+/* "Create a game" as the primary Play button. The doubled class beats the
+ * metal-button hover in theme/; the icon stays white where Lichess tints it. */
 .lobby__start__button--hook.button.button-metal {
-  background: linear-gradient(#a78bfa 0%, #8b5cf6 50%, #7c3aed 100%) !important;
+  background: var(--cdc-btn-green) !important;
   color: #fff !important;
   text-shadow: 0 1px 1px #00000033 !important;
-  box-shadow:
-    inset 0 1px 0 #c4b5fd,
-    inset 0 -1px 0 #5b21b6,
-    0 1px 4px #0000005c !important;
+  box-shadow: var(--cdc-btn-green-shadow) !important;
 }
 
 .lobby__start__button--hook.button.button-metal:not(.disabled):hover {
-  background: linear-gradient(#b7a3fb 0%, #9d71f6 50%, #8b5cf6 100%) !important;
+  background: var(--cdc-btn-green-hover) !important;
   color: #fff !important;
 }
 

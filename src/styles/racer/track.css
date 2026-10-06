@@ -39,7 +39,7 @@
   background:
     repeating-linear-gradient(90deg, #ffffff24 0 18px, transparent 18px 40px) 0 100% / 40px 2px
       repeat-x,
-    linear-gradient(#34322f, #2c2b28);
+    linear-gradient(#1e1e24, #141418);
 }
 
 html[dir='rtl'] .racer .racer__race__track::before {

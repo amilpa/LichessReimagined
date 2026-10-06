@@ -85,7 +85,7 @@ main.analyse .retro-box .no-square > piece.black {
 }
 
 main.analyse .retro-box .win .icon:not(.off) {
-  color: var(--cdc-green) !important;
+  color: var(--cdc-win) !important;
 }
 
 main.analyse .retro-box .instruction > strong {
@@ -113,7 +113,7 @@ main.analyse .retro-box .choices a {
   padding: 3px 10px;
   border-radius: 999px;
   background: #81b64c2e;
-  color: var(--cdc-green-hover) !important;
+  color: var(--cdc-win-hover) !important;
   font-size: 12.5px;
   font-weight: 800;
   line-height: 1.6;
@@ -155,5 +155,5 @@ main.analyse .retro-box .progress {
 }
 
 main.analyse .retro-box .progress div {
-  background: var(--cdc-green) !important;
+  background: var(--cdc-win) !important;
 }

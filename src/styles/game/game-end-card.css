@@ -124,11 +124,11 @@
 
   /* Between the waiting words and the verdict, as the coach draws breath. */
   main.round .cdc-end__bubble--empty {
-    background-color: #3c3a37;
+    background-color: #222228;
   }
 
   main.round .cdc-end__bubble--empty::before {
-    border-right-color: #3c3a37;
+    border-right-color: #222228;
   }
 
   main.round .cdc-end__bubble::before {

@@ -31,9 +31,9 @@
     font-size: 17px;
   }
 
-  /* Lichess fills an active toggle with its green, hiding the green icon: a faint tile instead. */
+  /* Lichess fills an active toggle with its accent: a faint tile instead. */
   main.analyse .analyse__controls > .fbt.active {
-    background: #81b64c26 !important;
+    background: #5e00ff26 !important;
     color: var(--cdc-green) !important;
   }
 

@@ -193,7 +193,7 @@
   margin: 0 -4px -4px 0;
   border: 3px solid var(--cdc-bg-panel);
   border-radius: 50%;
-  background: var(--cdc-green);
+  background: var(--cdc-win);
 }
 
 .bots__list__entry__head {

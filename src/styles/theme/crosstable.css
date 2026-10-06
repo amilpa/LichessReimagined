@@ -111,7 +111,7 @@
   }
 
   main:is(.round, .analyse) .crosstable povs a.win {
-    background: var(--cdc-green);
+    background: var(--cdc-win);
     color: #fff !important;
   }
 
@@ -149,6 +149,6 @@
   }
 
   main:is(.round, .analyse) .crosstable :is(.crosstable__matchup, .crosstable__score) .win {
-    color: var(--cdc-green);
+    color: var(--cdc-win);
   }
 }

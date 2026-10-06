@@ -79,11 +79,11 @@ dialog .help th p {
 /* ---- Game setup --- */
 
 /* Create a game, challenge a friend, play the computer: segments on a dark track,
- * and one look for any choice (a green ring on a green tint). */
+ * and one look for any choice (a violet ring on a violet tint). */
 .game-setup {
-  --cdc-setup-track: #1c1b19;
+  --cdc-setup-track: #17171b;
   --cdc-setup-chosen: inset 0 0 0 2px var(--cdc-green);
-  --cdc-setup-tint: #81b64c26;
+  --cdc-setup-tint: #5e00ff26;
 }
 
 .game-setup h2 {
@@ -232,7 +232,7 @@ dialog .help th p {
 .game-setup input.range:hover::-webkit-slider-thumb {
   box-shadow:
     0 1px 3px #00000080,
-    0 0 0 5px #81b64c33;
+    0 0 0 5px #5e00ff33;
 }
 
 /* Presets: one row of chips sharing the width. */

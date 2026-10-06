@@ -92,7 +92,7 @@
 }
 
 .learn__table .result.completed {
-  color: var(--cdc-green-hover) !important;
+  color: var(--cdc-win-hover) !important;
 }
 
 .learn__table .result.failed {

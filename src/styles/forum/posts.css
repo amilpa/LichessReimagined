@@ -110,7 +110,7 @@ main.forum-topic .forum-post__metas .author.online .line {
   margin: 0 !important;
   border: 2px solid var(--cdc-bg-panel);
   border-radius: 50%;
-  background: var(--cdc-green);
+  background: var(--cdc-win);
   font-size: 0;
 }
 

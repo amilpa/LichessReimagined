@@ -77,9 +77,11 @@
        the text clear, so a longer title (French, German) grows the hero instead. */
     padding: 44px 40px calc(140px + 28px);
     border-radius: 18px;
-    /* A dark card like the others (green is for buttons and badges). One gradient
-       keeps the scroll paint cheap; the king carries the glow instead. */
-    background: linear-gradient(135deg, #34322f 0%, #262522 50%, #1d1c1a 100%);
+    /* A dark card like the others (violet is for buttons and badges), with a
+       faint violet glow. One gradient plus one glow keeps scroll paint cheap. */
+    background:
+      radial-gradient(circle at 85% 20%, #5e00ff26, transparent 55%),
+      linear-gradient(135deg, #1b1b21 0%, #141419 50%, #101014 100%);
     box-shadow:
       inset 0 1px 0 #ffffff12,
       0 4px 12px #00000040;
@@ -101,7 +103,9 @@
 
   /* Right to left, the king moves to the other corner, clear of the text. */
   html[dir='rtl'] .cdc-hero {
-    background: linear-gradient(225deg, #34322f 0%, #262522 50%, #1d1c1a 100%);
+    background:
+      radial-gradient(circle at 15% 20%, #5e00ff26, transparent 55%),
+      linear-gradient(225deg, #1b1b21 0%, #141419 50%, #101014 100%);
   }
 
   html[dir='rtl'] .cdc-hero::after {
@@ -117,7 +121,7 @@
     margin: 0 0 16px;
     padding: 5px 12px;
     border-radius: 999px;
-    background: #81b64c26;
+    background: #5e00ff26;
     color: var(--cdc-green-hover);
     font-size: 13px;
     font-weight: 800;
@@ -129,7 +133,7 @@
     height: 8px;
     border-radius: 50%;
     background: var(--cdc-green-hover);
-    box-shadow: 0 0 0 4px #81b64c33;
+    box-shadow: 0 0 0 4px #5e00ff33;
   }
 
   /* A signed-in title holds the username (up to 20 letters): it breaks rather than run
@@ -268,7 +272,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--cdc-green);
+    background: var(--cdc-win);
     box-shadow: 0 0 0 3px #81b64c33;
   }
 

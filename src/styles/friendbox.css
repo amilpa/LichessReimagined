@@ -118,13 +118,13 @@
   margin: 0 !important;
   border: 2px solid var(--cdc-menu-bg);
   border-radius: 50%;
-  background: var(--cdc-green);
+  background: var(--cdc-win);
   font-size: 0;
   transition: border-color 0.15s !important;
 }
 
 #friend_box .content > div:hover a.user-link .line {
-  border-color: #464441;
+  border-color: #33333a;
 }
 
 #friend_box .content a.user-link .line::before {

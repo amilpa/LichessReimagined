@@ -47,7 +47,7 @@
 
 .cdc-radar__area {
   fill: #81b64c2e;
-  stroke: var(--cdc-green);
+  stroke: var(--cdc-win);
   stroke-width: 2px;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
@@ -55,7 +55,7 @@
 }
 
 .cdc-radar__dots circle {
-  fill: var(--cdc-green-hover);
+  fill: var(--cdc-win-hover);
   stroke: var(--cdc-bg-panel);
   stroke-width: 2px;
   vector-effect: non-scaling-stroke;
@@ -83,7 +83,7 @@
 
 .cdc-radar__value {
   display: block;
-  color: var(--cdc-green-hover);
+  color: var(--cdc-win-hover);
   font-size: 12px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;

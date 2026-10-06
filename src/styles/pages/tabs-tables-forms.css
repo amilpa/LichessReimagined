@@ -60,7 +60,7 @@
 input:not([type='checkbox'], [type='radio'], [type='range'], [type='file'], [type='color']),
 select,
 textarea {
-  border: 1px solid #4b4847 !important;
+  border: 1px solid #33333a !important;
   border-radius: 6px !important;
   background-color: var(--cdc-bg-raised) !important;
   color: #fff !important;
@@ -148,7 +148,7 @@ input:not([type='hidden']) + .button {
 }
 
 input:not([type='hidden']) + .button.button-metal {
-  border: 1px solid #4b4847 !important;
+  border: 1px solid #33333a !important;
   border-left: none !important;
   color: var(--cdc-text-dim) !important;
 }

@@ -63,7 +63,7 @@
   height: 16px;
   border: 3px solid var(--cdc-bg-panel);
   border-radius: 50%;
-  background: var(--cdc-green);
+  background: var(--cdc-win);
 }
 
 /* Lichess spreads the top row apart (space-between); keep the country by the name. */

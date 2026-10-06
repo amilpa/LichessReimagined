@@ -65,7 +65,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--cdc-green);
+  background: var(--cdc-win);
   box-shadow: 0 0 0 0 #81b64cb3;
   animation: cdc-online-pulse 1.6s ease-out infinite;
 }

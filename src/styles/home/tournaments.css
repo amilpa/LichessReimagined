@@ -44,7 +44,7 @@
     height: 40px;
     margin: 0 !important;
     border-radius: 12px;
-    background: #81b64c26;
+    background: #5e00ff26;
     color: var(--cdc-green-hover);
     font-size: 22px;
   }
@@ -141,7 +141,7 @@
 
   main.lobby .lobby__support-link:hover {
     transform: translateY(-2px);
-    background: #2c2b28 !important;
+    background: var(--cdc-card-hover) !important;
   }
 
   main.lobby .lobby__support-link icon {
@@ -160,7 +160,7 @@
   }
 
   main.lobby .lobby__support-link[href$='/swag'] icon {
-    background: #81b64c26;
+    background: #5e00ff26;
   }
 
   main.lobby .lobby__support-link[href$='/swag'] icon::before {
